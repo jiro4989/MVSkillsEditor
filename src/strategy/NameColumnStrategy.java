@@ -20,6 +20,6 @@ public class NameColumnStrategy implements ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).setName((String)value);
+    tableView.getItems().get(rowIndex).setName((String) value);
   }
 }

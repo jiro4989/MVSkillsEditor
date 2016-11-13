@@ -17,7 +17,7 @@ public class SkillTableViewBorderPane extends BorderPane {
     try {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("SkillTableViewBorderPane.fxml"));
       BorderPane root = (BorderPane) loader.load();
-      controller = (SkillTableViewBorderPaneController)loader.getController();
+      controller = (SkillTableViewBorderPaneController) loader.getController();
       controller.setMainController(mainController);
       setCenter(root);
     } catch (IOException e) {

@@ -83,7 +83,7 @@ public class MainController {
 
   @FXML
   private void initialize() {
-    skillTableView= new SkillTableViewBorderPane(this);
+    skillTableView = new SkillTableViewBorderPane(this);
     skillTableViewController = skillTableView.getController();
     tableViewBorderPane.setCenter(skillTableView);
   }
@@ -100,8 +100,7 @@ public class MainController {
   private void undo() {
     if (!undoCountStack.isEmpty()) {
       int invokeCount = undoCountStack.pop();
-      IntStream.rangeClosed(0, invokeCount)
-      .forEach(i -> {
+      IntStream.rangeClosed(0, invokeCount).forEach(i -> {
         undoRedoManager.undo();
       });
       redoCountStack.push(invokeCount);
@@ -112,8 +111,7 @@ public class MainController {
   private void redo() {
     if (!redoCountStack.isEmpty()) {
       int invokeCount = redoCountStack.pop();
-      IntStream.rangeClosed(0, invokeCount)
-      .forEach(i -> {
+      IntStream.rangeClosed(0, invokeCount).forEach(i -> {
         undoRedoManager.redo();
       });
       undoCountStack.push(invokeCount);
@@ -127,7 +125,9 @@ public class MainController {
 
   /**
    * コマンドを実行する。
-   * @param command コマンド
+   * 
+   * @param command
+   *          コマンド
    */
   public void invoke(ICommand command) {
     undoRedoManager.invoke(command);
@@ -135,16 +135,21 @@ public class MainController {
 
   /**
    * コマンドの繰り返し回数をプッシュする。
-   * @param invokeCount 繰り返し回数
+   * 
+   * @param invokeCount
+   *          繰り返し回数
    */
   public void pushUndoCount(int invokeCount) {
-      undoCountStack.push(invokeCount);
+    undoCountStack.push(invokeCount);
   }
 
   /**
    * 座標ラベルを更新する。
-   * @param x カラムインデックス
-   * @param y レコードインデックス
+   * 
+   * @param x
+   *          カラムインデックス
+   * @param y
+   *          レコードインデックス
    */
   public void updateAxisLabels(int x, int y) {
     xLabel.setText("" + x);
