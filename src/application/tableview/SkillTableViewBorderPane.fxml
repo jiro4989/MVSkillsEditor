@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.tableview.SkillTableViewBorderPaneController">
+  <!-- TODO Add Nodes -->
+  <center>
+    <TableView fx:id="skillTableView" editable="true" prefHeight="200.0" prefWidth="200.0">
+      <columns>
+        <TableColumn prefWidth="75.0" text="ID" fx:id="idColumn" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="198.0" text="名前" fx:id="nameColumn" />
+        <TableColumn prefWidth="75.0" text="アイコン" fx:id="iconIndexColumn" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="312.0" text="説明" fx:id="descriptionColumn" />
+        <TableColumn prefWidth="75.0" text="スキルタイプ" fx:id="stypeIdColumn" />
+        <TableColumn prefWidth="75.0" text="範囲" fx:id="scopeColumn" />
+        <TableColumn prefWidth="75.0" text="消費MP" fx:id="mpCostColumn" />
+        <TableColumn prefWidth="75.0" text="消費TP" fx:id="tpCostColumn" />
+        <TableColumn prefWidth="75.0" text="使用可能時" fx:id="occasionColumn" />
+        <TableColumn prefWidth="75.0" text="速度補正" fx:id="speedColumn" />
+        <TableColumn prefWidth="75.0" text="成功率" fx:id="successRateColumn" />
+        <TableColumn prefWidth="75.0" text="連続回数" fx:id="repeatsColumn" />
+        <TableColumn prefWidth="75.0" text="得TP" fx:id="tpGainColumn" />
+        <TableColumn prefWidth="75.0" text="命中タイプ" fx:id="hitTypeColumn" />
+        <TableColumn prefWidth="75.0" text="アニメーション" fx:id="animationIdColumn" />
+        <TableColumn prefWidth="75.0" text="メッセージ1" fx:id="message1Column" />
+        <TableColumn prefWidth="75.0" text="メッセージ2" fx:id="message2Column" />
+        <TableColumn prefWidth="75.0" text="必要武器1" fx:id="requiredWtypeId1Column" />
+        <TableColumn prefWidth="75.0" text="必要武器2" fx:id="requiredWtypeId2Column" />
+        <TableColumn prefWidth="75.0" text="ダメージタイプ" fx:id="damageTypeColumn" />
+        <TableColumn prefWidth="75.0" text="属性" fx:id="damageElementColumn" />
+        <TableColumn prefWidth="75.0" text="計算式" fx:id="formulaColumn" />
+        <TableColumn prefWidth="75.0" text="分散度" fx:id="varianceColumn" />
+        <TableColumn prefWidth="75.0" text="会心" fx:id="criticalColumn" />
+        <TableColumn prefWidth="75.0" text="使用効果" fx:id="effectsColumn" />
+        <TableColumn prefWidth="75.0" text="メモ" fx:id="noteColumn" />
+      </columns>
+    </TableView>
+  </center>
+</BorderPane>

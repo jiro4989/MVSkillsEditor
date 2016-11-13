@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.MainController">
+  <!-- TODO Add Nodes -->
+  <center>
+    <SplitPane dividerPositions="0.7167449139280125" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0">
+      <items>
+        <BorderPane fx:id="tableViewBorderPane" prefHeight="200.0" prefWidth="200.0">
+          <bottom>
+            <ToolBar>
+              <items>
+                <Label prefWidth="20.0" text="" />
+                <Label text="X:" />
+                <Label fx:id="xLabel" prefWidth="30.0" text="" />
+                <Label text="Y:" />
+                <Label fx:id="yLabel" prefWidth="30.0" text="" />
+                <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="20.0" />
+                <Label text="一括挿入：" />
+                <TextField fx:id="insertTextField" prefWidth="200.0" promptText="挿入するテキスト" />
+                <Button fx:id="applyButton" mnemonicParsing="false" onAction="#insertText" text="適用">
+                  <contextMenu>
+                    <ContextMenu>
+                      <items>
+                        <MenuItem mnemonicParsing="false" text="挿入" fx:id="toolBarInsertMenuItem" />
+                        <MenuItem mnemonicParsing="false" text="先頭に挿入" fx:id="toolBarHeadInsertMenuItem" />
+                        <MenuItem mnemonicParsing="false" text="末尾に挿入" fx:id="toolBarFootInsertMenuItem" />
+                      </items>
+                    </ContextMenu>
+                  </contextMenu>
+                </Button>
+                <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="20.0" />
+                <Label text="フィルタ：" />
+                <TextField id="insertTextField" prefWidth="200.0" promptText="検索するテキスト" />
+                <Button id="applyButton" mnemonicParsing="false" onAction="#insertText" text="検索">
+                  <contextMenu>
+                    <ContextMenu>
+                      <items>
+                        <MenuItem mnemonicParsing="false" text="挿入" />
+                        <MenuItem mnemonicParsing="false" text="先頭に挿入" />
+                        <MenuItem mnemonicParsing="false" text="末尾に挿入" />
+                      </items>
+                    </ContextMenu>
+                  </contextMenu>
+                </Button>
+                <ComboBox>
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="アイテム1" />
+                      <String fx:value="アイテム2" />
+                      <String fx:value="アイテム3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+                <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="20.0" />
+              </items>
+            </ToolBar>
+          </bottom>
+        </BorderPane>
+        <SplitPane dividerPositions="0.5" focusTraversable="true" orientation="VERTICAL" prefHeight="700.0" prefWidth="332.0">
+          <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="377.0" prefWidth="330.0">
+              <children>
+                <TitledPane animated="false" collapsible="false" text="使用効果" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <content>
+                    <TableView prefHeight="200.0" prefWidth="200.0">
+                      <columns>
+                        <TableColumn prefWidth="75.0" text="列X" />
+                        <TableColumn prefWidth="75.0" text="列X" />
+                      </columns>
+                    </TableView>
+                  </content>
+                </TitledPane>
+              </children>
+            </AnchorPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+              <children>
+                <TitledPane animated="false" collapsible="false" text="メモ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <content>
+                    <TextArea fx:id="noteTextArea" prefWidth="200.0" wrapText="true" />
+                  </content>
+                </TitledPane>
+              </children>
+            </AnchorPane>
+          </items>
+        </SplitPane>
+      </items>
+      <BorderPane.margin>
+        <Insets />
+      </BorderPane.margin>
+    </SplitPane>
+  </center>
+  <top>
+    <MenuBar>
+      <menus>
+        <Menu mnemonicParsing="false" text="ファイル">
+          <items>
+            <MenuItem mnemonicParsing="false" text="新規" fx:id="newMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#openFile" text="開く" fx:id="openMenuItem" />
+            <MenuItem mnemonicParsing="false" text="上書き保存" fx:id="saveMenuItem" />
+            <MenuItem mnemonicParsing="false" text="別名保存" fx:id="saveAsMenuItem" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="設定" fx:id="configMenuItem" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="閉じる" fx:id="quitMenuItem" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="編集">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#undo" text="元に戻す" fx:id="undoMenuItem">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#redo" text="やり直す" fx:id="redoMenuItem">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="切り取り" />
+            <MenuItem mnemonicParsing="false" text="コピー" />
+            <MenuItem mnemonicParsing="false" text="貼り付け" />
+            <MenuItem mnemonicParsing="false" text="削除" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="表示">
+          <items>
+            <MenuItem mnemonicParsing="false" text="フォント" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="ヘルプ">
+          <items>
+            <MenuItem mnemonicParsing="false" text="バージョン情報" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+  </top>
+</BorderPane>
