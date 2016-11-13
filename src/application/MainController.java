@@ -137,7 +137,7 @@ public class MainController {
    * コマンドの繰り返し回数をプッシュする。
    * @param invokeCount 繰り返し回数
    */
-  public void undoCountPush(int invokeCount) {
+  public void pushUndoCount(int invokeCount) {
       undoCountStack.push(invokeCount);
   }
 

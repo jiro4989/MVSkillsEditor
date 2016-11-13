@@ -355,7 +355,7 @@ public class SkillTableViewBorderPaneController {
         mainController.invoke(command);
       });
 
-      mainController.undoCountPush(rowIndices.size());
+      mainController.pushUndoCount(rowIndices.size());
     }
   }
 
