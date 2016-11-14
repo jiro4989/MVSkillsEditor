@@ -292,12 +292,86 @@ public class SkillTableViewBorderPaneController {
   }
 
   /**
+   * 選択中のセルにテキストを挿入する。
+   *
+   * @param newText
+   *          新しく挿入するテキスト
+   */
+  public void insertText(String newText) {
+    if (!skillTableView.getSelectionModel().isEmpty()) {
+      ObservableList<Integer> rowIndices = skillTableView.getSelectionModel().getSelectedIndices();
+      rowIndices.stream().forEach(rowIndex -> {
+        int columnIndex = skillTableView.getColumns().indexOf(nameColumn);
+        ICommand command = new TableCellUpdateCommand(skillTableView, rowIndex, columnIndex,
+            newText, new NameColumnStrategy(skillTableView, rowIndex));
+        mainController.invoke(command);
+      });
+
+      mainController.pushUndoCount(rowIndices.size());
+    }
+  }
+
+  /**
+   * カラムインデックスを記述したプロパティファイルを出力する。
+   */
+  public void outputPropertiesFile() {
+    prop.setValue(INDICES_KEYS[0], "" + skillTableView.getColumns().indexOf(idColumn));
+    prop.setValue(INDICES_KEYS[1], "" + skillTableView.getColumns().indexOf(nameColumn));
+    prop.setValue(INDICES_KEYS[2], "" + skillTableView.getColumns().indexOf(iconIndexColumn));
+    prop.setValue(INDICES_KEYS[3], "" + skillTableView.getColumns().indexOf(descriptionColumn));
+    prop.setValue(INDICES_KEYS[4], "" + skillTableView.getColumns().indexOf(stypeIdColumn));
+    prop.setValue(INDICES_KEYS[5], "" + skillTableView.getColumns().indexOf(scopeColumn));
+    prop.setValue(INDICES_KEYS[6], "" + skillTableView.getColumns().indexOf(mpCostColumn));
+    prop.setValue(INDICES_KEYS[7], "" + skillTableView.getColumns().indexOf(tpCostColumn));
+    prop.setValue(INDICES_KEYS[8], "" + skillTableView.getColumns().indexOf(occasionColumn));
+    prop.setValue(INDICES_KEYS[9], "" + skillTableView.getColumns().indexOf(speedColumn));
+    prop.setValue(INDICES_KEYS[10], "" + skillTableView.getColumns().indexOf(successRateColumn));
+    prop.setValue(INDICES_KEYS[11], "" + skillTableView.getColumns().indexOf(repeatsColumn));
+    prop.setValue(INDICES_KEYS[12], "" + skillTableView.getColumns().indexOf(tpGainColumn));
+    prop.setValue(INDICES_KEYS[13], "" + skillTableView.getColumns().indexOf(hitTypeColumn));
+    prop.setValue(INDICES_KEYS[14], "" + skillTableView.getColumns().indexOf(animationIdColumn));
+    prop.setValue(INDICES_KEYS[15], "" + skillTableView.getColumns().indexOf(message1Column));
+    prop.setValue(INDICES_KEYS[16], "" + skillTableView.getColumns().indexOf(message2Column));
+    prop.setValue(INDICES_KEYS[17],
+        "" + skillTableView.getColumns().indexOf(requiredWtypeId1Column));
+    prop.setValue(INDICES_KEYS[18],
+        "" + skillTableView.getColumns().indexOf(requiredWtypeId2Column));
+    prop.setValue(INDICES_KEYS[19], "" + skillTableView.getColumns().indexOf(damageTypeColumn));
+    prop.setValue(INDICES_KEYS[20], "" + skillTableView.getColumns().indexOf(damageElementColumn));
+    prop.setValue(INDICES_KEYS[21], "" + skillTableView.getColumns().indexOf(formulaColumn));
+    prop.setValue(INDICES_KEYS[22], "" + skillTableView.getColumns().indexOf(varianceColumn));
+    prop.setValue(INDICES_KEYS[23], "" + skillTableView.getColumns().indexOf(criticalColumn));
+    prop.setValue(INDICES_KEYS[24], "" + skillTableView.getColumns().indexOf(effectsColumn));
+    prop.setValue(INDICES_KEYS[25], "" + skillTableView.getColumns().indexOf(noteColumn));
+    prop.write();
+  }
+
+  /**
+   * テーブルビューにフォーカスを移す。
+   * テキストエリアでテキスト編集が終了したときに呼び出す。
+   */
+  void requestFocus() {
+    skillTableView.requestFocus();
+  }
+
+  private void updateEffectsPane() {
+  }
+
+  private void updateNotePane() {
+    if (!skillTableView.getSelectionModel().isEmpty()) {
+      int selectedIndex = skillTableView.getSelectionModel().getSelectedIndex();
+      String note = skillTableView.getItems().get(selectedIndex).noteProperty().get();
+      mainController.setNoteText(note);
+    }
+  }
+
+  /**
    * ファイルからjsonデータを取り出してテーブルビューに追加する。
    *
    * @param file
    *          jsonファイル
    */
-  public void setDatas(File file) {
+  public void setSkillDatas(File file) {
     ObjectMapper mapper = new ObjectMapper();
     try {
       JsonNode root = mapper.readTree(file);
@@ -404,77 +478,7 @@ public class SkillTableViewBorderPaneController {
     }
   }
 
-  /**
-   * 選択中のセルにテキストを挿入する。
-   *
-   * @param newText
-   *          新しく挿入するテキスト
-   */
-  public void insertText(String newText) {
-    if (!skillTableView.getSelectionModel().isEmpty()) {
-      ObservableList<Integer> rowIndices = skillTableView.getSelectionModel().getSelectedIndices();
-      rowIndices.stream().forEach(rowIndex -> {
-        int columnIndex = skillTableView.getColumns().indexOf(nameColumn);
-        ICommand command = new TableCellUpdateCommand(skillTableView, rowIndex, columnIndex,
-            newText, new NameColumnStrategy(skillTableView, rowIndex));
-        mainController.invoke(command);
-      });
-
-      mainController.pushUndoCount(rowIndices.size());
-    }
-  }
-
-  /**
-   * カラムインデックスを記述したプロパティファイルを出力する。
-   */
-  public void outputPropertiesFile() {
-    prop.setValue(INDICES_KEYS[0], "" + skillTableView.getColumns().indexOf(idColumn));
-    prop.setValue(INDICES_KEYS[1], "" + skillTableView.getColumns().indexOf(nameColumn));
-    prop.setValue(INDICES_KEYS[2], "" + skillTableView.getColumns().indexOf(iconIndexColumn));
-    prop.setValue(INDICES_KEYS[3], "" + skillTableView.getColumns().indexOf(descriptionColumn));
-    prop.setValue(INDICES_KEYS[4], "" + skillTableView.getColumns().indexOf(stypeIdColumn));
-    prop.setValue(INDICES_KEYS[5], "" + skillTableView.getColumns().indexOf(scopeColumn));
-    prop.setValue(INDICES_KEYS[6], "" + skillTableView.getColumns().indexOf(mpCostColumn));
-    prop.setValue(INDICES_KEYS[7], "" + skillTableView.getColumns().indexOf(tpCostColumn));
-    prop.setValue(INDICES_KEYS[8], "" + skillTableView.getColumns().indexOf(occasionColumn));
-    prop.setValue(INDICES_KEYS[9], "" + skillTableView.getColumns().indexOf(speedColumn));
-    prop.setValue(INDICES_KEYS[10], "" + skillTableView.getColumns().indexOf(successRateColumn));
-    prop.setValue(INDICES_KEYS[11], "" + skillTableView.getColumns().indexOf(repeatsColumn));
-    prop.setValue(INDICES_KEYS[12], "" + skillTableView.getColumns().indexOf(tpGainColumn));
-    prop.setValue(INDICES_KEYS[13], "" + skillTableView.getColumns().indexOf(hitTypeColumn));
-    prop.setValue(INDICES_KEYS[14], "" + skillTableView.getColumns().indexOf(animationIdColumn));
-    prop.setValue(INDICES_KEYS[15], "" + skillTableView.getColumns().indexOf(message1Column));
-    prop.setValue(INDICES_KEYS[16], "" + skillTableView.getColumns().indexOf(message2Column));
-    prop.setValue(INDICES_KEYS[17],
-        "" + skillTableView.getColumns().indexOf(requiredWtypeId1Column));
-    prop.setValue(INDICES_KEYS[18],
-        "" + skillTableView.getColumns().indexOf(requiredWtypeId2Column));
-    prop.setValue(INDICES_KEYS[19], "" + skillTableView.getColumns().indexOf(damageTypeColumn));
-    prop.setValue(INDICES_KEYS[20], "" + skillTableView.getColumns().indexOf(damageElementColumn));
-    prop.setValue(INDICES_KEYS[21], "" + skillTableView.getColumns().indexOf(formulaColumn));
-    prop.setValue(INDICES_KEYS[22], "" + skillTableView.getColumns().indexOf(varianceColumn));
-    prop.setValue(INDICES_KEYS[23], "" + skillTableView.getColumns().indexOf(criticalColumn));
-    prop.setValue(INDICES_KEYS[24], "" + skillTableView.getColumns().indexOf(effectsColumn));
-    prop.setValue(INDICES_KEYS[25], "" + skillTableView.getColumns().indexOf(noteColumn));
-    prop.write();
-  }
-
-  private void updateEffectsPane() {
-  }
-
-  private void updateNotePane() {
-    if (!skillTableView.getSelectionModel().isEmpty()) {
-      int selectedIndex = skillTableView.getSelectionModel().getSelectedIndex();
-      String note = skillTableView.getItems().get(selectedIndex).noteProperty().get();
-      mainController.setNoteText(note);
-    }
-  }
-
   public void setMainController(MainController aMainController) {
     mainController = aMainController;
-  }
-
-  void requestFocus() {
-    skillTableView.requestFocus();
   }
 }

@@ -92,7 +92,7 @@ public class MainController {
   private void openFile() {
     Optional<File> fileOpt = fm.openFile();
     fileOpt.ifPresent(f -> {
-      skillTableViewController.setDatas(f);
+      skillTableViewController.setSkillDatas(f);
     });
   }
 
