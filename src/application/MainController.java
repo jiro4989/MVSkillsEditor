@@ -100,7 +100,7 @@ public class MainController {
   private void undo() {
     if (!undoCountStack.isEmpty()) {
       int invokeCount = undoCountStack.pop();
-      IntStream.rangeClosed(0, invokeCount).forEach(i -> {
+      IntStream.range(0, invokeCount).forEach(i -> {
         undoRedoManager.undo();
       });
       redoCountStack.push(invokeCount);
@@ -111,7 +111,7 @@ public class MainController {
   private void redo() {
     if (!redoCountStack.isEmpty()) {
       int invokeCount = redoCountStack.pop();
-      IntStream.rangeClosed(0, invokeCount).forEach(i -> {
+      IntStream.range(0, invokeCount).forEach(i -> {
         undoRedoManager.redo();
       });
       undoCountStack.push(invokeCount);
@@ -125,7 +125,7 @@ public class MainController {
 
   /**
    * コマンドを実行する。
-   * 
+   *
    * @param command
    *          コマンド
    */
@@ -135,7 +135,7 @@ public class MainController {
 
   /**
    * コマンドの繰り返し回数をプッシュする。
-   * 
+   *
    * @param invokeCount
    *          繰り返し回数
    */
@@ -145,7 +145,7 @@ public class MainController {
 
   /**
    * 座標ラベルを更新する。
-   * 
+   *
    * @param x
    *          カラムインデックス
    * @param y
