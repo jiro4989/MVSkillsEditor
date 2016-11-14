@@ -1,16 +1,21 @@
 package strategy;
 
+/**
+ * カラムごとの戦略インタフェース
+ * @author jiro
+ *
+ */
 public interface ColumnStrategy {
   /**
    * 値をObjectクラスで取得する。
-   * 
+   *
    * @return Object value
    */
   public Object getValue();
 
   /**
    * 値をセットする。 実装クラスは必要な方にキャストして使用しなければならない。
-   * 
+   *
    * @param value
    *          セットするObjectValue
    */
