@@ -130,7 +130,7 @@ public class SkillTableViewBorderPaneController {
     nameColumn.setCellFactory(column -> {
       return new TextFieldTableCell<>(new DefaultStringConverter());
     });
-    descriptionColumn.setCellFactory(TextAreaTableCell.forTableColumn());
+    descriptionColumn.setCellFactory(TextAreaTableCell.forTableColumn(this));
 
     // 編集が終わった後に呼び出す処理
     nameColumn.setOnEditCommit(e -> {
@@ -384,5 +384,9 @@ public class SkillTableViewBorderPaneController {
 
   public void setMainController(MainController aMainController) {
     mainController = aMainController;
+  }
+
+  void requestFocus() {
+    skillTableView.requestFocus();
   }
 }

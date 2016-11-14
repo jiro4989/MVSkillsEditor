@@ -1,4 +1,7 @@
 package application.tableview;
+import com.sun.glass.ui.TouchInputSupport;
+
+import application.MainController;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -12,8 +15,10 @@ import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 
 public class TextAreaTableCell<S, T> extends TableCell<S, T> {
+  private static SkillTableViewBorderPaneController controller;
 
-	public static <S> Callback<TableColumn<S, String>, TableCell<S, String>> forTableColumn() {
+	public static <S> Callback<TableColumn<S, String>, TableCell<S, String>> forTableColumn(SkillTableViewBorderPaneController aController) {
+	  controller = aController;
 		return forTableColumn(new DefaultStringConverter());
 	}
 
@@ -42,6 +47,7 @@ public class TextAreaTableCell<S, T> extends TableCell<S, T> {
 				}
 				cell.commitEdit(converter.fromString(textArea.getText()));
 				t.consume();
+				controller.requestFocus();
 			}
 		});
 		textArea.prefRowCountProperty().bind(Bindings.size(textArea.getParagraphs()));
