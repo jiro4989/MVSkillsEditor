@@ -5,6 +5,7 @@ import javafx.scene.control.TableView;
 
 /**
  * カラムごとの戦略インタフェース
+ * 
  * @author jiro
  *
  */
