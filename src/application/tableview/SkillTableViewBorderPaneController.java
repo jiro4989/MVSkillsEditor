@@ -154,53 +154,141 @@ public class SkillTableViewBorderPaneController {
 
     if (prop.exists()) {
       prop.load();
-      // skillTableView.getColumns().clear();
-      // String idIndex = prop.getValue("id-index");
-      // skillTableView.getColumns().remove(0);
-      // skillTableView.getColumns().set(Integer.valueOf(idIndex), idColumn);
-      // removeIntegerColumn(INDICES_KEYS[0], idColumn);
-      // removeStringColumn(INDICES_KEYS[1], nameColumn);
-      // removeIntegerColumn(INDICES_KEYS[2], iconIndexColumn);
-      // removeStringColumn(INDICES_KEYS[3], descriptionColumn);
-      // removeIntegerColumn(INDICES_KEYS[4], stypeIdColumn);
-      // removeIntegerColumn(INDICES_KEYS[5], scopeColumn);
-      // removeIntegerColumn(INDICES_KEYS[6], mpCostColumn);
-      // removeIntegerColumn(INDICES_KEYS[7], tpCostColumn);
-      // removeIntegerColumn(INDICES_KEYS[8], occasionColumn);
-      // removeIntegerColumn(INDICES_KEYS[9], speedColumn);
-      // removeIntegerColumn(INDICES_KEYS[10], successRateColumn);
-      // removeIntegerColumn(INDICES_KEYS[11], repeatsColumn);
-      // removeIntegerColumn(INDICES_KEYS[12], tpGainColumn);
-      // removeIntegerColumn(INDICES_KEYS[13], hitTypeColumn);
-      // removeIntegerColumn(INDICES_KEYS[14], animationIdColumn);
-      // removeStringColumn(INDICES_KEYS[15], message1Column);
-      // removeStringColumn(INDICES_KEYS[16], message2Column);
-      // removeIntegerColumn(INDICES_KEYS[17], requiredWtypeId1Column);
-      // removeIntegerColumn(INDICES_KEYS[18], requiredWtypeId2Column);
-      // removeIntegerColumn(INDICES_KEYS[19], damageTypeColumn);
-      // removeIntegerColumn(INDICES_KEYS[20], damageElementColumn);
-      // removeStringColumn(INDICES_KEYS[21], formulaColumn);
-      // removeIntegerColumn(INDICES_KEYS[22], varianceColumn);
-      // removeIntegerColumn(INDICES_KEYS[23], criticalColumn);
-      // removeStringColumn(INDICES_KEYS[24], effectsColumn);
-      // removeStringColumn(INDICES_KEYS[25], noteColumn);
+      skillTableView.getColumns().clear();
+
+      for (int i = 0; i < INDICES_KEYS.length; i++) {
+        int[] indices = { Integer.valueOf(prop.getValue(INDICES_KEYS[0])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[1])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[2])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[3])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[4])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[5])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[6])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[7])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[8])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[9])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[10])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[11])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[12])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[13])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[14])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[15])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[16])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[17])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[18])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[19])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[20])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[21])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[22])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[23])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[24])),
+            Integer.valueOf(prop.getValue(INDICES_KEYS[25])), };
+        if (i == indices[0]) {
+          skillTableView.getColumns().add(i, idColumn);
+          continue;
+        }
+        if (i == indices[1]) {
+          skillTableView.getColumns().add(i, nameColumn);
+          continue;
+        }
+        if (i == indices[2]) {
+          skillTableView.getColumns().add(i, iconIndexColumn);
+          continue;
+        }
+        if (i == indices[3]) {
+          skillTableView.getColumns().add(i, descriptionColumn);
+          continue;
+        }
+        if (i == indices[4]) {
+          skillTableView.getColumns().add(i, stypeIdColumn);
+          continue;
+        }
+        if (i == indices[5]) {
+          skillTableView.getColumns().add(i, scopeColumn);
+          continue;
+        }
+        if (i == indices[6]) {
+          skillTableView.getColumns().add(i, mpCostColumn);
+          continue;
+        }
+        if (i == indices[7]) {
+          skillTableView.getColumns().add(i, tpCostColumn);
+          continue;
+        }
+        if (i == indices[8]) {
+          skillTableView.getColumns().add(i, occasionColumn);
+          continue;
+        }
+        if (i == indices[9]) {
+          skillTableView.getColumns().add(i, speedColumn);
+          continue;
+        }
+        if (i == indices[10]) {
+          skillTableView.getColumns().add(i, successRateColumn);
+          continue;
+        }
+        if (i == indices[11]) {
+          skillTableView.getColumns().add(i, repeatsColumn);
+          continue;
+        }
+        if (i == indices[12]) {
+          skillTableView.getColumns().add(i, tpGainColumn);
+          continue;
+        }
+        if (i == indices[13]) {
+          skillTableView.getColumns().add(i, hitTypeColumn);
+          continue;
+        }
+        if (i == indices[14]) {
+          skillTableView.getColumns().add(i, animationIdColumn);
+          continue;
+        }
+        if (i == indices[15]) {
+          skillTableView.getColumns().add(i, message1Column);
+          continue;
+        }
+        if (i == indices[16]) {
+          skillTableView.getColumns().add(i, message2Column);
+          continue;
+        }
+        if (i == indices[17]) {
+          skillTableView.getColumns().add(i, requiredWtypeId1Column);
+          continue;
+        }
+        if (i == indices[18]) {
+          skillTableView.getColumns().add(i, requiredWtypeId2Column);
+          continue;
+        }
+        if (i == indices[19]) {
+          skillTableView.getColumns().add(i, damageTypeColumn);
+          continue;
+        }
+        if (i == indices[20]) {
+          skillTableView.getColumns().add(i, damageElementColumn);
+          continue;
+        }
+        if (i == indices[21]) {
+          skillTableView.getColumns().add(i, formulaColumn);
+          continue;
+        }
+        if (i == indices[22]) {
+          skillTableView.getColumns().add(i, varianceColumn);
+          continue;
+        }
+        if (i == indices[23]) {
+          skillTableView.getColumns().add(i, criticalColumn);
+          continue;
+        }
+        if (i == indices[24]) {
+          skillTableView.getColumns().add(i, effectsColumn);
+          continue;
+        }
+        if (i == indices[25]) {
+          skillTableView.getColumns().add(i, noteColumn);
+          continue;
+        }
+      }
     }
-  }
-
-  private void removeIntegerColumn(String propKey, TableColumn<Skill, Integer> column) {
-    int index = skillTableView.getColumns().indexOf(column);
-    skillTableView.getColumns().remove(index);
-
-    String columnIndex = prop.getValue(propKey);
-    skillTableView.getColumns().set(Integer.valueOf(columnIndex), column);
-  }
-
-  private void removeStringColumn(String propKey, TableColumn<Skill, String> column) {
-    int index = skillTableView.getColumns().indexOf(column);
-    skillTableView.getColumns().remove(index);
-
-    String columnIndex = prop.getValue(propKey);
-    skillTableView.getColumns().set(Integer.valueOf(columnIndex), column);
   }
 
   /**
