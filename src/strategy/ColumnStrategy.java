@@ -1,17 +1,23 @@
 package strategy;
 
+import application.Skill;
+import javafx.scene.control.TableView;
+
 /**
  * カラムごとの戦略インタフェース
  * @author jiro
  *
  */
-public interface ColumnStrategy {
+public abstract class ColumnStrategy {
+  protected TableView<Skill> tableView;
+  protected int rowIndex;
+
   /**
    * 値をObjectクラスで取得する。
    *
    * @return Object value
    */
-  public Object getValue();
+  public abstract Object getValue();
 
   /**
    * 値をセットする。 実装クラスは必要な方にキャストして使用しなければならない。
@@ -19,5 +25,5 @@ public interface ColumnStrategy {
    * @param value
    *          セットするObjectValue
    */
-  public void setValue(Object value);
+  public abstract void setValue(Object value);
 }

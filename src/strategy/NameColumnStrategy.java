@@ -3,10 +3,7 @@ package strategy;
 import application.Skill;
 import javafx.scene.control.TableView;
 
-public class NameColumnStrategy implements ColumnStrategy {
-  private TableView<Skill> tableView;
-  private int rowIndex;
-
+public class NameColumnStrategy extends ColumnStrategy {
   public NameColumnStrategy(TableView<Skill> tableView, int rowIndex) {
     super();
     this.tableView = tableView;
