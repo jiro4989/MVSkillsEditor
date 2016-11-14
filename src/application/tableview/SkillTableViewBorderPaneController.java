@@ -6,7 +6,6 @@ import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.media.jfxmedia.events.NewFrameEvent;
 
 import application.MainController;
 import application.Skill;
@@ -21,7 +20,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.DefaultStringConverter;
 import jiro.lib.java.util.PropertiesHundler;
-import jiro.lib.javafx.scene.control.TextAreaTableCell;
 import strategy.NameColumnStrategy;
 
 public class SkillTableViewBorderPaneController {
