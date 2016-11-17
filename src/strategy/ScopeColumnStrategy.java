@@ -17,6 +17,9 @@ public class ScopeColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).setScope((String) value);
+    String strValue = (String) value;
+    if (strValue.matches("[-]?[0-9]*")) {
+      tableView.getItems().get(rowIndex).setScope((String) value);
+    }
   }
 }

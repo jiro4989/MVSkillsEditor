@@ -17,6 +17,9 @@ public class AnimationIdColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).setAnimationId((String) value);
+    String strValue = (String) value;
+    if (strValue.matches("[-]?[0-9]*")) {
+      tableView.getItems().get(rowIndex).setAnimationId(strValue);
+    }
   }
 }
