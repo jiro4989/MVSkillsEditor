@@ -1,6 +1,6 @@
 package strategy;
 
-import application.Skill;
+import application.tableview.Skill;
 import javafx.scene.control.TableView;
 
 public class Message2ColumnStrategy extends ColumnStrategy {

@@ -1,6 +1,6 @@
 package command;
 
-import application.Skill;
+import application.tableview.Skill;
 import javafx.scene.control.TableView;
 import strategy.ColumnStrategy;
 
@@ -22,7 +22,7 @@ public class TableCellUpdateCommand implements ICommand {
     this.tableView = tableView;
     this.rowIndex = rowIndex;
     this.columnIndex = columnIndex;
-    this.prevText = (String)strategy.getValue();
+    this.prevText = strategy.getValue().toString();
     this.newText = newText;
     this.strategy = strategy;
   }

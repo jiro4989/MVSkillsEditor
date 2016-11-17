@@ -1,6 +1,6 @@
 package strategy;
 
-import application.Skill;
+import application.tableview.Skill;
 import javafx.scene.control.TableView;
 
 public class RequiredWtypeId2ColumnStrategy extends ColumnStrategy {
@@ -17,6 +17,6 @@ public class RequiredWtypeId2ColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).setRequiredWtypeId2((int) value);
+    tableView.getItems().get(rowIndex).setRequiredWtypeId2((String) value);
   }
 }

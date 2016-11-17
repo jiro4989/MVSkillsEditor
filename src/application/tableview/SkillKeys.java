@@ -1,4 +1,4 @@
-package application;
+package application.tableview;
 
 import com.sun.glass.ui.TouchInputSupport;
 

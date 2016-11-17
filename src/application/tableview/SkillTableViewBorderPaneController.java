@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import application.MainController;
-import application.Skill;
 import command.ICommand;
 import command.TableCellUpdateCommand;
 import javafx.collections.ObservableList;
@@ -36,6 +35,7 @@ import strategy.Message2ColumnStrategy;
 import strategy.MpCostColumnStrategy;
 import strategy.NameColumnStrategy;
 import strategy.NoteColumnStrategy;
+import strategy.OccasionColumnStrategy;
 import strategy.RepeatsColumnStrategy;
 import strategy.RequiredWtypeId1ColumnStrategy;
 import strategy.RequiredWtypeId2ColumnStrategy;
@@ -69,53 +69,53 @@ public class SkillTableViewBorderPaneController {
   @FXML
   private TableView<Skill> skillTableView = new TableView<>();
   @FXML
-  private TableColumn<Skill, Integer> idColumn = new TableColumn<>("ID");
+  private TableColumn<Skill, String> idColumn = new TableColumn<>("ID");
   @FXML
   private TableColumn<Skill, String> nameColumn = new TableColumn<>("名前");
   @FXML
-  private TableColumn<Skill, Integer> iconIndexColumn = new TableColumn<>("アイコン");
+  private TableColumn<Skill, String> iconIndexColumn = new TableColumn<>("アイコン");
   @FXML
   private TableColumn<Skill, String> descriptionColumn = new TableColumn<>("説明");
   @FXML
-  private TableColumn<Skill, Integer> stypeIdColumn = new TableColumn<>("スキルタイプ");
+  private TableColumn<Skill, String> stypeIdColumn = new TableColumn<>("スキルタイプ");
   @FXML
-  private TableColumn<Skill, Integer> scopeColumn = new TableColumn<>("範囲");
+  private TableColumn<Skill, String> scopeColumn = new TableColumn<>("範囲");
   @FXML
-  private TableColumn<Skill, Integer> mpCostColumn = new TableColumn<>("消費MP");
+  private TableColumn<Skill, String> mpCostColumn = new TableColumn<>("消費MP");
   @FXML
-  private TableColumn<Skill, Integer> tpCostColumn = new TableColumn<>("消費TP");
+  private TableColumn<Skill, String> tpCostColumn = new TableColumn<>("消費TP");
   @FXML
-  private TableColumn<Skill, Integer> occasionColumn = new TableColumn<>("使用可能時");
+  private TableColumn<Skill, String> occasionColumn = new TableColumn<>("使用可能時");
   @FXML
-  private TableColumn<Skill, Integer> speedColumn = new TableColumn<>("速度補正");
+  private TableColumn<Skill, String> speedColumn = new TableColumn<>("速度補正");
   @FXML
-  private TableColumn<Skill, Integer> successRateColumn = new TableColumn<>("成功率");
+  private TableColumn<Skill, String> successRateColumn = new TableColumn<>("成功率");
   @FXML
-  private TableColumn<Skill, Integer> repeatsColumn = new TableColumn<>("連続回数");
+  private TableColumn<Skill, String> repeatsColumn = new TableColumn<>("連続回数");
   @FXML
-  private TableColumn<Skill, Integer> tpGainColumn = new TableColumn<>("得TP");
+  private TableColumn<Skill, String> tpGainColumn = new TableColumn<>("得TP");
   @FXML
-  private TableColumn<Skill, Integer> hitTypeColumn = new TableColumn<>("命中タイプ");
+  private TableColumn<Skill, String> hitTypeColumn = new TableColumn<>("命中タイプ");
   @FXML
-  private TableColumn<Skill, Integer> animationIdColumn = new TableColumn<>("アニメーション");
+  private TableColumn<Skill, String> animationIdColumn = new TableColumn<>("アニメーション");
   @FXML
   private TableColumn<Skill, String> message1Column = new TableColumn<>("メッセージ1");
   @FXML
   private TableColumn<Skill, String> message2Column = new TableColumn<>("メッセージ2");
   @FXML
-  private TableColumn<Skill, Integer> requiredWtypeId1Column = new TableColumn<>("必要武器1");
+  private TableColumn<Skill, String> requiredWtypeId1Column = new TableColumn<>("必要武器1");
   @FXML
-  private TableColumn<Skill, Integer> requiredWtypeId2Column = new TableColumn<>("必要武器2");
+  private TableColumn<Skill, String> requiredWtypeId2Column = new TableColumn<>("必要武器2");
   @FXML
-  private TableColumn<Skill, Integer> damageTypeColumn = new TableColumn<>("ダメージタイプ");
+  private TableColumn<Skill, String> damageTypeColumn = new TableColumn<>("ダメージタイプ");
   @FXML
-  private TableColumn<Skill, Integer> damageElementColumn = new TableColumn<>("属性");
+  private TableColumn<Skill, String> damageElementColumn = new TableColumn<>("属性");
   @FXML
   private TableColumn<Skill, String> formulaColumn = new TableColumn<>("計算式");
   @FXML
-  private TableColumn<Skill, Integer> varianceColumn = new TableColumn<>("分散度");
+  private TableColumn<Skill, String> varianceColumn = new TableColumn<>("分散度");
   @FXML
-  private TableColumn<Skill, Integer> criticalColumn = new TableColumn<>("会心率");
+  private TableColumn<Skill, String> criticalColumn = new TableColumn<>("会心率");
   @FXML
   private TableColumn<Skill, String> effectsColumn = new TableColumn<>("使用効果");
   @FXML
@@ -123,33 +123,33 @@ public class SkillTableViewBorderPaneController {
 
   @FXML
   private void initialize() {
-    idColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("id"));
+    idColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("id"));
     nameColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("name"));
-    iconIndexColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("iconIndex"));
+    iconIndexColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("iconIndex"));
     descriptionColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("description"));
-    stypeIdColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("stypeId"));
-    scopeColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("scope"));
-    mpCostColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("mpCost"));
-    tpCostColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("tpCost"));
-    occasionColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("occasion"));
-    speedColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("speed"));
-    successRateColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("successRate"));
-    repeatsColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("repeats"));
-    tpGainColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("tpGain"));
-    hitTypeColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("hitType"));
-    animationIdColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("animationId"));
+    stypeIdColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("stypeId"));
+    scopeColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("scope"));
+    mpCostColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("mpCost"));
+    tpCostColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("tpCost"));
+    occasionColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("occasion"));
+    speedColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("speed"));
+    successRateColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("successRate"));
+    repeatsColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("repeats"));
+    tpGainColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("tpGain"));
+    hitTypeColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("hitType"));
+    animationIdColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("animationId"));
     message1Column.setCellValueFactory(new PropertyValueFactory<Skill, String>("message1"));
     message2Column.setCellValueFactory(new PropertyValueFactory<Skill, String>("message2"));
     requiredWtypeId1Column
-        .setCellValueFactory(new PropertyValueFactory<Skill, Integer>("requiredWtypeId1"));
+        .setCellValueFactory(new PropertyValueFactory<Skill, String>("requiredWtypeId1"));
     requiredWtypeId2Column
-        .setCellValueFactory(new PropertyValueFactory<Skill, Integer>("requiredWtypeId2"));
-    damageTypeColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("damageType"));
+        .setCellValueFactory(new PropertyValueFactory<Skill, String>("requiredWtypeId2"));
+    damageTypeColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("damageType"));
     damageElementColumn
-        .setCellValueFactory(new PropertyValueFactory<Skill, Integer>("damageElement"));
+        .setCellValueFactory(new PropertyValueFactory<Skill, String>("damageElement"));
     formulaColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("formula"));
-    varianceColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("variance"));
-    criticalColumn.setCellValueFactory(new PropertyValueFactory<Skill, Integer>("critical"));
+    varianceColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("variance"));
+    criticalColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("critical"));
     effectsColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("effects"));
     noteColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("note"));
 
@@ -433,12 +433,12 @@ public class SkillTableViewBorderPaneController {
 
       IntStream.range(0, root.size()).forEach(index -> {
         JsonNode children = root.get(index);
-        skillTableView.getItems().add(new Skill(index, "sample", 0, "desc", 1, 1, 1, 1, 1, 1, 1, 1,
-            1, 1, 1, "msg1", "msg2", 1, 2, 1, 2, "formula", 20, 20, "effects", "note"));
+        skillTableView.getItems().add(new Skill(String.valueOf(index), "sample", "0", "desc", "1", "1", "1", "1", "1", "1", "1", "1",
+            "1", "1", "1", "msg1", "msg2", "1", "2", "1", "2", "formula", "20", "20", "effects", "note"));
 
         JsonNode value = children.get("id");
         if (value != null) {
-          skillTableView.getItems().get(index).setId(value.asInt());
+          skillTableView.getItems().get(index).setId(value.asText());
         }
         value = children.get("name");
         if (value != null) {
@@ -446,7 +446,7 @@ public class SkillTableViewBorderPaneController {
         }
         value = children.get("iconIndex");
         if (value != null) {
-          skillTableView.getItems().get(index).setIconIndex(value.asInt());
+          skillTableView.getItems().get(index).setIconIndex(value.asText());
         }
         value = children.get("description");
         if (value != null) {
@@ -454,47 +454,47 @@ public class SkillTableViewBorderPaneController {
         }
         value = children.get("stypeId");
         if (value != null) {
-          skillTableView.getItems().get(index).setStypeId(value.asInt());
+          skillTableView.getItems().get(index).setStypeId(value.asText());
         }
         value = children.get("scope");
         if (value != null) {
-          skillTableView.getItems().get(index).setScope(value.asInt());
+          skillTableView.getItems().get(index).setScope(value.asText());
         }
         value = children.get("mpCost");
         if (value != null) {
-          skillTableView.getItems().get(index).setMpCost(value.asInt());
+          skillTableView.getItems().get(index).setMpCost(value.asText());
         }
         value = children.get("tpCost");
         if (value != null) {
-          skillTableView.getItems().get(index).setTpCost(value.asInt());
+          skillTableView.getItems().get(index).setTpCost(value.asText());
         }
         value = children.get("occasion");
         if (value != null) {
-          skillTableView.getItems().get(index).setOccasion(value.asInt());
+          skillTableView.getItems().get(index).setOccasion(value.asText());
         }
         value = children.get("speed");
         if (value != null) {
-          skillTableView.getItems().get(index).setSpeed(value.asInt());
+          skillTableView.getItems().get(index).setSpeed(value.asText());
         }
         value = children.get("successRate");
         if (value != null) {
-          skillTableView.getItems().get(index).setSuccessRate(value.asInt());
+          skillTableView.getItems().get(index).setSuccessRate(value.asText());
         }
         value = children.get("repeats");
         if (value != null) {
-          skillTableView.getItems().get(index).setRepeats(value.asInt());
+          skillTableView.getItems().get(index).setRepeats(value.asText());
         }
         value = children.get("tpGain");
         if (value != null) {
-          skillTableView.getItems().get(index).setTpGain(value.asInt());
+          skillTableView.getItems().get(index).setTpGain(value.asText());
         }
         value = children.get("hitType");
         if (value != null) {
-          skillTableView.getItems().get(index).setHitType(value.asInt());
+          skillTableView.getItems().get(index).setHitType(value.asText());
         }
         value = children.get("animationId");
         if (value != null) {
-          skillTableView.getItems().get(index).setAnimationId(value.asInt());
+          skillTableView.getItems().get(index).setAnimationId(value.asText());
         }
         value = children.get("message1");
         if (value != null) {
@@ -506,11 +506,11 @@ public class SkillTableViewBorderPaneController {
         }
         value = children.get("requiredWtypeId1");
         if (value != null) {
-          skillTableView.getItems().get(index).setRequiredWtypeId1(value.asInt());
+          skillTableView.getItems().get(index).setRequiredWtypeId1(value.asText());
         }
         value = children.get("requiredWtypeId2");
         if (value != null) {
-          skillTableView.getItems().get(index).setRequiredWtypeId2(value.asInt());
+          skillTableView.getItems().get(index).setRequiredWtypeId2(value.asText());
         }
         value = children.get("damage");
         if (value != null) {

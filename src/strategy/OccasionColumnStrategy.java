@@ -1,8 +1,7 @@
-package application.tableview;
+package strategy;
 
-import application.Skill;
+import application.tableview.Skill;
 import javafx.scene.control.TableView;
-import strategy.ColumnStrategy;
 
 public class OccasionColumnStrategy extends ColumnStrategy {
   public OccasionColumnStrategy(TableView<Skill> tableView, int rowIndex) {
@@ -18,6 +17,6 @@ public class OccasionColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).setOccasion((int) value);
+    tableView.getItems().get(rowIndex).setOccasion((String) value);
   }
 }

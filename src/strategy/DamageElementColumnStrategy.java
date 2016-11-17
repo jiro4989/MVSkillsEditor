@@ -1,6 +1,6 @@
 package strategy;
 
-import application.Skill;
+import application.tableview.Skill;
 import javafx.scene.control.TableView;
 
 public class DamageElementColumnStrategy extends ColumnStrategy {
@@ -17,6 +17,6 @@ public class DamageElementColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).setDamageElement((int) value);
+    tableView.getItems().get(rowIndex).setDamageElement((String) value);
   }
 }

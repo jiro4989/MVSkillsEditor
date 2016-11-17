@@ -1,6 +1,6 @@
 package strategy;
 
-import application.Skill;
+import application.tableview.Skill;
 import javafx.scene.control.TableView;
 
 public class MpCostColumnStrategy extends ColumnStrategy {
@@ -17,6 +17,6 @@ public class MpCostColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).setMpCost((int) value);
+    tableView.getItems().get(rowIndex).setMpCost((String) value);
   }
 }

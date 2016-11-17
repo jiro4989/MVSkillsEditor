@@ -1,6 +1,6 @@
 package strategy;
 
-import application.Skill;
+import application.tableview.Skill;
 import javafx.scene.control.TableView;
 
 public class IconIndexColumnStrategy extends ColumnStrategy {
@@ -17,7 +17,7 @@ public class IconIndexColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).setIconIndex((int) value);
+    tableView.getItems().get(rowIndex).setIconIndex((String) value);
   }
 
 }

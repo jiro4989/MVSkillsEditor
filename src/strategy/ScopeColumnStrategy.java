@@ -1,6 +1,6 @@
 package strategy;
 
-import application.Skill;
+import application.tableview.Skill;
 import javafx.scene.control.TableView;
 
 public class ScopeColumnStrategy extends ColumnStrategy {
@@ -17,6 +17,6 @@ public class ScopeColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).setScope((int) value);
+    tableView.getItems().get(rowIndex).setScope((String) value);
   }
 }
