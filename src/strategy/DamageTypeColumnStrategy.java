@@ -18,7 +18,7 @@ public class DamageTypeColumnStrategy extends ColumnStrategy {
   @Override
   public void setValue(Object value) {
     String strValue = (String) value;
-    if (strValue.matches("[-]?[0-9]*")) {
+    if (strValue.matches(REGEX)) {
       tableView.getItems().get(rowIndex).setDamageType((String) value);
     }
   }
