@@ -130,5 +130,7 @@ public class EditStageController {
     learningRadioButton.setToggleGroup(toggleGroup);
     commonEventRadioButton.setToggleGroup(toggleGroup);
     hpRadioButton.setSelected(true);
+
+    // ラジオボタンをクリックすると他のパネルを選択不可にする機能を実装する。
   }
 }
