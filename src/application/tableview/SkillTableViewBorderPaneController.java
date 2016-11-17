@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.media.jfxmedia.events.NewFrameEvent;
 
 import application.MainController;
 import command.ICommand;
@@ -64,7 +65,7 @@ public class SkillTableViewBorderPaneController {
   /**
    * 各カラムのインデックス配列
    */
-  private int[] columnIndices;
+  private int[] columnIndices = new int[INDICES_KEYS.length];
 
   @FXML
   private TableView<Skill> skillTableView = new TableView<>();
@@ -288,35 +289,9 @@ public class SkillTableViewBorderPaneController {
       prop.load();
       skillTableView.getColumns().clear();
 
-      int[] indices = {
-          Integer.valueOf(prop.getValue(INDICES_KEYS[0])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[1])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[2])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[3])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[4])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[5])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[6])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[7])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[8])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[9])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[10])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[11])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[12])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[13])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[14])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[15])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[16])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[17])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[18])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[19])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[20])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[21])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[22])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[23])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[24])),
-          Integer.valueOf(prop.getValue(INDICES_KEYS[25])),
-      };
-      columnIndices = indices;
+      IntStream.range(0, columnIndices.length).forEach(i -> {
+        columnIndices[i] = Integer.valueOf(prop.getValue(INDICES_KEYS[i]));
+      });
 
       for (int i = 0; i < INDICES_KEYS.length; i++) {
         if (i == columnIndices[0]) {
