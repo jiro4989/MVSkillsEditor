@@ -25,13 +25,14 @@ import strategy.NameColumnStrategy;
 public class SkillTableViewBorderPaneController {
   private MainController mainController;
   private PropertiesHundler prop = new PropertiesHundler("column-indices");
-  private static final String[] INDICES_KEYS = { "id-index", "name-index", "iconIndex-index",
-      "description-index", "stypeId-index", "scope-index", "mpCost-index", "tpCost-index",
-      "occasion-index", "speed-index", "successRate-index", "repeats-index", "tpGain-index",
-      "hitType-index", "animationId-index", "message1-index", "message2-index",
-      "requiredWtypeId1-index", "requiredWtypeId2-index", "damageType-index",
-      "damageElementId-index", "formula-index", "variance-index", "critical-index", "effects-index",
-      "note-index", };
+  private static final String[] INDICES_KEYS = {
+      "id-index", "name-index", "iconIndex-index", "description-index", "stypeId-index",
+      "scope-index", "mpCost-index", "tpCost-index", "occasion-index", "speed-index",
+      "successRate-index", "repeats-index", "tpGain-index", "hitType-index", "animationId-index",
+      "message1-index", "message2-index", "requiredWtypeId1-index", "requiredWtypeId2-index",
+      "damageType-index", "damageElementId-index", "formula-index", "variance-index",
+      "critical-index", "effects-index", "note-index",
+  };
 
   @FXML
   private TableView<Skill> skillTableView = new TableView<>();
@@ -157,7 +158,8 @@ public class SkillTableViewBorderPaneController {
       skillTableView.getColumns().clear();
 
       for (int i = 0; i < INDICES_KEYS.length; i++) {
-        int[] indices = { Integer.valueOf(prop.getValue(INDICES_KEYS[0])),
+        int[] indices = {
+            Integer.valueOf(prop.getValue(INDICES_KEYS[0])),
             Integer.valueOf(prop.getValue(INDICES_KEYS[1])),
             Integer.valueOf(prop.getValue(INDICES_KEYS[2])),
             Integer.valueOf(prop.getValue(INDICES_KEYS[3])),
@@ -182,7 +184,8 @@ public class SkillTableViewBorderPaneController {
             Integer.valueOf(prop.getValue(INDICES_KEYS[22])),
             Integer.valueOf(prop.getValue(INDICES_KEYS[23])),
             Integer.valueOf(prop.getValue(INDICES_KEYS[24])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[25])), };
+            Integer.valueOf(prop.getValue(INDICES_KEYS[25])),
+        };
         if (i == indices[0]) {
           skillTableView.getColumns().add(i, idColumn);
           continue;
@@ -293,7 +296,6 @@ public class SkillTableViewBorderPaneController {
 
   /**
    * 選択中のセルにテキストを挿入する。
-   *
    * @param newText
    *          新しく挿入するテキスト
    */
@@ -367,7 +369,6 @@ public class SkillTableViewBorderPaneController {
 
   /**
    * ファイルからjsonデータを取り出してテーブルビューに追加する。
-   *
    * @param file
    *          jsonファイル
    */

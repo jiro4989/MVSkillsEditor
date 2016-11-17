@@ -6,9 +6,7 @@ import strategy.ColumnStrategy;
 
 /**
  * テーブルのセルデータの更新コマンドクラス。
- *
  * @author jiro
- *
  */
 public class TableCellUpdateCommand implements ICommand {
   private TableView<Skill> tableView = new TableView<>();
