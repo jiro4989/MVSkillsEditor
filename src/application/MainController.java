@@ -9,7 +9,6 @@ import application.tableview.SkillTableViewBorderPane;
 import application.tableview.SkillTableViewBorderPaneController;
 import command.ICommand;
 import command.UndoRedoManager;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,11 +16,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.WindowEvent;
-import jiro.lib.javafx.stage.FileManager;
+import jiro.lib.javafx.stage.FileChooserManager;
 
 public class MainController {
-  private FileManager fm = new FileManager("Text Files", "*.json");
+  private FileChooserManager fcm = new FileChooserManager("Text Files", "*.json");
 
   private UndoRedoManager undoRedoManager = new UndoRedoManager();
   private Stack<Integer> undoCountStack = new Stack<>();
@@ -90,7 +88,7 @@ public class MainController {
 
   @FXML
   private void openFile() {
-    Optional<File> fileOpt = fm.openFile();
+    Optional<File> fileOpt = fcm.openFile();
     fileOpt.ifPresent(f -> {
       skillTableViewController.setSkillDatas(f);
     });
@@ -125,7 +123,6 @@ public class MainController {
 
   /**
    * コマンドを実行する。
-   *
    * @param command
    *          コマンド
    */
@@ -135,7 +132,6 @@ public class MainController {
 
   /**
    * コマンドの繰り返し回数をプッシュする。
-   *
    * @param invokeCount
    *          繰り返し回数
    */
@@ -145,7 +141,6 @@ public class MainController {
 
   /**
    * 座標ラベルを更新する。
-   *
    * @param x
    *          カラムインデックス
    * @param y
