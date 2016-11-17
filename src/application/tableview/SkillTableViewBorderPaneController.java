@@ -159,17 +159,34 @@ public class SkillTableViewBorderPaneController {
     model.setCellSelectionEnabled(true);
     skillTableView.setFixedCellSize(50);
 
-    // テーブルビューのセルを編集可能にする
-    nameColumn.setCellFactory(column -> {
-      return new TextFieldTableCell<>(new DefaultStringConverter());
-    });
     descriptionColumn.setCellFactory(TextAreaTableCell.forTableColumn(this));
 
-    // 編集が終わった後に呼び出す処理
-    nameColumn.setOnEditCommit(e -> {
-      skillTableView.requestFocus();
-      insertText(e.getNewValue());
-    });
+    // 各種テーブルカラムのカスタマイズ
+    settingTebleColumn(nameColumn);
+    settingTebleColumn(iconIndexColumn);
+    settingTebleColumn(descriptionColumn);
+    settingTebleColumn(stypeIdColumn);
+    settingTebleColumn(scopeColumn);
+    settingTebleColumn(mpCostColumn);
+    settingTebleColumn(tpCostColumn);
+    settingTebleColumn(occasionColumn);
+    settingTebleColumn(speedColumn);
+    settingTebleColumn(successRateColumn);
+    settingTebleColumn(repeatsColumn);
+    settingTebleColumn(tpGainColumn);
+    settingTebleColumn(hitTypeColumn);
+    settingTebleColumn(animationIdColumn);
+    settingTebleColumn(message1Column);
+    settingTebleColumn(message2Column);
+    settingTebleColumn(requiredWtypeId1Column);
+    settingTebleColumn(requiredWtypeId2Column);
+    settingTebleColumn(damageTypeColumn);
+    settingTebleColumn(damageElementColumn);
+    settingTebleColumn(formulaColumn);
+    settingTebleColumn(varianceColumn);
+    settingTebleColumn(criticalColumn);
+    settingTebleColumn(effectsColumn);
+    settingTebleColumn(noteColumn);
 
     skillTableView.getSelectionModel().selectedItemProperty()
         .addListener((observable, oldValue, newValue) -> {
@@ -186,6 +203,19 @@ public class SkillTableViewBorderPaneController {
     });
 
     initializeColumnPosition();
+  }
+
+  private void settingTebleColumn(TableColumn<Skill, String> tableColumn) {
+    // テーブルビューのセルを編集可能にする
+    tableColumn.setCellFactory(column -> {
+      return new TextFieldTableCell<>(new DefaultStringConverter());
+    });
+
+    // 編集が終わった後に呼び出す処理
+    tableColumn.setOnEditCommit(e -> {
+      skillTableView.requestFocus();
+      insertText(e.getNewValue());
+    });
   }
 
   /**
