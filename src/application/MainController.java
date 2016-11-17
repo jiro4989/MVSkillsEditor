@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.Stack;
 import java.util.stream.IntStream;
 
+import application.effects.EffectsTableViewBorderPane;
+import application.effects.EffectsTableViewBorderPaneController;
 import application.tableview.SkillTableViewBorderPane;
 import application.tableview.SkillTableViewBorderPaneController;
 import command.ICommand;
@@ -15,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
 import jiro.lib.javafx.stage.FileChooserManager;
 
@@ -77,6 +80,11 @@ public class MainController {
   // プレビュー
   // **************************************************
   @FXML
+  private TitledPane effectsTitledPane;
+  private EffectsTableViewBorderPane effectsTableView;
+  private EffectsTableViewBorderPaneController effectsTableViewController;
+
+  @FXML
   private TextArea noteTextArea;
 
   @FXML
@@ -84,6 +92,10 @@ public class MainController {
     skillTableView = new SkillTableViewBorderPane(this);
     skillTableViewController = skillTableView.getController();
     tableViewBorderPane.setCenter(skillTableView);
+
+    effectsTableView = new EffectsTableViewBorderPane(this);
+    effectsTableViewController = effectsTableView.getController();
+    effectsTitledPane.setContent(effectsTableView);
   }
 
   @FXML

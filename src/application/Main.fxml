@@ -68,16 +68,7 @@
           <items>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="377.0" prefWidth="330.0">
               <children>
-                <TitledPane animated="false" collapsible="false" text="使用効果" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                  <content>
-                    <TableView prefHeight="200.0" prefWidth="200.0">
-                      <columns>
-                        <TableColumn prefWidth="75.0" text="列X" />
-                        <TableColumn prefWidth="75.0" text="列X" />
-                      </columns>
-                    </TableView>
-                  </content>
-                </TitledPane>
+                <TitledPane fx:id="effectsTitledPane" animated="false" collapsible="false" content="$null" text="使用効果" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
               </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
