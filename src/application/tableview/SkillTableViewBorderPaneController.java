@@ -349,35 +349,36 @@ public class SkillTableViewBorderPaneController {
       prop.load();
       skillTableView.getColumns().clear();
 
+      int[] indices = {
+          Integer.valueOf(prop.getValue(INDICES_KEYS[0])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[1])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[2])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[3])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[4])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[5])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[6])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[7])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[8])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[9])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[10])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[11])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[12])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[13])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[14])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[15])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[16])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[17])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[18])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[19])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[20])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[21])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[22])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[23])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[24])),
+          Integer.valueOf(prop.getValue(INDICES_KEYS[25])),
+      };
+
       for (int i = 0; i < INDICES_KEYS.length; i++) {
-        int[] indices = {
-            Integer.valueOf(prop.getValue(INDICES_KEYS[0])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[1])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[2])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[3])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[4])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[5])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[6])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[7])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[8])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[9])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[10])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[11])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[12])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[13])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[14])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[15])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[16])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[17])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[18])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[19])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[20])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[21])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[22])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[23])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[24])),
-            Integer.valueOf(prop.getValue(INDICES_KEYS[25])),
-        };
         if (i == indices[0]) {
           skillTableView.getColumns().add(i, idColumn);
           continue;
