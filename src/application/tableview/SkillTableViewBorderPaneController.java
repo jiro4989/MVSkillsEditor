@@ -341,6 +341,9 @@ public class SkillTableViewBorderPaneController {
     }
   }
 
+  /**
+   * プロパティファイルからカラムインデックスを読み取り、カラム位置を設定する。
+   */
   private void initializeColumnPosition() {
     if (prop.exists()) {
       prop.load();
