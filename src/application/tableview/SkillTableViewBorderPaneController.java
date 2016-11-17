@@ -199,63 +199,59 @@ public class SkillTableViewBorderPaneController {
    * 選択中のセル位置によってカラム戦略クラスを変更する。
    */
   private void changeColumnStrategy(int rowIndex) {
-    // columnIndexは設定時点でのインデックスだが、設定後にカラム位置が変更されると
-    // 正常にテキストが挿入されない。
-    // よって、columnIndex部分の引数をtableColumnに変更し
-    // 実行時にカラムからカラムインデックスを取得してテキストをセットする方法に変更する必要がある。
     if (!skillTableView.getSelectionModel().isEmpty()) {
       int columnIndex = skillTableView.getFocusModel().getFocusedCell().getColumn();
-      if (columnIndex == columnIndices[0]) {
+      if (columnIndex == skillTableView.getColumns().indexOf(idColumn)) {
         currentStrategy = new IdColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[1]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(nameColumn)) {
         currentStrategy = new NameColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[2]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(iconIndexColumn)) {
         currentStrategy = new IconIndexColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[3]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(descriptionColumn)) {
         currentStrategy = new DescriptionColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[4]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(stypeIdColumn)) {
         currentStrategy = new StypeIdColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[5]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(scopeColumn)) {
         currentStrategy = new ScopeColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[6]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(mpCostColumn)) {
         currentStrategy = new MpCostColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[7]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(tpCostColumn)) {
         currentStrategy = new TpCostColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[8]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(occasionColumn)) {
         currentStrategy = new OccasionColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[9]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(speedColumn)) {
         currentStrategy = new SpeedColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[10]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(successRateColumn)) {
         currentStrategy = new SuccessRateColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[11]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(repeatsColumn)) {
         currentStrategy = new RepeatsColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[12]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(tpGainColumn)) {
         currentStrategy = new TpCostColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[13]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(hitTypeColumn)) {
         currentStrategy = new HitTypeColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[14]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(animationIdColumn)) {
         currentStrategy = new AnimationIdColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[15]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(message1Column)) {
         currentStrategy = new Message1ColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[16]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(message2Column)) {
         currentStrategy = new Message2ColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[17]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(requiredWtypeId1Column)) {
         currentStrategy = new RequiredWtypeId1ColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[18]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(requiredWtypeId2Column)) {
         currentStrategy = new RequiredWtypeId2ColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[19]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(damageTypeColumn)) {
         currentStrategy = new DamageTypeColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[20]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(damageElementColumn)) {
         currentStrategy = new DamageElementColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[21]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(formulaColumn)) {
         currentStrategy = new FormulaColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[22]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(varianceColumn)) {
         currentStrategy = new VarianceColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[23]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(criticalColumn)) {
         currentStrategy = new CriticalColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[24]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(effectsColumn)) {
         currentStrategy = new EffectsColumnStrategy(skillTableView, rowIndex);
-      } else if (columnIndex == columnIndices[25]) {
+      } else if (columnIndex == skillTableView.getColumns().indexOf(noteColumn)) {
         currentStrategy = new NoteColumnStrategy(skillTableView, rowIndex);
       }
     }
