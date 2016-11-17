@@ -194,7 +194,6 @@ public class SkillTableViewBorderPaneController {
   private void changeColumnStrategy(int rowIndex) {
     if (!skillTableView.getSelectionModel().isEmpty()) {
       int columnIndex = skillTableView.getFocusModel().getFocusedCell().getColumn();
-      System.out.println(rowIndex);
       if (columnIndex == columnIndices[0]) {
         currentStrategy = new IdColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == columnIndices[1]) {
