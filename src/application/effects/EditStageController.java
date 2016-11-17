@@ -1,9 +1,9 @@
 package application.effects;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import jiro.lib.javafx.scene.control.NumericTextField;
 
@@ -11,6 +11,7 @@ public class EditStageController {
   // **************************************************
   // 回復タブ
   // **************************************************
+  private ToggleGroup toggleGroup = new ToggleGroup();
   @FXML
   private GridPane healGridPane;
   @FXML
@@ -114,5 +115,20 @@ public class EditStageController {
     othersGridPane.add(specialEffectComboBox, 1, 0);
     othersGridPane.add(growthComboBox, 1, 1);
     othersGridPane.add(growthTextField, 2, 1);
+
+    hpRadioButton.setToggleGroup(toggleGroup);
+    mpRadioButton.setToggleGroup(toggleGroup);
+    tpRadioButton.setToggleGroup(toggleGroup);
+    addStateRadioButton.setToggleGroup(toggleGroup);
+    releaseStateRadioButton.setToggleGroup(toggleGroup);
+    upRadioButton.setToggleGroup(toggleGroup);
+    downRadioButton.setToggleGroup(toggleGroup);
+    upReleaseRadioButton.setToggleGroup(toggleGroup);
+    downReleaseRadioButton.setToggleGroup(toggleGroup);
+    specialEffectRadioButton.setToggleGroup(toggleGroup);
+    growthRadioButton.setToggleGroup(toggleGroup);
+    learningRadioButton.setToggleGroup(toggleGroup);
+    commonEventRadioButton.setToggleGroup(toggleGroup);
+    hpRadioButton.setSelected(true);
   }
 }
