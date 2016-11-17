@@ -513,7 +513,27 @@ public class SkillTableViewBorderPaneController {
         }
         value = children.get("damage");
         if (value != null) {
-          // あとで
+          JsonNode damage = children.get("damage");
+          value = damage.get("type");
+          if (value != null) {
+            skillTableView.getItems().get(index).setDamageType(value.asText());
+          }
+          value = damage.get("elementId");
+          if (value != null) {
+            skillTableView.getItems().get(index).setDamageElement(value.asText());
+          }
+          value = damage.get("formula");
+          if (value != null) {
+            skillTableView.getItems().get(index).setFormula(value.asText());
+          }
+          value = damage.get("variance");
+          if (value != null) {
+            skillTableView.getItems().get(index).setVariance(value.asText());
+          }
+          value = damage.get("critical");
+          if (value != null) {
+            skillTableView.getItems().get(index).setCritical(value.asText());
+          }
         }
         value = children.get("effects");
         if (value != null) {
