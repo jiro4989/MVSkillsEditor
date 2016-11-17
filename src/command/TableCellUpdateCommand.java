@@ -22,7 +22,7 @@ public class TableCellUpdateCommand implements ICommand {
     this.tableView = tableView;
     this.rowIndex = rowIndex;
     this.columnIndex = columnIndex;
-    this.prevText = this.tableView.getItems().get(rowIndex).nameProperty().get();
+    this.prevText = (String)strategy.getValue();
     this.newText = newText;
     this.strategy = strategy;
   }
