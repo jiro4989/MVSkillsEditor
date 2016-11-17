@@ -13,7 +13,8 @@ public class EditStage extends Stage {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("EditStage.fxml"));
       BorderPane root = (BorderPane) loader.load();
       Scene scene = new Scene(root, 600, 400);
-      scene.getStylesheets().add(getClass().getResource("/application/application.css").toExternalForm());
+      scene.getStylesheets()
+          .add(getClass().getResource("/application/application.css").toExternalForm());
       setScene(scene);
       setTitle("使用効果");
       initStyle(StageStyle.UTILITY);

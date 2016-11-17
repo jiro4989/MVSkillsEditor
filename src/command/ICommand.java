@@ -3,7 +3,6 @@ package command;
 /**
  * UndoRedoを実装するためのコマンドクラス。
  * @author jiro
- *
  */
 public interface ICommand {
   /**

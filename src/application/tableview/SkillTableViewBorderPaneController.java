@@ -162,7 +162,8 @@ public class SkillTableViewBorderPaneController {
     skillTableView.setFixedCellSize(50);
 
     // 各種テーブルカラムのカスタマイズ
-    skillTableView.getColumns().forEach(column -> settingTableColumn((TableColumn<Skill, String>) column));
+    skillTableView.getColumns()
+        .forEach(column -> settingTableColumn((TableColumn<Skill, String>) column));
     descriptionColumn.setCellFactory(TextAreaTableCell.forTableColumn(this));
 
     skillTableView.getSelectionModel().selectedItemProperty()
@@ -413,8 +414,10 @@ public class SkillTableViewBorderPaneController {
 
       IntStream.range(0, root.size()).forEach(index -> {
         JsonNode children = root.get(index);
-        skillTableView.getItems().add(new Skill(String.valueOf(index), "sample", "0", "desc", "1", "1", "1", "1", "1", "1", "1", "1",
-            "1", "1", "1", "msg1", "msg2", "1", "2", "1", "2", "formula", "20", "20", "effects", "note"));
+        skillTableView.getItems()
+            .add(new Skill(String.valueOf(index), "sample", "0", "desc", "1", "1", "1", "1", "1",
+                "1", "1", "1", "1", "1", "1", "msg1", "msg2", "1", "2", "1", "2", "formula", "20",
+                "20", "effects", "note"));
 
         JsonNode value = children.get("id");
         if (value != null) {

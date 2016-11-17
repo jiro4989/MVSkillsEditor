@@ -42,45 +42,50 @@ public class EditStageController {
   // **************************************************
   // 能力値タブ
   // **************************************************
-  @FXML GridPane abilityGridPane;
+  @FXML
+  GridPane abilityGridPane;
   private static final String[] parameterItems = {
-      "最大HP",
-      "最大MP",
-      "攻撃力",
-      "防御力",
-      "魔法力",
-      "魔法防御",
-      "敏捷性",
-      "運",
+      "最大HP", "最大MP", "攻撃力", "防御力", "魔法力", "魔法防御", "敏捷性", "運",
   };
 
-  @FXML RadioButton upRadioButton;
+  @FXML
+  RadioButton upRadioButton;
   private CustomedComboBox upComboBox = new CustomedComboBox(200, parameterItems);
   private NumericTextField upTextField = new NumericTextField("1", 1, 1000, 1);
 
-  @FXML RadioButton downRadioButton;
+  @FXML
+  RadioButton downRadioButton;
   private CustomedComboBox downComboBox = new CustomedComboBox(200, parameterItems);
   private NumericTextField downTextField = new NumericTextField("1", 1, 1000, 1);
 
-  @FXML RadioButton upReleaseRadioButton;
+  @FXML
+  RadioButton upReleaseRadioButton;
   private CustomedComboBox upReleaseComboBox = new CustomedComboBox(200, parameterItems);
 
-  @FXML RadioButton downReleaseRadioButton;
+  @FXML
+  RadioButton downReleaseRadioButton;
   private CustomedComboBox downReleaseComboBox = new CustomedComboBox(200, parameterItems);
 
   // **************************************************
   // その他タブ
   // **************************************************
-  @FXML GridPane othersGridPane;
-  @FXML RadioButton specialEffectRadioButton;
+  @FXML
+  GridPane othersGridPane;
+  @FXML
+  RadioButton specialEffectRadioButton;
   private CustomedComboBox specialEffectComboBox = new CustomedComboBox(200, "逃げる");
-  @FXML RadioButton growthRadioButton;
+  @FXML
+  RadioButton growthRadioButton;
   private CustomedComboBox growthComboBox = new CustomedComboBox(200, parameterItems);
   private NumericTextField growthTextField = new NumericTextField("1", 1, 1000, 1);
-  @FXML RadioButton learningRadioButton;
-  @FXML ListView<String> learningListView;
-  @FXML RadioButton commonEventRadioButton;
-  @FXML ListView<String> commonEventListView;
+  @FXML
+  RadioButton learningRadioButton;
+  @FXML
+  ListView<String> learningListView;
+  @FXML
+  RadioButton commonEventRadioButton;
+  @FXML
+  ListView<String> commonEventListView;
 
   @FXML
   private void initialize() {
