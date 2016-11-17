@@ -199,6 +199,10 @@ public class SkillTableViewBorderPaneController {
    * 選択中のセル位置によってカラム戦略クラスを変更する。
    */
   private void changeColumnStrategy(int rowIndex) {
+    // columnIndexは設定時点でのインデックスだが、設定後にカラム位置が変更されると
+    // 正常にテキストが挿入されない。
+    // よって、columnIndex部分の引数をtableColumnに変更し
+    // 実行時にカラムからカラムインデックスを取得してテキストをセットする方法に変更する必要がある。
     if (!skillTableView.getSelectionModel().isEmpty()) {
       int columnIndex = skillTableView.getFocusModel().getFocusedCell().getColumn();
       if (columnIndex == columnIndices[0]) {
