@@ -163,31 +163,32 @@ public class SkillTableViewBorderPaneController {
     descriptionColumn.setCellFactory(TextAreaTableCell.forTableColumn(this));
 
     // 各種テーブルカラムのカスタマイズ
-    settingTebleColumn(nameColumn);
-    settingTebleColumn(iconIndexColumn);
-    settingTebleColumn(descriptionColumn);
-    settingTebleColumn(stypeIdColumn);
-    settingTebleColumn(scopeColumn);
-    settingTebleColumn(mpCostColumn);
-    settingTebleColumn(tpCostColumn);
-    settingTebleColumn(occasionColumn);
-    settingTebleColumn(speedColumn);
-    settingTebleColumn(successRateColumn);
-    settingTebleColumn(repeatsColumn);
-    settingTebleColumn(tpGainColumn);
-    settingTebleColumn(hitTypeColumn);
-    settingTebleColumn(animationIdColumn);
-    settingTebleColumn(message1Column);
-    settingTebleColumn(message2Column);
-    settingTebleColumn(requiredWtypeId1Column);
-    settingTebleColumn(requiredWtypeId2Column);
-    settingTebleColumn(damageTypeColumn);
-    settingTebleColumn(damageElementColumn);
-    settingTebleColumn(formulaColumn);
-    settingTebleColumn(varianceColumn);
-    settingTebleColumn(criticalColumn);
-    settingTebleColumn(effectsColumn);
-    settingTebleColumn(noteColumn);
+//    skillTableView.getColumns().forEach();
+    settingTableColumn(nameColumn);
+    settingTableColumn(iconIndexColumn);
+    settingTableColumn(descriptionColumn);
+    settingTableColumn(stypeIdColumn);
+    settingTableColumn(scopeColumn);
+    settingTableColumn(mpCostColumn);
+    settingTableColumn(tpCostColumn);
+    settingTableColumn(occasionColumn);
+    settingTableColumn(speedColumn);
+    settingTableColumn(successRateColumn);
+    settingTableColumn(repeatsColumn);
+    settingTableColumn(tpGainColumn);
+    settingTableColumn(hitTypeColumn);
+    settingTableColumn(animationIdColumn);
+    settingTableColumn(message1Column);
+    settingTableColumn(message2Column);
+    settingTableColumn(requiredWtypeId1Column);
+    settingTableColumn(requiredWtypeId2Column);
+    settingTableColumn(damageTypeColumn);
+    settingTableColumn(damageElementColumn);
+    settingTableColumn(formulaColumn);
+    settingTableColumn(varianceColumn);
+    settingTableColumn(criticalColumn);
+    settingTableColumn(effectsColumn);
+    settingTableColumn(noteColumn);
 
     skillTableView.getSelectionModel().selectedItemProperty()
         .addListener((observable, oldValue, newValue) -> {
@@ -206,7 +207,7 @@ public class SkillTableViewBorderPaneController {
     initializeColumnPosition();
   }
 
-  private void settingTebleColumn(TableColumn<Skill, String> tableColumn) {
+  private void settingTableColumn(TableColumn<Skill, String> tableColumn) {
     // テーブルビューのセルを編集可能にする
     tableColumn.setCellFactory(column -> {
       return new TextFieldTableCell<>(new DefaultStringConverter());
