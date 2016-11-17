@@ -144,7 +144,7 @@ public class MainController {
    * @param x
    *          カラムインデックス
    * @param y
-   *          レコードインデックス
+   *          ロウインデックス
    */
   public void updateAxisLabels(int x, int y) {
     xLabel.setText("" + x);
