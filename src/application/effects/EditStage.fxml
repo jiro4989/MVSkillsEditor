@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.effects.EditStageController">
+  <!-- TODO Add Nodes -->
+  <center>
+    <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+        <Tab text="回復">
+          <content>
+            <AnchorPane id="AnchorPane" prefHeight="330.0">
+              <children>
+                <GridPane fx:id="healGridPane" hgap="5.0" prefWidth="452.0" vgap="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                  <children>
+                    <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="261.0" text="HP回復" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="261.0" text="MP回復" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="261.0" text="TP回復" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="97.0" text="＋" textAlignment="LEFT" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="97.0" text="＋" textAlignment="LEFT" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="97.0" text="％" textAlignment="LEFT" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="97.0" text="％" textAlignment="LEFT" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  </children>
+                  <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="149.0" minWidth="10.0" prefWidth="149.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="201.0" minWidth="10.0" prefWidth="198.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="69.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="69.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="180.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  </rowConstraints>
+                </GridPane>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab text="ステート">
+          <content>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+              <center>
+                <ListView prefHeight="200.0" prefWidth="200.0">
+                  <BorderPane.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x2" />
+                  </BorderPane.margin>
+                </ListView>
+              </center>
+              <left>
+                <AnchorPane prefHeight="-1.0" prefWidth="-1.0">
+                  <children>
+                    <GridPane fx:id="stateGridPane" hgap="5.0" prefWidth="181.0" vgap="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                      <children>
+                        <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="261.0" text="ステート付加" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="261.0" text="ステート解除" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                      </children>
+                      <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="149.0" minWidth="10.0" prefWidth="149.0" />
+                      </columnConstraints>
+                      <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      </rowConstraints>
+                    </GridPane>
+                  </children>
+                </AnchorPane>
+              </left>
+            </BorderPane>
+          </content>
+        </Tab>
+        <Tab text="能力値">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <GridPane fx:id="abilityGridPane" hgap="5.0" prefWidth="452.0" vgap="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                  <children>
+                    <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="261.0" text="強化" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="261.0" text="弱体" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="261.0" text="強化の解除" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="261.0" text="弱体の解除" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <Label prefHeight="30.0" prefWidth="236.0" text="ターン" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                      <GridPane.margin>
+                        <Insets fx:id="x1" />
+                      </GridPane.margin>
+                    </Label>
+                    <Label prefHeight="30.0" prefWidth="236.0" text="ターン" GridPane.columnIndex="3" GridPane.margin="$x1" GridPane.rowIndex="1" />
+                  </children>
+                  <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="149.0" minWidth="10.0" prefWidth="113.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="201.0" minWidth="10.0" prefWidth="162.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="80.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="97.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  </rowConstraints>
+                </GridPane>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab text="その他">
+          <content>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+              <center>
+                <SplitPane dividerPositions="0.5" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0">
+                  <items>
+                    <BorderPane prefHeight="200.0" prefWidth="200.0">
+                      <center>
+                        <ListView prefHeight="200.0" prefWidth="200.0">
+                          <BorderPane.margin>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x2" />
+                          </BorderPane.margin>
+                        </ListView>
+                      </center>
+                      <top>
+                        <RadioButton mnemonicParsing="false" text="スキル習得" BorderPane.margin="$x2" />
+                      </top>
+                    </BorderPane>
+                    <BorderPane prefHeight="200.0" prefWidth="200.0">
+                      <center>
+                        <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.margin="$x2" />
+                      </center>
+                      <top>
+                        <RadioButton mnemonicParsing="false" text="コモンイベント" BorderPane.margin="$x2" />
+                      </top>
+                    </BorderPane>
+                  </items>
+                  <BorderPane.margin>
+                    <Insets top="5.0" />
+                  </BorderPane.margin>
+                </SplitPane>
+              </center>
+              <top>
+                <AnchorPane prefHeight="-1.0" prefWidth="-1.0">
+                  <children>
+                    <GridPane fx:id="othersGridPane" hgap="5.0" prefWidth="452.0" vgap="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                      <children>
+                        <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="261.0" text="特殊効果" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="261.0" text="成長" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                      </children>
+                      <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="149.0" minWidth="10.0" prefWidth="149.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="201.0" minWidth="10.0" prefWidth="198.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="180.0" />
+                      </columnConstraints>
+                      <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      </rowConstraints>
+                    </GridPane>
+                  </children>
+                </AnchorPane>
+              </top>
+            </BorderPane>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+  </center>
+</BorderPane>

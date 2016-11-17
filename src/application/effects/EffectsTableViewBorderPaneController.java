@@ -1,6 +1,7 @@
 package application.effects;
 
 import application.MainController;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -20,6 +21,21 @@ public class EffectsTableViewBorderPaneController {
   private void initialize() {
     typeColumn.setCellValueFactory(new PropertyValueFactory<Effects, String>("type"));
     contentColumn.setCellValueFactory(new PropertyValueFactory<Effects, String>("content"));
+
+    effectsTableView.getItems().add(new Effects("", ""));
+    effectsTableView.setOnMouseClicked(click -> {
+      if (click.getClickCount() == 2) {
+        openEditStage();
+      }
+    });
+  }
+
+  /**
+   * 使用効果の編集画面を開く
+   */
+  private void openEditStage() {
+    EditStage editStage = new EditStage();
+    editStage.showAndWait();
   }
 
   public void setMainController(MainController aMainController) {
