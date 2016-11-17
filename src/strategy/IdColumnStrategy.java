@@ -17,6 +17,5 @@ public class IdColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).setId((String) value);
   }
 }
