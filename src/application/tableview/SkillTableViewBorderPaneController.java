@@ -122,6 +122,7 @@ public class SkillTableViewBorderPaneController {
   @FXML
   private TableColumn<Skill, String> noteColumn = new TableColumn<>("メモ");
 
+  @SuppressWarnings("unchecked")
   @FXML
   private void initialize() {
     idColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("id"));
@@ -163,32 +164,7 @@ public class SkillTableViewBorderPaneController {
     descriptionColumn.setCellFactory(TextAreaTableCell.forTableColumn(this));
 
     // 各種テーブルカラムのカスタマイズ
-//    skillTableView.getColumns().forEach();
-    settingTableColumn(nameColumn);
-    settingTableColumn(iconIndexColumn);
-    settingTableColumn(descriptionColumn);
-    settingTableColumn(stypeIdColumn);
-    settingTableColumn(scopeColumn);
-    settingTableColumn(mpCostColumn);
-    settingTableColumn(tpCostColumn);
-    settingTableColumn(occasionColumn);
-    settingTableColumn(speedColumn);
-    settingTableColumn(successRateColumn);
-    settingTableColumn(repeatsColumn);
-    settingTableColumn(tpGainColumn);
-    settingTableColumn(hitTypeColumn);
-    settingTableColumn(animationIdColumn);
-    settingTableColumn(message1Column);
-    settingTableColumn(message2Column);
-    settingTableColumn(requiredWtypeId1Column);
-    settingTableColumn(requiredWtypeId2Column);
-    settingTableColumn(damageTypeColumn);
-    settingTableColumn(damageElementColumn);
-    settingTableColumn(formulaColumn);
-    settingTableColumn(varianceColumn);
-    settingTableColumn(criticalColumn);
-    settingTableColumn(effectsColumn);
-    settingTableColumn(noteColumn);
+    skillTableView.getColumns().forEach(column -> settingTableColumn((TableColumn<Skill, String>) column));
 
     skillTableView.getSelectionModel().selectedItemProperty()
         .addListener((observable, oldValue, newValue) -> {
