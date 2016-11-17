@@ -161,10 +161,9 @@ public class SkillTableViewBorderPaneController {
     model.setCellSelectionEnabled(true);
     skillTableView.setFixedCellSize(50);
 
-    descriptionColumn.setCellFactory(TextAreaTableCell.forTableColumn(this));
-
     // 各種テーブルカラムのカスタマイズ
     skillTableView.getColumns().forEach(column -> settingTableColumn((TableColumn<Skill, String>) column));
+    descriptionColumn.setCellFactory(TextAreaTableCell.forTableColumn(this));
 
     skillTableView.getSelectionModel().selectedItemProperty()
         .addListener((observable, oldValue, newValue) -> {
