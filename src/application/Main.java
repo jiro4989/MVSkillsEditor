@@ -24,6 +24,8 @@ public class Main extends Application {
       primaryStage.setTitle(TITLE);
       primaryStage.getIcons()
           .add(new Image(getClass().getResource("resources/logo.png").toExternalForm()));
+      primaryStage.setMinWidth(1280);
+      primaryStage.setMinHeight(720);
       primaryStage.setOnCloseRequest(e -> controller.closeAction());
       primaryStage.show();
     } catch (Exception e) {
