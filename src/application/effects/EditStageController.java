@@ -1,6 +1,8 @@
 package application.effects;
 
+
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -88,6 +90,14 @@ public class EditStageController {
   @FXML
   ListView<String> commonEventListView;
 
+  // **************************************************
+  // OK・キャンセルボタン
+  // **************************************************
+  @FXML
+  private Button okButton;
+  @FXML
+  private Button cancelButton;
+
   @FXML
   private void initialize() {
     // 回復タブ
@@ -130,7 +140,15 @@ public class EditStageController {
     learningRadioButton.setToggleGroup(toggleGroup);
     commonEventRadioButton.setToggleGroup(toggleGroup);
     hpRadioButton.setSelected(true);
+  }
 
-    // ラジオボタンをクリックすると他のパネルを選択不可にする機能を実装する。
+  @FXML
+  private void okButtonOnClicked() {
+    okButton.getScene().getWindow().hide();
+  }
+
+  @FXML
+  private void cancelButtonOnClicked() {
+    cancelButton.getScene().getWindow().hide();
   }
 }
