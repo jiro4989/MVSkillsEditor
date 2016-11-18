@@ -521,7 +521,7 @@ public class SkillTableViewBorderPaneController {
         }
         value = children.get("effects");
         if (value != null) {
-          skillTableView.getItems().get(index).setEffects(value.asText());
+          skillTableView.getItems().get(index).setEffects(value.toString());
         }
         value = children.get("note");
         if (value != null) {
