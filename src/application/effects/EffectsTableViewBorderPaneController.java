@@ -57,6 +57,13 @@ public class EffectsTableViewBorderPaneController {
           content = String.format(FORMAT, value1 * 100) + "%";
         } else if (codeId == 13) {
           content = String.format(FORMAT, value1);
+        } else if (codeId == 21 || codeId == 22) {
+        } else if (codeId == 31 || codeId == 32) {
+        } else if (codeId == 33 || codeId == 34) {
+        } else if (codeId == 41) {
+        } else if (codeId == 42) {
+        } else if (codeId == 43) {
+        } else if (codeId == 44) {
         }
         effectsTableView.getItems().add(new Effects(type, content));
       });
