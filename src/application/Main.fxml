@@ -128,6 +128,20 @@
             <MenuItem mnemonicParsing="false" text="フォント" />
           </items>
         </Menu>
+        <Menu mnemonicParsing="false" text="選択">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#previousMenuItemOnClicked" text="前のデータ" fx:id="previousMenuItem">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#nextMenuItemOnClicked" text="次のデータ" fx:id="nextMenuItem">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+          </items>
+        </Menu>
         <Menu mnemonicParsing="false" text="ヘルプ">
           <items>
             <MenuItem mnemonicParsing="false" text="バージョン情報" />
