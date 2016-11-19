@@ -8,11 +8,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class ConfigStage extends Stage {
-  public ConfigStage() {
+  public ConfigStage(Config config) {
     try {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("ConfigStage.fxml"));
       BorderPane root = (BorderPane) loader.load();
-      Scene scene = new Scene(root, 800, 500);
+      ConfigStageController controller = (ConfigStageController) loader.getController();
+      controller.setConfig(config);
+      Scene scene = new Scene(root, 930, 500);
       scene.getStylesheets()
           .add(getClass().getResource("/application/application.css").toExternalForm());
       setScene(scene);
