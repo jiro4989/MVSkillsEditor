@@ -24,7 +24,7 @@
                 <Label fx:id="yLabel" prefWidth="30.0" text="" />
                 <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="20.0" />
                 <TextField fx:id="insertTextField" prefWidth="200.0" promptText="一括挿入するテキスト" />
-                <Button fx:id="applyButton" mnemonicParsing="false" onAction="#insertText" text="適用">
+                <Button fx:id="applyButton" mnemonicParsing="false" onAction="#insertText" text="挿入">
                   <contextMenu>
                     <ContextMenu>
                       <items>
