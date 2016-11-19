@@ -93,6 +93,8 @@ public class EditStageController {
   // OK・キャンセルボタン
   // **************************************************
   @FXML
+  private Button addButton;
+  @FXML
   private Button okButton;
   @FXML
   private Button cancelButton;

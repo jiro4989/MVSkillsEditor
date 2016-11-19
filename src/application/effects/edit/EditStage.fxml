@@ -14,6 +14,7 @@
         <Separator prefHeight="5.0" prefWidth="-1.0" />
         <HBox alignment="CENTER_RIGHT" prefHeight="-1.0" prefWidth="-1.0" spacing="10.0">
           <children>
+            <Button fx:id="addButton" mnemonicParsing="false" prefWidth="100.0" text="追加" />
             <Button fx:id="okButton" mnemonicParsing="false" onAction="#okButtonOnClicked" prefWidth="100.0" text="OK" />
             <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonOnClicked" prefWidth="100.0" text="キャンセル" />
           </children>
