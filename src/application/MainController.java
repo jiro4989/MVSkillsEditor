@@ -1,6 +1,7 @@
 package application;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Optional;
 import java.util.Stack;
 import java.util.stream.IntStream;
@@ -12,6 +13,8 @@ import application.tableview.SkillTableViewBorderPaneController;
 import command.ICommand;
 import command.UndoRedoManager;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -19,10 +22,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
-import jiro.lib.javafx.stage.FileChooserManager;
+import javafx.stage.Stage;
+import jiro.lib.javafx.stage.DirectoryChooserManager;
 
 public class MainController {
-  private FileChooserManager fcm = new FileChooserManager("Text Files", "*.json");
+  // private FileChooserManager fcm = new
+  // FileChooserManager("Text Files", "*.json");
+  private DirectoryChooserManager dcm;
 
   private UndoRedoManager undoRedoManager = new UndoRedoManager();
   private Stack<Integer> undoCountStack = new Stack<>();
@@ -96,13 +102,28 @@ public class MainController {
     effectsTableView = new EffectsTableViewBorderPane(this);
     effectsTableViewController = effectsTableView.getController();
     effectsTitledPane.setContent(effectsTableView);
+
+    dcm = new DirectoryChooserManager();
   }
 
   @FXML
   private void openFile() {
-    Optional<File> fileOpt = fcm.openFile();
-    fileOpt.ifPresent(f -> {
-      skillTableViewController.setSkillDatas(f);
+    Stage stage = (Stage) effectsTitledPane.getScene().getWindow();
+    Optional<File> dirOpt = dcm.openDirectory(stage);
+    dirOpt.ifPresent(rootDirectory -> {
+      final String SEP = File.separator;
+      File skillData = new File(
+          rootDirectory.getAbsolutePath() + SEP + "data" + SEP + "Skills.json");
+      if (skillData.exists()) {
+        skillTableViewController.setSkillDatas(skillData);
+        return;
+      }
+
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.setHeaderText(skillData.getName() + "が見つかりませんでした。");
+      alert.setContentText("RPGツクールMVのディレクトリを間違えていないか、" + System.getProperty("line.separator")
+          + "dataファイルが存在しているか確認してください。");
+      alert.showAndWait();
     });
   }
 
