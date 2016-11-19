@@ -34,7 +34,32 @@ public class ImportFileVBoxController {
 
   @FXML
   private void autoImportCheckBoxOnClicked() {
-    switchClickable(!autoImportCheckBox.isSelected());
+    boolean selected = autoImportCheckBox.isSelected();
+    switchClickable(!selected);
+    if (selected) {
+      if (projectRadioButton.isSelected()) {
+        projectRadioButtonOnClicked();
+      } else if (inputRadioButton.isSelected()) {
+        inputRadioButtonOnClicked();
+      }
+    }
+  }
+
+  @FXML
+  private void projectRadioButtonOnClicked() {
+    disableImportTextFields();
+    projectPathTextField.setDisable(false);
+  }
+
+  @FXML
+  private void inputRadioButtonOnClicked() {
+    disableImportTextFields();
+    inputPathTextField.setDisable(false);
+  }
+
+  private void disableImportTextFields() {
+    projectPathTextField.setDisable(true);
+    inputPathTextField.setDisable(true);
   }
 
   /**

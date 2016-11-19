@@ -14,28 +14,20 @@
       <children>
         <Label fx:id="descriptionLabel" text="自動起動で開くパスの選択" />
         <BorderPane prefHeight="-1.0" prefWidth="-1.0">
+          <center>
+            <TextField fx:id="projectPathTextField" editable="false" prefWidth="-1.0" />
+          </center>
           <left>
-            <RadioButton fx:id="projectRadioButton" mnemonicParsing="false" text="プロジェクトフォルダのパス" />
+            <RadioButton fx:id="projectRadioButton" mnemonicParsing="false" onAction="#projectRadioButtonOnClicked" prefWidth="300.0" text="プロジェクトフォルダのパス" />
           </left>
-          <right>
-            <HBox prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
-              <children>
-                <TextField fx:id="projectPathTextField" editable="false" prefWidth="350.0" />
-              </children>
-            </HBox>
-          </right>
         </BorderPane>
         <BorderPane prefHeight="-1.0" prefWidth="-1.0">
+          <center>
+            <TextField fx:id="inputPathTextField" editable="false" prefWidth="-1.0" />
+          </center>
           <left>
-            <RadioButton fx:id="inputRadioButton" mnemonicParsing="false" text="インプットフォルダのパス" />
+            <RadioButton fx:id="inputRadioButton" mnemonicParsing="false" onAction="#inputRadioButtonOnClicked" prefWidth="300.0" text="インプットフォルダのパス" />
           </left>
-          <right>
-            <HBox prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
-              <children>
-                <TextField fx:id="inputPathTextField" editable="false" prefWidth="350.0" />
-              </children>
-            </HBox>
-          </right>
         </BorderPane>
       </children>
       <VBox.margin>
