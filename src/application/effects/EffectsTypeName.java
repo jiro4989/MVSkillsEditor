@@ -6,7 +6,7 @@ package application.effects;
  * CodeIDを画面表示上のテキストに変換する目的で利用する。
  * @author jiro
  */
-enum EffectsCodes {
+enum EffectsTypeName {
     C11("HP回復", 11),
     C12("MP回復", 12),
     C13("TP回復", 13),
@@ -21,7 +21,7 @@ enum EffectsCodes {
     C43("スキルの習得", 43),
     C44("コモンイベント", 44);
 
-  private EffectsCodes(String codeText, int codeId) {
+  private EffectsTypeName(String codeText, int codeId) {
     this.codeText = codeText;
     this.codeId = codeId;
   }
@@ -34,8 +34,8 @@ enum EffectsCodes {
    * @param id JSONファイルで使用されているCodeID
    * @return 一致したEffectsCodes、見つからなかった場合はnull
    */
-  public static EffectsCodes getEfectsCode(int id) {
-    for (EffectsCodes code : EffectsCodes.values()) {
+  public static EffectsTypeName getEfectsCode(int id) {
+    for (EffectsTypeName code : EffectsTypeName.values()) {
       if (code.getCodeId() == id) {
         return code;
       }
@@ -48,8 +48,8 @@ enum EffectsCodes {
    * @param text EffectsCodeのテキスト
    * @return 一致したEffectsCode、見つからなかった場合はnull
    */
-  public static EffectsCodes getEfectsCode(String text) {
-    for (EffectsCodes code : EffectsCodes.values()) {
+  public static EffectsTypeName getEfectsCode(String text) {
+    for (EffectsTypeName code : EffectsTypeName.values()) {
       if (code.getCodeText().equals(text)) {
         return code;
       }

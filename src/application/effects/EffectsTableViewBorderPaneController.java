@@ -3,8 +3,6 @@ package application.effects;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -41,8 +39,6 @@ public class EffectsTableViewBorderPaneController {
     });
   }
 
-  private static final String FORMAT = "%.0f";
-
   public void update(String effectsText) {
     effectsTableView.getItems().clear();
     ObjectMapper mapper = new ObjectMapper();
@@ -56,10 +52,11 @@ public class EffectsTableViewBorderPaneController {
         double value1 = node.get("value1").asDouble();
         double value2 = node.get("value2").asDouble();
 
-        String type = EffectsCodes.convertCodeIdToCodeText(codeId);
+        String type = EffectsTypeName.convertCodeIdToCodeText(codeId);
         String content = contentFormat(codeId, dataId, value1, value2);
         effectsTableView.getItems().add(new Effects(type, content));
       });
+      effectsTableView.getItems().add(new Effects("", ""));
     } catch (IOException e) {
       // TODO 自動生成された catch ブロック
       e.printStackTrace();
@@ -76,16 +73,20 @@ public class EffectsTableViewBorderPaneController {
    */
   private String contentFormat(int codeId, int dataId, double value1, double value2) {
     if (codeId == 11 || codeId == 12) {
-      return String.format(FORMAT, value1 * 100) + "%";
+      return (int) value1 * 100 + " %";
     } else if (codeId == 13) {
-      return String.format(FORMAT, value1);
+      return "" + (int) value1;
     } else if (codeId == 21 || codeId == 22) {
       String stateName = stateList.get(dataId);
-      return stateName + " " + String.format(FORMAT, value1 * 100) + "%";
+      return stateName + " " + (int) value1 * 100 + " %";
     } else if (codeId == 31 || codeId == 32) {
+      return Parameters.values()[dataId].name() + " " + (int) value1 + " ターン";
     } else if (codeId == 33 || codeId == 34) {
+      return Parameters.values()[dataId].name();
     } else if (codeId == 41) {
+      return "逃げる";
     } else if (codeId == 42) {
+      return Parameters.values()[dataId].name() + " ＋ " + (int) value1;
     } else if (codeId == 43) {
     } else if (codeId == 44) {
     }
