@@ -11,7 +11,7 @@
   <children>
     <BorderPane prefHeight="-1.0" prefWidth="-1.0">
       <left>
-        <Label alignment="TOP_LEFT" text="プロジェクトのパス" />
+        <Label alignment="TOP_LEFT" text="プロジェクトフォルダのパス" />
       </left>
       <right>
         <HBox prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
@@ -24,20 +24,7 @@
     </BorderPane>
     <BorderPane prefHeight="-1.0" prefWidth="-1.0">
       <left>
-        <Label alignment="TOP_LEFT" text="Skills.jsonのパス" />
-      </left>
-      <right>
-        <HBox prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
-          <children>
-            <TextField prefWidth="200.0" />
-            <Button mnemonicParsing="false" text="..." />
-          </children>
-        </HBox>
-      </right>
-    </BorderPane>
-    <BorderPane prefHeight="-1.0" prefWidth="-1.0">
-      <left>
-        <Label alignment="TOP_LEFT" text="Animation.jsonのパス" />
+        <Label alignment="TOP_LEFT" text="インプットフォルダのパス" />
       </left>
       <right>
         <HBox prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
