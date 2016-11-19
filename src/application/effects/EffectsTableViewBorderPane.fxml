@@ -11,7 +11,7 @@
     <TableView fx:id="effectsTableView" prefHeight="200.0" prefWidth="200.0">
       <columns>
         <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="115.0" text="タイプ" fx:id="typeColumn" />
-        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="235.0" text="内容" fx:id="contentColumn" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="162.0" text="内容" fx:id="contentColumn" />
       </columns>
     </TableView>
   </center>
