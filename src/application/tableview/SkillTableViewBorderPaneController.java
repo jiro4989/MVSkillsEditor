@@ -6,7 +6,6 @@ import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.media.jfxmedia.events.NewFrameEvent;
 
 import application.MainController;
 import command.ICommand;
@@ -391,7 +390,15 @@ public class SkillTableViewBorderPaneController {
     skillTableView.requestFocus();
   }
 
+  /**
+   * 選択行の使用効果タブのセルのテキストを読み取り、
+   * 使用効果プレビューを更新する。
+   */
   private void updateEffectsPane() {
+    if (!skillTableView.getSelectionModel().isEmpty()) {
+      String effectsText = skillTableView.getSelectionModel().getSelectedItem().effectsProperty().get();
+      mainController.updateEffectsTableView(effectsText);
+    }
   }
 
   private void updateNotePane() {

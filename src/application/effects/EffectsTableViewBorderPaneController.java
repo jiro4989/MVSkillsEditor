@@ -1,7 +1,12 @@
 package application.effects;
 
+import java.io.IOException;
+import java.util.stream.IntStream;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import application.MainController;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -28,6 +33,36 @@ public class EffectsTableViewBorderPaneController {
         openEditStage();
       }
     });
+  }
+
+  private static final String FORMAT = "%.0f";
+
+  public void update(String effectsText) {
+    effectsTableView.getItems().clear();
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      JsonNode root = mapper.readTree(effectsText);
+      int size = root.size();
+      IntStream.range(0, size).forEach(i -> {
+        JsonNode node = root.get(i);
+        int codeId = node.get("code").asInt();
+        int dataId = node.get("dataId").asInt();
+        double value1 = node.get("value1").asDouble();
+        double value2 = node.get("value2").asDouble();
+
+        String type = EffectsCodes.convertCodeIdToCodeText(codeId);
+        String content = "";
+        if (codeId == 11 || codeId == 12) {
+          content = String.format(FORMAT, value1 * 100) + "%";
+        } else if (codeId == 13) {
+          content = String.format(FORMAT, value1);
+        }
+        effectsTableView.getItems().add(new Effects(type, content));
+      });
+    } catch (IOException e) {
+      // TODO 自動生成された catch ブロック
+      e.printStackTrace();
+    }
   }
 
   /**

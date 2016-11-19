@@ -170,4 +170,8 @@ public class MainController {
   public void closeAction() {
     skillTableViewController.outputPropertiesFile();
   }
+
+  public void updateEffectsTableView(String effectsText) {
+    effectsTableViewController.update(effectsText);
+  }
 }
