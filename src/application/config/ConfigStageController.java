@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 public class ConfigStageController {
   private VBox importFileVBox;
   private ImportFileVBoxController importFileVBoxController;
+  private Config config;
 
   @FXML
   private TreeView<String> treeView;
@@ -60,17 +61,25 @@ public class ConfigStageController {
       borderPane.setCenter(importFileVBox);
       headerLabel.setText(headerText);
       descriptionLabel.setText(ImportFileVBoxController.DESCRIPTION);
+      importFileVBoxController.setProjectPath(config.projectPath);
+      importFileVBoxController.setInputPath(config.inputPath);
     } else {
     }
   }
 
   @FXML
   private void okButtonOnClicked() {
+    config.projectPath = importFileVBoxController.getProjectPath();
+    config.inputPath = importFileVBoxController.getInputPath();
     okButton.getScene().getWindow().hide();
   }
 
   @FXML
   private void cancelButtonOnClicked() {
     cancelButton.getScene().getWindow().hide();
+  }
+
+  public void setConfig(Config config) {
+    this.config = config;
   }
 }
