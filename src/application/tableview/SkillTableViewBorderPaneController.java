@@ -266,7 +266,7 @@ public class SkillTableViewBorderPaneController {
       skillTableView.getColumns().clear();
 
       IntStream.range(0, columnIndices.length).forEach(i -> {
-        columnIndices[i] = Integer.valueOf(prop.getValue(INDICES_KEYS[i]));
+        columnIndices[i] = Integer.parseInt(prop.getValue(INDICES_KEYS[i]));
       });
 
       for (int i = 0; i < INDICES_KEYS.length; i++) {

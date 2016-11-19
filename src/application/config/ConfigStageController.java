@@ -2,7 +2,7 @@ package application.config;
 
 import java.io.IOException;
 
-import application.config.import_file.ImportFileVBoxController;
+import application.config.importfile.ImportFileVBoxController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -41,7 +41,7 @@ public class ConfigStageController {
         .addListener((observable, oldVal, newVal) -> updateConfigScreen(newVal));
 
     FXMLLoader importFileVBoxLoader = new FXMLLoader(
-        getClass().getResource("/application/config/import_file/ImportFileVBox.fxml"));
+        getClass().getResource("/application/config/importfile/ImportFileVBox.fxml"));
     try {
       importFileVBox = (VBox) importFileVBoxLoader.load();
       importFileVBoxController = importFileVBoxLoader.getController();

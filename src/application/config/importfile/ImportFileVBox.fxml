@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="361.0" prefWidth="587.0" spacing="5.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.config.import_file.ImportFileVBoxController">
+<VBox prefHeight="361.0" prefWidth="587.0" spacing="5.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.config.importfile.ImportFileVBoxController">
   <!-- TODO Add Nodes -->
   <children>
     <CheckBox fx:id="autoImportCheckBox" mnemonicParsing="false" onAction="#autoImportCheckBoxOnClicked" text="次回起動時にファイルを自動でインポートする" />

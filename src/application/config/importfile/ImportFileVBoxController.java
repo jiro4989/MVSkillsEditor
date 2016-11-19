@@ -1,4 +1,4 @@
-package application.config.import_file;
+package application.config.importfile;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
