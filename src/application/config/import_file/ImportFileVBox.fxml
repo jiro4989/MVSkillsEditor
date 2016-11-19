@@ -6,35 +6,44 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="361.0" prefWidth="587.0" spacing="5.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<VBox prefHeight="361.0" prefWidth="587.0" spacing="5.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.config.import_file.ImportFileVBoxController">
   <!-- TODO Add Nodes -->
   <children>
-    <BorderPane prefHeight="-1.0" prefWidth="-1.0">
-      <left>
-        <Label alignment="TOP_LEFT" text="プロジェクトフォルダのパス" />
-      </left>
-      <right>
-        <HBox prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
-          <children>
-            <TextField prefWidth="200.0" />
-            <Button mnemonicParsing="false" text="..." />
-          </children>
-        </HBox>
-      </right>
-    </BorderPane>
-    <BorderPane prefHeight="-1.0" prefWidth="-1.0">
-      <left>
-        <Label alignment="TOP_LEFT" text="インプットフォルダのパス" />
-      </left>
-      <right>
-        <HBox prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
-          <children>
-            <TextField prefWidth="200.0" />
-            <Button mnemonicParsing="false" text="..." />
-          </children>
-        </HBox>
-      </right>
-    </BorderPane>
+    <CheckBox fx:id="autoImportCheckBox" mnemonicParsing="false" onAction="#autoImportCheckBoxOnClicked" text="次回起動時にファイルを自動でインポートする" />
+    <VBox prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
+      <children>
+        <Label fx:id="descriptionLabel" text="自動起動で開くパスの選択" />
+        <BorderPane prefHeight="-1.0" prefWidth="-1.0">
+          <left>
+            <RadioButton fx:id="projectRadioButton" mnemonicParsing="false" text="プロジェクトフォルダのパス" />
+          </left>
+          <right>
+            <HBox prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
+              <children>
+                <TextField fx:id="projectPathTextField" editable="false" prefWidth="350.0" />
+                <Button fx:id="openProjectDirButton" mnemonicParsing="false" onAction="#openProjectDirButtonOnClicked" text="..." />
+              </children>
+            </HBox>
+          </right>
+        </BorderPane>
+        <BorderPane prefHeight="-1.0" prefWidth="-1.0">
+          <left>
+            <RadioButton fx:id="inputRadioButton" mnemonicParsing="false" text="インプットフォルダのパス" />
+          </left>
+          <right>
+            <HBox prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
+              <children>
+                <TextField fx:id="inputPathTextField" editable="false" prefWidth="350.0" />
+                <Button fx:id="openInputDirButton" mnemonicParsing="false" onAction="#openInputDirButtonOnClicked" text="..." />
+              </children>
+            </HBox>
+          </right>
+        </BorderPane>
+      </children>
+      <VBox.margin>
+        <Insets left="20.0" />
+      </VBox.margin>
+    </VBox>
   </children>
   <padding>
     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
