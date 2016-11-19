@@ -21,7 +21,6 @@
             <HBox prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
               <children>
                 <TextField fx:id="projectPathTextField" editable="false" prefWidth="350.0" />
-                <Button fx:id="openProjectDirButton" mnemonicParsing="false" onAction="#openProjectDirButtonOnClicked" text="..." />
               </children>
             </HBox>
           </right>
@@ -34,7 +33,6 @@
             <HBox prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
               <children>
                 <TextField fx:id="inputPathTextField" editable="false" prefWidth="350.0" />
-                <Button fx:id="openInputDirButton" mnemonicParsing="false" onAction="#openInputDirButtonOnClicked" text="..." />
               </children>
             </HBox>
           </right>
