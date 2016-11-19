@@ -188,6 +188,7 @@ public class MainController {
         && commonEventData.exists()
         && (iconSetImage1.exists() || iconSetImage2.exists())) {
       skillTableViewController.setSkillDatas(skillData);
+      effectsTableViewController.setStateDatas(stateData);
       changeDisablePreviews(false);
       return true;
     }

@@ -1,6 +1,10 @@
 package application.effects;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,6 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class EffectsTableViewBorderPaneController {
   private MainController mainController;
+  private ArrayList<String> stateList;
 
   @FXML
   private TableView<Effects> effectsTableView = new TableView<>();
@@ -52,25 +57,39 @@ public class EffectsTableViewBorderPaneController {
         double value2 = node.get("value2").asDouble();
 
         String type = EffectsCodes.convertCodeIdToCodeText(codeId);
-        String content = "";
-        if (codeId == 11 || codeId == 12) {
-          content = String.format(FORMAT, value1 * 100) + "%";
-        } else if (codeId == 13) {
-          content = String.format(FORMAT, value1);
-        } else if (codeId == 21 || codeId == 22) {
-        } else if (codeId == 31 || codeId == 32) {
-        } else if (codeId == 33 || codeId == 34) {
-        } else if (codeId == 41) {
-        } else if (codeId == 42) {
-        } else if (codeId == 43) {
-        } else if (codeId == 44) {
-        }
+        String content = contentFormat(codeId, dataId, value1, value2);
         effectsTableView.getItems().add(new Effects(type, content));
       });
     } catch (IOException e) {
       // TODO 自動生成された catch ブロック
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Jsonの数値からTableViewの表示用のテキストに整形する。
+   * @param codeId CodeId
+   * @param dataId DataId
+   * @param value1 Value1
+   * @param value2 Value2
+   * @return 整形後のテキスト
+   */
+  private String contentFormat(int codeId, int dataId, double value1, double value2) {
+    if (codeId == 11 || codeId == 12) {
+      return String.format(FORMAT, value1 * 100) + "%";
+    } else if (codeId == 13) {
+      return String.format(FORMAT, value1);
+    } else if (codeId == 21 || codeId == 22) {
+      String stateName = stateList.get(dataId);
+      return stateName + " " + String.format(FORMAT, value1 * 100) + "%";
+    } else if (codeId == 31 || codeId == 32) {
+    } else if (codeId == 33 || codeId == 34) {
+    } else if (codeId == 41) {
+    } else if (codeId == 42) {
+    } else if (codeId == 43) {
+    } else if (codeId == 44) {
+    }
+    return "";
   }
 
   /**
@@ -87,5 +106,25 @@ public class EffectsTableViewBorderPaneController {
 
   public void setDisable(boolean disable) {
     effectsTableView.setDisable(disable);
+  }
+
+  public void setStateDatas(File stateData) {
+    ObjectMapper mapper = new ObjectMapper();
+
+    try {
+      JsonNode root = mapper.readTree(stateData);
+      int size = root.size();
+      stateList = new ArrayList<>(size);
+      stateList.add("通常攻撃");
+      IntStream.range(1, size)
+          .forEach(i -> {
+            JsonNode children = root.get(i);
+            String name = children.get("name").asText();
+            stateList.add(name);
+          });
+    } catch (IOException e) {
+      // TODO 自動生成された catch ブロック
+      e.printStackTrace();
+    }
   }
 }

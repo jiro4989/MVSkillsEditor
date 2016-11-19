@@ -423,7 +423,8 @@ public class SkillTableViewBorderPaneController {
     try {
       JsonNode root = mapper.readTree(file);
 
-      IntStream.range(0, root.size()).forEach(index -> {
+      IntStream.range(0, root.size())
+      .forEach(index -> {
         JsonNode children = root.get(index);
         skillTableView.getItems()
             .add(new Skill(String.valueOf(index), "sample", "0", "desc", "1", "1", "1", "1", "1",
