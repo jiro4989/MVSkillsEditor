@@ -98,7 +98,7 @@
             <MenuItem mnemonicParsing="false" text="上書き保存" fx:id="saveMenuItem" />
             <MenuItem mnemonicParsing="false" text="別名保存" fx:id="saveAsMenuItem" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="設定" fx:id="configMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#openConfigStage" text="設定" fx:id="configMenuItem" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="閉じる" fx:id="quitMenuItem" />
           </items>

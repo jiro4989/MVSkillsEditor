@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="370.0" prefWidth="551.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.config.ConfigStageController">
+  <!-- TODO Add Nodes -->
+  <bottom>
+    <VBox prefHeight="-1.0" prefWidth="-1.0">
+      <children>
+        <Separator prefHeight="5.0" prefWidth="-1.0" />
+        <HBox alignment="CENTER_RIGHT" prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
+          <children>
+            <Button fx:id="okButton" mnemonicParsing="false" onAction="#okButtonOnClicked" prefWidth="100.0" text="OK" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonOnClicked" prefWidth="100.0" text="キャンセル" />
+          </children>
+          <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+          </padding>
+        </HBox>
+      </children>
+    </VBox>
+  </bottom>
+  <center>
+    <BorderPane fx:id="borderPane" prefHeight="-1.0" prefWidth="-1.0" BorderPane.margin="$x1">
+      <top>
+        <BorderPane prefHeight="-1.0" prefWidth="-1.0">
+          <bottom>
+            <Separator prefHeight="5.0" prefWidth="-1.0" />
+          </bottom>
+          <left>
+            <Label fx:id="headerLabel" text="Title">
+              <BorderPane.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
+              </BorderPane.margin>
+            </Label>
+          </left>
+          <right>
+            <Label fx:id="descriptionLabel" alignment="CENTER_RIGHT" contentDisplay="LEFT" text="Description" BorderPane.margin="$x1" />
+          </right>
+        </BorderPane>
+      </top>
+    </BorderPane>
+  </center>
+  <left>
+    <TreeView fx:id="treeView" minWidth="200.0" prefHeight="-1.0" prefWidth="-1.0">
+      <BorderPane.margin>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
+      </BorderPane.margin>
+    </TreeView>
+  </left>
+</BorderPane>

@@ -1,11 +1,11 @@
 package application;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Optional;
 import java.util.Stack;
 import java.util.stream.IntStream;
 
+import application.config.ConfigStage;
 import application.effects.EffectsTableViewBorderPane;
 import application.effects.EffectsTableViewBorderPaneController;
 import application.tableview.SkillTableViewBorderPane;
@@ -125,6 +125,12 @@ public class MainController {
           + "dataファイルが存在しているか確認してください。");
       alert.showAndWait();
     });
+  }
+
+  @FXML
+  private void openConfigStage() {
+    ConfigStage cs = new ConfigStage();
+    cs.showAndWait();
   }
 
   @FXML
