@@ -112,17 +112,23 @@ public class MainController {
     Optional<File> dirOpt = dcm.openDirectory(stage);
     dirOpt.ifPresent(rootDirectory -> {
       final String SEP = File.separator;
-      File skillData = new File(
-          rootDirectory.getAbsolutePath() + SEP + "data" + SEP + "Skills.json");
-      if (skillData.exists()) {
+      String rootPath = rootDirectory.getAbsolutePath();
+      String dataPath = rootPath + SEP + "data";
+      File skillData = new File(dataPath + SEP + "Skills.json");
+      File animationData = new File(dataPath + SEP + "Skills.json");
+      File stateData = new File(dataPath + SEP + "Skills.json");
+      File commonEventData = new File(dataPath + SEP + "Skills.json");
+      if (skillData.exists()
+          && animationData.exists()
+          && stateData.exists()
+          && commonEventData.exists()) {
         skillTableViewController.setSkillDatas(skillData);
         return;
       }
-
       Alert alert = new Alert(AlertType.ERROR);
-      alert.setHeaderText(skillData.getName() + "が見つかりませんでした。");
-      alert.setContentText("RPGツクールMVのディレクトリを間違えていないか、" + System.getProperty("line.separator")
-          + "dataファイルが存在しているか確認してください。");
+      alert.setHeaderText("ファイルが見つかりません。");
+      alert.setContentText("プロジェクトフォルダを間違えていないか" + System.getProperty("line.separator")
+          + "dataフォルダやファイルが存在しているか確認してください。");
       alert.showAndWait();
     });
   }
