@@ -20,3 +20,7 @@
 .tool-bar .text {
 	-fx-font-size: 8.0pt;
 }
+
+.tree-view .tree-cell {
+	-fx-font-size: 10.0pt;
+}
