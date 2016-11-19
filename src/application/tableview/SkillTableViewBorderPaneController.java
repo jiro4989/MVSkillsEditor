@@ -415,6 +415,8 @@ public class SkillTableViewBorderPaneController {
    *          jsonファイル
    */
   public void setSkillDatas(File file) {
+    skillTableView.getItems().clear();
+
     ObjectMapper mapper = new ObjectMapper();
     try {
       JsonNode root = mapper.readTree(file);
