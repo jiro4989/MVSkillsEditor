@@ -561,4 +561,22 @@ public class SkillTableViewBorderPaneController {
       skillTableView.getItems().get(selectedIndex).noteProperty().set(text);
     }
   }
+
+  /**
+   * 前のセルに選択を移す.
+   */
+  public void movePrevious() {
+    if (!skillTableView.getSelectionModel().isEmpty()) {
+      skillTableView.getSelectionModel().selectAboveCell();
+    }
+  }
+
+  /**
+   * 次のセルに選択を移す.
+   */
+  public void moveNext() {
+    if (!skillTableView.getSelectionModel().isEmpty()) {
+      skillTableView.getSelectionModel().selectBelowCell();
+    }
+  }
 }
