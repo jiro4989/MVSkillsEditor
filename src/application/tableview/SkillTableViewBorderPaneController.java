@@ -396,7 +396,8 @@ public class SkillTableViewBorderPaneController {
    */
   private void updateEffectsPane() {
     if (!skillTableView.getSelectionModel().isEmpty()) {
-      String effectsText = skillTableView.getSelectionModel().getSelectedItem().effectsProperty().get();
+      String effectsText = skillTableView.getSelectionModel().getSelectedItem().effectsProperty()
+          .get();
       mainController.updateEffectsTableView(effectsText);
     }
   }
