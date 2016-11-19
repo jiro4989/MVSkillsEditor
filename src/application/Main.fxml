@@ -92,7 +92,10 @@
         <Menu mnemonicParsing="false" text="ファイル">
           <items>
             <MenuItem mnemonicParsing="false" text="新規" fx:id="newMenuItem" />
-            <MenuItem mnemonicParsing="false" onAction="#openFile" text="開く" fx:id="openMenuItem" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#importProject" text="プロジェクトからインポート" fx:id="importProjectMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#importFolder" text="フォルダからインポート" fx:id="importFolderMenuItem" />
+            <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="上書き保存" fx:id="saveMenuItem" />
             <MenuItem mnemonicParsing="false" text="別名保存" fx:id="saveAsMenuItem" />
             <SeparatorMenuItem mnemonicParsing="false" />
