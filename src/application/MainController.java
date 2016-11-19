@@ -3,6 +3,8 @@ package application;
 import java.io.File;
 import java.util.Optional;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 import application.config.Config;
@@ -22,6 +24,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import jiro.lib.javafx.stage.DirectoryChooserManager;
@@ -58,6 +62,11 @@ public class MainController {
   private MenuItem undoMenuItem;
   @FXML
   private MenuItem redoMenuItem;
+
+  @FXML
+  private MenuItem previousMenuItem;
+  @FXML
+  private MenuItem nextMenuItem;
 
   // **************************************************
   // テーブルビュー
@@ -223,6 +232,16 @@ public class MainController {
       });
       undoCountStack.push(invokeCount);
     }
+  }
+
+  @FXML
+  private void previousMenuItemOnClicked() {
+    skillTableViewController.movePrevious();
+  }
+
+  @FXML
+  private void nextMenuItemOnClicked() {
+    skillTableViewController.moveNext();
   }
 
   @FXML
