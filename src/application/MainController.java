@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Stack;
 import java.util.stream.IntStream;
 
+import application.config.Config;
 import application.config.ConfigStage;
 import application.effects.EffectsTableViewBorderPane;
 import application.effects.EffectsTableViewBorderPaneController;
@@ -28,11 +29,14 @@ import jiro.lib.javafx.stage.DirectoryChooserManager;
 public class MainController {
   // private FileChooserManager fcm = new
   // FileChooserManager("Text Files", "*.json");
-  private DirectoryChooserManager dcm;
+  private DirectoryChooserManager projectDcm;
+  private DirectoryChooserManager folderDcm;
 
   private UndoRedoManager undoRedoManager = new UndoRedoManager();
   private Stack<Integer> undoCountStack = new Stack<>();
   private Stack<Integer> redoCountStack = new Stack<>();
+
+  private Config config = new Config();
 
   // **************************************************
   // メニューバー
@@ -40,7 +44,9 @@ public class MainController {
   @FXML
   private MenuItem newMenuItem;
   @FXML
-  private MenuItem openMenuItem;
+  private MenuItem importProjectMenuItem;
+  @FXML
+  private MenuItem importFolderMenuItem;
   @FXML
   private MenuItem saveMenuItem;
   @FXML
@@ -103,34 +109,91 @@ public class MainController {
     effectsTableViewController = effectsTableView.getController();
     effectsTitledPane.setContent(effectsTableView);
 
-    dcm = new DirectoryChooserManager();
+    projectDcm = new DirectoryChooserManager();
+    folderDcm = new DirectoryChooserManager();
   }
 
+  /**
+   * RPGツクールMVのプロジェクトフォルダのルートを選択することで、
+   * ルートから辿って必要なファイルを取得する。
+   */
   @FXML
-  private void openFile() {
+  private void importProject() {
     Stage stage = (Stage) effectsTitledPane.getScene().getWindow();
-    Optional<File> dirOpt = dcm.openDirectory(stage);
+    Optional<File> dirOpt = projectDcm.openDirectory(stage);
     dirOpt.ifPresent(rootDirectory -> {
-      final String SEP = File.separator;
       String rootPath = rootDirectory.getAbsolutePath();
-      String dataPath = rootPath + SEP + "data";
-      File skillData = new File(dataPath + SEP + "Skills.json");
-      File animationData = new File(dataPath + SEP + "Skills.json");
-      File stateData = new File(dataPath + SEP + "Skills.json");
-      File commonEventData = new File(dataPath + SEP + "Skills.json");
-      if (skillData.exists()
-          && animationData.exists()
-          && stateData.exists()
-          && commonEventData.exists()) {
-        skillTableViewController.setSkillDatas(skillData);
-        return;
+      String dataPath = rootPath + File.separator + "data";
+      boolean success = successSetData(dataPath);
+
+      if (success) {
+        config.projectPath = rootPath;
+      } else {
+        String content = "プロジェクトフォルダを間違えていないか" + System.getProperty("line.separator")
+            + "dataフォルダやファイルが存在しているか確認してください。";
+        showAlert("ファイルが見つかりません。", content);
       }
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.setHeaderText("ファイルが見つかりません。");
-      alert.setContentText("プロジェクトフォルダを間違えていないか" + System.getProperty("line.separator")
-          + "dataフォルダやファイルが存在しているか確認してください。");
-      alert.showAndWait();
     });
+  }
+
+  /**
+   * 必要なファイルを一つのフォルダにまとめておき、
+   * そのフォルダを選択することで必要なファイルを取得する。
+   */
+  @FXML
+  private void importFolder() {
+    Stage stage = (Stage) effectsTitledPane.getScene().getWindow();
+    Optional<File> dirOpt = folderDcm.openDirectory(stage);
+    dirOpt.ifPresent(inputFolder -> {
+      String inputPath = inputFolder.getAbsolutePath();
+      boolean success = successSetData(inputPath);
+
+      if (success) {
+        config.inputPath = inputPath;
+      } else {
+        showAlert("ファイルが見つかりません。", "選択したフォルダ内に必要なファイルが存在するか確認してください。");
+      }
+    });
+  }
+
+  /**
+   * 渡したファイルパス文字列からSkillDataファイルを取得し、テーブルに追加する。
+   * この時、チェック対象の全てのファイルが存在していた場合は、trueを返し、
+   * 一つでも取得対象のファイルが欠けていた場合は、falseを返す。
+   * @param path ファイルの場所。
+   * @return
+   */
+  private boolean successSetData(String path) {
+    final String SEP = File.separator;
+    File skillData = new File(path + SEP + "Skills.json");
+    File animationData = new File(path + SEP + "Animations.json");
+    File stateData = new File(path + SEP + "States.json");
+    File commonEventData = new File(path + SEP + "CommonEvents.json");
+
+    String rootPath = new File(path).getParent();
+    File iconSetImage1 = new File(rootPath + SEP + "img" + SEP + "system" + SEP + "IconSet.png");
+    File iconSetImage2 = new File(path + SEP + "IconSet.png");
+    if (skillData.exists()
+        && animationData.exists()
+        && stateData.exists()
+        && commonEventData.exists()
+        && (iconSetImage1.exists() || iconSetImage2.exists())) {
+      skillTableViewController.setSkillDatas(skillData);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * 警告ウィンドウを表示する。
+   * @param header ヘッダーテキスト
+   * @param content メインテキスト
+   */
+  private void showAlert(String header, String content) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setHeaderText(header);
+    alert.setContentText(content);
+    alert.showAndWait();
   }
 
   @FXML
