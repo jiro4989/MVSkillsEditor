@@ -13,7 +13,6 @@ public class EditStageController {
   // **************************************************
   // 回復タブ
   // **************************************************
-  private ToggleGroup toggleGroup = new ToggleGroup();
   @FXML
   private GridPane healGridPane;
   @FXML
@@ -126,6 +125,7 @@ public class EditStageController {
     othersGridPane.add(growthComboBox, 1, 1);
     othersGridPane.add(growthTextField, 2, 1);
 
+    ToggleGroup toggleGroup = new ToggleGroup();
     hpRadioButton.setToggleGroup(toggleGroup);
     mpRadioButton.setToggleGroup(toggleGroup);
     tpRadioButton.setToggleGroup(toggleGroup);
