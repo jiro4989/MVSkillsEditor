@@ -19,7 +19,7 @@ public class VarianceColumnStrategy extends ColumnStrategy {
   public void setValue(Object value) {
     String strValue = (String) value;
     if (strValue.matches(REGEX)) {
-      tableView.getItems().get(rowIndex).setVariance((String) value);
+      tableView.getItems().get(rowIndex).varianceProperty().set(strValue);
     }
   }
 }

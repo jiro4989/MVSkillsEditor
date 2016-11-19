@@ -77,4 +77,8 @@ public class EffectsTableViewBorderPaneController {
   public void setMainController(MainController aMainController) {
     mainController = aMainController;
   }
+
+  public void setDisable(boolean disable) {
+    effectsTableView.setDisable(disable);
+  }
 }

@@ -73,7 +73,7 @@
               <children>
                 <TitledPane animated="false" collapsible="false" minHeight="200.0" text="メモ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <content>
-                    <TextArea fx:id="noteTextArea" prefWidth="200.0" wrapText="true" />
+                    <TextArea fx:id="noteTextArea" onKeyReleased="#noteTextAreaOnKeyReleased" prefWidth="200.0" wrapText="true" />
                   </content>
                 </TitledPane>
               </children>

@@ -19,7 +19,7 @@ public class RequiredWtypeId1ColumnStrategy extends ColumnStrategy {
   public void setValue(Object value) {
     String strValue = (String) value;
     if (strValue.matches(REGEX)) {
-      tableView.getItems().get(rowIndex).setRequiredWtypeId1((String) value);
+      tableView.getItems().get(rowIndex).requiredWtypeId1Property().set(strValue);
     }
   }
 }

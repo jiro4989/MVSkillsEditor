@@ -19,7 +19,7 @@ public class SpeedColumnStrategy extends ColumnStrategy {
   public void setValue(Object value) {
     String strValue = (String) value;
     if (strValue.matches(REGEX)) {
-      tableView.getItems().get(rowIndex).setSpeed((String) value);
+      tableView.getItems().get(rowIndex).speedProperty().set(strValue);
     }
   }
 }

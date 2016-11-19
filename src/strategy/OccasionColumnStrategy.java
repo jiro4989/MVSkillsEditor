@@ -19,7 +19,7 @@ public class OccasionColumnStrategy extends ColumnStrategy {
   public void setValue(Object value) {
     String strValue = (String) value;
     if (strValue.matches(REGEX)) {
-      tableView.getItems().get(rowIndex).setOccasion((String) value);
+      tableView.getItems().get(rowIndex).occasionProperty().set(strValue);
     }
   }
 }

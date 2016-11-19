@@ -27,8 +27,6 @@ import javafx.stage.Stage;
 import jiro.lib.javafx.stage.DirectoryChooserManager;
 
 public class MainController {
-  // private FileChooserManager fcm = new
-  // FileChooserManager("Text Files", "*.json");
   private DirectoryChooserManager projectDcm;
   private DirectoryChooserManager folderDcm;
 
@@ -111,6 +109,8 @@ public class MainController {
 
     projectDcm = new DirectoryChooserManager();
     folderDcm = new DirectoryChooserManager();
+
+    changeDisablePreviews(true);
   }
 
   /**
@@ -179,6 +179,7 @@ public class MainController {
         && commonEventData.exists()
         && (iconSetImage1.exists() || iconSetImage2.exists())) {
       skillTableViewController.setSkillDatas(skillData);
+      changeDisablePreviews(false);
       return true;
     }
     return false;
@@ -229,6 +230,20 @@ public class MainController {
     skillTableViewController.insertText(insertTextField.getText());
   }
 
+  @FXML
+  private void noteTextAreaOnKeyReleased() {
+    skillTableViewController.setNote(noteTextArea.getText());
+  }
+
+  /**
+   * プレビュー画面の選択可能状態を変更する。
+   * @param disable
+   */
+  private void changeDisablePreviews(boolean disable) {
+    effectsTableViewController.setDisable(disable);
+    noteTextArea.setDisable(disable);
+  }
+
   /**
    * コマンドを実行する。
    * @param command
@@ -259,15 +274,15 @@ public class MainController {
     yLabel.setText("" + y);
   }
 
-  public void setNoteText(String text) {
-    noteTextArea.setText(text);
+  public void updateEffectsTableView(String effectsText) {
+    effectsTableViewController.update(effectsText);
   }
 
   public void closeAction() {
     skillTableViewController.outputPropertiesFile();
   }
 
-  public void updateEffectsTableView(String effectsText) {
-    effectsTableViewController.update(effectsText);
+  public void setNoteText(String text) {
+    noteTextArea.setText(text);
   }
 }

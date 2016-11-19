@@ -44,6 +44,7 @@ import strategy.SpeedColumnStrategy;
 import strategy.StypeIdColumnStrategy;
 import strategy.SuccessRateColumnStrategy;
 import strategy.TpCostColumnStrategy;
+import strategy.TpGainColumnStrategy;
 import strategy.VarianceColumnStrategy;
 
 public class SkillTableViewBorderPaneController {
@@ -226,7 +227,7 @@ public class SkillTableViewBorderPaneController {
       } else if (columnIndex == skillTableView.getColumns().indexOf(repeatsColumn)) {
         currentStrategy = new RepeatsColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(tpGainColumn)) {
-        currentStrategy = new TpCostColumnStrategy(skillTableView, rowIndex);
+        currentStrategy = new TpGainColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(hitTypeColumn)) {
         currentStrategy = new HitTypeColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(animationIdColumn)) {
@@ -548,5 +549,16 @@ public class SkillTableViewBorderPaneController {
 
   public void setMainController(MainController aMainController) {
     mainController = aMainController;
+  }
+
+  /**
+   * メモ欄を更新する。
+   * @param text
+   */
+  public void setNote(String text) {
+    if (!skillTableView.getSelectionModel().isEmpty()) {
+      int selectedIndex = skillTableView.getSelectionModel().getSelectedIndex();
+      skillTableView.getItems().get(selectedIndex).noteProperty().set(text);
+    }
   }
 }

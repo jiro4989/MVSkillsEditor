@@ -17,6 +17,6 @@ public class FormulaColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).setFormula((String) value);
+    tableView.getItems().get(rowIndex).formulaProperty().set((String)value);
   }
 }

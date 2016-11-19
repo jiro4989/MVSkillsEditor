@@ -19,7 +19,7 @@ public class TpCostColumnStrategy extends ColumnStrategy {
   public void setValue(Object value) {
     String strValue = (String) value;
     if (strValue.matches(REGEX)) {
-      tableView.getItems().get(rowIndex).setTpCost((String) value);
+      tableView.getItems().get(rowIndex).tpCostProperty().set(strValue);
     }
   }
 }

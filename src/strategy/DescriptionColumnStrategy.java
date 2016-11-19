@@ -17,6 +17,6 @@ public class DescriptionColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).setDescription((String) value);
+    tableView.getItems().get(rowIndex).descriptionProperty().set((String)value);
   }
 }

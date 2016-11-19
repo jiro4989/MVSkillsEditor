@@ -19,7 +19,7 @@ public class MpCostColumnStrategy extends ColumnStrategy {
   public void setValue(Object value) {
     String strValue = (String) value;
     if (strValue.matches(REGEX)) {
-      tableView.getItems().get(rowIndex).setMpCost((String) value);
+      tableView.getItems().get(rowIndex).mpCostProperty().set(strValue);
     }
   }
 }

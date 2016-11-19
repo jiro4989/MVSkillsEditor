@@ -31,24 +31,16 @@ public class TableCellUpdateCommand implements ICommand {
   public void invoke() {
     prevText = (String) strategy.getValue();
     strategy.setValue(newText);
-    reDraw();
   }
 
   @Override
   public void undo() {
     strategy.setValue(prevText);
-    reDraw();
   }
 
   @Override
   public void redo() {
     strategy.setValue(newText);
-    reDraw();
-  }
-
-  private void reDraw() {
-    tableView.getColumns().get(columnIndex).setVisible(false);
-    tableView.getColumns().get(columnIndex).setVisible(true);
   }
 
   @Override

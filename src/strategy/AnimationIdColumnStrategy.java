@@ -19,7 +19,7 @@ public class AnimationIdColumnStrategy extends ColumnStrategy {
   public void setValue(Object value) {
     String strValue = (String) value;
     if (strValue.matches(REGEX)) {
-      tableView.getItems().get(rowIndex).setAnimationId(strValue);
+      tableView.getItems().get(rowIndex).animationIdProperty().set(strValue);
     }
   }
 }

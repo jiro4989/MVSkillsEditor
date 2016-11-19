@@ -17,6 +17,6 @@ public class NoteColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).setNote((String) value);
+    tableView.getItems().get(rowIndex).noteProperty().set((String) value);
   }
 }

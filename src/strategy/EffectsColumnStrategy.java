@@ -17,6 +17,6 @@ public class EffectsColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).setEffects((String) value);
+    tableView.getItems().get(rowIndex).effectsProperty().set((String)value);
   }
 }
