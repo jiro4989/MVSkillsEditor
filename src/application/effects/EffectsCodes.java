@@ -6,7 +6,7 @@ package application.effects;
  * CodeIDを画面表示上のテキストに変換する目的で利用する。
  * @author jiro
  */
-public enum EffectsCodes {
+enum EffectsCodes {
     C11("HP回復", 11),
     C12("MP回復", 12),
     C13("TP回復", 13),

@@ -1,4 +1,4 @@
-package application.effects;
+package application.effects.edit;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -6,6 +6,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
+import jiro.lib.javafx.scene.control.CustomedComboBox;
 import jiro.lib.javafx.scene.control.NumericTextField;
 
 public class EditStageController {

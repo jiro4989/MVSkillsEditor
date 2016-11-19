@@ -1,4 +1,4 @@
-package application.effects;
+package application.effects.edit;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
