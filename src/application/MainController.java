@@ -161,7 +161,7 @@ public class MainController {
    * この時、チェック対象の全てのファイルが存在していた場合は、trueを返し、
    * 一つでも取得対象のファイルが欠けていた場合は、falseを返す。
    * @param path ファイルの場所。
-   * @return
+   * @return 成功 or 失敗
    */
   private boolean successSetData(String path) {
     final String SEP = File.separator;
@@ -198,7 +198,7 @@ public class MainController {
 
   @FXML
   private void openConfigStage() {
-    ConfigStage cs = new ConfigStage();
+    ConfigStage cs = new ConfigStage(config);
     cs.showAndWait();
   }
 
