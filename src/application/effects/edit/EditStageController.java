@@ -218,24 +218,44 @@ public class EditStageController {
    * @param value2 Value2
    */
   private void setValues(int radioIndex, double value1, double value2) {
-    if (radioIndex == 1) {
+    // エラー発見。おそらくdataIdを使わないといけない。
+    if (radioIndex == 0) {
+      // 回復タブ
       hpPercentageTextField.setText("" + (int) value1 * 100);
       hpPlusTextField.setText("" + (int) value2);
-    } else if (radioIndex == 2) {
+    } else if (radioIndex == 1) {
       mpPercentageTextField.setText("" + (int) value1 * 100);
       mpPlusTextField.setText("" + (int) value2);
-    } else if (radioIndex == 3) {
+    } else if (radioIndex == 2) {
       tpTextField.setText("" + (int) value1);
+    } else if (radioIndex == 3) {
+      // ステートタブ
+      stateListView.getSelectionModel().select((int)value1);
+      addStateTextField.setText("" + (int)value2 * 100);
     } else if (radioIndex == 4) {
+      stateListView.getSelectionModel().select((int)value1);
+      releaseStateTextField.setText("" + (int)value2 * 100);
     } else if (radioIndex == 5) {
+      // 能力値タブ
+      upComboBox.getSelectionModel().select((int)value1);
+      upTextField.setText("" + (int)value2);
     } else if (radioIndex == 6) {
+      downComboBox.getSelectionModel().select((int)value1);
+      downTextField.setText("" + (int)value2);
     } else if (radioIndex == 7) {
+      upReleaseComboBox.getSelectionModel().select((int)value1);
     } else if (radioIndex == 8) {
+      downReleaseComboBox.getSelectionModel().select((int)value1);
     } else if (radioIndex == 9) {
+      // その他タブ
+      specialEffectComboBox.getSelectionModel().select((int)value1);
     } else if (radioIndex == 10) {
+      growthComboBox.getSelectionModel().select((int)value1);
+      growthTextField.setText("" + (int)value2);
     } else if (radioIndex == 11) {
+      learningListView.getSelectionModel().select((int)value1);
     } else if (radioIndex == 12) {
-    } else if (radioIndex == 13) {
+      commonEventListView.getSelectionModel().select((int)value1);
     }
   }
 }
