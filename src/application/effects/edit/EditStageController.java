@@ -2,14 +2,13 @@ package application.effects.edit;
 
 import java.util.List;
 
-import org.omg.CosNaming._BindingIteratorImplBase;
-
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.Toggle;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import jiro.lib.javafx.scene.control.CustomedComboBox;
@@ -51,54 +50,62 @@ public class EditStageController {
   @FXML
   private RadioButton releaseStateRadioButton;
   private NumericTextField releaseStateTextField = new NumericTextField("0", 0, 100, 0);
+  @FXML
+  private ListView<String> stateListView;
+  @FXML
+  private TextField stateFilterTextField;
 
   // **************************************************
   // 能力値タブ
   // **************************************************
   @FXML
-  GridPane abilityGridPane;
+  private GridPane abilityGridPane;
   private static final String[] parameterItems = {
       "最大HP", "最大MP", "攻撃力", "防御力", "魔法力", "魔法防御", "敏捷性", "運",
   };
 
   @FXML
-  RadioButton upRadioButton;
+  private RadioButton upRadioButton;
   private CustomedComboBox upComboBox = new CustomedComboBox(200, parameterItems);
   private NumericTextField upTextField = new NumericTextField("1", 1, 1000, 1);
 
   @FXML
-  RadioButton downRadioButton;
+  private RadioButton downRadioButton;
   private CustomedComboBox downComboBox = new CustomedComboBox(200, parameterItems);
   private NumericTextField downTextField = new NumericTextField("1", 1, 1000, 1);
 
   @FXML
-  RadioButton upReleaseRadioButton;
+  private RadioButton upReleaseRadioButton;
   private CustomedComboBox upReleaseComboBox = new CustomedComboBox(200, parameterItems);
 
   @FXML
-  RadioButton downReleaseRadioButton;
+  private RadioButton downReleaseRadioButton;
   private CustomedComboBox downReleaseComboBox = new CustomedComboBox(200, parameterItems);
 
   // **************************************************
   // その他タブ
   // **************************************************
   @FXML
-  GridPane othersGridPane;
+  private GridPane othersGridPane;
   @FXML
-  RadioButton specialEffectRadioButton;
+  private RadioButton specialEffectRadioButton;
   private CustomedComboBox specialEffectComboBox = new CustomedComboBox(200, "逃げる");
   @FXML
-  RadioButton growthRadioButton;
+  private RadioButton growthRadioButton;
   private CustomedComboBox growthComboBox = new CustomedComboBox(200, parameterItems);
   private NumericTextField growthTextField = new NumericTextField("1", 1, 1000, 1);
   @FXML
-  RadioButton learningRadioButton;
+  private RadioButton learningRadioButton;
   @FXML
-  ListView<String> learningListView;
+  private ListView<String> learningListView;
   @FXML
-  RadioButton commonEventRadioButton;
+  private TextField learningFilterTextField;
   @FXML
-  ListView<String> commonEventListView;
+  private RadioButton commonEventRadioButton;
+  @FXML
+  private ListView<String> commonEventListView;
+  @FXML
+  private TextField commonEventFilterTextField;
 
   // **************************************************
   // OK・キャンセルボタン
@@ -171,8 +178,15 @@ public class EditStageController {
    * @param dataId
    * @param value1
    * @param value2
+   * @param commonEventList
+   * @param stateList
+   * @param skillList
    */
-  public void setInitialValues(int codeId, int dataId, double value1, double value2) {
+  public void setInitialValues(int codeId, int dataId, double value1, double value2, List<String> skillList, List<String> stateList, List<String> commonEventList) {
+    learningListView.setItems(FXCollections.observableArrayList(skillList));
+    stateListView.setItems(FXCollections.observableArrayList(stateList));
+    commonEventListView.setItems(FXCollections.observableArrayList(commonEventList));
+
     if (codeId == -1 &&
         dataId == -1 &&
         value1 == -1 &&
