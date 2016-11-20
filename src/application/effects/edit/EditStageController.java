@@ -204,19 +204,24 @@ public class EditStageController {
    * @param value2 Value2
    */
   private void setValues(int radioIndex, double value1, double value2) {
-    switch (radioIndex) {
-    case 0:
+    if (radioIndex == 1) {
       hpPercentageTextField.setText("" + (int) value1 * 100);
       hpPlusTextField.setText("" + (int) value2);
-      break;
-    case 1:
+    } else if (radioIndex == 2) {
       mpPercentageTextField.setText("" + (int) value1 * 100);
       mpPlusTextField.setText("" + (int) value2);
-      break;
-    case 2:
+    } else if (radioIndex == 3) {
       tpTextField.setText("" + (int) value1);
-    default:
-      break;
+    } else if (radioIndex == 4) {
+    } else if (radioIndex == 5) {
+    } else if (radioIndex == 6) {
+    } else if (radioIndex == 7) {
+    } else if (radioIndex == 8) {
+    } else if (radioIndex == 9) {
+    } else if (radioIndex == 10) {
+    } else if (radioIndex == 11) {
+    } else if (radioIndex == 12) {
+    } else if (radioIndex == 13) {
     }
   }
 }
