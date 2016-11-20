@@ -21,6 +21,7 @@ public class EffectsTableViewBorderPaneController {
   private MainController mainController;
   private List<String> stateList;
   private List<String> commonEventList;
+  private List<String> skillList;
 
   @FXML
   private TableView<Effects> effectsTableView = new TableView<>();
@@ -65,7 +66,8 @@ public class EffectsTableViewBorderPaneController {
    * EffectsTableViewを更新する。
    * @param effectsText Jsonテキスト
    */
-  public void update(String effectsText, ArrayList<String> skillsList) {
+  public void update(String effectsText, List<String> aSkillList) {
+    skillList = aSkillList;
     effectsTableView.getItems().clear();
     ObjectMapper mapper = new ObjectMapper();
     try {
@@ -79,7 +81,7 @@ public class EffectsTableViewBorderPaneController {
         double value2 = node.get("value2").asDouble();
 
         String type = EffectsTypeName.convertCodeIdToCodeText(codeId);
-        String content = contentFormat(codeId, dataId, value1, value2, skillsList);
+        String content = contentFormat(codeId, dataId, value1, value2);
         effectsTableView.getItems().add(new Effects(type, content));
       });
       effectsTableView.getItems().add(new Effects("", ""));
@@ -97,8 +99,7 @@ public class EffectsTableViewBorderPaneController {
    * @param skillsList
    * @return 整形後のテキスト
    */
-  private String contentFormat(int codeId, int dataId, double value1, double value2,
-      ArrayList<String> skillsList) {
+  private String contentFormat(int codeId, int dataId, double value1, double value2) {
     if (codeId == 11 || codeId == 12) {
       if ((int) value2 == 0) {
         return (int) value1 * 100 + " %";
@@ -118,7 +119,7 @@ public class EffectsTableViewBorderPaneController {
     } else if (codeId == 42) {
       return Parameters.values()[dataId].name() + " ＋ " + (int) value1;
     } else if (codeId == 43) {
-      return skillsList.get(dataId);
+      return skillList.get(dataId);
     } else if (codeId == 44) {
       return commonEventList.get(dataId);
     }
@@ -133,7 +134,7 @@ public class EffectsTableViewBorderPaneController {
    * @param codeId
    */
   private void openEditStage(int codeId, int dataId, double value1, double value2) {
-    EditStage editStage = new EditStage(codeId, dataId, value1, value2);
+    EditStage editStage = new EditStage(codeId, dataId, value1, value2, skillList, stateList, commonEventList);
     editStage.showAndWait();
   }
 
