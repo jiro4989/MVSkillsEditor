@@ -45,6 +45,19 @@ public class ImportFileVBoxController {
     }
   }
 
+  /**
+   * 各コンポーネントをクリック可能不可能を切り替える。
+   * @param clickable true = 選択不可, false = 選択可能
+   */
+  private void switchClickable(boolean disable) {
+    descriptionLabel.setDisable(disable);
+    projectRadioButton.setDisable(disable);
+    projectPathTextField.setDisable(disable);
+  
+    inputRadioButton.setDisable(disable);
+    inputPathTextField.setDisable(disable);
+  }
+
   @FXML
   private void projectRadioButtonOnClicked() {
     disableImportTextFields();
@@ -60,19 +73,6 @@ public class ImportFileVBoxController {
   private void disableImportTextFields() {
     projectPathTextField.setDisable(true);
     inputPathTextField.setDisable(true);
-  }
-
-  /**
-   * 各コンポーネントをクリック可能不可能を切り替える。
-   * @param clickable true = 選択不可, false = 選択可能
-   */
-  private void switchClickable(boolean disable) {
-    descriptionLabel.setDisable(disable);
-    projectRadioButton.setDisable(disable);
-    projectPathTextField.setDisable(disable);
-
-    inputRadioButton.setDisable(disable);
-    inputPathTextField.setDisable(disable);
   }
 
   public String getProjectPath() {

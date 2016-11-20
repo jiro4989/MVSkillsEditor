@@ -196,6 +196,15 @@ public class MainController {
   }
 
   /**
+   * プレビュー画面の選択可能状態を変更する。
+   * @param disable
+   */
+  private void changeDisablePreviews(boolean disable) {
+    effectsTableViewController.setDisable(disable);
+    noteTextArea.setDisable(disable);
+  }
+
+  /**
    * 警告ウィンドウを表示する。
    * @param header ヘッダーテキスト
    * @param content メインテキスト
@@ -253,15 +262,6 @@ public class MainController {
   @FXML
   private void noteTextAreaOnKeyReleased() {
     skillTableViewController.setNote(noteTextArea.getText());
-  }
-
-  /**
-   * プレビュー画面の選択可能状態を変更する。
-   * @param disable
-   */
-  private void changeDisablePreviews(boolean disable) {
-    effectsTableViewController.setDisable(disable);
-    noteTextArea.setDisable(disable);
   }
 
   /**

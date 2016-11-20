@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 public class EffectsTableViewBorderPaneController {
   private MainController mainController;
@@ -32,11 +33,13 @@ public class EffectsTableViewBorderPaneController {
     contentColumn.setCellValueFactory(new PropertyValueFactory<Effects, String>("content"));
 
     effectsTableView.getItems().add(new Effects("", ""));
-    effectsTableView.setOnMouseClicked(click -> {
-      if (click.getClickCount() == 2) {
-        openEditStage();
-      }
-    });
+  }
+
+  @FXML
+  private void effectsTableViewOnMouseClicked(MouseEvent click) {
+    if (click.getClickCount() == 2) {
+      openEditStage();
+    }
   }
 
   public void update(String effectsText) {
