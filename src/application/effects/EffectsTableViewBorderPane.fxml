@@ -8,7 +8,7 @@
 <BorderPane prefHeight="406.0" prefWidth="552.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.effects.EffectsTableViewBorderPaneController">
   <!-- TODO Add Nodes -->
   <center>
-    <TableView fx:id="effectsTableView" onMouseClicked="#effectsTableViewOnMouseClicked" prefHeight="200.0" prefWidth="200.0">
+    <TableView fx:id="effectsTableView" disable="true" onMouseClicked="#effectsTableViewOnMouseClicked" prefHeight="200.0" prefWidth="200.0">
       <columns>
         <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="115.0" text="タイプ" fx:id="typeColumn" />
         <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="162.0" text="内容" fx:id="contentColumn" />
