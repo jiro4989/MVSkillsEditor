@@ -1,12 +1,9 @@
 package application;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Stack;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 import application.config.Config;
@@ -26,8 +23,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import jiro.lib.javafx.stage.DirectoryChooserManager;
@@ -120,8 +115,6 @@ public class MainController {
 
     projectDcm = new DirectoryChooserManager();
     folderDcm = new DirectoryChooserManager();
-
-    changeDisablePreviews(true);
   }
 
   /**
@@ -192,7 +185,6 @@ public class MainController {
       skillTableViewController.setSkillDatas(skillData);
       effectsTableViewController.setStateList(stateData);
       effectsTableViewController.setCommonEventList(commonEventData);
-      changeDisablePreviews(false);
       return true;
     }
     return false;
@@ -202,9 +194,11 @@ public class MainController {
    * プレビュー画面の選択可能状態を変更する。
    * @param disable
    */
-  private void changeDisablePreviews(boolean disable) {
-    effectsTableViewController.setDisable(disable);
-    noteTextArea.setDisable(disable);
+  public void changeDisablePreviews(boolean disable) {
+    if (noteTextArea.isDisable()) {
+      effectsTableViewController.setDisable(disable);
+      noteTextArea.setDisable(disable);
+    }
   }
 
   /**
