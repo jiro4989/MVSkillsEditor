@@ -172,6 +172,7 @@ public class SkillTableViewBorderPaneController {
         .addListener((observable, oldValue, newValue) -> {
           updateEffectsPane();
           updateNotePane();
+          mainController.changeDisablePreviews(false);
         });
 
     skillTableView.getFocusModel().focusedCellProperty().addListener((obs, oldVal, newVal) -> {
