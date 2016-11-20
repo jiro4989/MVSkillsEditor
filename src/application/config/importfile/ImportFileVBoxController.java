@@ -53,7 +53,7 @@ public class ImportFileVBoxController {
     descriptionLabel.setDisable(disable);
     projectRadioButton.setDisable(disable);
     projectPathTextField.setDisable(disable);
-  
+
     inputRadioButton.setDisable(disable);
     inputPathTextField.setDisable(disable);
   }

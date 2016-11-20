@@ -17,6 +17,6 @@ public class Message1ColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).message1Property().set((String)value);
+    tableView.getItems().get(rowIndex).message1Property().set((String) value);
   }
 }

@@ -1,14 +1,14 @@
 package application.effects.edit.strategy;
 
-public class SpecialEffectStrategy extends EditStrategy {
+class SpecialEffectStrategy extends EditStrategy {
 
   @Override
-  public String formatToContentText(int codeId, int dataId, double value1, double value2) {
-    return null;
+  String formatToContentText(int codeId, int dataId, double value1, double value2) {
+    return "逃げる";
   }
 
   @Override
-  public String convertJsonString() {
+  String convertJsonString() {
     return null;
   }
 

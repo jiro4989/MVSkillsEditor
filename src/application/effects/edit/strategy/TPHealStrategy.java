@@ -1,14 +1,14 @@
 package application.effects.edit.strategy;
 
-public class TPHealStrategy extends EditStrategy {
+class TPHealStrategy extends EditStrategy {
 
   @Override
-  public String formatToContentText(int codeId, int dataId, double value1, double value2) {
-    return null;
+  String formatToContentText(int codeId, int dataId, double value1, double value2) {
+    return "" + (int) value1;
   }
 
   @Override
-  public String convertJsonString() {
+  String convertJsonString() {
     return null;
   }
 

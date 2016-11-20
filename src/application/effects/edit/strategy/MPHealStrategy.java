@@ -1,14 +1,17 @@
 package application.effects.edit.strategy;
 
-public class MPHealStrategy extends EditStrategy {
+class MPHealStrategy extends EditStrategy {
 
   @Override
-  public String formatToContentText(int codeId, int dataId, double value1, double value2) {
-    return null;
+  String formatToContentText(int codeId, int dataId, double value1, double value2) {
+    if ((int) value2 == 0) {
+      return (int) (value1 * 100) + " %";
+    }
+    return (int) (value1 * 100) + " %" + " ＋ " + (int) value2;
   }
 
   @Override
-  public String convertJsonString() {
+  String convertJsonString() {
     return null;
   }
 

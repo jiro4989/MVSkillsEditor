@@ -19,7 +19,7 @@ public class IconIndexColumnStrategy extends ColumnStrategy {
   public void setValue(Object value) {
     String strValue = (String) value;
     if (strValue.matches(REGEX)) {
-      tableView.getItems().get(rowIndex).iconIndexProperty().set((String)value);
+      tableView.getItems().get(rowIndex).iconIndexProperty().set((String) value);
     }
   }
 

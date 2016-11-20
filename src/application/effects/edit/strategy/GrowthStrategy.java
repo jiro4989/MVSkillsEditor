@@ -1,14 +1,14 @@
 package application.effects.edit.strategy;
 
-public class GrowthStrategy extends EditStrategy {
+class GrowthStrategy extends EditStrategy {
 
   @Override
-  public String formatToContentText(int codeId, int dataId, double value1, double value2) {
-    return null;
+  String formatToContentText(int codeId, int dataId, double value1, double value2) {
+    return Parameters.values()[dataId].name() + " ＋ " + (int) value1;
   }
 
   @Override
-  public String convertJsonString() {
+  String convertJsonString() {
     return null;
   }
 

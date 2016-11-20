@@ -1,14 +1,21 @@
 package application.effects.edit.strategy;
 
-public class CommonEventStrategy extends EditStrategy {
+import java.util.List;
 
-  @Override
-  public String formatToContentText(int codeId, int dataId, double value1, double value2) {
-    return null;
+class CommonEventStrategy extends EditStrategy {
+  private List<String> commonEventList;
+
+  public CommonEventStrategy(List<String> commonEventList) {
+    this.commonEventList = commonEventList;
   }
 
   @Override
-  public String convertJsonString() {
+  String formatToContentText(int codeId, int dataId, double value1, double value2) {
+    return commonEventList.get(dataId);
+  }
+
+  @Override
+  String convertJsonString() {
     return null;
   }
 

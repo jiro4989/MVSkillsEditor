@@ -182,7 +182,8 @@ public class EditStageController {
    * @param stateList
    * @param skillList
    */
-  public void setInitialValues(int codeId, int dataId, double value1, double value2, List<String> skillList, List<String> stateList, List<String> commonEventList) {
+  public void setInitialValues(int codeId, int dataId, double value1, double value2,
+      List<String> skillList, List<String> stateList, List<String> commonEventList) {
     learningListView.setItems(FXCollections.observableArrayList(skillList));
     stateListView.setItems(FXCollections.observableArrayList(stateList));
     commonEventListView.setItems(FXCollections.observableArrayList(commonEventList));
@@ -230,17 +231,17 @@ public class EditStageController {
     } else if (radioIndex == 3) {
       // ステートタブ
       stateListView.getSelectionModel().select(dataId);
-      addStateTextField.setText("" + (int)(value1 * 100));
+      addStateTextField.setText("" + (int) (value1 * 100));
     } else if (radioIndex == 4) {
       stateListView.getSelectionModel().select(dataId);
-      releaseStateTextField.setText("" + (int)(value1 * 100));
+      releaseStateTextField.setText("" + (int) (value1 * 100));
     } else if (radioIndex == 5) {
       // 能力値タブ
       upComboBox.getSelectionModel().select(dataId);
-      upTextField.setText("" + (int)value1);
+      upTextField.setText("" + (int) value1);
     } else if (radioIndex == 6) {
       downComboBox.getSelectionModel().select(dataId);
-      downTextField.setText("" + (int)value1);
+      downTextField.setText("" + (int) value1);
     } else if (radioIndex == 7) {
       upReleaseComboBox.getSelectionModel().select(dataId);
     } else if (radioIndex == 8) {
@@ -250,7 +251,7 @@ public class EditStageController {
       specialEffectComboBox.getSelectionModel().select(dataId);
     } else if (radioIndex == 10) {
       growthComboBox.getSelectionModel().select(dataId);
-      growthTextField.setText("" + (int)value1);
+      growthTextField.setText("" + (int) value1);
     } else if (radioIndex == 11) {
       learningListView.getSelectionModel().select(dataId);
     } else if (radioIndex == 12) {

@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import application.MainController;
 import application.effects.edit.EditStage;
+import application.effects.edit.strategy.EditStrategyManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -81,49 +82,17 @@ public class EffectsTableViewBorderPaneController {
         double value2 = node.get("value2").asDouble();
 
         String type = EffectsTypeName.convertCodeIdToCodeText(codeId);
-        String content = contentFormat(codeId, dataId, value1, value2);
+
+        EditStrategyManager manager = new EditStrategyManager();
+        manager.changeStrategy(codeId, skillList, stateList, commonEventList);
+        String content = manager.formatToContentText(codeId, dataId, value1, value2);
+
         effectsTableView.getItems().add(new Effects(type, content));
       });
       effectsTableView.getItems().add(new Effects("", ""));
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Jsonの数値からTableViewの表示用のテキストに整形する。
-   * @param codeId CodeId
-   * @param dataId DataId
-   * @param value1 Value1
-   * @param value2 Value2
-   * @param skillsList
-   * @return 整形後のテキスト
-   */
-  private String contentFormat(int codeId, int dataId, double value1, double value2) {
-    if (codeId == 11 || codeId == 12) {
-      if ((int) value2 == 0) {
-        return (int) (value1 * 100) + " %";
-      }
-      return (int) (value1 * 100) + " %" + " ＋ " + (int) value2;
-    } else if (codeId == 13) {
-      return "" + (int) value1;
-    } else if (codeId == 21 || codeId == 22) {
-      String stateName = stateList.get(dataId);
-      return stateName + " " + (int) (value1 * 100) + " %";
-    } else if (codeId == 31 || codeId == 32) {
-      return Parameters.values()[dataId].name() + " " + (int) value1 + " ターン";
-    } else if (codeId == 33 || codeId == 34) {
-      return Parameters.values()[dataId].name();
-    } else if (codeId == 41) {
-      return "逃げる";
-    } else if (codeId == 42) {
-      return Parameters.values()[dataId].name() + " ＋ " + (int) value1;
-    } else if (codeId == 43) {
-      return skillList.get(dataId);
-    } else if (codeId == 44) {
-      return commonEventList.get(dataId);
-    }
-    return "";
   }
 
   /**
@@ -134,7 +103,8 @@ public class EffectsTableViewBorderPaneController {
    * @param codeId
    */
   private void openEditStage(int codeId, int dataId, double value1, double value2) {
-    EditStage editStage = new EditStage(codeId, dataId, value1, value2, skillList, stateList, commonEventList);
+    EditStage editStage = new EditStage(codeId, dataId, value1, value2, skillList, stateList,
+        commonEventList);
     editStage.showAndWait();
   }
 

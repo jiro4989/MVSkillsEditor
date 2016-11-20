@@ -4,29 +4,20 @@ package application.effects.edit.strategy;
  * 使用効果のテキストを編集する戦略インタフェース。
  * @author jiro
  */
-public abstract class EditStrategy {
-  public abstract String formatToContentText(int codeId, int dataId, double value1, double value2);
-  public abstract String convertJsonString();
+abstract class EditStrategy {
+  /**
+   * IDと値から表示上のテキストに整形する。
+   * @param codeId CodeId
+   * @param dataId DataId
+   * @param value1 Value1
+   * @param value2 Value2
+   * @return 整形後の文字列
+   */
+  abstract String formatToContentText(int codeId, int dataId, double value1, double value2);
 
   /**
-   * 戦略クラスのインスタンス切り替えのためのインデックスを取得する。
-   * @param codeId CodeId
-   * @return 戦略インデックス
+   * 保持する値をJson文字列に変換する。
+   * @return Json文字列
    */
-  public static int getStrategyIndexFrom(int codeId) {
-    int placeTen = codeId / 10 - 1;
-    int placeOne = codeId % 10 - 1;
-    // @formatter:off
-    placeOne =
-          placeTen == 0 ? placeOne
-        : placeTen == 1 ? placeOne + 3
-        : placeTen == 2 ? placeOne + 5
-        : placeOne + 9;
-    // @formatter:on
-    return placeOne;
-  }
-
-  public static void changeStrategy() {
-
-  }
+  abstract String convertJsonString();
 }

@@ -1,14 +1,14 @@
 package application.effects.edit.strategy;
 
-public class DownReleaseStrategy extends EditStrategy {
+class DownReleaseStrategy extends EditStrategy {
 
   @Override
-  public String formatToContentText(int codeId, int dataId, double value1, double value2) {
-    return null;
+  String formatToContentText(int codeId, int dataId, double value1, double value2) {
+    return Parameters.values()[dataId].name();
   }
 
   @Override
-  public String convertJsonString() {
+  String convertJsonString() {
     return null;
   }
 

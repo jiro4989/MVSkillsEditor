@@ -1,14 +1,22 @@
 package application.effects.edit.strategy;
 
-public class ReleaseStateStrategy extends EditStrategy {
+import java.util.List;
 
-  @Override
-  public String formatToContentText(int codeId, int dataId, double value1, double value2) {
-    return null;
+class ReleaseStateStrategy extends EditStrategy {
+  private List<String> stateList;
+
+  public ReleaseStateStrategy(List<String> aStateList) {
+    stateList = aStateList;
   }
 
   @Override
-  public String convertJsonString() {
+  String formatToContentText(int codeId, int dataId, double value1, double value2) {
+    String stateName = stateList.get(dataId);
+    return stateName + " " + (int) (value1 * 100) + " %";
+  }
+
+  @Override
+  String convertJsonString() {
     return null;
   }
 
