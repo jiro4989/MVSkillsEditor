@@ -18,9 +18,10 @@
   MVSM.jar
 
 【動作確認・開発環境】
-  Windows7 Home Premium
-  LinuxBean12.04
-  Java jdk1.8.0_111
+  OS:             Windows7 64bit Home Premium, LinuxBean12.04
+  プロセッサ:     3.50GHz Intel Core i7-4770K
+  メモリ:         8GB RAM
+  Javaバージョン: 1.8.0_111
 
 ------------------------------------------------------------
 【ソフトウェア概要】
