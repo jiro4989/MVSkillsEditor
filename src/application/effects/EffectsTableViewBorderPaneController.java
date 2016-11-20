@@ -1,5 +1,6 @@
 package application.effects;
 
+import java.awt.List;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,7 +43,11 @@ public class EffectsTableViewBorderPaneController {
     }
   }
 
-  public void update(String effectsText) {
+  /**
+   * EffectsTableViewを更新する。
+   * @param effectsText Jsonテキスト
+   */
+  public void update(String effectsText, ArrayList<String> skillsList) {
     effectsTableView.getItems().clear();
     ObjectMapper mapper = new ObjectMapper();
     try {
@@ -56,12 +61,11 @@ public class EffectsTableViewBorderPaneController {
         double value2 = node.get("value2").asDouble();
 
         String type = EffectsTypeName.convertCodeIdToCodeText(codeId);
-        String content = contentFormat(codeId, dataId, value1, value2);
+        String content = contentFormat(codeId, dataId, value1, value2, skillsList);
         effectsTableView.getItems().add(new Effects(type, content));
       });
       effectsTableView.getItems().add(new Effects("", ""));
     } catch (IOException e) {
-      // TODO 自動生成された catch ブロック
       e.printStackTrace();
     }
   }
@@ -72,9 +76,11 @@ public class EffectsTableViewBorderPaneController {
    * @param dataId DataId
    * @param value1 Value1
    * @param value2 Value2
+   * @param skillsList
    * @return 整形後のテキスト
    */
-  private String contentFormat(int codeId, int dataId, double value1, double value2) {
+  private String contentFormat(int codeId, int dataId, double value1, double value2,
+      ArrayList<String> skillsList) {
     if (codeId == 11 || codeId == 12) {
       return (int) value1 * 100 + " %";
     } else if (codeId == 13) {
@@ -91,6 +97,7 @@ public class EffectsTableViewBorderPaneController {
     } else if (codeId == 42) {
       return Parameters.values()[dataId].name() + " ＋ " + (int) value1;
     } else if (codeId == 43) {
+      return skillsList.get(dataId);
     } else if (codeId == 44) {
     }
     return "";
@@ -127,7 +134,6 @@ public class EffectsTableViewBorderPaneController {
             stateList.add(name);
           });
     } catch (IOException e) {
-      // TODO 自動生成された catch ブロック
       e.printStackTrace();
     }
   }

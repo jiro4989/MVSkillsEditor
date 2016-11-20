@@ -1,6 +1,7 @@
 package application;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Stack;
 import java.util.regex.Matcher;
@@ -294,8 +295,8 @@ public class MainController {
     yLabel.setText("" + y);
   }
 
-  public void updateEffectsTableView(String effectsText) {
-    effectsTableViewController.update(effectsText);
+  public void updateEffectsTableView(String effectsText, ArrayList<String> skillsList) {
+    effectsTableViewController.update(effectsText, skillsList);
   }
 
   public void closeAction() {

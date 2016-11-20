@@ -1,7 +1,9 @@
 package application.tableview;
 
+import java.awt.List;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -188,7 +190,7 @@ public class SkillTableViewBorderPaneController {
     tableColumn.setCellFactory(column -> {
       return new TextFieldTableCell<>(new DefaultStringConverter());
     });
-  
+
     // 編集が終わった後に呼び出す処理
     tableColumn.setOnEditCommit(e -> {
       skillTableView.requestFocus();
@@ -203,11 +205,11 @@ public class SkillTableViewBorderPaneController {
     if (prop.exists()) {
       prop.load();
       skillTableView.getColumns().clear();
-  
+
       IntStream.range(0, columnIndices.length).forEach(i -> {
         columnIndices[i] = Integer.parseInt(prop.getValue(INDICES_KEYS[i]));
       });
-  
+
       for (int i = 0; i < INDICES_KEYS.length; i++) {
         if (i == columnIndices[0]) {
           skillTableView.getColumns().add(i, idColumn);
@@ -417,7 +419,14 @@ public class SkillTableViewBorderPaneController {
     if (!skillTableView.getSelectionModel().isEmpty()) {
       String effectsText = skillTableView.getSelectionModel().getSelectedItem().effectsProperty()
           .get();
-      mainController.updateEffectsTableView(effectsText);
+      int size = skillTableView.getItems().size();
+      ArrayList<String> skillsList = new ArrayList<>(size);
+      skillsList.add(null);
+      skillTableView.getItems()
+          .forEach(item -> {
+            skillsList.add(item.nameProperty().get());
+          });
+      mainController.updateEffectsTableView(effectsText, skillsList);
     }
   }
 
@@ -442,122 +451,124 @@ public class SkillTableViewBorderPaneController {
       JsonNode root = mapper.readTree(file);
 
       IntStream.range(0, root.size())
-      .forEach(index -> {
-        JsonNode children = root.get(index);
-        skillTableView.getItems()
-            .add(new Skill(String.valueOf(index), "sample", "0", "desc", "1", "1", "1", "1", "1",
-                "1", "1", "1", "1", "1", "1", "msg1", "msg2", "1", "2", "1", "2", "formula", "20",
-                "20", "effects", "note"));
+          .forEach(index -> {
+            JsonNode children = root.get(index);
+            skillTableView.getItems()
+                .add(
+                    new Skill(String.valueOf(index), "sample", "0", "desc", "1", "1", "1", "1", "1",
+                        "1", "1", "1", "1", "1", "1", "msg1", "msg2", "1", "2", "1", "2", "formula",
+                        "20",
+                        "20", "effects", "note"));
 
-        JsonNode value = children.get("id");
-        if (value != null) {
-          skillTableView.getItems().get(index).setId(value.asText());
-        }
-        value = children.get("name");
-        if (value != null) {
-          skillTableView.getItems().get(index).setName(value.asText());
-        }
-        value = children.get("iconIndex");
-        if (value != null) {
-          skillTableView.getItems().get(index).setIconIndex(value.asText());
-        }
-        value = children.get("description");
-        if (value != null) {
-          skillTableView.getItems().get(index).setDescription(value.asText());
-        }
-        value = children.get("stypeId");
-        if (value != null) {
-          skillTableView.getItems().get(index).setStypeId(value.asText());
-        }
-        value = children.get("scope");
-        if (value != null) {
-          skillTableView.getItems().get(index).setScope(value.asText());
-        }
-        value = children.get("mpCost");
-        if (value != null) {
-          skillTableView.getItems().get(index).setMpCost(value.asText());
-        }
-        value = children.get("tpCost");
-        if (value != null) {
-          skillTableView.getItems().get(index).setTpCost(value.asText());
-        }
-        value = children.get("occasion");
-        if (value != null) {
-          skillTableView.getItems().get(index).setOccasion(value.asText());
-        }
-        value = children.get("speed");
-        if (value != null) {
-          skillTableView.getItems().get(index).setSpeed(value.asText());
-        }
-        value = children.get("successRate");
-        if (value != null) {
-          skillTableView.getItems().get(index).setSuccessRate(value.asText());
-        }
-        value = children.get("repeats");
-        if (value != null) {
-          skillTableView.getItems().get(index).setRepeats(value.asText());
-        }
-        value = children.get("tpGain");
-        if (value != null) {
-          skillTableView.getItems().get(index).setTpGain(value.asText());
-        }
-        value = children.get("hitType");
-        if (value != null) {
-          skillTableView.getItems().get(index).setHitType(value.asText());
-        }
-        value = children.get("animationId");
-        if (value != null) {
-          skillTableView.getItems().get(index).setAnimationId(value.asText());
-        }
-        value = children.get("message1");
-        if (value != null) {
-          skillTableView.getItems().get(index).setMessage1(value.asText());
-        }
-        value = children.get("message2");
-        if (value != null) {
-          skillTableView.getItems().get(index).setMessage2(value.asText());
-        }
-        value = children.get("requiredWtypeId1");
-        if (value != null) {
-          skillTableView.getItems().get(index).setRequiredWtypeId1(value.asText());
-        }
-        value = children.get("requiredWtypeId2");
-        if (value != null) {
-          skillTableView.getItems().get(index).setRequiredWtypeId2(value.asText());
-        }
-        value = children.get("damage");
-        if (value != null) {
-          JsonNode damage = children.get("damage");
-          value = damage.get("type");
-          if (value != null) {
-            skillTableView.getItems().get(index).setDamageType(value.asText());
-          }
-          value = damage.get("elementId");
-          if (value != null) {
-            skillTableView.getItems().get(index).setDamageElement(value.asText());
-          }
-          value = damage.get("formula");
-          if (value != null) {
-            skillTableView.getItems().get(index).setFormula(value.asText());
-          }
-          value = damage.get("variance");
-          if (value != null) {
-            skillTableView.getItems().get(index).setVariance(value.asText());
-          }
-          value = damage.get("critical");
-          if (value != null) {
-            skillTableView.getItems().get(index).setCritical(value.asText());
-          }
-        }
-        value = children.get("effects");
-        if (value != null) {
-          skillTableView.getItems().get(index).setEffects(value.toString());
-        }
-        value = children.get("note");
-        if (value != null) {
-          skillTableView.getItems().get(index).setNote(value.asText());
-        }
-      });
+            JsonNode value = children.get("id");
+            if (value != null) {
+              skillTableView.getItems().get(index).setId(value.asText());
+            }
+            value = children.get("name");
+            if (value != null) {
+              skillTableView.getItems().get(index).setName(value.asText());
+            }
+            value = children.get("iconIndex");
+            if (value != null) {
+              skillTableView.getItems().get(index).setIconIndex(value.asText());
+            }
+            value = children.get("description");
+            if (value != null) {
+              skillTableView.getItems().get(index).setDescription(value.asText());
+            }
+            value = children.get("stypeId");
+            if (value != null) {
+              skillTableView.getItems().get(index).setStypeId(value.asText());
+            }
+            value = children.get("scope");
+            if (value != null) {
+              skillTableView.getItems().get(index).setScope(value.asText());
+            }
+            value = children.get("mpCost");
+            if (value != null) {
+              skillTableView.getItems().get(index).setMpCost(value.asText());
+            }
+            value = children.get("tpCost");
+            if (value != null) {
+              skillTableView.getItems().get(index).setTpCost(value.asText());
+            }
+            value = children.get("occasion");
+            if (value != null) {
+              skillTableView.getItems().get(index).setOccasion(value.asText());
+            }
+            value = children.get("speed");
+            if (value != null) {
+              skillTableView.getItems().get(index).setSpeed(value.asText());
+            }
+            value = children.get("successRate");
+            if (value != null) {
+              skillTableView.getItems().get(index).setSuccessRate(value.asText());
+            }
+            value = children.get("repeats");
+            if (value != null) {
+              skillTableView.getItems().get(index).setRepeats(value.asText());
+            }
+            value = children.get("tpGain");
+            if (value != null) {
+              skillTableView.getItems().get(index).setTpGain(value.asText());
+            }
+            value = children.get("hitType");
+            if (value != null) {
+              skillTableView.getItems().get(index).setHitType(value.asText());
+            }
+            value = children.get("animationId");
+            if (value != null) {
+              skillTableView.getItems().get(index).setAnimationId(value.asText());
+            }
+            value = children.get("message1");
+            if (value != null) {
+              skillTableView.getItems().get(index).setMessage1(value.asText());
+            }
+            value = children.get("message2");
+            if (value != null) {
+              skillTableView.getItems().get(index).setMessage2(value.asText());
+            }
+            value = children.get("requiredWtypeId1");
+            if (value != null) {
+              skillTableView.getItems().get(index).setRequiredWtypeId1(value.asText());
+            }
+            value = children.get("requiredWtypeId2");
+            if (value != null) {
+              skillTableView.getItems().get(index).setRequiredWtypeId2(value.asText());
+            }
+            value = children.get("damage");
+            if (value != null) {
+              JsonNode damage = children.get("damage");
+              value = damage.get("type");
+              if (value != null) {
+                skillTableView.getItems().get(index).setDamageType(value.asText());
+              }
+              value = damage.get("elementId");
+              if (value != null) {
+                skillTableView.getItems().get(index).setDamageElement(value.asText());
+              }
+              value = damage.get("formula");
+              if (value != null) {
+                skillTableView.getItems().get(index).setFormula(value.asText());
+              }
+              value = damage.get("variance");
+              if (value != null) {
+                skillTableView.getItems().get(index).setVariance(value.asText());
+              }
+              value = damage.get("critical");
+              if (value != null) {
+                skillTableView.getItems().get(index).setCritical(value.asText());
+              }
+            }
+            value = children.get("effects");
+            if (value != null) {
+              skillTableView.getItems().get(index).setEffects(value.toString());
+            }
+            value = children.get("note");
+            if (value != null) {
+              skillTableView.getItems().get(index).setNote(value.asText());
+            }
+          });
       skillTableView.getItems().remove(0);
       updateEffectsPane();
       updateNotePane();
