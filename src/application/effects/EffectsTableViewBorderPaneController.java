@@ -102,14 +102,14 @@ public class EffectsTableViewBorderPaneController {
   private String contentFormat(int codeId, int dataId, double value1, double value2) {
     if (codeId == 11 || codeId == 12) {
       if ((int) value2 == 0) {
-        return (int) value1 * 100 + " %";
+        return (int) (value1 * 100) + " %";
       }
-      return (int) value1 * 100 + " %" + " ＋ " + (int) value2;
+      return (int) (value1 * 100) + " %" + " ＋ " + (int) value2;
     } else if (codeId == 13) {
       return "" + (int) value1;
     } else if (codeId == 21 || codeId == 22) {
       String stateName = stateList.get(dataId);
-      return stateName + " " + (int) value1 * 100 + " %";
+      return stateName + " " + (int) (value1 * 100) + " %";
     } else if (codeId == 31 || codeId == 32) {
       return Parameters.values()[dataId].name() + " " + (int) value1 + " ターン";
     } else if (codeId == 33 || codeId == 34) {
