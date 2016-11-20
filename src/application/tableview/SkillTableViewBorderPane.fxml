@@ -40,6 +40,9 @@
         <TableColumn prefWidth="75.0" text="使用効果" fx:id="effectsColumn" />
         <TableColumn prefWidth="75.0" text="メモ" fx:id="noteColumn" />
       </columns>
+      <BorderPane.margin>
+        <Insets />
+      </BorderPane.margin>
     </TableView>
   </center>
 </BorderPane>

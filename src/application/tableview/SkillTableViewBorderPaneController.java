@@ -456,6 +456,7 @@ public class SkillTableViewBorderPaneController {
             JsonNode children = root.get(index);
 
             int id = children.get("id").asInt();
+            final String ID = String.format("%1$04d", id);
             String name = children.get("name").asText();
             String iconIndex = children.get("iconIndex").asText();
             String description = children.get("description").asText();
@@ -485,7 +486,6 @@ public class SkillTableViewBorderPaneController {
             String effects = children.get("effects").toString();
             String note = children.get("note").asText();
 
-            final String ID = String.format("%1$03d", id);
             skillTableView.getItems().add(
                 new Skill(ID, name, iconIndex, description, stypeId, scope, mpCost, tpCost,
                     occasion, speed, successRate, repeats, tpGain, hitType, animationId, message1,
