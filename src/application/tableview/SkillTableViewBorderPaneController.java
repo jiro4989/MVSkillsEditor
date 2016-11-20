@@ -591,4 +591,8 @@ public class SkillTableViewBorderPaneController {
       skillTableView.getItems().get(selectedIndex).noteProperty().set(text);
     }
   }
+
+  public String getSelectedEffects() {
+    return skillTableView.getSelectionModel().getSelectedItem().effectsProperty().get();
+  }
 }

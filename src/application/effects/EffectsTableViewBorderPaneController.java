@@ -1,9 +1,9 @@
 package application.effects;
 
-import java.awt.List;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -19,7 +19,8 @@ import javafx.scene.input.MouseEvent;
 
 public class EffectsTableViewBorderPaneController {
   private MainController mainController;
-  private ArrayList<String> stateList;
+  private List<String> stateList;
+  private List<String> commonEventList;
 
   @FXML
   private TableView<Effects> effectsTableView = new TableView<>();
@@ -39,7 +40,24 @@ public class EffectsTableViewBorderPaneController {
   @FXML
   private void effectsTableViewOnMouseClicked(MouseEvent click) {
     if (click.getClickCount() == 2) {
-      openEditStage();
+      int selectedIndex = effectsTableView.getSelectionModel().getSelectedIndex();
+      ObjectMapper mapper = new ObjectMapper();
+      try {
+        JsonNode root = mapper.readTree(mainController.getSelectedEffects());
+        int rootSize = root.size();
+        if (selectedIndex < rootSize) {
+          JsonNode node = root.get(selectedIndex);
+          int codeId = node.get("code").asInt();
+          int dataId = node.get("dataId").asInt();
+          double value1 = node.get("value1").asDouble();
+          double value2 = node.get("value2").asDouble();
+          openEditStage(codeId, dataId, value1, value2);
+          return;
+        }
+        openEditStage(-1, -1, -1, -1);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
   }
 
@@ -82,7 +100,10 @@ public class EffectsTableViewBorderPaneController {
   private String contentFormat(int codeId, int dataId, double value1, double value2,
       ArrayList<String> skillsList) {
     if (codeId == 11 || codeId == 12) {
-      return (int) value1 * 100 + " %";
+      if ((int) value2 == 0) {
+        return (int) value1 * 100 + " %";
+      }
+      return (int) value1 * 100 + " %" + " ＋ " + (int) value2;
     } else if (codeId == 13) {
       return "" + (int) value1;
     } else if (codeId == 21 || codeId == 22) {
@@ -99,15 +120,20 @@ public class EffectsTableViewBorderPaneController {
     } else if (codeId == 43) {
       return skillsList.get(dataId);
     } else if (codeId == 44) {
+      return commonEventList.get(dataId);
     }
     return "";
   }
 
   /**
    * 使用効果の編集画面を開く
+   * @param value2
+   * @param value1
+   * @param dataId
+   * @param codeId
    */
-  private void openEditStage() {
-    EditStage editStage = new EditStage();
+  private void openEditStage(int codeId, int dataId, double value1, double value2) {
+    EditStage editStage = new EditStage(codeId, dataId, value1, value2);
     editStage.showAndWait();
   }
 
@@ -119,11 +145,11 @@ public class EffectsTableViewBorderPaneController {
     effectsTableView.setDisable(disable);
   }
 
-  public void setStateDatas(File stateData) {
+  public void setStateList(File stateFile) {
     ObjectMapper mapper = new ObjectMapper();
 
     try {
-      JsonNode root = mapper.readTree(stateData);
+      JsonNode root = mapper.readTree(stateFile);
       int size = root.size();
       stateList = new ArrayList<>(size);
       stateList.add("通常攻撃");
@@ -132,6 +158,25 @@ public class EffectsTableViewBorderPaneController {
             JsonNode children = root.get(i);
             String name = children.get("name").asText();
             stateList.add(name);
+          });
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void setCommonEventList(File commonEventFile) {
+    ObjectMapper mapper = new ObjectMapper();
+
+    try {
+      JsonNode root = mapper.readTree(commonEventFile);
+      int size = root.size();
+      commonEventList = new ArrayList<>(size);
+      commonEventList.add(null);
+      IntStream.range(1, size)
+          .forEach(i -> {
+            JsonNode children = root.get(i);
+            String name = children.get("name").asText();
+            commonEventList.add(name);
           });
     } catch (IOException e) {
       e.printStackTrace();

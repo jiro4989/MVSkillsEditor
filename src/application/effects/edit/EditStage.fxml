@@ -26,7 +26,7 @@
     </VBox>
   </bottom>
   <center>
-    <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+    <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
       <tabs>
         <Tab text="回復">
           <content>

@@ -1,6 +1,7 @@
 package application;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Stack;
@@ -189,7 +190,8 @@ public class MainController {
         && commonEventData.exists()
         && (iconSetImage1.exists() || iconSetImage2.exists())) {
       skillTableViewController.setSkillDatas(skillData);
-      effectsTableViewController.setStateDatas(stateData);
+      effectsTableViewController.setStateList(stateData);
+      effectsTableViewController.setCommonEventList(commonEventData);
       changeDisablePreviews(false);
       return true;
     }
@@ -305,5 +307,9 @@ public class MainController {
 
   public void setNoteText(String text) {
     noteTextArea.setText(text);
+  }
+
+  public String getSelectedEffects() {
+    return skillTableViewController.getSelectedEffects();
   }
 }
