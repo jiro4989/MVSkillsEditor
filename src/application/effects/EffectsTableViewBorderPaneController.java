@@ -23,6 +23,7 @@ public class EffectsTableViewBorderPaneController {
   private List<String> stateList;
   private List<String> commonEventList;
   private List<String> skillList;
+  private int currentSelectedIndex = 0;
 
   @FXML
   private TableView<Effects> effectsTableView = new TableView<>();
@@ -92,6 +93,10 @@ public class EffectsTableViewBorderPaneController {
         effectsTableView.getItems().add(new Effects(type, content));
       });
       effectsTableView.getItems().add(new Effects("", ""));
+
+      int tableSize = effectsTableView.getItems().size();
+      currentSelectedIndex = tableSize < currentSelectedIndex ? tableSize : currentSelectedIndex;
+      effectsTableView.getSelectionModel().select(currentSelectedIndex);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -162,8 +167,13 @@ public class EffectsTableViewBorderPaneController {
    */
   public void updateEffects(double[] values) {
     if (!effectsTableView.getSelectionModel().isEmpty()) {
-      int selectedIndex = effectsTableView.getSelectionModel().getSelectedIndex();
-      mainController.updateEffectsCell(selectedIndex, values);
+      currentSelectedIndex = effectsTableView.getSelectionModel().getSelectedIndex();
+      mainController.updateEffectsCell(currentSelectedIndex, values);
     }
+  }
+
+  public void addEffects(double[] values) {
+    currentSelectedIndex = effectsTableView.getItems().size() - 1;
+    mainController.updateEffectsCell(currentSelectedIndex, values);
   }
 }

@@ -39,6 +39,9 @@ class CommonEventStrategy extends EditStrategy {
 
   @Override
   void changeDisable() {
+    int currentIndex = listView.getSelectionModel().isEmpty()
+        ? 0 : listView.getSelectionModel().getSelectedIndex();
+    listView.getSelectionModel().select(currentIndex);
     listView.setDisable(false);
   }
 }

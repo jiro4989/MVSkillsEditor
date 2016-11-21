@@ -19,7 +19,6 @@ class AddStateStrategy extends EditStrategy {
     addStateTextField = aTextField;
   }
 
-
   @Override
   String formatToContentText(int codeId, int dataId, double value1, double value2) {
     String stateName = stateList.get(dataId);
@@ -45,6 +44,9 @@ class AddStateStrategy extends EditStrategy {
 
   @Override
   void changeDisable() {
+    int currentIndex = stateListView.getSelectionModel().isEmpty()
+        ? 0 : stateListView.getSelectionModel().getSelectedIndex();
+    stateListView.getSelectionModel().select(currentIndex);
     stateListView.setDisable(false);
     addStateTextField.setDisable(false);
   }

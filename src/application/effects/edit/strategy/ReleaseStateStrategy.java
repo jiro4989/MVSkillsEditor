@@ -44,6 +44,9 @@ class ReleaseStateStrategy extends EditStrategy {
 
   @Override
   void changeDisable() {
+    int currentIndex = stateListView.getSelectionModel().isEmpty()
+        ? 0 : stateListView.getSelectionModel().getSelectedIndex();
+    stateListView.getSelectionModel().select(currentIndex);
     stateListView.setDisable(false);
     releaseStateTextField.setDisable(false);
   }

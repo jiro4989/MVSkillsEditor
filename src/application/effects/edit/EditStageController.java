@@ -168,12 +168,20 @@ public class EditStageController {
   }
 
   @FXML
+  private void addButtonOnClicked() {
+    controller.addEffects(getValues());
+  }
+
+  @FXML
   private void okButtonOnClicked() {
+    controller.updateEffects(getValues());
+    okButton.getScene().getWindow().hide();
+  }
+
+  private double[] getValues() {
     int strategyIndex = getSelectedRadioButtonIndex();
     changeStrategy(strategyIndex);
-    double[] values = manager.getValues();
-    controller.updateEffects(values);
-    okButton.getScene().getWindow().hide();
+    return manager.getValues();
   }
 
   @FXML
@@ -243,18 +251,18 @@ public class EditStageController {
     mpPercentageTextField.setDisable(true);
     mpPlusTextField.setDisable(true);
     tpTextField.setDisable(true);
-  
+
     stateListView.setDisable(true);
     addStateTextField.setDisable(true);
     releaseStateTextField.setDisable(true);
-  
+
     upComboBox.setDisable(true);
     upTextField.setDisable(true);
     downComboBox.setDisable(true);
     downTextField.setDisable(true);
     upReleaseComboBox.setDisable(true);
     downReleaseComboBox.setDisable(true);
-  
+
     specialEffectComboBox.setDisable(true);
     growthComboBox.setDisable(true);
     growthTextField.setDisable(true);
