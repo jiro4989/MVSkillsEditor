@@ -18,12 +18,18 @@ class DownReleaseStrategy extends EditStrategy {
   }
 
   @Override
-  String convertJsonString() {
-    return null;
+  void setValue(int dataId, double value1, double value2) {
+    comboBox.getSelectionModel().select(dataId);
   }
 
   @Override
-  void setValue(int dataId, double value1, double value2) {
-    comboBox.getSelectionModel().select(dataId);
+  double[] getValues() {
+    double[] values = {
+        34.0,
+        comboBox.getSelectionModel().getSelectedIndex(),
+        0.0,
+        0.0,
+    };
+    return values;
   }
 }

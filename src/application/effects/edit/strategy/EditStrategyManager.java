@@ -26,11 +26,15 @@ public class EditStrategyManager {
   }
 
   /**
-   * Json文字列に変換して返す。
-   * @return Json文字列
+   * セットした値を返す。
+   * @return
+   *     values[0] = code<br>
+   *     values[1] = dataId<br>
+   *     values[2] = value1<br>
+   *     values[3] = value2<br>
    */
-  public String convertJsonString() {
-    return strategy.convertJsonString();
+  public double[] getValues() {
+    return strategy.getValues();
   }
 
   /**
@@ -50,10 +54,11 @@ public class EditStrategyManager {
    * @param stateList
    * @param commonEventList
    */
-  public void changeStrategy(int codeId, List<String> skillList, List<String> stateList,
+  public void changeStrategy(
+      int strategyIndex,
+      List<String> skillList,
+      List<String> stateList,
       List<String> commonEventList) {
-    int strategyIndex = calculateStrategyIndex(codeId);
-
     switch (strategyIndex) {
     case 0:
       strategy = new HPHealStrategy();
@@ -123,7 +128,7 @@ public class EditStrategyManager {
    * @param celv
    */
   public void changeStrategy(
-      int codeId,
+      int strategyIndex,
       TextField hptf1, TextField hptf2,
       TextField mptf1, TextField mptf2,
       TextField tptf,
@@ -135,10 +140,7 @@ public class EditStrategyManager {
       ComboBox<String> specialcb,
       ComboBox<String> growthcb, TextField growthtf,
       ListView<String> llv,
-      ListView<String> celv
-      ) {
-    int strategyIndex = calculateStrategyIndex(codeId);
-
+      ListView<String> celv) {
     switch (strategyIndex) {
     case 0:
       strategy = new HPHealStrategy(hptf1, hptf2);

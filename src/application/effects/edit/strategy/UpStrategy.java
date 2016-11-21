@@ -21,13 +21,19 @@ class UpStrategy extends EditStrategy {
   }
 
   @Override
-  String convertJsonString() {
-    return null;
-  }
-
-  @Override
   void setValue(int dataId, double value1, double value2) {
     upComboBox.getSelectionModel().select(dataId);
     upTextField.setText("" + (int) value1);
+  }
+
+  @Override
+  double[] getValues() {
+    double[] values = {
+        31.0,
+        upComboBox.getSelectionModel().getSelectedIndex(),
+        Double.parseDouble(upTextField.getText()),
+        0.0,
+    };
+    return values;
   }
 }

@@ -17,12 +17,18 @@ class TPHealStrategy extends EditStrategy {
   }
 
   @Override
-  String convertJsonString() {
-    return null;
+  void setValue(int dataId, double value1, double value2) {
+    textField.setText("" + (int) value1);
   }
 
   @Override
-  void setValue(int dataId, double value1, double value2) {
-    textField.setText("" + (int) value1);
+  double[] getValues() {
+    double[] values = {
+        13.0,
+        0.0,
+        Double.parseDouble(textField.getText()),
+        0.0
+    };
+    return values;
   }
 }

@@ -21,13 +21,19 @@ class GrowthStrategy extends EditStrategy {
   }
 
   @Override
-  String convertJsonString() {
-    return null;
-  }
-
-  @Override
   void setValue(int dataId, double value1, double value2) {
     comboBox.getSelectionModel().select(dataId);
     textField.setText("" + (int) value1);
+  }
+
+  @Override
+  double[] getValues() {
+    double[] values = {
+        42.0,
+        comboBox.getSelectionModel().getSelectedIndex(),
+        Double.parseDouble(textField.getText()),
+        0.0,
+    };
+    return values;
   }
 }

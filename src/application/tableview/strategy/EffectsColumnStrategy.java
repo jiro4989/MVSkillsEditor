@@ -1,13 +1,17 @@
 package application.tableview.strategy;
 
 import application.tableview.Skill;
+import application.tableview.SkillTableViewBorderPaneController;
 import javafx.scene.control.TableView;
 
 public class EffectsColumnStrategy extends ColumnStrategy {
-  public EffectsColumnStrategy(TableView<Skill> tableView, int rowIndex) {
+  private SkillTableViewBorderPaneController controller;
+
+  public EffectsColumnStrategy(TableView<Skill> tableView, int rowIndex, SkillTableViewBorderPaneController aController) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;
+    this.controller = aController;
   }
 
   @Override
@@ -18,5 +22,6 @@ public class EffectsColumnStrategy extends ColumnStrategy {
   @Override
   public void setValue(Object value) {
     tableView.getItems().get(rowIndex).effectsProperty().set((String) value);
+    controller.updateEffectsPane();
   }
 }

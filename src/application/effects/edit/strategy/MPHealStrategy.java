@@ -23,13 +23,19 @@ class MPHealStrategy extends EditStrategy {
   }
 
   @Override
-  String convertJsonString() {
-    return null;
-  }
-
-  @Override
   void setValue(int dataId, double value1, double value2) {
     textField1.setText("" + (int) (value1 * 100));
     textField2.setText("" + (int) value2);
+  }
+
+  @Override
+  double[] getValues() {
+    double[] values = {
+        12.0,
+        0.0,
+        Double.parseDouble(textField1.getText()) / 100,
+        Double.parseDouble(textField2.getText()),
+    };
+    return values;
   }
 }

@@ -27,13 +27,19 @@ class AddStateStrategy extends EditStrategy {
   }
 
   @Override
-  String convertJsonString() {
-    return null;
-  }
-
-  @Override
   void setValue(int dataId, double value1, double value2) {
     stateListView.getSelectionModel().select(dataId);
     addStateTextField.setText("" + (int) (value1 * 100));
+  }
+
+  @Override
+  double[] getValues() {
+    double[] values = {
+        21.0,
+        stateListView.getSelectionModel().getSelectedIndex(),
+        Double.parseDouble(addStateTextField.getText()) / 100,
+        0.0,
+    };
+    return values;
   }
 }

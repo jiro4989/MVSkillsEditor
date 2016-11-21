@@ -84,7 +84,8 @@ public class EffectsTableViewBorderPaneController {
         String type = EffectsTypeName.convertCodeIdToCodeText(codeId);
 
         EditStrategyManager manager = new EditStrategyManager();
-        manager.changeStrategy(codeId, skillList, stateList, commonEventList);
+        int strategyIndex = manager.calculateStrategyIndex(codeId);
+        manager.changeStrategy(strategyIndex, skillList, stateList, commonEventList);
         String content = manager.formatToContentText(codeId, dataId, value1, value2);
 
         effectsTableView.getItems().add(new Effects(type, content));
@@ -103,7 +104,7 @@ public class EffectsTableViewBorderPaneController {
    * @param codeId
    */
   private void openEditStage(int codeId, int dataId, double value1, double value2) {
-    EditStage editStage = new EditStage(codeId, dataId, value1, value2, skillList, stateList,
+    EditStage editStage = new EditStage(this, codeId, dataId, value1, value2, skillList, stateList,
         commonEventList);
     editStage.showAndWait();
   }
@@ -151,6 +152,17 @@ public class EffectsTableViewBorderPaneController {
           });
     } catch (IOException e) {
       e.printStackTrace();
+    }
+  }
+
+  /**
+   * SkillTableViewの選択中の使用効果セルのテキストを更新する。
+   * @param values
+   */
+  public void updateEffects(double[] values) {
+    if (!effectsTableView.getSelectionModel().isEmpty()) {
+      int selectedIndex = effectsTableView.getSelectionModel().getSelectedIndex();
+      mainController.updateEffectsCell(selectedIndex, values);
     }
   }
 }

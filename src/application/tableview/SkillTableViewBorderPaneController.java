@@ -3,10 +3,14 @@ package application.tableview;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.IntStream;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.glass.ui.Size;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 
 import application.MainController;
 import application.tableview.command.ICommand;
@@ -60,7 +64,7 @@ public class SkillTableViewBorderPaneController {
       "critical-index", "effects-index", "note-index",
   };
   /**
-   * 現在の絡む戦略クラス
+   * 現在のカラム戦略クラス
    */
   private ColumnStrategy currentStrategy;
   /**
@@ -343,7 +347,7 @@ public class SkillTableViewBorderPaneController {
       } else if (columnIndex == skillTableView.getColumns().indexOf(criticalColumn)) {
         currentStrategy = new CriticalColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(effectsColumn)) {
-        currentStrategy = new EffectsColumnStrategy(skillTableView, rowIndex);
+        currentStrategy = new EffectsColumnStrategy(skillTableView, rowIndex, this);
       } else if (columnIndex == skillTableView.getColumns().indexOf(noteColumn)) {
         currentStrategy = new NoteColumnStrategy(skillTableView, rowIndex);
       }
@@ -415,7 +419,7 @@ public class SkillTableViewBorderPaneController {
    * 選択行の使用効果タブのセルのテキストを読み取り、
    * 使用効果プレビューを更新する。
    */
-  private void updateEffectsPane() {
+  public void updateEffectsPane() {
     if (!skillTableView.getSelectionModel().isEmpty()) {
       String effectsText = skillTableView.getSelectionModel().getSelectedItem().effectsProperty()
           .get();
@@ -515,5 +519,64 @@ public class SkillTableViewBorderPaneController {
 
   public String getSelectedEffects() {
     return skillTableView.getSelectionModel().getSelectedItem().effectsProperty().get();
+  }
+
+  public void updateEffectsCell(int selectedIndex, double[] values) {
+    String effectsText = skillTableView.getSelectionModel().getSelectedItem().effectsProperty()
+        .get();
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      JsonNode root = mapper.readTree(effectsText);
+      int size = root.size();
+      List<String> textList = new ArrayList<>(size);
+
+      IntStream.range(0, size)
+          .forEach(i -> {
+            String text = i == selectedIndex ? convertJsonText(values) : root.get(i).toString();
+            textList.add(text);
+          });
+      if (size == selectedIndex) {
+        textList.add(convertJsonText(values));
+      }
+      final String result = "[" + String.join(",", textList) + "]";
+
+      int rowIndex = skillTableView.getSelectionModel().getSelectedIndex();
+      int columnIndex = skillTableView.getColumns().indexOf(effectsColumn);
+      currentStrategy = new EffectsColumnStrategy(skillTableView, rowIndex, this);
+
+      ICommand command = new TableCellUpdateCommand(skillTableView, rowIndex, columnIndex,
+          result, currentStrategy);
+      mainController.invoke(command);
+      mainController.pushUndoCount(1);
+    } catch (IOException e) {
+      // TODO 自動生成された catch ブロック
+      e.printStackTrace();
+    }
+  }
+
+  private String convertJsonText(double[] values) {
+    ObjectMapper mapper = new ObjectMapper();
+    Effect effect = new Effect(values);
+    try {
+      return mapper.writeValueAsString(effect);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  class Effect {
+    public int code;
+    public int dataId;
+    public double value1;
+    public double value2;
+
+    public Effect(double[] values) {
+      this.code = (int) values[0];
+      this.dataId = (int) values[1];
+      this.value1 = values[2];
+      this.value2 = values[3];
+    }
+
   }
 }

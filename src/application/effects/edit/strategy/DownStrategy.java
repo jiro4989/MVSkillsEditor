@@ -21,13 +21,19 @@ class DownStrategy extends EditStrategy {
   }
 
   @Override
-  String convertJsonString() {
-    return null;
-  }
-
-  @Override
   void setValue(int dataId, double value1, double value2) {
     downComboBox.getSelectionModel().select(dataId);
     downTextField.setText("" + (int) value1);
+  }
+
+  @Override
+  double[] getValues() {
+    double[] values = {
+        32.0,
+        downComboBox.getSelectionModel().getSelectedIndex(),
+        Double.parseDouble(downTextField.getText()),
+        0.0,
+    };
+    return values;
   }
 }

@@ -6,7 +6,8 @@ class HPHealStrategy extends EditStrategy {
   private TextField textField1;
   private TextField textField2;
 
-  public HPHealStrategy() {}
+  public HPHealStrategy() {
+  }
 
   public HPHealStrategy(TextField textField1, TextField textField2) {
     this.textField1 = textField1;
@@ -22,8 +23,14 @@ class HPHealStrategy extends EditStrategy {
   }
 
   @Override
-  String convertJsonString() {
-    return null;
+  double[] getValues() {
+    double[] values = {
+        11.0,
+        0.0,
+        Double.parseDouble(textField1.getText()) / 100,
+        Double.parseDouble(textField2.getText()),
+    };
+    return values;
   }
 
   @Override

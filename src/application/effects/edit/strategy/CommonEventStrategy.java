@@ -22,12 +22,18 @@ class CommonEventStrategy extends EditStrategy {
   }
 
   @Override
-  String convertJsonString() {
-    return null;
+  void setValue(int dataId, double value1, double value2) {
+    listView.getSelectionModel().select(dataId);
   }
 
   @Override
-  void setValue(int dataId, double value1, double value2) {
-    listView.getSelectionModel().select(dataId);
+  double[] getValues() {
+    double[] values = {
+        44.0,
+        listView.getSelectionModel().getSelectedIndex(),
+        0.0,
+        0.0,
+    };
+    return values;
   }
 }

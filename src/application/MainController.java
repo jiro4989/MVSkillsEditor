@@ -306,4 +306,13 @@ public class MainController {
   public String getSelectedEffects() {
     return skillTableViewController.getSelectedEffects();
   }
+
+  /**
+   * effectsセルの値を更新する。
+   * @param selectedIndex
+   * @param values
+   */
+  public void updateEffectsCell(int selectedIndex, double[] values) {
+    skillTableViewController.updateEffectsCell(selectedIndex, values);
+  }
 }

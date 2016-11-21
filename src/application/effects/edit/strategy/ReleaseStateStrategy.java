@@ -26,13 +26,19 @@ class ReleaseStateStrategy extends EditStrategy {
   }
 
   @Override
-  String convertJsonString() {
-    return null;
-  }
-
-  @Override
   void setValue(int dataId, double value1, double value2) {
     stateListView.getSelectionModel().select(dataId);
     releaseStateTextField.setText("" + (int) (value1 * 100));
+  }
+
+  @Override
+  double[] getValues() {
+    double[] values = {
+        22.0,
+        stateListView.getSelectionModel().getSelectedIndex(),
+        Double.parseDouble(releaseStateTextField.getText()) / 100,
+        0.0,
+    };
+    return values;
   }
 }

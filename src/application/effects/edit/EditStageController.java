@@ -2,20 +2,24 @@ package application.effects.edit;
 
 import java.util.List;
 
+import application.effects.EffectsTableViewBorderPaneController;
 import application.effects.edit.strategy.EditStrategyManager;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import jiro.lib.javafx.scene.control.CustomedComboBox;
 import jiro.lib.javafx.scene.control.NumericTextField;
 
 public class EditStageController {
+  private EffectsTableViewBorderPaneController controller;
   private ToggleGroup toggleGroup;
 
   @FXML
@@ -164,6 +168,34 @@ public class EditStageController {
 
   @FXML
   private void okButtonOnClicked() {
+    ObservableList<Toggle> toggleList = toggleGroup.getToggles();
+    int toggleSize = toggleList.size();
+
+    int strategyIndex = 0;
+    for (int i = 0; i < toggleSize; i++) {
+      Toggle toggle = toggleList.get(i);
+      Toggle selectedToggle = toggleGroup.getSelectedToggle();
+      if (selectedToggle.equals(toggle)) {
+        strategyIndex = i;
+        break;
+      }
+    }
+    EditStrategyManager manager = new EditStrategyManager();
+    manager.changeStrategy(strategyIndex,
+        hpPercentageTextField, hpPlusTextField,
+        mpPercentageTextField, mpPlusTextField,
+        tpTextField,
+        stateListView, addStateTextField, releaseStateTextField,
+        upComboBox, upTextField,
+        downComboBox, downTextField,
+        upReleaseComboBox, downReleaseComboBox,
+        specialEffectComboBox,
+        growthComboBox, growthTextField,
+        learningListView,
+        commonEventListView);
+    double[] values = manager.getValues();
+    controller.updateEffects(values);
+
     okButton.getScene().getWindow().hide();
   }
 
@@ -203,7 +235,7 @@ public class EditStageController {
       int radioIndex = manager.calculateStrategyIndex(codeId);
       toggleGroup.getToggles().get(radioIndex).setSelected(true);
 
-      manager.changeStrategy(codeId,
+      manager.changeStrategy(radioIndex,
           hpPercentageTextField, hpPlusTextField,
           mpPercentageTextField, mpPlusTextField,
           tpTextField,
@@ -217,5 +249,9 @@ public class EditStageController {
           commonEventListView);
       manager.setValues(dataId, value1, value2);
     }
+  }
+
+  public void setController(EffectsTableViewBorderPaneController aController) {
+    controller = aController;
   }
 }
