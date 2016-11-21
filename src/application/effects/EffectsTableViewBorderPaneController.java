@@ -123,14 +123,14 @@ public class EffectsTableViewBorderPaneController {
     effectsTableView.setDisable(disable);
   }
 
-  public void setStateList(File stateFile) {
+  public void setStateList(File stateFile, String normalAttack) {
     ObjectMapper mapper = new ObjectMapper();
 
     try {
       JsonNode root = mapper.readTree(stateFile);
       int size = root.size();
       stateList = new ArrayList<>(size);
-      stateList.add("通常攻撃");
+      stateList.add(normalAttack);
       IntStream.range(1, size)
           .forEach(i -> {
             JsonNode children = root.get(i);

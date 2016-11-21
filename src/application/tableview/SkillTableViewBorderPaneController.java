@@ -579,4 +579,8 @@ public class SkillTableViewBorderPaneController {
     }
 
   }
+
+  public String getNormalAttackText() {
+    return skillTableView.getItems().get(0).nameProperty().get();
+  }
 }
