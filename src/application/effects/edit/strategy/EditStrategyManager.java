@@ -203,4 +203,8 @@ public class EditStrategyManager {
     // @formatter:on
     return placeOne;
   }
+
+  public void changeDisable() {
+    strategy.changeDisable();
+  }
 }

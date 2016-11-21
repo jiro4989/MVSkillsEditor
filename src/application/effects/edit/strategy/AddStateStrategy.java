@@ -42,4 +42,10 @@ class AddStateStrategy extends EditStrategy {
     };
     return values;
   }
+
+  @Override
+  void changeDisable() {
+    stateListView.setDisable(false);
+    addStateTextField.setDisable(false);
+  }
 }

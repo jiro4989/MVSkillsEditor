@@ -36,4 +36,10 @@ class GrowthStrategy extends EditStrategy {
     };
     return values;
   }
+
+  @Override
+  void changeDisable() {
+    comboBox.setDisable(false);
+    textField.setDisable(false);
+  }
 }

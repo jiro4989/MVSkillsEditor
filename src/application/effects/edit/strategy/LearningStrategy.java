@@ -36,4 +36,9 @@ class LearningStrategy extends EditStrategy {
     };
     return values;
   }
+
+  @Override
+  void changeDisable() {
+    listView.setDisable(false);
+  }
 }

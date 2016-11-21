@@ -21,6 +21,7 @@ import jiro.lib.javafx.scene.control.NumericTextField;
 public class EditStageController {
   private EffectsTableViewBorderPaneController controller;
   private ToggleGroup toggleGroup;
+  private EditStrategyManager manager = new EditStrategyManager();
 
   @FXML
   private TabPane tabPane;
@@ -168,40 +169,29 @@ public class EditStageController {
 
   @FXML
   private void okButtonOnClicked() {
-    ObservableList<Toggle> toggleList = toggleGroup.getToggles();
-    int toggleSize = toggleList.size();
-
-    int strategyIndex = 0;
-    for (int i = 0; i < toggleSize; i++) {
-      Toggle toggle = toggleList.get(i);
-      Toggle selectedToggle = toggleGroup.getSelectedToggle();
-      if (selectedToggle.equals(toggle)) {
-        strategyIndex = i;
-        break;
-      }
-    }
-    EditStrategyManager manager = new EditStrategyManager();
-    manager.changeStrategy(strategyIndex,
-        hpPercentageTextField, hpPlusTextField,
-        mpPercentageTextField, mpPlusTextField,
-        tpTextField,
-        stateListView, addStateTextField, releaseStateTextField,
-        upComboBox, upTextField,
-        downComboBox, downTextField,
-        upReleaseComboBox, downReleaseComboBox,
-        specialEffectComboBox,
-        growthComboBox, growthTextField,
-        learningListView,
-        commonEventListView);
+    int strategyIndex = getSelectedRadioButtonIndex();
+    changeStrategy(strategyIndex);
     double[] values = manager.getValues();
     controller.updateEffects(values);
-
     okButton.getScene().getWindow().hide();
   }
 
   @FXML
   private void cancelButtonOnClicked() {
     cancelButton.getScene().getWindow().hide();
+  }
+
+  private int getSelectedRadioButtonIndex() {
+    ObservableList<Toggle> toggleList = toggleGroup.getToggles();
+    int toggleSize = toggleList.size();
+    for (int i = 0; i < toggleSize; i++) {
+      Toggle toggle = toggleList.get(i);
+      Toggle selectedToggle = toggleGroup.getSelectedToggle();
+      if (selectedToggle.equals(toggle)) {
+        return i;
+      }
+    }
+    return 0;
   }
 
   /**
@@ -227,28 +217,64 @@ public class EditStageController {
         value2 == -1) {
       tabPane.getSelectionModel().select(0);
       hpRadioButton.setSelected(true);
+      changeDisable();
     } else {
       int tabIndex = codeId / 10 - 1;
       tabPane.getSelectionModel().select(tabIndex);
 
-      EditStrategyManager manager = new EditStrategyManager();
       int radioIndex = manager.calculateStrategyIndex(codeId);
       toggleGroup.getToggles().get(radioIndex).setSelected(true);
-
-      manager.changeStrategy(radioIndex,
-          hpPercentageTextField, hpPlusTextField,
-          mpPercentageTextField, mpPlusTextField,
-          tpTextField,
-          stateListView, addStateTextField, releaseStateTextField,
-          upComboBox, upTextField,
-          downComboBox, downTextField,
-          upReleaseComboBox, downReleaseComboBox,
-          specialEffectComboBox,
-          growthComboBox, growthTextField,
-          learningListView,
-          commonEventListView);
+      changeDisable();
       manager.setValues(dataId, value1, value2);
     }
+  }
+
+  @FXML
+  private void changeDisable() {
+    setDisableAll();
+    int strategyIndex = getSelectedRadioButtonIndex();
+    changeStrategy(strategyIndex);
+    manager.changeDisable();
+  }
+
+  private void setDisableAll() {
+    hpPercentageTextField.setDisable(true);
+    hpPlusTextField.setDisable(true);
+    mpPercentageTextField.setDisable(true);
+    mpPlusTextField.setDisable(true);
+    tpTextField.setDisable(true);
+  
+    stateListView.setDisable(true);
+    addStateTextField.setDisable(true);
+    releaseStateTextField.setDisable(true);
+  
+    upComboBox.setDisable(true);
+    upTextField.setDisable(true);
+    downComboBox.setDisable(true);
+    downTextField.setDisable(true);
+    upReleaseComboBox.setDisable(true);
+    downReleaseComboBox.setDisable(true);
+  
+    specialEffectComboBox.setDisable(true);
+    growthComboBox.setDisable(true);
+    growthTextField.setDisable(true);
+    learningListView.setDisable(true);
+    commonEventListView.setDisable(true);
+  }
+
+  private void changeStrategy(int strategyIndex) {
+    manager.changeStrategy(strategyIndex,
+        hpPercentageTextField, hpPlusTextField,
+        mpPercentageTextField, mpPlusTextField,
+        tpTextField,
+        stateListView, addStateTextField, releaseStateTextField,
+        upComboBox, upTextField,
+        downComboBox, downTextField,
+        upReleaseComboBox, downReleaseComboBox,
+        specialEffectComboBox,
+        growthComboBox, growthTextField,
+        learningListView,
+        commonEventListView);
   }
 
   public void setController(EffectsTableViewBorderPaneController aController) {

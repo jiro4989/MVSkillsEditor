@@ -36,4 +36,9 @@ class CommonEventStrategy extends EditStrategy {
     };
     return values;
   }
+
+  @Override
+  void changeDisable() {
+    listView.setDisable(false);
+  }
 }

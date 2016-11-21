@@ -36,4 +36,10 @@ class DownStrategy extends EditStrategy {
     };
     return values;
   }
+
+  @Override
+  void changeDisable() {
+    downComboBox.setDisable(false);
+    downTextField.setDisable(false);
+  }
 }

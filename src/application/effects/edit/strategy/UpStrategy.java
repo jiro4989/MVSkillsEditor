@@ -36,4 +36,10 @@ class UpStrategy extends EditStrategy {
     };
     return values;
   }
+
+  @Override
+  void changeDisable() {
+    upComboBox.setDisable(false);
+    upTextField.setDisable(false);
+  }
 }

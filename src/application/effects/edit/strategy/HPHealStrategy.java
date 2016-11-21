@@ -38,4 +38,10 @@ class HPHealStrategy extends EditStrategy {
     textField1.setText("" + (int) (value1 * 100));
     textField2.setText("" + (int) value2);
   }
+
+  @Override
+  void changeDisable() {
+    textField1.setDisable(false);
+    textField2.setDisable(false);
+  }
 }

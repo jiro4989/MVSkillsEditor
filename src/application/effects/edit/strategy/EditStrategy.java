@@ -32,4 +32,9 @@ abstract class EditStrategy {
    * @param value2 Value2
    */
   abstract void setValue(int dataId, double value1, double value2);
+
+  /**
+   * 他のコンポーネントをすべて非表示にする。
+   */
+  abstract void changeDisable();
 }

@@ -41,4 +41,10 @@ class ReleaseStateStrategy extends EditStrategy {
     };
     return values;
   }
+
+  @Override
+  void changeDisable() {
+    stateListView.setDisable(false);
+    releaseStateTextField.setDisable(false);
+  }
 }

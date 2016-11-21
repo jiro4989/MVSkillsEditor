@@ -32,4 +32,9 @@ class UpReleaseStrategy extends EditStrategy {
     };
     return values;
   }
+
+  @Override
+  void changeDisable() {
+    comboBox.setDisable(false);
+  }
 }

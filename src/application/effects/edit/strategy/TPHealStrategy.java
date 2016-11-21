@@ -31,4 +31,9 @@ class TPHealStrategy extends EditStrategy {
     };
     return values;
   }
+
+  @Override
+  void changeDisable() {
+    textField.setDisable(false);
+  }
 }

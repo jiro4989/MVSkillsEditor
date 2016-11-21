@@ -38,4 +38,10 @@ class MPHealStrategy extends EditStrategy {
     };
     return values;
   }
+
+  @Override
+  void changeDisable() {
+    textField1.setDisable(false);
+    textField2.setDisable(false);
+  }
 }
