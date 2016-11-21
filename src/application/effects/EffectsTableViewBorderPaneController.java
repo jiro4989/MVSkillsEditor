@@ -41,7 +41,8 @@ public class EffectsTableViewBorderPaneController {
 
   @FXML
   private void effectsTableViewOnMouseClicked(MouseEvent click) {
-    if (click.getClickCount() == 2) {
+    if (!effectsTableView.getSelectionModel().isEmpty()
+        && click.getClickCount() == 2) {
       int selectedIndex = effectsTableView.getSelectionModel().getSelectedIndex();
       ObjectMapper mapper = new ObjectMapper();
       try {
