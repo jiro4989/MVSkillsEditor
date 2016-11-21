@@ -2,6 +2,7 @@ package application.effects.edit;
 
 import java.util.List;
 
+import application.effects.edit.strategy.EditStrategyManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -196,66 +197,25 @@ public class EditStageController {
       hpRadioButton.setSelected(true);
     } else {
       int tabIndex = codeId / 10 - 1;
-      int radioIndex = codeId % 10 - 1;
-      // @formatter:off
-      radioIndex =
-            tabIndex == 0 ? radioIndex
-          : tabIndex == 1 ? radioIndex + 3
-          : tabIndex == 2 ? radioIndex + 5
-          : radioIndex + 9;
-      // @formatter:on
-
       tabPane.getSelectionModel().select(tabIndex);
-      toggleGroup.getToggles().get(radioIndex).setSelected(true);
-      setValues(radioIndex, dataId, value1, value2);
-    }
-  }
 
-  /**
-   * 選択されているラジオボタンのインデックスからセットする対象を切り替えて、
-   * 値をセットする。
-   * @param radioIndex 選択されているラジオボタンのインデックス
-   * @param value1 Value1
-   * @param value2 Value2
-   */
-  private void setValues(int radioIndex, int dataId, double value1, double value2) {
-    if (radioIndex == 0) {
-      // 回復タブ
-      hpPercentageTextField.setText("" + (int) (value1 * 100));
-      hpPlusTextField.setText("" + (int) value2);
-    } else if (radioIndex == 1) {
-      mpPercentageTextField.setText("" + (int) (value1 * 100));
-      mpPlusTextField.setText("" + (int) value2);
-    } else if (radioIndex == 2) {
-      tpTextField.setText("" + (int) value1);
-    } else if (radioIndex == 3) {
-      // ステートタブ
-      stateListView.getSelectionModel().select(dataId);
-      addStateTextField.setText("" + (int) (value1 * 100));
-    } else if (radioIndex == 4) {
-      stateListView.getSelectionModel().select(dataId);
-      releaseStateTextField.setText("" + (int) (value1 * 100));
-    } else if (radioIndex == 5) {
-      // 能力値タブ
-      upComboBox.getSelectionModel().select(dataId);
-      upTextField.setText("" + (int) value1);
-    } else if (radioIndex == 6) {
-      downComboBox.getSelectionModel().select(dataId);
-      downTextField.setText("" + (int) value1);
-    } else if (radioIndex == 7) {
-      upReleaseComboBox.getSelectionModel().select(dataId);
-    } else if (radioIndex == 8) {
-      downReleaseComboBox.getSelectionModel().select(dataId);
-    } else if (radioIndex == 9) {
-      // その他タブ
-      specialEffectComboBox.getSelectionModel().select(dataId);
-    } else if (radioIndex == 10) {
-      growthComboBox.getSelectionModel().select(dataId);
-      growthTextField.setText("" + (int) value1);
-    } else if (radioIndex == 11) {
-      learningListView.getSelectionModel().select(dataId);
-    } else if (radioIndex == 12) {
-      commonEventListView.getSelectionModel().select(dataId);
+      EditStrategyManager manager = new EditStrategyManager();
+      int radioIndex = manager.calculateStrategyIndex(codeId);
+      toggleGroup.getToggles().get(radioIndex).setSelected(true);
+
+      manager.changeStrategy(codeId,
+          hpPercentageTextField, hpPlusTextField,
+          mpPercentageTextField, mpPlusTextField,
+          tpTextField,
+          stateListView, addStateTextField, releaseStateTextField,
+          upComboBox, upTextField,
+          downComboBox, downTextField,
+          upReleaseComboBox, downReleaseComboBox,
+          specialEffectComboBox,
+          growthComboBox, growthTextField,
+          learningListView,
+          commonEventListView);
+      manager.setValues(dataId, value1, value2);
     }
   }
 }

@@ -2,6 +2,10 @@ package application.effects.edit.strategy;
 
 import java.util.List;
 
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+
 /**
  * 戦略クラスの切り替えと処理の実行を管理するクラス。
  * @author jiro
@@ -30,6 +34,16 @@ public class EditStrategyManager {
   }
 
   /**
+   * コンポーネントに値をセットする。
+   * @param dataId
+   * @param value1
+   * @param value2
+   */
+  public void setValues(int dataId, double value1, double value2) {
+    strategy.setValue(dataId, value1, value2);
+  }
+
+  /**
    * 戦略インスタンスを変更する。
    * @param codeId
    * @param skillList
@@ -38,7 +52,7 @@ public class EditStrategyManager {
    */
   public void changeStrategy(int codeId, List<String> skillList, List<String> stateList,
       List<String> commonEventList) {
-    int strategyIndex = getStrategyIndexFrom(codeId);
+    int strategyIndex = calculateStrategyIndex(codeId);
 
     switch (strategyIndex) {
     case 0:
@@ -86,11 +100,96 @@ public class EditStrategyManager {
   }
 
   /**
+   * 戦略インスタンスを変更する。
+   * @param codeId
+   * @param hptf1
+   * @param hptf2
+   * @param mptf1
+   * @param mptf2
+   * @param tptf
+   * @param slv
+   * @param stf
+   * @param stf2
+   * @param upcb
+   * @param uptf
+   * @param downcb
+   * @param downtf
+   * @param upcb2
+   * @param downcb2
+   * @param specialcb
+   * @param growthcb
+   * @param growthtf
+   * @param llv
+   * @param celv
+   */
+  public void changeStrategy(
+      int codeId,
+      TextField hptf1, TextField hptf2,
+      TextField mptf1, TextField mptf2,
+      TextField tptf,
+      ListView<String> slv, TextField stf, TextField stf2,
+      ComboBox<String> upcb, TextField uptf,
+      ComboBox<String> downcb, TextField downtf,
+      ComboBox<String> upcb2,
+      ComboBox<String> downcb2,
+      ComboBox<String> specialcb,
+      ComboBox<String> growthcb, TextField growthtf,
+      ListView<String> llv,
+      ListView<String> celv
+      ) {
+    int strategyIndex = calculateStrategyIndex(codeId);
+
+    switch (strategyIndex) {
+    case 0:
+      strategy = new HPHealStrategy(hptf1, hptf2);
+      break;
+    case 1:
+      strategy = new MPHealStrategy(mptf1, mptf2);
+      break;
+    case 2:
+      strategy = new TPHealStrategy(tptf);
+      break;
+    case 3:
+      strategy = new AddStateStrategy(slv, stf);
+      break;
+    case 4:
+      strategy = new ReleaseStateStrategy(slv, stf2);
+      break;
+    case 5:
+      strategy = new UpStrategy(upcb, uptf);
+      break;
+    case 6:
+      strategy = new DownStrategy(downcb, downtf);
+      break;
+    case 7:
+      strategy = new UpReleaseStrategy(upcb2);
+      break;
+    case 8:
+      strategy = new DownReleaseStrategy(downcb2);
+      break;
+    case 9:
+      strategy = new SpecialEffectStrategy(specialcb);
+      break;
+    case 10:
+      strategy = new GrowthStrategy(growthcb, growthtf);
+      break;
+    case 11:
+      strategy = new LearningStrategy(llv);
+      break;
+    case 12:
+      strategy = new CommonEventStrategy(celv);
+      break;
+    default:
+      break;
+    }
+  }
+
+  /**
    * 戦略クラスのインスタンス切り替えのためのインデックスを取得する。
    * @param codeId CodeId
    * @return 戦略インデックス
    */
-  private int getStrategyIndexFrom(int codeId) {
+  public int calculateStrategyIndex(int codeId) {
     int placeTen = codeId / 10 - 1;
     int placeOne = codeId % 10 - 1;
     // @formatter:off

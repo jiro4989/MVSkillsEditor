@@ -1,5 +1,8 @@
 package application.effects.edit.strategy;
 
+import javafx.scene.Node;
+import javafx.scene.control.TextField;
+
 /**
  * 使用効果のテキストを編集する戦略インタフェース。
  * @author jiro
@@ -20,4 +23,12 @@ abstract class EditStrategy {
    * @return Json文字列
    */
   abstract String convertJsonString();
+
+  /**
+   * コンポーネントに値をセットする。
+   * @param dataId DataId
+   * @param value1 Value1
+   * @param value2 Value2
+   */
+  abstract void setValue(int dataId, double value1, double value2);
 }
