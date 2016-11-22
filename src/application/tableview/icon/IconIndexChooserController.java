@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
@@ -115,5 +117,15 @@ public class IconIndexChooserController {
     iconImageView.setImage(image);
     iconImageView.setFitWidth(gridPane.getWidth());
     iconImageView.setFitHeight(gridPane.getHeight());
+  }
+
+  public static ImageView getSelectedIconImageView(File file, int iconIndex) {
+    Image image = new Image("file:" + file.getPath());
+		PixelReader pix = image.getPixelReader();
+		double x = iconIndex % COLUMN_SIZE * ICON_WIDTH;
+		double y = iconIndex / COLUMN_SIZE * ICON_WIDTH;
+		WritableImage newImage = new WritableImage(pix, (int)x, (int)y, ICON_WIDTH, ICON_WIDTH);
+
+		return new ImageView(newImage);
   }
 }

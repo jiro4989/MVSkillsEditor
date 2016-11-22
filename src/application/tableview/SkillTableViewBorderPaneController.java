@@ -172,6 +172,7 @@ public class SkillTableViewBorderPaneController {
 //    skillTableView.getColumns()
 //        .forEach(column -> settingTableColumn((TableColumn<Skill, String>) column));
     descriptionColumn.setCellFactory(TextAreaTableCell.forTableColumn(this));
+    iconIndexColumn.setCellFactory(col -> new IconTableCell());
 
     // TEST
 //    ObservableList<String> boolItems = FXCollections.observableArrayList("あり", "なし");
@@ -594,6 +595,7 @@ public class SkillTableViewBorderPaneController {
 
   public void setIconFile(File iconFile) {
     this.iconFile = iconFile;
+    IconTableCell.setIconImageFile(iconFile);
   }
 
   class Effect {
