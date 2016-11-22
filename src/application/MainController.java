@@ -183,6 +183,8 @@ public class MainController {
         && commonEventData.exists()
         && (iconSetImage1.exists() || iconSetImage2.exists())) {
       skillTableViewController.setSkillDatas(skillData);
+      File iconFile = iconSetImage1.exists() ? iconSetImage1 : iconSetImage2;
+      skillTableViewController.setIconFile(iconFile);
       effectsTableViewController.setStateList(stateData, skillTableViewController.getNormalAttackText());
       effectsTableViewController.setCommonEventList(commonEventData);
       return true;

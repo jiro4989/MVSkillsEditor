@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.*?>
+
+<VBox prefHeight="-1.0" prefWidth="-1.0" spacing="5.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.tableview.icon.IconIndexChooserController">
+  <!-- TODO Add Nodes -->
+  <children>
+    <ScrollPane id="ScrollPane" prefViewportHeight="641.0" prefViewportWidth="513.0">
+      <content>
+        <AnchorPane id="AnchorPane" fx:id="anchorPane">
+          <children>
+            <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="0.0" layoutY="0.0" prefHeight="640.0" prefWidth="512.0">
+              <children>
+                <ImageView fx:id="iconImageView" fitHeight="150.0" fitWidth="200.0" onMouseDragged="#iconImageViewOnMouseDragged" onMousePressed="#iconImageViewOnMousePressed" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+              </children>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+            <GridPane fx:id="focusGridPane" gridLinesVisible="true" layoutX="256.0" layoutY="320.0" onMouseClicked="#focusGridPaneOnMouseClicked" prefHeight="32.0" prefWidth="32.0">
+              <children>
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="32.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="32.0" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+              </children>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+          </children>
+        </AnchorPane>
+      </content>
+    </ScrollPane>
+    <Separator prefHeight="5.0" prefWidth="-1.0" />
+    <BorderPane prefHeight="-1.0" prefWidth="-1.0">
+      <left>
+        <Label fx:id="iconIndexLabel" alignment="CENTER_LEFT" contentDisplay="CENTER" prefHeight="37.0" text="IndexLabel">
+          <BorderPane.margin>
+            <Insets left="10.0" />
+          </BorderPane.margin>
+        </Label>
+      </left>
+      <right>
+        <HBox alignment="CENTER_RIGHT" prefHeight="-1.0" prefWidth="-1.0" spacing="10.0">
+          <children>
+            <Button fx:id="okButton" mnemonicParsing="false" onAction="#okButtonOnClicked" prefWidth="100.0" text="OK" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonOnClicked" prefWidth="100.0" text="キャンセル" />
+          </children>
+          <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+          </padding>
+        </HBox>
+      </right>
+    </BorderPane>
+  </children>
+  <padding>
+    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+  </padding>
+</VBox>

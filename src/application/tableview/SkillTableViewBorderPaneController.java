@@ -9,12 +9,11 @@ import java.util.stream.IntStream;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.glass.ui.Size;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 
 import application.MainController;
 import application.tableview.command.ICommand;
 import application.tableview.command.TableCellUpdateCommand;
+import application.tableview.icon.IconIndexChooser;
 import application.tableview.strategy.AnimationIdColumnStrategy;
 import application.tableview.strategy.ColumnStrategy;
 import application.tableview.strategy.CriticalColumnStrategy;
@@ -49,6 +48,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.util.converter.DefaultStringConverter;
 import jiro.lib.java.util.PropertiesHundler;
 
@@ -67,6 +67,8 @@ public class SkillTableViewBorderPaneController {
    * 現在のカラム戦略クラス
    */
   private ColumnStrategy currentStrategy;
+
+  private File iconFile;
   /**
    * 各カラムのインデックス配列
    */
@@ -167,9 +169,13 @@ public class SkillTableViewBorderPaneController {
     skillTableView.setFixedCellSize(50);
 
     // 各種テーブルカラムのカスタマイズ
-    skillTableView.getColumns()
-        .forEach(column -> settingTableColumn((TableColumn<Skill, String>) column));
+//    skillTableView.getColumns()
+//        .forEach(column -> settingTableColumn((TableColumn<Skill, String>) column));
     descriptionColumn.setCellFactory(TextAreaTableCell.forTableColumn(this));
+
+    // TEST
+//    ObservableList<String> boolItems = FXCollections.observableArrayList("あり", "なし");
+//    criticalColumn.setCellFactory(col -> new ButtonCell());
 
     skillTableView.getSelectionModel().selectedItemProperty()
         .addListener((observable, oldValue, newValue) -> {
@@ -268,6 +274,23 @@ public class SkillTableViewBorderPaneController {
         } else if (i == columnIndices[25]) {
           skillTableView.getColumns().add(i, noteColumn);
         }
+      }
+    }
+  }
+
+  @FXML
+  private void skillTableViewOnMouseClicked(MouseEvent event) {
+    if (!skillTableView.getSelectionModel().isEmpty()
+        && skillTableView.getSelectionModel().getSelectedCells().get(0).getColumn() == skillTableView.getColumns().indexOf(iconIndexColumn)
+        && event.getClickCount() == 2) {
+      String indexStr = skillTableView.getSelectionModel().getSelectedItem().iconIndexProperty().get();
+      int iconIndex = Integer.parseInt(indexStr);
+      IconIndexChooser chooser = new IconIndexChooser(iconFile, iconIndex);
+      chooser.showAndWait();
+
+      int newIconIndex = chooser.getController().getIconIndex();
+      if (iconIndex != newIconIndex) {
+        insertText("" + newIconIndex);
       }
     }
   }
@@ -565,6 +588,14 @@ public class SkillTableViewBorderPaneController {
     return null;
   }
 
+  public String getNormalAttackText() {
+    return skillTableView.getItems().get(0).nameProperty().get();
+  }
+
+  public void setIconFile(File iconFile) {
+    this.iconFile = iconFile;
+  }
+
   class Effect {
     public int code;
     public int dataId;
@@ -578,9 +609,5 @@ public class SkillTableViewBorderPaneController {
       this.value2 = values[3];
     }
 
-  }
-
-  public String getNormalAttackText() {
-    return skillTableView.getItems().get(0).nameProperty().get();
   }
 }
