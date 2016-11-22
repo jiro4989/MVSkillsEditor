@@ -119,13 +119,12 @@ public class IconIndexChooserController {
     iconImageView.setFitHeight(gridPane.getHeight());
   }
 
-  public static ImageView getSelectedIconImageView(File file, int iconIndex) {
+  public static WritableImage getSelectedIconImageView(File file, int iconIndex) {
     Image image = new Image("file:" + file.getPath());
 		PixelReader pix = image.getPixelReader();
 		double x = iconIndex % COLUMN_SIZE * ICON_WIDTH;
 		double y = iconIndex / COLUMN_SIZE * ICON_WIDTH;
 		WritableImage newImage = new WritableImage(pix, (int)x, (int)y, ICON_WIDTH, ICON_WIDTH);
-
-		return new ImageView(newImage);
+		return newImage;
   }
 }
