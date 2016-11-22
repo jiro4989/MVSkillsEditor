@@ -4,11 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import application.MainController;
 import application.tableview.command.ICommand;
@@ -41,16 +43,19 @@ import application.tableview.strategy.SuccessRateColumnStrategy;
 import application.tableview.strategy.TpCostColumnStrategy;
 import application.tableview.strategy.TpGainColumnStrategy;
 import application.tableview.strategy.VarianceColumnStrategy;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.converter.DefaultStringConverter;
 import jiro.lib.java.util.PropertiesHundler;
+import util.MyLogger;
 
 public class SkillTableViewBorderPaneController {
   private MainController mainController;
@@ -169,14 +174,22 @@ public class SkillTableViewBorderPaneController {
     skillTableView.setFixedCellSize(50);
 
     // 各種テーブルカラムのカスタマイズ
-//    skillTableView.getColumns()
-//        .forEach(column -> settingTableColumn((TableColumn<Skill, String>) column));
+    // skillTableView.getColumns()
+    // .forEach(column ->
+    // settingTableColumn((TableColumn<Skill, String>)
+    // column));
     descriptionColumn.setCellFactory(TextAreaTableCell.forTableColumn(this));
     iconIndexColumn.setCellFactory(col -> new IconTableCell());
+//    scopeColumn.setCellFactory(col -> {
+//      ObservableList<String> list = FXCollections.observableArrayList(Scope.getNameList());
+//      return new ScopeTableCell(list, this);
+//    });
 
     // TEST
-//    ObservableList<String> boolItems = FXCollections.observableArrayList("あり", "なし");
-//    criticalColumn.setCellFactory(col -> new ButtonCell());
+    // ObservableList<String> boolItems =
+    // FXCollections.observableArrayList("あり", "なし");
+    // criticalColumn.setCellFactory(col -> new
+    // ButtonCell());
 
     skillTableView.getSelectionModel().selectedItemProperty()
         .addListener((observable, oldValue, newValue) -> {
@@ -282,9 +295,11 @@ public class SkillTableViewBorderPaneController {
   @FXML
   private void skillTableViewOnMouseClicked(MouseEvent event) {
     if (!skillTableView.getSelectionModel().isEmpty()
-        && skillTableView.getSelectionModel().getSelectedCells().get(0).getColumn() == skillTableView.getColumns().indexOf(iconIndexColumn)
+        && skillTableView.getSelectionModel().getSelectedCells().get(0)
+            .getColumn() == skillTableView.getColumns().indexOf(iconIndexColumn)
         && event.getClickCount() == 2) {
-      String indexStr = skillTableView.getSelectionModel().getSelectedItem().iconIndexProperty().get();
+      String indexStr = skillTableView.getSelectionModel().getSelectedItem().iconIndexProperty()
+          .get();
       int iconIndex = Integer.parseInt(indexStr);
       IconIndexChooser chooser = new IconIndexChooser(iconFile, iconIndex);
       chooser.showAndWait();
@@ -549,8 +564,9 @@ public class SkillTableViewBorderPaneController {
     String effectsText = skillTableView.getSelectionModel().getSelectedItem().effectsProperty()
         .get();
     ObjectMapper mapper = new ObjectMapper();
+    JsonNode root;
     try {
-      JsonNode root = mapper.readTree(effectsText);
+      root = mapper.readTree(effectsText);
       int size = root.size();
       List<String> textList = new ArrayList<>(size);
 
@@ -573,8 +589,7 @@ public class SkillTableViewBorderPaneController {
       mainController.invoke(command);
       mainController.pushUndoCount(1);
     } catch (IOException e) {
-      // TODO 自動生成された catch ブロック
-      e.printStackTrace();
+      new MyLogger(this.getClass().getName()).getLogger().log(Level.SEVERE, "JsonReadTreeError", e);
     }
   }
 

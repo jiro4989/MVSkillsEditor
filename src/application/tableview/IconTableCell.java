@@ -10,13 +10,19 @@ import javafx.scene.layout.HBox;
 
 public class IconTableCell extends TableCell<Skill, String> {
   private static File iconImageFile;
+  private HBox hBox;
+
+  public IconTableCell() {
+    super();
+    hBox = new HBox();
+    hBox.setSpacing(10);
+  }
 
   @Override
   protected void updateItem(String item, boolean empty) {
     super.updateItem(item, empty);
     if (item != null) {
-      HBox hBox = new HBox();
-      hBox.setSpacing(10);
+      hBox.getChildren().clear();
       int iconIndex = Integer.parseInt(item);
       ImageView imageView = IconIndexChooserController.getSelectedIconImageView(iconImageFile, iconIndex);
       hBox.getChildren().add(imageView);

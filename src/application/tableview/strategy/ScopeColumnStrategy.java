@@ -18,8 +18,9 @@ public class ScopeColumnStrategy extends ColumnStrategy {
   @Override
   public void setValue(Object value) {
     String strValue = (String) value;
-    if (strValue.matches(REGEX)) {
-      tableView.getItems().get(rowIndex).scopeProperty().set(strValue);
-    }
+    tableView.getItems().get(rowIndex).scopeProperty().set(strValue);
+//    if (strValue.matches(REGEX)) {
+//      tableView.getItems().get(rowIndex).scopeProperty().set(strValue);
+//    }
   }
 }
