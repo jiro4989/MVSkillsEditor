@@ -68,49 +68,76 @@ public class SkillTableViewBorderPaneController {
       "damageType-index", "damageElementId-index", "formula-index", "variance-index",
       "critical-index", "effects-index", "note-index",
   };
-  /**
-   * 現在のカラム戦略クラス
-   */
-  private ColumnStrategy currentStrategy;
 
   private File iconFile;
-  private ObservableList<String> scopeItems = FXCollections.observableArrayList(Scope.getNameList());
+  private ObservableList<String> scopeItems = FXCollections
+      .observableArrayList(Scope.getNameList());
   /**
    * 各カラムのインデックス配列
    */
   private int[] columnIndices = new int[INDICES_KEYS.length];
 
-  @FXML private Label idLabel;
-  @FXML private TextField nameTextField;
-  @FXML private ComboBox<String> insertComboBox;
+  @FXML
+  private Label idLabel;
+  @FXML
+  private TextField nameTextField;
+  @FXML
+  private ComboBox<String> insertComboBox;
 
-  @FXML private TableView<Skill> skillTableView = new TableView<>();
-  @FXML private TableColumn<Skill, String> idColumn = new TableColumn<>("ID");
-  @FXML private TableColumn<Skill, String> nameColumn = new TableColumn<>("名前");
-  @FXML private TableColumn<Skill, String> iconIndexColumn = new TableColumn<>("アイコン");
-  @FXML private TableColumn<Skill, String> descriptionColumn = new TableColumn<>("説明");
-  @FXML private TableColumn<Skill, String> stypeIdColumn = new TableColumn<>("スキルタイプ");
-  @FXML private TableColumn<Skill, String> scopeColumn = new TableColumn<>("範囲");
-  @FXML private TableColumn<Skill, String> mpCostColumn = new TableColumn<>("消費MP");
-  @FXML private TableColumn<Skill, String> tpCostColumn = new TableColumn<>("消費TP");
-  @FXML private TableColumn<Skill, String> occasionColumn = new TableColumn<>("使用可能時");
-  @FXML private TableColumn<Skill, String> speedColumn = new TableColumn<>("速度補正");
-  @FXML private TableColumn<Skill, String> successRateColumn = new TableColumn<>("成功率");
-  @FXML private TableColumn<Skill, String> repeatsColumn = new TableColumn<>("連続回数");
-  @FXML private TableColumn<Skill, String> tpGainColumn = new TableColumn<>("得TP");
-  @FXML private TableColumn<Skill, String> hitTypeColumn = new TableColumn<>("命中タイプ");
-  @FXML private TableColumn<Skill, String> animationIdColumn = new TableColumn<>("アニメーション");
-  @FXML private TableColumn<Skill, String> message1Column = new TableColumn<>("メッセージ1");
-  @FXML private TableColumn<Skill, String> message2Column = new TableColumn<>("メッセージ2");
-  @FXML private TableColumn<Skill, String> requiredWtypeId1Column = new TableColumn<>("必要武器1");
-  @FXML private TableColumn<Skill, String> requiredWtypeId2Column = new TableColumn<>("必要武器2");
-  @FXML private TableColumn<Skill, String> damageTypeColumn = new TableColumn<>("ダメージタイプ");
-  @FXML private TableColumn<Skill, String> damageElementColumn = new TableColumn<>("属性");
-  @FXML private TableColumn<Skill, String> formulaColumn = new TableColumn<>("計算式");
-  @FXML private TableColumn<Skill, String> varianceColumn = new TableColumn<>("分散度");
-  @FXML private TableColumn<Skill, String> criticalColumn = new TableColumn<>("会心率");
-  @FXML private TableColumn<Skill, String> effectsColumn = new TableColumn<>("使用効果");
-  @FXML private TableColumn<Skill, String> noteColumn = new TableColumn<>("メモ");
+  @FXML
+  private TableView<Skill> skillTableView = new TableView<>();
+  @FXML
+  private TableColumn<Skill, String> idColumn = new TableColumn<>("ID");
+  @FXML
+  private TableColumn<Skill, String> nameColumn = new TableColumn<>("名前");
+  @FXML
+  private TableColumn<Skill, String> iconIndexColumn = new TableColumn<>("アイコン");
+  @FXML
+  private TableColumn<Skill, String> descriptionColumn = new TableColumn<>("説明");
+  @FXML
+  private TableColumn<Skill, String> stypeIdColumn = new TableColumn<>("スキルタイプ");
+  @FXML
+  private TableColumn<Skill, String> scopeColumn = new TableColumn<>("範囲");
+  @FXML
+  private TableColumn<Skill, String> mpCostColumn = new TableColumn<>("消費MP");
+  @FXML
+  private TableColumn<Skill, String> tpCostColumn = new TableColumn<>("消費TP");
+  @FXML
+  private TableColumn<Skill, String> occasionColumn = new TableColumn<>("使用可能時");
+  @FXML
+  private TableColumn<Skill, String> speedColumn = new TableColumn<>("速度補正");
+  @FXML
+  private TableColumn<Skill, String> successRateColumn = new TableColumn<>("成功率");
+  @FXML
+  private TableColumn<Skill, String> repeatsColumn = new TableColumn<>("連続回数");
+  @FXML
+  private TableColumn<Skill, String> tpGainColumn = new TableColumn<>("得TP");
+  @FXML
+  private TableColumn<Skill, String> hitTypeColumn = new TableColumn<>("命中タイプ");
+  @FXML
+  private TableColumn<Skill, String> animationIdColumn = new TableColumn<>("アニメーション");
+  @FXML
+  private TableColumn<Skill, String> message1Column = new TableColumn<>("メッセージ1");
+  @FXML
+  private TableColumn<Skill, String> message2Column = new TableColumn<>("メッセージ2");
+  @FXML
+  private TableColumn<Skill, String> requiredWtypeId1Column = new TableColumn<>("必要武器1");
+  @FXML
+  private TableColumn<Skill, String> requiredWtypeId2Column = new TableColumn<>("必要武器2");
+  @FXML
+  private TableColumn<Skill, String> damageTypeColumn = new TableColumn<>("ダメージタイプ");
+  @FXML
+  private TableColumn<Skill, String> damageElementColumn = new TableColumn<>("属性");
+  @FXML
+  private TableColumn<Skill, String> formulaColumn = new TableColumn<>("計算式");
+  @FXML
+  private TableColumn<Skill, String> varianceColumn = new TableColumn<>("分散度");
+  @FXML
+  private TableColumn<Skill, String> criticalColumn = new TableColumn<>("会心率");
+  @FXML
+  private TableColumn<Skill, String> effectsColumn = new TableColumn<>("使用効果");
+  @FXML
+  private TableColumn<Skill, String> noteColumn = new TableColumn<>("メモ");
 
   @SuppressWarnings("unchecked")
   @FXML
@@ -171,8 +198,10 @@ public class SkillTableViewBorderPaneController {
           updateEffectsPane();
           updateNotePane();
           mainController.changeDisablePreviews(false);
-          idLabel.setText(newValue.idProperty().get());
-          nameTextField.setText(newValue.nameProperty().get());
+          if (newValue != null) {
+            idLabel.setText(newValue.idProperty().get());
+            nameTextField.setText(newValue.nameProperty().get());
+          }
         });
 
     skillTableView.getFocusModel().focusedCellProperty().addListener((obs, oldVal, newVal) -> {
@@ -304,10 +333,12 @@ public class SkillTableViewBorderPaneController {
     if (!skillTableView.getSelectionModel().isEmpty()) {
       ObservableList<Integer> rowIndices = skillTableView.getSelectionModel().getSelectedIndices();
       rowIndices.stream().forEach(rowIndex -> {
-        int columnIndex = skillTableView.getColumns().indexOf(nameColumn);
-        changeColumnStrategy(rowIndex);
-        ICommand command = new TableCellUpdateCommand(skillTableView, rowIndex, columnIndex,
-            newText, currentStrategy);
+        // int id =
+        // Integer.parseInt(skillTableView.getItems().get(rowIndex).idProperty().get());
+        // id--;
+        ColumnStrategy strategy = getStrategy(rowIndex);
+        ICommand command = new TableCellUpdateCommand(skillTableView, rowIndex, 0,
+            newText, strategy);
         mainController.invoke(command);
       });
 
@@ -318,63 +349,64 @@ public class SkillTableViewBorderPaneController {
   /**
    * 選択中のセル位置によってカラム戦略クラスを変更する。
    */
-  private void changeColumnStrategy(int rowIndex) {
+  private ColumnStrategy getStrategy(int rowIndex) {
     if (!skillTableView.getSelectionModel().isEmpty()) {
       int columnIndex = skillTableView.getFocusModel().getFocusedCell().getColumn();
       if (columnIndex == skillTableView.getColumns().indexOf(idColumn)) {
-        currentStrategy = new IdColumnStrategy(skillTableView, rowIndex);
+        return new IdColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(nameColumn)) {
-        currentStrategy = new NameColumnStrategy(skillTableView, rowIndex);
+        return new NameColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(iconIndexColumn)) {
-        currentStrategy = new IconIndexColumnStrategy(skillTableView, rowIndex);
+        return new IconIndexColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(descriptionColumn)) {
-        currentStrategy = new DescriptionColumnStrategy(skillTableView, rowIndex);
+        return new DescriptionColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(stypeIdColumn)) {
-        currentStrategy = new StypeIdColumnStrategy(skillTableView, rowIndex);
+        return new StypeIdColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(scopeColumn)) {
-        currentStrategy = new ScopeColumnStrategy(skillTableView, rowIndex);
+        return new ScopeColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(mpCostColumn)) {
-        currentStrategy = new MpCostColumnStrategy(skillTableView, rowIndex);
+        return new MpCostColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(tpCostColumn)) {
-        currentStrategy = new TpCostColumnStrategy(skillTableView, rowIndex);
+        return new TpCostColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(occasionColumn)) {
-        currentStrategy = new OccasionColumnStrategy(skillTableView, rowIndex);
+        return new OccasionColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(speedColumn)) {
-        currentStrategy = new SpeedColumnStrategy(skillTableView, rowIndex);
+        return new SpeedColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(successRateColumn)) {
-        currentStrategy = new SuccessRateColumnStrategy(skillTableView, rowIndex);
+        return new SuccessRateColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(repeatsColumn)) {
-        currentStrategy = new RepeatsColumnStrategy(skillTableView, rowIndex);
+        return new RepeatsColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(tpGainColumn)) {
-        currentStrategy = new TpGainColumnStrategy(skillTableView, rowIndex);
+        return new TpGainColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(hitTypeColumn)) {
-        currentStrategy = new HitTypeColumnStrategy(skillTableView, rowIndex);
+        return new HitTypeColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(animationIdColumn)) {
-        currentStrategy = new AnimationIdColumnStrategy(skillTableView, rowIndex);
+        return new AnimationIdColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(message1Column)) {
-        currentStrategy = new Message1ColumnStrategy(skillTableView, rowIndex);
+        return new Message1ColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(message2Column)) {
-        currentStrategy = new Message2ColumnStrategy(skillTableView, rowIndex);
+        return new Message2ColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(requiredWtypeId1Column)) {
-        currentStrategy = new RequiredWtypeId1ColumnStrategy(skillTableView, rowIndex);
+        return new RequiredWtypeId1ColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(requiredWtypeId2Column)) {
-        currentStrategy = new RequiredWtypeId2ColumnStrategy(skillTableView, rowIndex);
+        return new RequiredWtypeId2ColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(damageTypeColumn)) {
-        currentStrategy = new DamageTypeColumnStrategy(skillTableView, rowIndex);
+        return new DamageTypeColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(damageElementColumn)) {
-        currentStrategy = new DamageElementColumnStrategy(skillTableView, rowIndex);
+        return new DamageElementColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(formulaColumn)) {
-        currentStrategy = new FormulaColumnStrategy(skillTableView, rowIndex);
+        return new FormulaColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(varianceColumn)) {
-        currentStrategy = new VarianceColumnStrategy(skillTableView, rowIndex);
+        return new VarianceColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(criticalColumn)) {
-        currentStrategy = new CriticalColumnStrategy(skillTableView, rowIndex);
+        return new CriticalColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(effectsColumn)) {
-        currentStrategy = new EffectsColumnStrategy(skillTableView, rowIndex, this);
+        return new EffectsColumnStrategy(skillTableView, rowIndex, this);
       } else if (columnIndex == skillTableView.getColumns().indexOf(noteColumn)) {
-        currentStrategy = new NoteColumnStrategy(skillTableView, rowIndex);
+        return new NoteColumnStrategy(skillTableView, rowIndex);
       }
     }
+    return null;
   }
 
   /**
@@ -435,7 +467,8 @@ public class SkillTableViewBorderPaneController {
    * 使用効果プレビューを更新する。
    */
   public void updateEffectsPane() {
-    if (!skillTableView.getSelectionModel().isEmpty()) {
+    if (!skillTableView.getSelectionModel().isEmpty()
+        && skillTableView.getSelectionModel().getSelectedItem() != null) {
       String effectsText = skillTableView.getSelectionModel().getSelectedItem().effectsProperty()
           .get();
       int size = skillTableView.getItems().size();
@@ -471,10 +504,10 @@ public class SkillTableViewBorderPaneController {
 
       int rowIndex = skillTableView.getSelectionModel().getSelectedIndex();
       int columnIndex = skillTableView.getColumns().indexOf(effectsColumn);
-      currentStrategy = new EffectsColumnStrategy(skillTableView, rowIndex, this);
+      ColumnStrategy strategy = new EffectsColumnStrategy(skillTableView, rowIndex, this);
 
       ICommand command = new TableCellUpdateCommand(skillTableView, rowIndex, columnIndex,
-          result, currentStrategy);
+          result, strategy);
       mainController.invoke(command);
       mainController.pushUndoCount(1);
     } catch (IOException e) {
@@ -491,7 +524,8 @@ public class SkillTableViewBorderPaneController {
   }
 
   private void updateNotePane() {
-    if (!skillTableView.getSelectionModel().isEmpty()) {
+    if (!skillTableView.getSelectionModel().isEmpty()
+        && skillTableView.getSelectionModel().getSelectedItem() != null) {
       int selectedIndex = skillTableView.getSelectionModel().getSelectedIndex();
       String note = skillTableView.getItems().get(selectedIndex).noteProperty().get();
       mainController.setNoteText(note);
