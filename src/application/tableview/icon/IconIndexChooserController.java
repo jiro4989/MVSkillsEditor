@@ -1,5 +1,8 @@
 package application.tableview.icon;
 
+import static util.UtilIconImage.COLUMN_COUNT;
+import static util.UtilIconImage.ICON_WIDTH;
+
 import java.io.File;
 
 import javafx.fxml.FXML;
@@ -7,8 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
@@ -24,8 +25,6 @@ import javafx.scene.layout.GridPane;
 public class IconIndexChooserController {
   private double imageHeight;
   private int initialIconIndex;
-  private static final int ICON_WIDTH = 32;
-  private static final int COLUMN_SIZE = 16;
 
   @FXML private GridPane gridPane;
   @FXML private ImageView iconImageView;
@@ -77,8 +76,8 @@ public class IconIndexChooserController {
 
   public void setFocusGridPanePosition(int iconIndex) {
     initialIconIndex = iconIndex;
-    int column = iconIndex % COLUMN_SIZE;
-    int row = iconIndex / COLUMN_SIZE;
+    int column = iconIndex % COLUMN_COUNT;
+    int row = iconIndex / COLUMN_COUNT;
     focusGridPane.setLayoutX(column * ICON_WIDTH);
     focusGridPane.setLayoutY(row * ICON_WIDTH);
 
@@ -92,7 +91,7 @@ public class IconIndexChooserController {
       focusGridPane.setLayoutX(column * ICON_WIDTH);
       focusGridPane.setLayoutY(row * ICON_WIDTH);
 
-      int index = row * COLUMN_SIZE + column;
+      int index = row * COLUMN_COUNT + column;
       iconIndexLabel.setText("" + index);
     }
   }
@@ -111,14 +110,5 @@ public class IconIndexChooserController {
     iconImageView.setImage(image);
     iconImageView.setFitWidth(gridPane.getWidth());
     iconImageView.setFitHeight(gridPane.getHeight());
-  }
-
-  public static WritableImage getSelectedIconImageView(File file, int iconIndex) {
-    Image image = new Image("file:" + file.getPath());
-    PixelReader pix = image.getPixelReader();
-    double x = iconIndex % COLUMN_SIZE * ICON_WIDTH;
-    double y = iconIndex / COLUMN_SIZE * ICON_WIDTH;
-    WritableImage newImage = new WritableImage(pix, (int) x, (int) y, ICON_WIDTH, ICON_WIDTH);
-    return newImage;
   }
 }

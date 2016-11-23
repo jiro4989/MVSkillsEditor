@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.IntStream;
 
@@ -15,6 +16,7 @@ import application.MainController;
 import application.tableview.command.ICommand;
 import application.tableview.command.TableCellUpdateCommand;
 import application.tableview.icon.IconIndexChooser;
+import application.tableview.icon.IconIndexChooserController;
 import application.tableview.strategy.AnimationIdColumnStrategy;
 import application.tableview.strategy.ColumnStrategy;
 import application.tableview.strategy.CriticalColumnStrategy;
@@ -45,7 +47,12 @@ import application.tableview.strategy.VarianceColumnStrategy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Orientation;
+import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -55,9 +62,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import jiro.lib.java.util.PropertiesHundler;
-import jiro.lib.javafx.scene.control.CustomedComboBox;
 import util.MyLogger;
-import util.dictionary.Scope;
+import util.UtilIconImage;
+import util.dictionary.SkillCritical;
+import util.dictionary.SkillDamageType;
+import util.dictionary.SkillHitType;
+import util.dictionary.SkillMessage;
+import util.dictionary.SkillOccassion;
+import util.dictionary.SkillScope;
 
 public class SkillTableViewBorderPaneController {
   private MainController mainController;
@@ -72,75 +84,53 @@ public class SkillTableViewBorderPaneController {
   };
 
   private File iconFile;
+  private File systemFile;
+  private File skillsFile;
+  private List<String> skillTypeList;
   private ObservableList<String> scopeItems = FXCollections
-      .observableArrayList(Scope.getNameList());
+      .observableArrayList(SkillScope.getNameList());
   /**
    * 各カラムのインデックス配列
    */
   private int[] columnIndices = new int[INDICES_KEYS.length];
 
-  @FXML
-  private Label idLabel;
-  @FXML
-  private TextField nameTextField;
-  @FXML
-  private HBox hBox;
-  private CustomedComboBox insertComboBox;
+  @FXML private Label idLabel;
+  @FXML private TextField nameTextField;
+  @FXML private HBox hBox;
+  @FXML private ComboBox<String> insertComboBox;
 
-  @FXML
-  private TableView<Skill> skillTableView = new TableView<>();
-  @FXML
-  private TableColumn<Skill, String> idColumn = new TableColumn<>("ID");
-  @FXML
-  private TableColumn<Skill, String> nameColumn = new TableColumn<>("名前");
-  @FXML
-  private TableColumn<Skill, String> iconIndexColumn = new TableColumn<>("アイコン");
-  @FXML
-  private TableColumn<Skill, String> descriptionColumn = new TableColumn<>("説明");
-  @FXML
-  private TableColumn<Skill, String> stypeIdColumn = new TableColumn<>("スキルタイプ");
-  @FXML
-  private TableColumn<Skill, String> scopeColumn = new TableColumn<>("範囲");
-  @FXML
-  private TableColumn<Skill, String> mpCostColumn = new TableColumn<>("消費MP");
-  @FXML
-  private TableColumn<Skill, String> tpCostColumn = new TableColumn<>("消費TP");
-  @FXML
-  private TableColumn<Skill, String> occasionColumn = new TableColumn<>("使用可能時");
-  @FXML
-  private TableColumn<Skill, String> speedColumn = new TableColumn<>("速度補正");
-  @FXML
-  private TableColumn<Skill, String> successRateColumn = new TableColumn<>("成功率");
-  @FXML
-  private TableColumn<Skill, String> repeatsColumn = new TableColumn<>("連続回数");
-  @FXML
-  private TableColumn<Skill, String> tpGainColumn = new TableColumn<>("得TP");
-  @FXML
-  private TableColumn<Skill, String> hitTypeColumn = new TableColumn<>("命中タイプ");
-  @FXML
-  private TableColumn<Skill, String> animationIdColumn = new TableColumn<>("アニメーション");
-  @FXML
-  private TableColumn<Skill, String> message1Column = new TableColumn<>("メッセージ1");
-  @FXML
-  private TableColumn<Skill, String> message2Column = new TableColumn<>("メッセージ2");
-  @FXML
-  private TableColumn<Skill, String> requiredWtypeId1Column = new TableColumn<>("必要武器1");
-  @FXML
-  private TableColumn<Skill, String> requiredWtypeId2Column = new TableColumn<>("必要武器2");
-  @FXML
-  private TableColumn<Skill, String> damageTypeColumn = new TableColumn<>("ダメージタイプ");
-  @FXML
-  private TableColumn<Skill, String> damageElementColumn = new TableColumn<>("属性");
-  @FXML
-  private TableColumn<Skill, String> formulaColumn = new TableColumn<>("計算式");
-  @FXML
-  private TableColumn<Skill, String> varianceColumn = new TableColumn<>("分散度");
-  @FXML
-  private TableColumn<Skill, String> criticalColumn = new TableColumn<>("会心率");
-  @FXML
-  private TableColumn<Skill, String> effectsColumn = new TableColumn<>("使用効果");
-  @FXML
-  private TableColumn<Skill, String> noteColumn = new TableColumn<>("メモ");
+  @FXML private TableView<Skill> leftSkillTableView;
+  @FXML private TableColumn<Skill, String> leftIdColumn = new TableColumn<>("ID");
+  @FXML private TableColumn<Skill, String> leftNameColumn = new TableColumn<>("名前");
+  @FXML private TableColumn<Skill, String> leftIconIndexColumn = new TableColumn<>("アイコン");
+
+  @FXML private TableView<Skill> skillTableView = new TableView<>();
+  @FXML private TableColumn<Skill, String> idColumn = new TableColumn<>("ID");
+  @FXML private TableColumn<Skill, String> nameColumn = new TableColumn<>("名前");
+  @FXML private TableColumn<Skill, String> iconIndexColumn = new TableColumn<>("アイコン");
+  @FXML private TableColumn<Skill, String> descriptionColumn = new TableColumn<>("説明");
+  @FXML private TableColumn<Skill, String> stypeIdColumn = new TableColumn<>("スキルタイプ");
+  @FXML private TableColumn<Skill, String> scopeColumn = new TableColumn<>("範囲");
+  @FXML private TableColumn<Skill, String> mpCostColumn = new TableColumn<>("消費MP");
+  @FXML private TableColumn<Skill, String> tpCostColumn = new TableColumn<>("消費TP");
+  @FXML private TableColumn<Skill, String> occasionColumn = new TableColumn<>("使用可能時");
+  @FXML private TableColumn<Skill, String> speedColumn = new TableColumn<>("速度補正");
+  @FXML private TableColumn<Skill, String> successRateColumn = new TableColumn<>("成功率");
+  @FXML private TableColumn<Skill, String> repeatsColumn = new TableColumn<>("連続回数");
+  @FXML private TableColumn<Skill, String> tpGainColumn = new TableColumn<>("得TP");
+  @FXML private TableColumn<Skill, String> hitTypeColumn = new TableColumn<>("命中タイプ");
+  @FXML private TableColumn<Skill, String> animationIdColumn = new TableColumn<>("アニメーション");
+  @FXML private TableColumn<Skill, String> message1Column = new TableColumn<>("メッセージ1");
+  @FXML private TableColumn<Skill, String> message2Column = new TableColumn<>("メッセージ2");
+  @FXML private TableColumn<Skill, String> requiredWtypeId1Column = new TableColumn<>("必要武器1");
+  @FXML private TableColumn<Skill, String> requiredWtypeId2Column = new TableColumn<>("必要武器2");
+  @FXML private TableColumn<Skill, String> damageTypeColumn = new TableColumn<>("ダメージタイプ");
+  @FXML private TableColumn<Skill, String> damageElementColumn = new TableColumn<>("属性");
+  @FXML private TableColumn<Skill, String> formulaColumn = new TableColumn<>("計算式");
+  @FXML private TableColumn<Skill, String> varianceColumn = new TableColumn<>("分散度");
+  @FXML private TableColumn<Skill, String> criticalColumn = new TableColumn<>("会心率");
+  @FXML private TableColumn<Skill, String> effectsColumn = new TableColumn<>("使用効果");
+  @FXML private TableColumn<Skill, String> noteColumn = new TableColumn<>("メモ");
 
   @SuppressWarnings("unchecked")
   @FXML
@@ -181,20 +171,20 @@ public class SkillTableViewBorderPaneController {
     model.setCellSelectionEnabled(true);
     skillTableView.setFixedCellSize(50);
 
+    TableView.TableViewSelectionModel<Skill> leftModel = leftSkillTableView.getSelectionModel();
+    leftModel.setSelectionMode(SelectionMode.MULTIPLE);
+    leftModel.setCellSelectionEnabled(true);
+
     // 各種テーブルカラムのカスタマイズ
     skillTableView.getColumns()
         .forEach(column -> settingTableColumn((TableColumn<Skill, String>) column));
     descriptionColumn.setCellFactory(TextAreaTableCell.forTableColumn(this));
-    iconIndexColumn.setCellFactory(col -> new IconTableCell());
+    // iconIndexColumn.setCellFactory(col -> new
+    // IconTableCell());
+    leftIconIndexColumn.setCellFactory(col -> new IconTableCell());
     scopeColumn.setCellFactory(col -> {
       return new ComboBoxTableCell<>(scopeItems);
     });
-
-    // TEST
-    // ObservableList<String> boolItems =
-    // FXCollections.observableArrayList("あり", "なし");
-    // criticalColumn.setCellFactory(col -> new
-    // ButtonCell());
 
     skillTableView.getSelectionModel().selectedItemProperty()
         .addListener((observable, oldValue, newValue) -> {
@@ -216,8 +206,6 @@ public class SkillTableViewBorderPaneController {
         insertComboBox.setDisable(false);
         if (columnIndex == skillTableView.getColumns().indexOf(scopeColumn)) {
           insertComboBox.setItems(scopeItems);
-          Skill record = skillTableView.getItems().get(rowIndex);
-          insertComboBox.setValue(record.scopeProperty().get());
         } else if (columnIndex == skillTableView.getColumns().indexOf(occasionColumn)) {
         } else {
           insertComboBox.setDisable(true);
@@ -226,13 +214,22 @@ public class SkillTableViewBorderPaneController {
     });
 
     initializeColumnPosition();
-    insertComboBox = new CustomedComboBox();
-    insertComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
-      System.out.println("change.");
-      int index = skillTableView.getSelectionModel().getSelectedIndex();
-      skillTableView.getItems().get(index).scopeProperty().set(newVal);
+
+    // leftSkillTableView.getColumns().add(idColumn);
+    // leftSkillTableView.getColumns().add(iconIndexColumn);
+    // leftSkillTableView.getColumns().add(nameColumn);
+
+    insertComboBox.itemsProperty().addListener((obs, oldVal, newVal) -> {
+      insertComboBox.getSelectionModel().select(0);
     });
-    hBox.getChildren().add(insertComboBox);
+    insertComboBox.setOnAction(e -> {
+      insertText(insertComboBox.getValue());
+    });
+
+    // insertComboBox.valueProperty().addListener((obs,
+    // oldVal, newVal) -> {
+    // insertText(newVal);
+    // });
   }
 
   private void settingTableColumn(TableColumn<Skill, String> tableColumn) {
@@ -320,13 +317,37 @@ public class SkillTableViewBorderPaneController {
   }
 
   @FXML
+  private void leftSkillTableViewOnMouseClicked(MouseEvent event) {
+    if (!leftSkillTableView.getSelectionModel().isEmpty()) {
+      if (event.getClickCount() == 2) {
+        int columnIndex = leftSkillTableView.getSelectionModel().getSelectedCells().get(0)
+            .getColumn();
+        ObservableList<TableColumn<Skill, ?>> columns = leftSkillTableView.getColumns();
+
+        if (columnIndex == columns.indexOf(leftIconIndexColumn)) {
+          String indexStr = leftSkillTableView.getSelectionModel().getSelectedItem()
+              .iconIndexProperty().get();
+          int iconIndex = Integer.parseInt(indexStr);
+          IconIndexChooser chooser = new IconIndexChooser(iconFile, iconIndex);
+          chooser.showAndWait();
+
+          int newIconIndex = chooser.getController().getIconIndex();
+          if (iconIndex != newIconIndex) {
+            insertText("" + newIconIndex);
+          }
+        }
+      }
+    }
+  }
+
+  @FXML
   private void skillTableViewOnMouseClicked(MouseEvent event) {
     if (!skillTableView.getSelectionModel().isEmpty()) {
       if (event.getClickCount() == 2) {
         int columnIndex = skillTableView.getSelectionModel().getSelectedCells().get(0).getColumn();
         ObservableList<TableColumn<Skill, ?>> columns = skillTableView.getColumns();
 
-        if (columnIndex == columns.indexOf(iconIndexColumn)) {
+        if (columnIndex == columns.indexOf(leftIconIndexColumn)) {
           String indexStr = skillTableView.getSelectionModel().getSelectedItem().iconIndexProperty()
               .get();
           int iconIndex = Integer.parseInt(indexStr);
@@ -512,46 +533,76 @@ public class SkillTableViewBorderPaneController {
    * @param file
    *          jsonファイル
    */
-  public void setSkillDatas(File file) {
+  public void setSkillDatas(File aSkillsFile, File aSystemFile) {
+    skillsFile = aSkillsFile;
+    systemFile = aSystemFile;
+
     skillTableView.getItems().clear();
 
     ObjectMapper mapper = new ObjectMapper();
     try {
-      JsonNode root = mapper.readTree(file);
+      JsonNode systemRoot = mapper.readTree(systemFile);
+      JsonNode skillTypeChild = systemRoot.get("skillTypes");
+      int skillTypeSize = skillTypeChild.size();
+      skillTypeList = new ArrayList<>(skillTypeSize);
+      skillTypeList.add("なし");
+      IntStream.range(1, skillTypeSize)
+          .forEach(i -> {
+            skillTypeList.add(skillTypeChild.get(i).asText());
+          });
 
-      IntStream.range(1, root.size())
+      JsonNode skillsRoot = mapper.readTree(skillsFile);
+      IntStream.range(1, skillsRoot.size())
           .forEach(index -> {
-            JsonNode children = root.get(index);
+            JsonNode children = skillsRoot.get(index);
 
             int tmpId = children.get("id").asInt();
             String id = String.format("%1$04d", tmpId);
             String name = children.get("name").asText();
             String iconIndex = children.get("iconIndex").asText();
             String description = children.get("description").asText();
-            String stypeId = children.get("stypeId").asText();
+
+            int tmpStypeId = children.get("stypeId").asInt();
+            String stypeId = skillTypeList.get(tmpStypeId);
+
             int tmpScope = children.get("scope").asInt();
-            String scope = Scope.convertToText(tmpScope);
+            String scope = SkillScope.convertToText(tmpScope);
 
             String mpCost = children.get("mpCost").asText();
             String tpCost = children.get("tpCost").asText();
-            String occasion = children.get("occasion").asText();
+
+            int tmpOccassion = children.get("occasion").asInt();
+            String occasion = SkillOccassion.convertToText(tmpOccassion);
+
             String speed = children.get("speed").asText();
             String successRate = children.get("successRate").asText();
             String repeats = children.get("repeats").asText();
             String tpGain = children.get("tpGain").asText();
-            String hitType = children.get("hitType").asText();
+
+            int tmpHitType = children.get("hitType").asInt();
+            String hitType = SkillHitType.convertToText(tmpHitType);
+
             String animationId = children.get("animationId").asText();
-            String message1 = children.get("message1").asText();
-            String message2 = children.get("message2").asText();
+
+            int tmpMsg1 = children.get("message1").asInt();
+            String message1 = SkillMessage.convertToText(tmpMsg1);
+
+            int tmpMsg2 = children.get("message2").asInt();
+            String message2 = SkillMessage.convertToText(tmpMsg2);
+
             String req1 = children.get("requiredWtypeId1").asText();
             String req2 = children.get("requiredWtypeId2").asText();
 
             final String DMG = "damage";
-            String type = children.get(DMG).get("type").asText();
+            int tmpType = children.get(DMG).get("type").asInt();
+            String type = SkillDamageType.convertToText(tmpType);
+
             String elementId = children.get(DMG).get("elementId").asText();
             String formula = children.get(DMG).get("formula").asText();
             String variance = children.get(DMG).get("variance").asText();
-            String critical = children.get(DMG).get("critical").asText();
+
+            boolean tmpCritical = children.get(DMG).get("critical").asBoolean();
+            String critical = SkillCritical.convertToText(tmpCritical);
 
             String effects = children.get("effects").toString();
             String note = children.get("note").asText();
@@ -564,6 +615,7 @@ public class SkillTableViewBorderPaneController {
           });
       updateEffectsPane();
       updateNotePane();
+      setClone();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -575,6 +627,7 @@ public class SkillTableViewBorderPaneController {
   private ColumnStrategy getStrategy(int rowIndex) {
     if (!skillTableView.getSelectionModel().isEmpty()) {
       int columnIndex = skillTableView.getFocusModel().getFocusedCell().getColumn();
+      columnIndex += 3;
       if (columnIndex == skillTableView.getColumns().indexOf(idColumn)) {
         return new IdColumnStrategy(skillTableView, rowIndex);
       } else if (columnIndex == skillTableView.getColumns().indexOf(nameColumn)) {
@@ -649,7 +702,7 @@ public class SkillTableViewBorderPaneController {
 
   public void setIconFile(File iconFile) {
     this.iconFile = iconFile;
-    IconTableCell.setIconImageFile(iconFile);
+    IconTableCell.setIconImageList(UtilIconImage.makeIconImageList(iconFile));
   }
 
   class Effect {
@@ -665,5 +718,40 @@ public class SkillTableViewBorderPaneController {
       this.value2 = values[3];
     }
 
+  }
+
+  public void setClone() {
+    leftIdColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("id"));
+    leftNameColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("name"));
+    leftIconIndexColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("iconIndex"));
+
+    leftSkillTableView.setItems(skillTableView.getItems());
+    leftSkillTableView.setFixedCellSize(skillTableView.getFixedCellSize());
+    leftIdColumn = idColumn;
+    leftNameColumn = nameColumn;
+    leftIconIndexColumn = iconIndexColumn;
+    idColumn.setVisible(false);
+    nameColumn.setVisible(false);
+    iconIndexColumn.setVisible(false);
+    leftSkillTableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
+    ScrollBar leftVerticalScrollBar = getScrollBar(leftSkillTableView, true);
+    ScrollBar rightVerticalScrollBar = getScrollBar(skillTableView, true);
+    leftVerticalScrollBar.valueProperty().bindBidirectional(rightVerticalScrollBar.valueProperty());
+  }
+
+  private ScrollBar getScrollBar(TableView<Skill> tableView, boolean vertical) {
+    Set<Node> nodes = tableView.lookupAll(".scroll-bar");
+    for (Node node : nodes) {
+      if (node instanceof ScrollBar) {
+        ScrollBar scrollBar = (ScrollBar) node;
+        if (vertical && scrollBar.getOrientation() == Orientation.VERTICAL) {
+          return scrollBar;
+        } else if (!vertical && scrollBar.getOrientation() == Orientation.HORIZONTAL) {
+          return scrollBar;
+        }
+      }
+    }
+    throw new IllegalStateException("Not found!");
   }
 }

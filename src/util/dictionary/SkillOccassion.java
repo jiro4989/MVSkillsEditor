@@ -4,32 +4,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * 範囲の辞書クラス。
- * @author jiro
- */
-public enum Scope implements SkillTableData {
-    NON("なし"),
-    ENEMY_SINGLE("敵単体"),
-    ENEMY_ALL("敵全体"),
-    ENEMY_RANDOM1("敵1体 ランダム"),
-    ENEMY_RANDOM2("敵2体 ランダム"),
-    ENEMY_RANDOM3("敵3体 ランダム"),
-    ENEMY_RANDOM4("敵4体 ランダム"),
-    ACTOR_SINGLE("味方単体"),
-    ACTOR_ALL("味方全体"),
-    ACTOR_SINGLE_DEAD("味方単体 (戦闘不能)"),
-    ACTOR_ALL_DEAD("味方全体 (戦闘不能)"),
-    OWN("使用者");
+public enum SkillOccassion implements SkillTableData {
+  ALWAYS("常時"),
+  BATTLE("バトル画面"),
+  MENU("メニュー画面"),
+  DISABLED("使用不可");
 
   private final String text;
 
-  private Scope(String aText) {
+  private SkillOccassion(String aText) {
     text = aText;
   }
 
   public static List<String> getNameList() {
-    return Arrays.stream(Scope.values())
+    return Arrays.stream(SkillOccassion.values())
         .map(s -> s.text)
         .collect(Collectors.toList());
   }
@@ -40,9 +28,9 @@ public enum Scope implements SkillTableData {
    * @return 対応するテキスト
    */
   public static String convertToText(int index) {
-    for (Scope scope : Scope.values()) {
-      if (index == scope.ordinal()) {
-        return scope.text;
+    for (SkillOccassion value : SkillOccassion.values()) {
+      if (index == value.ordinal()) {
+        return value.text;
       }
     }
     return null;
@@ -54,9 +42,9 @@ public enum Scope implements SkillTableData {
    * @return 対応するインデックス
    */
   public static int convertToIndex(String aText) {
-    for (Scope scope : Scope.values()) {
-      if (scope.text.equals(aText)) {
-        return scope.ordinal();
+    for (SkillOccassion value : SkillOccassion.values()) {
+      if (value.text.equals(aText)) {
+        return value.ordinal();
       }
     }
     return -1;

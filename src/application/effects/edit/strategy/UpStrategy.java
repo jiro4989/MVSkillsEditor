@@ -2,6 +2,7 @@ package application.effects.edit.strategy;
 
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import util.dictionary.Ability;
 
 class UpStrategy extends EditStrategy {
   private ComboBox<String> upComboBox;
@@ -17,7 +18,7 @@ class UpStrategy extends EditStrategy {
 
   @Override
   String formatToContentText(int codeId, int dataId, double value1, double value2) {
-    return Parameters.values()[dataId].name() + " " + (int) value1 + " ターン";
+    return Ability.values()[dataId].getText() + " " + (int) value1 + " ターン";
   }
 
   @Override

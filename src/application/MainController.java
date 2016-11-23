@@ -148,25 +148,28 @@ public class MainController {
    */
   private boolean successSetData(String path) {
     final String SEP = File.separator;
-    File skillData = new File(path + SEP + "Skills.json");
-    File animationData = new File(path + SEP + "Animations.json");
-    File stateData = new File(path + SEP + "States.json");
-    File commonEventData = new File(path + SEP + "CommonEvents.json");
+    File skillFile = new File(path + SEP + "Skills.json");
+    File animationFile = new File(path + SEP + "Animations.json");
+    File stateFile = new File(path + SEP + "States.json");
+    File commonEventFile = new File(path + SEP + "CommonEvents.json");
+    File systemFile = new File(path + SEP + "System.json");
 
     String rootPath = new File(path).getParent();
     File iconSetImage1 = new File(rootPath + SEP + "img" + SEP + "system" + SEP + "IconSet.png");
     File iconSetImage2 = new File(path + SEP + "IconSet.png");
-    if (skillData.exists()
-        && animationData.exists()
-        && stateData.exists()
-        && commonEventData.exists()
+    if (skillFile.exists()
+        && animationFile.exists()
+        && stateFile.exists()
+        && commonEventFile.exists()
+        && systemFile.exists()
         && (iconSetImage1.exists() || iconSetImage2.exists())) {
-      skillTableViewController.setSkillDatas(skillData);
+
+      skillTableViewController.setSkillDatas(skillFile, systemFile);
       File iconFile = iconSetImage1.exists() ? iconSetImage1 : iconSetImage2;
       skillTableViewController.setIconFile(iconFile);
-      effectsTableViewController.setStateList(stateData,
+      effectsTableViewController.setStateList(stateFile,
           skillTableViewController.getNormalAttackText());
-      effectsTableViewController.setCommonEventList(commonEventData);
+      effectsTableViewController.setCommonEventList(commonEventFile);
       return true;
     }
     return false;

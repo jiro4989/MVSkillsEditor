@@ -1,8 +1,7 @@
 package application.tableview;
 
-import java.io.File;
+import java.util.List;
 
-import application.tableview.icon.IconIndexChooserController;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.image.Image;
@@ -10,10 +9,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 public class IconTableCell extends TableCell<Skill, String> {
-  private static File iconImageFile;
   private HBox hBox;
   private ImageView imageView;
   private Label label;
+  private static List<Image> iconImageList;
 
   public IconTableCell() {
     super();
@@ -31,14 +30,13 @@ public class IconTableCell extends TableCell<Skill, String> {
     super.updateItem(item, empty);
     if (item != null) {
       int iconIndex = Integer.parseInt(item);
-      Image image = IconIndexChooserController.getSelectedIconImageView(iconImageFile, iconIndex);
-      imageView.setImage(image);
+      imageView.setImage(iconImageList.get(iconIndex));
       label.setText(item);
       setGraphic(hBox);
     }
   }
 
-  static void setIconImageFile(File file) {
-    iconImageFile = file;
+  static void setIconImageList(List<Image> anIconImageList) {
+    iconImageList = anIconImageList;
   }
 }

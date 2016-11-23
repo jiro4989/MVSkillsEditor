@@ -17,7 +17,6 @@ public class ScopeColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    String strValue = (String) value;
-    tableView.getItems().get(rowIndex).scopeProperty().set(strValue);
+    tableView.getItems().get(rowIndex).scopeProperty().set((String) value);
   }
 }

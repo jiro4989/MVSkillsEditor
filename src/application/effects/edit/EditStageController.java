@@ -17,6 +17,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import jiro.lib.javafx.scene.control.CustomedComboBox;
 import jiro.lib.javafx.scene.control.NumericTextField;
+import util.dictionary.Ability;
 
 public class EditStageController {
   private EffectsTableViewBorderPaneController controller;
@@ -55,33 +56,32 @@ public class EditStageController {
   // 能力値タブ
   // **************************************************
   @FXML private GridPane abilityGridPane;
-  private static final String[] parameterItems = {
-      "最大HP", "最大MP", "攻撃力", "防御力", "魔法力", "魔法防御", "敏捷性", "運",
-  };
+  private static final double COMBO_BOX_WIDTH = 200.0;
+  private static final int TEXT_FIELD_WIDTH = 1000;
 
   @FXML private RadioButton upRadioButton;
-  private CustomedComboBox upComboBox = new CustomedComboBox(200, parameterItems);
-  private NumericTextField upTextField = new NumericTextField("1", 1, 1000, 1);
+  private CustomedComboBox upComboBox = new CustomedComboBox(COMBO_BOX_WIDTH, Ability.getNameList());
+  private NumericTextField upTextField = new NumericTextField("1", 1, TEXT_FIELD_WIDTH, 1);
 
   @FXML private RadioButton downRadioButton;
-  private CustomedComboBox downComboBox = new CustomedComboBox(200, parameterItems);
-  private NumericTextField downTextField = new NumericTextField("1", 1, 1000, 1);
+  private CustomedComboBox downComboBox = new CustomedComboBox(COMBO_BOX_WIDTH, Ability.getNameList());
+  private NumericTextField downTextField = new NumericTextField("1", 1, TEXT_FIELD_WIDTH, 1);
 
   @FXML private RadioButton upReleaseRadioButton;
-  private CustomedComboBox upReleaseComboBox = new CustomedComboBox(200, parameterItems);
+  private CustomedComboBox upReleaseComboBox = new CustomedComboBox(COMBO_BOX_WIDTH, Ability.getNameList());
 
   @FXML private RadioButton downReleaseRadioButton;
-  private CustomedComboBox downReleaseComboBox = new CustomedComboBox(200, parameterItems);
+  private CustomedComboBox downReleaseComboBox = new CustomedComboBox(COMBO_BOX_WIDTH, Ability.getNameList());
 
   // **************************************************
   // その他タブ
   // **************************************************
   @FXML private GridPane othersGridPane;
   @FXML private RadioButton specialEffectRadioButton;
-  private CustomedComboBox specialEffectComboBox = new CustomedComboBox(200, "逃げる");
+  private CustomedComboBox specialEffectComboBox = new CustomedComboBox(COMBO_BOX_WIDTH, "逃げる");
   @FXML private RadioButton growthRadioButton;
-  private CustomedComboBox growthComboBox = new CustomedComboBox(200, parameterItems);
-  private NumericTextField growthTextField = new NumericTextField("1", 1, 1000, 1);
+  private CustomedComboBox growthComboBox = new CustomedComboBox(200, Ability.getNameList());
+  private NumericTextField growthTextField = new NumericTextField("1", 1, TEXT_FIELD_WIDTH, 1);
   @FXML private RadioButton learningRadioButton;
   @FXML private ListView<String> learningListView;
   @FXML private TextField learningFilterTextField;
