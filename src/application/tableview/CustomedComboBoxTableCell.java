@@ -13,12 +13,9 @@ import javafx.util.StringConverter;
 public class CustomedComboBoxTableCell extends ComboBoxTableCell<Skill, String> {
   private ComboBox<String> comboBox;
   private final ObservableList<String> items;
-  private SkillTableViewBorderPaneController controller;
 
-  public CustomedComboBoxTableCell(ObservableList<String> items,
-      SkillTableViewBorderPaneController controller) {
+  public CustomedComboBoxTableCell(ObservableList<String> items) {
     this.items = items;
-    this.controller = controller;
   }
 
   @Override
@@ -67,7 +64,7 @@ public class CustomedComboBoxTableCell extends ComboBoxTableCell<Skill, String> 
         }
         cell.commitEdit(converter.fromString(comboBox.getValue()));
         c.consume();
-        controller.requestFocus();
+        cell.requestFocus();
       }
     });
 

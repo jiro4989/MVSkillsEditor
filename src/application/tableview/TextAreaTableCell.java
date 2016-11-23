@@ -13,11 +13,7 @@ import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 
 public class TextAreaTableCell<S, T> extends TableCell<S, T> {
-  private static SkillTableViewBorderPaneController controller;
-
-  public static <S> Callback<TableColumn<S, String>, TableCell<S, String>> forTableColumn(
-      SkillTableViewBorderPaneController aController) {
-    controller = aController;
+  public static <S> Callback<TableColumn<S, String>, TableCell<S, String>> forTableColumn() {
     return forTableColumn(new DefaultStringConverter());
   }
 
@@ -47,7 +43,7 @@ public class TextAreaTableCell<S, T> extends TableCell<S, T> {
         }
         cell.commitEdit(converter.fromString(textArea.getText()));
         t.consume();
-        controller.requestFocus();
+        cell.requestFocus();
       }
     });
     textArea.prefRowCountProperty().bind(Bindings.size(textArea.getParagraphs()));
