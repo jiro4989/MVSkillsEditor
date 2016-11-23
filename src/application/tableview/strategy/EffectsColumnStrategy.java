@@ -25,4 +25,10 @@ public class EffectsColumnStrategy extends ColumnStrategy {
     tableView.getItems().get(rowIndex).effectsProperty().set((String) value);
     controller.updateEffectsPane();
   }
+
+  @Override
+  public boolean isInvokable(Object value) {
+    // TODO 自動生成されたメソッド・スタブ
+    return false;
+  }
 }

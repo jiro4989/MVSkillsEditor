@@ -22,4 +22,10 @@ public class TpGainColumnStrategy extends ColumnStrategy {
       tableView.getItems().get(rowIndex).tpGainProperty().set(strValue);
     }
   }
+
+  @Override
+  public boolean isInvokable(Object value) {
+    // TODO 自動生成されたメソッド・スタブ
+    return false;
+  }
 }

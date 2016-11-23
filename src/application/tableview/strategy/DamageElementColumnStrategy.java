@@ -22,4 +22,10 @@ public class DamageElementColumnStrategy extends ColumnStrategy {
       tableView.getItems().get(rowIndex).damageElementProperty().set((String) value);
     }
   }
+
+  @Override
+  public boolean isInvokable(Object value) {
+    // TODO 自動生成されたメソッド・スタブ
+    return false;
+  }
 }

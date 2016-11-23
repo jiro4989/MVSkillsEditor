@@ -17,9 +17,12 @@ public class CriticalColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    String strValue = (String) value;
-    if (strValue.matches(REGEX)) {
-      tableView.getItems().get(rowIndex).criticalProperty().set((String) value);
-    }
+    tableView.getItems().get(rowIndex).criticalProperty().set((String) value);
+  }
+
+  @Override
+  public boolean isInvokable(Object value) {
+    String str = (String) value;
+    return ("あり".equals(str) || "なし".equals(str));
   }
 }

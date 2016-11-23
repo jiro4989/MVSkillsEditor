@@ -19,4 +19,10 @@ public class HitTypeColumnStrategy extends ColumnStrategy {
   public void setValue(Object value) {
     tableView.getItems().get(rowIndex).hitTypeProperty().set((String) value);
   }
+
+  @Override
+  public boolean isInvokable(Object value) {
+    // TODO 自動生成されたメソッド・スタブ
+    return false;
+  }
 }

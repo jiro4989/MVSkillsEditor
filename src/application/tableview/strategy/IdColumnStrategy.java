@@ -18,4 +18,10 @@ public class IdColumnStrategy extends ColumnStrategy {
   @Override
   public void setValue(Object value) {
   }
+
+  @Override
+  public boolean isInvokable(Object value) {
+    // TODO 自動生成されたメソッド・スタブ
+    return false;
+  }
 }

@@ -329,17 +329,26 @@ public class SkillTableViewBorderPaneController {
    *          新しく挿入するテキスト
    */
   public void insertText(String newText) {
-    if (!rightTableView.getSelectionModel().isEmpty()) {
-      ObservableList<Integer> rowIndices = rightTableView.getSelectionModel().getSelectedIndices();
-      rowIndices.stream().forEach(rowIndex -> {
-        ColumnStrategy strategy = getStrategy(rowIndex);
-        ICommand command = new TableCellUpdateCommand(rightTableView, rowIndex, 0,
-            newText, strategy);
-        mainController.invoke(command);
-      });
-
-      mainController.pushUndoCount(rowIndices.size());
+    if (leftManager.isSelected()) {
+      invoke(leftTableView, newText);
+    } else if (rightManager.isSelected()) {
+      invoke(rightTableView, newText);
     }
+  }
+
+  private void invoke(TableView<Skill> table, String newText) {
+    ObservableList<Integer> rowIndices = table.getSelectionModel().getSelectedIndices();
+    for (int rowIndex : rowIndices) {
+      ColumnStrategy strategy = getStrategy(rowIndex);
+      if (!strategy.isInvokable(newText)) {
+        return;
+      }
+      ICommand command = new TableCellUpdateCommand(rightTableView, rowIndex, 0,
+          newText, strategy);
+      mainController.invoke(command);
+    }
+
+    mainController.pushUndoCount(rowIndices.size());
   }
 
   /**

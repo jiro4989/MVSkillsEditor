@@ -19,4 +19,9 @@ public class NameColumnStrategy extends ColumnStrategy {
   public void setValue(Object value) {
     tableView.getItems().get(rowIndex).nameProperty().set((String) value);
   }
+
+  @Override
+  public boolean isInvokable(Object value) {
+    return true;
+  }
 }

@@ -22,4 +22,10 @@ public class AnimationIdColumnStrategy extends ColumnStrategy {
       tableView.getItems().get(rowIndex).animationIdProperty().set(strValue);
     }
   }
+
+  @Override
+  public boolean isInvokable(Object value) {
+    String strValue = (String) value;
+    return strValue.matches(REGEX);
+  }
 }

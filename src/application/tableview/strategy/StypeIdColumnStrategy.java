@@ -19,4 +19,10 @@ public class StypeIdColumnStrategy extends ColumnStrategy {
   public void setValue(Object value) {
     tableView.getItems().get(rowIndex).stypeIdProperty().set((String)value);
   }
+
+  @Override
+  public boolean isInvokable(Object value) {
+    // TODO 自動生成されたメソッド・スタブ
+    return false;
+  }
 }

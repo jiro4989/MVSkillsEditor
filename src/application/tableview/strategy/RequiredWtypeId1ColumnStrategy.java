@@ -22,4 +22,10 @@ public class RequiredWtypeId1ColumnStrategy extends ColumnStrategy {
       tableView.getItems().get(rowIndex).requiredWtypeId1Property().set(strValue);
     }
   }
+
+  @Override
+  public boolean isInvokable(Object value) {
+    // TODO 自動生成されたメソッド・スタブ
+    return false;
+  }
 }

@@ -20,8 +20,13 @@ public abstract class ColumnStrategy {
 
   /**
    * 値をセットする。 実装クラスは必要な方にキャストして使用しなければならない。
-   * @param value
-   *          セットするObjectValue
+   * @param value セットするObjectValue
    */
   public abstract void setValue(Object value);
+
+  /**
+   * 実行可能かどうかを返す。
+   * @return true or false
+   */
+  public abstract boolean isInvokable(Object value);
 }
