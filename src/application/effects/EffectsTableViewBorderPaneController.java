@@ -25,12 +25,9 @@ public class EffectsTableViewBorderPaneController {
   private List<String> skillList;
   private int currentSelectedIndex = 0;
 
-  @FXML
-  private TableView<Effects> effectsTableView = new TableView<>();
-  @FXML
-  private TableColumn<Effects, String> typeColumn = new TableColumn<>("type");
-  @FXML
-  private TableColumn<Effects, String> contentColumn = new TableColumn<>("content");
+  @FXML private TableView<Effects> effectsTableView = new TableView<>();
+  @FXML private TableColumn<Effects, String> typeColumn = new TableColumn<>("type");
+  @FXML private TableColumn<Effects, String> contentColumn = new TableColumn<>("content");
 
   @FXML
   private void initialize() {

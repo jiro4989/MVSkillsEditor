@@ -10,20 +10,14 @@ import javafx.scene.control.ToggleGroup;
 public class ImportFileVBoxController {
   public static final String DESCRIPTION = "インポートするファイルの場所を変更します。";
 
-  @FXML
-  private CheckBox autoImportCheckBox;
+  @FXML private CheckBox autoImportCheckBox;
 
-  @FXML
-  private Label descriptionLabel;
-  @FXML
-  private RadioButton projectRadioButton;
-  @FXML
-  private TextField projectPathTextField;
+  @FXML private Label descriptionLabel;
+  @FXML private RadioButton projectRadioButton;
+  @FXML private TextField projectPathTextField;
 
-  @FXML
-  private RadioButton inputRadioButton;
-  @FXML
-  private TextField inputPathTextField;
+  @FXML private RadioButton inputRadioButton;
+  @FXML private TextField inputPathTextField;
 
   @FXML
   private void initialize() {

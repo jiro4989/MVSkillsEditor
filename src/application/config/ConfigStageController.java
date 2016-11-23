@@ -17,18 +17,12 @@ public class ConfigStageController {
   private ImportFileVBoxController importFileVBoxController;
   private Config config;
 
-  @FXML
-  private TreeView<String> treeView;
-  @FXML
-  private BorderPane borderPane;
-  @FXML
-  private Label headerLabel;
-  @FXML
-  private Label descriptionLabel;
-  @FXML
-  private Button okButton;
-  @FXML
-  private Button cancelButton;
+  @FXML private TreeView<String> treeView;
+  @FXML private BorderPane borderPane;
+  @FXML private Label headerLabel;
+  @FXML private Label descriptionLabel;
+  @FXML private Button okButton;
+  @FXML private Button cancelButton;
 
   @FXML
   private void initialize() {

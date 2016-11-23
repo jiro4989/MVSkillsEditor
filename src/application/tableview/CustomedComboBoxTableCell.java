@@ -9,14 +9,14 @@ import javafx.util.StringConverter;
 /**
  * 使わない可能性が高い。
  * @author jiro
- *
  */
 public class CustomedComboBoxTableCell extends ComboBoxTableCell<Skill, String> {
   private ComboBox<String> comboBox;
   private final ObservableList<String> items;
   private SkillTableViewBorderPaneController controller;
 
-  public CustomedComboBoxTableCell(ObservableList<String> items, SkillTableViewBorderPaneController controller) {
+  public CustomedComboBoxTableCell(ObservableList<String> items,
+      SkillTableViewBorderPaneController controller) {
     this.items = items;
     this.controller = controller;
   }
@@ -51,7 +51,8 @@ public class CustomedComboBoxTableCell extends ComboBoxTableCell<Skill, String> 
     super.updateItem(item, empty);
   }
 
-  private ComboBox<String> createComboBox(final CustomedComboBoxTableCell cell, ObservableList<String> list, StringConverter<String> converter) {
+  private ComboBox<String> createComboBox(final CustomedComboBoxTableCell cell,
+      ObservableList<String> list, StringConverter<String> converter) {
     ComboBox<String> comboBox = new ComboBox<>(list);
     comboBox.setOnKeyReleased(c -> {
       if (c.getCode() == KeyCode.ESCAPE) {

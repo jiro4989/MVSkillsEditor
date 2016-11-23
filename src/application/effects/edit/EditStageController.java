@@ -23,105 +23,78 @@ public class EditStageController {
   private ToggleGroup toggleGroup;
   private EditStrategyManager manager = new EditStrategyManager();
 
-  @FXML
-  private TabPane tabPane;
+  @FXML private TabPane tabPane;
 
   // **************************************************
   // 回復タブ
   // **************************************************
-  @FXML
-  private GridPane healGridPane;
-  @FXML
-  private RadioButton hpRadioButton;
+  @FXML private GridPane healGridPane;
+  @FXML private RadioButton hpRadioButton;
   private NumericTextField hpPercentageTextField = new NumericTextField("0", -100, 100, 0);
   private NumericTextField hpPlusTextField = new NumericTextField("0", -999999, 999999, 0);
 
-  @FXML
-  private RadioButton mpRadioButton;
+  @FXML private RadioButton mpRadioButton;
   private NumericTextField mpPlusTextField = new NumericTextField("0", -999999, 999999, 0);
   private NumericTextField mpPercentageTextField = new NumericTextField("0", -100, 100, 0);
 
-  @FXML
-  private RadioButton tpRadioButton;
+  @FXML private RadioButton tpRadioButton;
   private NumericTextField tpTextField = new NumericTextField("0", 0, 100, 0);
 
   // **************************************************
   // ステートタブ
   // **************************************************
-  @FXML
-  private GridPane stateGridPane;
-  @FXML
-  private RadioButton addStateRadioButton;
+  @FXML private GridPane stateGridPane;
+  @FXML private RadioButton addStateRadioButton;
   private NumericTextField addStateTextField = new NumericTextField("0", 0, 100, 0);
-  @FXML
-  private RadioButton releaseStateRadioButton;
+  @FXML private RadioButton releaseStateRadioButton;
   private NumericTextField releaseStateTextField = new NumericTextField("0", 0, 100, 0);
-  @FXML
-  private ListView<String> stateListView;
-  @FXML
-  private TextField stateFilterTextField;
+  @FXML private ListView<String> stateListView;
+  @FXML private TextField stateFilterTextField;
 
   // **************************************************
   // 能力値タブ
   // **************************************************
-  @FXML
-  private GridPane abilityGridPane;
+  @FXML private GridPane abilityGridPane;
   private static final String[] parameterItems = {
       "最大HP", "最大MP", "攻撃力", "防御力", "魔法力", "魔法防御", "敏捷性", "運",
   };
 
-  @FXML
-  private RadioButton upRadioButton;
+  @FXML private RadioButton upRadioButton;
   private CustomedComboBox upComboBox = new CustomedComboBox(200, parameterItems);
   private NumericTextField upTextField = new NumericTextField("1", 1, 1000, 1);
 
-  @FXML
-  private RadioButton downRadioButton;
+  @FXML private RadioButton downRadioButton;
   private CustomedComboBox downComboBox = new CustomedComboBox(200, parameterItems);
   private NumericTextField downTextField = new NumericTextField("1", 1, 1000, 1);
 
-  @FXML
-  private RadioButton upReleaseRadioButton;
+  @FXML private RadioButton upReleaseRadioButton;
   private CustomedComboBox upReleaseComboBox = new CustomedComboBox(200, parameterItems);
 
-  @FXML
-  private RadioButton downReleaseRadioButton;
+  @FXML private RadioButton downReleaseRadioButton;
   private CustomedComboBox downReleaseComboBox = new CustomedComboBox(200, parameterItems);
 
   // **************************************************
   // その他タブ
   // **************************************************
-  @FXML
-  private GridPane othersGridPane;
-  @FXML
-  private RadioButton specialEffectRadioButton;
+  @FXML private GridPane othersGridPane;
+  @FXML private RadioButton specialEffectRadioButton;
   private CustomedComboBox specialEffectComboBox = new CustomedComboBox(200, "逃げる");
-  @FXML
-  private RadioButton growthRadioButton;
+  @FXML private RadioButton growthRadioButton;
   private CustomedComboBox growthComboBox = new CustomedComboBox(200, parameterItems);
   private NumericTextField growthTextField = new NumericTextField("1", 1, 1000, 1);
-  @FXML
-  private RadioButton learningRadioButton;
-  @FXML
-  private ListView<String> learningListView;
-  @FXML
-  private TextField learningFilterTextField;
-  @FXML
-  private RadioButton commonEventRadioButton;
-  @FXML
-  private ListView<String> commonEventListView;
-  @FXML
-  private TextField commonEventFilterTextField;
+  @FXML private RadioButton learningRadioButton;
+  @FXML private ListView<String> learningListView;
+  @FXML private TextField learningFilterTextField;
+  @FXML private RadioButton commonEventRadioButton;
+  @FXML private ListView<String> commonEventListView;
+  @FXML private TextField commonEventFilterTextField;
 
   // **************************************************
   // OK・キャンセルボタン
   // **************************************************
-  @FXML
-  private Button addButton;
-  @FXML
-  private Button okButton;
-  @FXML
-  private Button cancelButton;
+  @FXML private Button addButton;
+  @FXML private Button okButton;
+  @FXML private Button cancelButton;
 
   @FXML
   private void initialize() {

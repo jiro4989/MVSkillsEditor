@@ -27,19 +27,13 @@ public class IconIndexChooserController {
   private static final int ICON_WIDTH = 32;
   private static final int COLUMN_SIZE = 16;
 
-  @FXML
-  private GridPane gridPane;
-  @FXML
-  private ImageView iconImageView;
-  @FXML
-  private GridPane focusGridPane;
+  @FXML private GridPane gridPane;
+  @FXML private ImageView iconImageView;
+  @FXML private GridPane focusGridPane;
 
-  @FXML
-  private Label iconIndexLabel;
-  @FXML
-  private Button okButton;
-  @FXML
-  private Button cancelButton;
+  @FXML private Label iconIndexLabel;
+  @FXML private Button okButton;
+  @FXML private Button cancelButton;
 
   @FXML
   private void initialize() {
@@ -68,14 +62,14 @@ public class IconIndexChooserController {
 
   @FXML
   private void okButtonOnClicked() {
-    IconIndexChooser stage = (IconIndexChooser)okButton.getScene().getWindow();
+    IconIndexChooser stage = (IconIndexChooser) okButton.getScene().getWindow();
     stage.closeAction();
     okButton.getScene().getWindow().hide();
   }
 
   @FXML
   private void cancelButtonOnClicked() {
-    IconIndexChooser stage = (IconIndexChooser)okButton.getScene().getWindow();
+    IconIndexChooser stage = (IconIndexChooser) okButton.getScene().getWindow();
     stage.closeAction();
     iconIndexLabel.setText("" + initialIconIndex);
     okButton.getScene().getWindow().hide();
@@ -121,10 +115,10 @@ public class IconIndexChooserController {
 
   public static WritableImage getSelectedIconImageView(File file, int iconIndex) {
     Image image = new Image("file:" + file.getPath());
-		PixelReader pix = image.getPixelReader();
-		double x = iconIndex % COLUMN_SIZE * ICON_WIDTH;
-		double y = iconIndex / COLUMN_SIZE * ICON_WIDTH;
-		WritableImage newImage = new WritableImage(pix, (int)x, (int)y, ICON_WIDTH, ICON_WIDTH);
-		return newImage;
+    PixelReader pix = image.getPixelReader();
+    double x = iconIndex % COLUMN_SIZE * ICON_WIDTH;
+    double y = iconIndex / COLUMN_SIZE * ICON_WIDTH;
+    WritableImage newImage = new WritableImage(pix, (int) x, (int) y, ICON_WIDTH, ICON_WIDTH);
+    return newImage;
   }
 }

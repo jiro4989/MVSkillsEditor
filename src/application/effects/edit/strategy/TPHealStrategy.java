@@ -5,7 +5,8 @@ import javafx.scene.control.TextField;
 class TPHealStrategy extends EditStrategy {
   private TextField textField;
 
-  public TPHealStrategy() {}
+  public TPHealStrategy() {
+  }
 
   public TPHealStrategy(TextField textField) {
     this.textField = textField;

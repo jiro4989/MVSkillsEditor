@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 /**
  * 範囲の辞書クラス。
  * @author jiro
- *
  */
 public enum Scope implements SkillTableData {
     NON("なし"),

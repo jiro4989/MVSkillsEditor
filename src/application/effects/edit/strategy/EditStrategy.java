@@ -18,10 +18,10 @@ abstract class EditStrategy {
   /**
    * セットした値を返す。
    * @return
-   *     values[0] = code<br>
-   *     values[1] = dataId<br>
-   *     values[2] = value1<br>
-   *     values[3] = value2<br>
+   *         values[0] = code<br>
+   *         values[1] = dataId<br>
+   *         values[2] = value1<br>
+   *         values[3] = value2<br>
    */
   abstract double[] getValues();
 

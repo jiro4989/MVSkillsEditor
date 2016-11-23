@@ -40,68 +40,47 @@ public class MainController {
   // **************************************************
   // メニューバー
   // **************************************************
-  @FXML
-  private MenuItem newMenuItem;
-  @FXML
-  private MenuItem importProjectMenuItem;
-  @FXML
-  private MenuItem importFolderMenuItem;
-  @FXML
-  private MenuItem saveMenuItem;
-  @FXML
-  private MenuItem saveAsMenuItem;
-  @FXML
-  private MenuItem configMenuItem;
-  @FXML
-  private MenuItem quitMenuItem;
+  @FXML private MenuItem newMenuItem;
+  @FXML private MenuItem importProjectMenuItem;
+  @FXML private MenuItem importFolderMenuItem;
+  @FXML private MenuItem saveMenuItem;
+  @FXML private MenuItem saveAsMenuItem;
+  @FXML private MenuItem configMenuItem;
+  @FXML private MenuItem quitMenuItem;
 
-  @FXML
-  private MenuItem undoMenuItem;
-  @FXML
-  private MenuItem redoMenuItem;
+  @FXML private MenuItem undoMenuItem;
+  @FXML private MenuItem redoMenuItem;
 
-  @FXML
-  private MenuItem previousMenuItem;
-  @FXML
-  private MenuItem nextMenuItem;
+  @FXML private MenuItem previousMenuItem;
+  @FXML private MenuItem nextMenuItem;
 
   // **************************************************
   // テーブルビュー
   // **************************************************
-  @FXML
-  private BorderPane tableViewBorderPane;
+  @FXML private BorderPane tableViewBorderPane;
   private SkillTableViewBorderPane skillTableView;
   private SkillTableViewBorderPaneController skillTableViewController;
 
   // **************************************************
   // ツールバー
   // **************************************************
-  @FXML
-  private Label xLabel;
-  @FXML
-  private Label yLabel;
+  @FXML private Label xLabel;
+  @FXML private Label yLabel;
 
-  @FXML
-  private TextField insertTextField;
-  @FXML
-  private Button applyButton;
-  @FXML
-  private MenuItem toolBarInsertMenuItem;
-  @FXML
-  private MenuItem toolBarHeadInsertMenuItem;
-  @FXML
-  private MenuItem toolBarFootInsertMenuItem;
+  @FXML private TextField insertTextField;
+  @FXML private Button applyButton;
+  @FXML private MenuItem toolBarInsertMenuItem;
+  @FXML private MenuItem toolBarHeadInsertMenuItem;
+  @FXML private MenuItem toolBarFootInsertMenuItem;
 
   // **************************************************
   // プレビュー
   // **************************************************
-  @FXML
-  private TitledPane effectsTitledPane;
+  @FXML private TitledPane effectsTitledPane;
   private EffectsTableViewBorderPane effectsTableView;
   private EffectsTableViewBorderPaneController effectsTableViewController;
 
-  @FXML
-  private TextArea noteTextArea;
+  @FXML private TextArea noteTextArea;
 
   @FXML
   private void initialize() {
@@ -185,7 +164,8 @@ public class MainController {
       skillTableViewController.setSkillDatas(skillData);
       File iconFile = iconSetImage1.exists() ? iconSetImage1 : iconSetImage2;
       skillTableViewController.setIconFile(iconFile);
-      effectsTableViewController.setStateList(stateData, skillTableViewController.getNormalAttackText());
+      effectsTableViewController.setStateList(stateData,
+          skillTableViewController.getNormalAttackText());
       effectsTableViewController.setCommonEventList(commonEventData);
       return true;
     }

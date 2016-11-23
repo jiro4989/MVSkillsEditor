@@ -12,7 +12,6 @@ class SpecialEffectStrategy extends EditStrategy {
     comboBox = aComboBox;
   }
 
-
   @Override
   String formatToContentText(int codeId, int dataId, double value1, double value2) {
     return "逃げる";

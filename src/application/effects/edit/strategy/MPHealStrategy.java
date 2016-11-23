@@ -5,7 +5,8 @@ import javafx.scene.control.TextField;
 class MPHealStrategy extends EditStrategy {
   private TextField textField1;
 
-  public MPHealStrategy() {}
+  public MPHealStrategy() {
+  }
 
   public MPHealStrategy(TextField textField1, TextField textField2) {
     this.textField1 = textField1;

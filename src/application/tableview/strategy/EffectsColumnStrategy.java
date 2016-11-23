@@ -7,7 +7,8 @@ import javafx.scene.control.TableView;
 public class EffectsColumnStrategy extends ColumnStrategy {
   private SkillTableViewBorderPaneController controller;
 
-  public EffectsColumnStrategy(TableView<Skill> tableView, int rowIndex, SkillTableViewBorderPaneController aController) {
+  public EffectsColumnStrategy(TableView<Skill> tableView, int rowIndex,
+      SkillTableViewBorderPaneController aController) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;

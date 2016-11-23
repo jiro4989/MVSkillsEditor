@@ -21,7 +21,7 @@ public class MyLogger {
       fh.setFormatter(new SimpleFormatter());
       logger.addHandler(fh);
     } catch (SecurityException | IOException e) {
-      logger.log(Level.SEVERE, this.getClass().getName()+"エラー", e);
+      logger.log(Level.SEVERE, this.getClass().getName() + "エラー", e);
     }
   }
 
