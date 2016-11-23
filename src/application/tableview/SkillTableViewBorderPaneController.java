@@ -452,6 +452,32 @@ public class SkillTableViewBorderPaneController {
     }
   }
 
+  void updateAxisLabels(int columnIndex, int rowIndex) {
+    mainController.updateAxisLabels(columnIndex, rowIndex);
+  }
+
+  void updateHeader(String id, String name) {
+    idLabel.setText(id);
+    nameTextField.setText(name);
+  }
+
+  void updateInsertComboBox(int columnIndex) {
+    if (rightManager.isSelected()) {
+      insertComboBox.setDisable(false);
+      if (columnIndex == rightTableView.getColumns().indexOf(scopeColumn)) {
+        insertComboBox.setItems(scopeItems);
+      } else if (columnIndex == rightTableView.getColumns().indexOf(occasionColumn)) {
+      } else {
+        insertComboBox.setDisable(true);
+      }
+
+    }
+  }
+
+  void changeDisablePreviews(boolean b) {
+    mainController.changeDisablePreviews(b);
+  }
+
   void updateNotePane() {
     if (!rightTableView.getSelectionModel().isEmpty()
         && rightTableView.getSelectionModel().getSelectedItem() != null) {
@@ -607,31 +633,5 @@ public class SkillTableViewBorderPaneController {
       this.value2 = values[3];
     }
 
-  }
-
-  public void updateAxisLabels(int columnIndex, int rowIndex) {
-    mainController.updateAxisLabels(columnIndex, rowIndex);
-  }
-
-  public void changeDisablePreviews(boolean b) {
-    mainController.changeDisablePreviews(b);
-  }
-
-  public void updateHeader(String id, String name) {
-    idLabel.setText(id);
-    nameTextField.setText(name);
-  }
-
-  public void updateInsertComboBox(int columnIndex) {
-    if (rightManager.isSelected()) {
-      insertComboBox.setDisable(false);
-      if (columnIndex == rightTableView.getColumns().indexOf(scopeColumn)) {
-        insertComboBox.setItems(scopeItems);
-      } else if (columnIndex == rightTableView.getColumns().indexOf(occasionColumn)) {
-      } else {
-        insertComboBox.setDisable(true);
-      }
-
-    }
   }
 }
