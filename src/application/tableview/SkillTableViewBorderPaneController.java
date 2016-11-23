@@ -323,8 +323,7 @@ public class SkillTableViewBorderPaneController {
         int columnIndex = leftSkillTableView.getSelectionModel().getSelectedCells().get(0)
             .getColumn();
         ObservableList<TableColumn<Skill, ?>> columns = leftSkillTableView.getColumns();
-
-        if (columnIndex == columns.indexOf(leftIconIndexColumn)) {
+        if ("leftIconIndexColumn".equals(columns.get(columnIndex).getId())) {
           String indexStr = leftSkillTableView.getSelectionModel().getSelectedItem()
               .iconIndexProperty().get();
           int iconIndex = Integer.parseInt(indexStr);
@@ -333,7 +332,18 @@ public class SkillTableViewBorderPaneController {
 
           int newIconIndex = chooser.getController().getIconIndex();
           if (iconIndex != newIconIndex) {
-            insertText("" + newIconIndex);
+            // insertText("" + newIconIndex);
+
+            ObservableList<Integer> rowIndices = leftSkillTableView.getSelectionModel()
+                .getSelectedIndices();
+            rowIndices.stream().forEach(rowIndex -> {
+              ColumnStrategy strategy = getLeftStrategy(rowIndex);
+              ICommand command = new TableCellUpdateCommand(skillTableView, rowIndex, 0,
+                  ""+newIconIndex, strategy);
+              mainController.invoke(command);
+            });
+
+            mainController.pushUndoCount(rowIndices.size());
           }
         }
       }
@@ -373,9 +383,6 @@ public class SkillTableViewBorderPaneController {
     if (!skillTableView.getSelectionModel().isEmpty()) {
       ObservableList<Integer> rowIndices = skillTableView.getSelectionModel().getSelectedIndices();
       rowIndices.stream().forEach(rowIndex -> {
-        // int id =
-        // Integer.parseInt(skillTableView.getItems().get(rowIndex).idProperty().get());
-        // id--;
         ColumnStrategy strategy = getStrategy(rowIndex);
         ICommand command = new TableCellUpdateCommand(skillTableView, rowIndex, 0,
             newText, strategy);
@@ -619,6 +626,15 @@ public class SkillTableViewBorderPaneController {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  private ColumnStrategy getLeftStrategy(int rowIndex) {
+    System.out.println("getLeftStrategy.");
+    int columnIndex = leftSkillTableView.getFocusModel().getFocusedCell().getColumn();
+    if ("leftIconIndexColumn".equals(leftSkillTableView.getColumns().get(columnIndex).getId())) {
+      return new IconIndexColumnStrategy(skillTableView, rowIndex);
+    }
+    return null;
   }
 
   /**
