@@ -1,8 +1,5 @@
 package application.tableview;
 
-import com.sun.glass.ui.TouchInputSupport;
-
-import application.MainController;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

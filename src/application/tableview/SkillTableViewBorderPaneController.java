@@ -10,7 +10,6 @@ import java.util.stream.IntStream;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import application.MainController;
 import application.tableview.command.ICommand;
@@ -46,14 +45,15 @@ import application.tableview.strategy.VarianceColumnStrategy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-import javafx.util.converter.DefaultStringConverter;
 import jiro.lib.java.util.PropertiesHundler;
 import util.MyLogger;
 
@@ -74,65 +74,43 @@ public class SkillTableViewBorderPaneController {
   private ColumnStrategy currentStrategy;
 
   private File iconFile;
+  private ObservableList<String> scopeItems = FXCollections.observableArrayList(Scope.getNameList());
   /**
    * 各カラムのインデックス配列
    */
   private int[] columnIndices = new int[INDICES_KEYS.length];
 
-  @FXML
-  private TableView<Skill> skillTableView = new TableView<>();
-  @FXML
-  private TableColumn<Skill, String> idColumn = new TableColumn<>("ID");
-  @FXML
-  private TableColumn<Skill, String> nameColumn = new TableColumn<>("名前");
-  @FXML
-  private TableColumn<Skill, String> iconIndexColumn = new TableColumn<>("アイコン");
-  @FXML
-  private TableColumn<Skill, String> descriptionColumn = new TableColumn<>("説明");
-  @FXML
-  private TableColumn<Skill, String> stypeIdColumn = new TableColumn<>("スキルタイプ");
-  @FXML
-  private TableColumn<Skill, String> scopeColumn = new TableColumn<>("範囲");
-  @FXML
-  private TableColumn<Skill, String> mpCostColumn = new TableColumn<>("消費MP");
-  @FXML
-  private TableColumn<Skill, String> tpCostColumn = new TableColumn<>("消費TP");
-  @FXML
-  private TableColumn<Skill, String> occasionColumn = new TableColumn<>("使用可能時");
-  @FXML
-  private TableColumn<Skill, String> speedColumn = new TableColumn<>("速度補正");
-  @FXML
-  private TableColumn<Skill, String> successRateColumn = new TableColumn<>("成功率");
-  @FXML
-  private TableColumn<Skill, String> repeatsColumn = new TableColumn<>("連続回数");
-  @FXML
-  private TableColumn<Skill, String> tpGainColumn = new TableColumn<>("得TP");
-  @FXML
-  private TableColumn<Skill, String> hitTypeColumn = new TableColumn<>("命中タイプ");
-  @FXML
-  private TableColumn<Skill, String> animationIdColumn = new TableColumn<>("アニメーション");
-  @FXML
-  private TableColumn<Skill, String> message1Column = new TableColumn<>("メッセージ1");
-  @FXML
-  private TableColumn<Skill, String> message2Column = new TableColumn<>("メッセージ2");
-  @FXML
-  private TableColumn<Skill, String> requiredWtypeId1Column = new TableColumn<>("必要武器1");
-  @FXML
-  private TableColumn<Skill, String> requiredWtypeId2Column = new TableColumn<>("必要武器2");
-  @FXML
-  private TableColumn<Skill, String> damageTypeColumn = new TableColumn<>("ダメージタイプ");
-  @FXML
-  private TableColumn<Skill, String> damageElementColumn = new TableColumn<>("属性");
-  @FXML
-  private TableColumn<Skill, String> formulaColumn = new TableColumn<>("計算式");
-  @FXML
-  private TableColumn<Skill, String> varianceColumn = new TableColumn<>("分散度");
-  @FXML
-  private TableColumn<Skill, String> criticalColumn = new TableColumn<>("会心率");
-  @FXML
-  private TableColumn<Skill, String> effectsColumn = new TableColumn<>("使用効果");
-  @FXML
-  private TableColumn<Skill, String> noteColumn = new TableColumn<>("メモ");
+  @FXML private Label idLabel;
+  @FXML private TextField nameTextField;
+  @FXML private ComboBox<String> insertComboBox;
+
+  @FXML private TableView<Skill> skillTableView = new TableView<>();
+  @FXML private TableColumn<Skill, String> idColumn = new TableColumn<>("ID");
+  @FXML private TableColumn<Skill, String> nameColumn = new TableColumn<>("名前");
+  @FXML private TableColumn<Skill, String> iconIndexColumn = new TableColumn<>("アイコン");
+  @FXML private TableColumn<Skill, String> descriptionColumn = new TableColumn<>("説明");
+  @FXML private TableColumn<Skill, String> stypeIdColumn = new TableColumn<>("スキルタイプ");
+  @FXML private TableColumn<Skill, String> scopeColumn = new TableColumn<>("範囲");
+  @FXML private TableColumn<Skill, String> mpCostColumn = new TableColumn<>("消費MP");
+  @FXML private TableColumn<Skill, String> tpCostColumn = new TableColumn<>("消費TP");
+  @FXML private TableColumn<Skill, String> occasionColumn = new TableColumn<>("使用可能時");
+  @FXML private TableColumn<Skill, String> speedColumn = new TableColumn<>("速度補正");
+  @FXML private TableColumn<Skill, String> successRateColumn = new TableColumn<>("成功率");
+  @FXML private TableColumn<Skill, String> repeatsColumn = new TableColumn<>("連続回数");
+  @FXML private TableColumn<Skill, String> tpGainColumn = new TableColumn<>("得TP");
+  @FXML private TableColumn<Skill, String> hitTypeColumn = new TableColumn<>("命中タイプ");
+  @FXML private TableColumn<Skill, String> animationIdColumn = new TableColumn<>("アニメーション");
+  @FXML private TableColumn<Skill, String> message1Column = new TableColumn<>("メッセージ1");
+  @FXML private TableColumn<Skill, String> message2Column = new TableColumn<>("メッセージ2");
+  @FXML private TableColumn<Skill, String> requiredWtypeId1Column = new TableColumn<>("必要武器1");
+  @FXML private TableColumn<Skill, String> requiredWtypeId2Column = new TableColumn<>("必要武器2");
+  @FXML private TableColumn<Skill, String> damageTypeColumn = new TableColumn<>("ダメージタイプ");
+  @FXML private TableColumn<Skill, String> damageElementColumn = new TableColumn<>("属性");
+  @FXML private TableColumn<Skill, String> formulaColumn = new TableColumn<>("計算式");
+  @FXML private TableColumn<Skill, String> varianceColumn = new TableColumn<>("分散度");
+  @FXML private TableColumn<Skill, String> criticalColumn = new TableColumn<>("会心率");
+  @FXML private TableColumn<Skill, String> effectsColumn = new TableColumn<>("使用効果");
+  @FXML private TableColumn<Skill, String> noteColumn = new TableColumn<>("メモ");
 
   @SuppressWarnings("unchecked")
   @FXML
@@ -174,16 +152,13 @@ public class SkillTableViewBorderPaneController {
     skillTableView.setFixedCellSize(50);
 
     // 各種テーブルカラムのカスタマイズ
-    // skillTableView.getColumns()
-    // .forEach(column ->
-    // settingTableColumn((TableColumn<Skill, String>)
-    // column));
+    skillTableView.getColumns()
+        .forEach(column -> settingTableColumn((TableColumn<Skill, String>) column));
     descriptionColumn.setCellFactory(TextAreaTableCell.forTableColumn(this));
     iconIndexColumn.setCellFactory(col -> new IconTableCell());
-//    scopeColumn.setCellFactory(col -> {
-//      ObservableList<String> list = FXCollections.observableArrayList(Scope.getNameList());
-//      return new ScopeTableCell(list, this);
-//    });
+    scopeColumn.setCellFactory(col -> {
+      return new ComboBoxTableCell<>(scopeItems);
+    });
 
     // TEST
     // ObservableList<String> boolItems =
@@ -196,6 +171,8 @@ public class SkillTableViewBorderPaneController {
           updateEffectsPane();
           updateNotePane();
           mainController.changeDisablePreviews(false);
+          idLabel.setText(newValue.idProperty().get());
+          nameTextField.setText(newValue.nameProperty().get());
         });
 
     skillTableView.getFocusModel().focusedCellProperty().addListener((obs, oldVal, newVal) -> {
@@ -203,6 +180,7 @@ public class SkillTableViewBorderPaneController {
         int columnIndex = newVal.getColumn();
         int rowIndex = skillTableView.getSelectionModel().getSelectedIndex();
         mainController.updateAxisLabels(columnIndex, rowIndex);
+        insertComboBox.setItems(scopeItems);
       }
     });
 
@@ -211,9 +189,10 @@ public class SkillTableViewBorderPaneController {
 
   private void settingTableColumn(TableColumn<Skill, String> tableColumn) {
     // テーブルビューのセルを編集可能にする
-    tableColumn.setCellFactory(column -> {
-      return new TextFieldTableCell<>(new DefaultStringConverter());
-    });
+    // tableColumn.setCellFactory(column -> {
+    // return new TextFieldTableCell<>(new
+    // DefaultStringConverter());
+    // });
 
     // 編集が終わった後に呼び出す処理
     tableColumn.setOnEditCommit(e -> {
@@ -294,19 +273,24 @@ public class SkillTableViewBorderPaneController {
 
   @FXML
   private void skillTableViewOnMouseClicked(MouseEvent event) {
-    if (!skillTableView.getSelectionModel().isEmpty()
-        && skillTableView.getSelectionModel().getSelectedCells().get(0)
-            .getColumn() == skillTableView.getColumns().indexOf(iconIndexColumn)
-        && event.getClickCount() == 2) {
-      String indexStr = skillTableView.getSelectionModel().getSelectedItem().iconIndexProperty()
-          .get();
-      int iconIndex = Integer.parseInt(indexStr);
-      IconIndexChooser chooser = new IconIndexChooser(iconFile, iconIndex);
-      chooser.showAndWait();
+    if (!skillTableView.getSelectionModel().isEmpty()) {
+      if (event.getClickCount() == 2) {
+        int columnIndex = skillTableView.getSelectionModel().getSelectedCells().get(0).getColumn();
+        ObservableList<TableColumn<Skill, ?>> columns = skillTableView.getColumns();
 
-      int newIconIndex = chooser.getController().getIconIndex();
-      if (iconIndex != newIconIndex) {
-        insertText("" + newIconIndex);
+        if (columnIndex == columns.indexOf(iconIndexColumn)) {
+          String indexStr = skillTableView.getSelectionModel().getSelectedItem().iconIndexProperty()
+              .get();
+          int iconIndex = Integer.parseInt(indexStr);
+          IconIndexChooser chooser = new IconIndexChooser(iconFile, iconIndex);
+          chooser.showAndWait();
+
+          int newIconIndex = chooser.getController().getIconIndex();
+          if (iconIndex != newIconIndex) {
+            insertText("" + newIconIndex);
+          }
+        } else if (columnIndex == columns.indexOf(scopeColumn)) {
+        }
       }
     }
   }
@@ -447,14 +431,6 @@ public class SkillTableViewBorderPaneController {
   }
 
   /**
-   * テーブルビューにフォーカスを移す。
-   * テキストエリアでテキスト編集が終了したときに呼び出す。
-   */
-  void requestFocus() {
-    skillTableView.requestFocus();
-  }
-
-  /**
    * 選択行の使用効果タブのセルのテキストを読み取り、
    * 使用効果プレビューを更新する。
    */
@@ -473,12 +449,72 @@ public class SkillTableViewBorderPaneController {
     }
   }
 
+  public void updateEffectsCell(int selectedIndex, double[] values) {
+    String effectsText = skillTableView.getSelectionModel().getSelectedItem().effectsProperty()
+        .get();
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode root;
+    try {
+      root = mapper.readTree(effectsText);
+      int size = root.size();
+      List<String> textList = new ArrayList<>(size);
+
+      IntStream.range(0, size)
+          .forEach(i -> {
+            String text = i == selectedIndex ? convertJsonText(values) : root.get(i).toString();
+            textList.add(text);
+          });
+      if (size == selectedIndex) {
+        textList.add(convertJsonText(values));
+      }
+      final String result = "[" + String.join(",", textList) + "]";
+
+      int rowIndex = skillTableView.getSelectionModel().getSelectedIndex();
+      int columnIndex = skillTableView.getColumns().indexOf(effectsColumn);
+      currentStrategy = new EffectsColumnStrategy(skillTableView, rowIndex, this);
+
+      ICommand command = new TableCellUpdateCommand(skillTableView, rowIndex, columnIndex,
+          result, currentStrategy);
+      mainController.invoke(command);
+      mainController.pushUndoCount(1);
+    } catch (IOException e) {
+      new MyLogger(this.getClass().getName()).getLogger().log(Level.SEVERE, "JsonReadTreeError", e);
+    }
+  }
+
+  /**
+   * テーブルビューにフォーカスを移す。
+   * テキストエリアでテキスト編集が終了したときに呼び出す。
+   */
+  void requestFocus() {
+    skillTableView.requestFocus();
+  }
+
   private void updateNotePane() {
     if (!skillTableView.getSelectionModel().isEmpty()) {
       int selectedIndex = skillTableView.getSelectionModel().getSelectedIndex();
       String note = skillTableView.getItems().get(selectedIndex).noteProperty().get();
       mainController.setNoteText(note);
     }
+  }
+
+  private String convertJsonText(double[] values) {
+    ObjectMapper mapper = new ObjectMapper();
+    Effect effect = new Effect(values);
+    try {
+      return mapper.writeValueAsString(effect);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public String getNormalAttackText() {
+    return skillTableView.getItems().get(0).nameProperty().get();
+  }
+
+  public String getSelectedEffects() {
+    return skillTableView.getSelectionModel().getSelectedItem().effectsProperty().get();
   }
 
   /**
@@ -554,58 +590,6 @@ public class SkillTableViewBorderPaneController {
       int selectedIndex = skillTableView.getSelectionModel().getSelectedIndex();
       skillTableView.getItems().get(selectedIndex).noteProperty().set(text);
     }
-  }
-
-  public String getSelectedEffects() {
-    return skillTableView.getSelectionModel().getSelectedItem().effectsProperty().get();
-  }
-
-  public void updateEffectsCell(int selectedIndex, double[] values) {
-    String effectsText = skillTableView.getSelectionModel().getSelectedItem().effectsProperty()
-        .get();
-    ObjectMapper mapper = new ObjectMapper();
-    JsonNode root;
-    try {
-      root = mapper.readTree(effectsText);
-      int size = root.size();
-      List<String> textList = new ArrayList<>(size);
-
-      IntStream.range(0, size)
-          .forEach(i -> {
-            String text = i == selectedIndex ? convertJsonText(values) : root.get(i).toString();
-            textList.add(text);
-          });
-      if (size == selectedIndex) {
-        textList.add(convertJsonText(values));
-      }
-      final String result = "[" + String.join(",", textList) + "]";
-
-      int rowIndex = skillTableView.getSelectionModel().getSelectedIndex();
-      int columnIndex = skillTableView.getColumns().indexOf(effectsColumn);
-      currentStrategy = new EffectsColumnStrategy(skillTableView, rowIndex, this);
-
-      ICommand command = new TableCellUpdateCommand(skillTableView, rowIndex, columnIndex,
-          result, currentStrategy);
-      mainController.invoke(command);
-      mainController.pushUndoCount(1);
-    } catch (IOException e) {
-      new MyLogger(this.getClass().getName()).getLogger().log(Level.SEVERE, "JsonReadTreeError", e);
-    }
-  }
-
-  private String convertJsonText(double[] values) {
-    ObjectMapper mapper = new ObjectMapper();
-    Effect effect = new Effect(values);
-    try {
-      return mapper.writeValueAsString(effect);
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
-
-  public String getNormalAttackText() {
-    return skillTableView.getItems().get(0).nameProperty().get();
   }
 
   public void setIconFile(File iconFile) {
