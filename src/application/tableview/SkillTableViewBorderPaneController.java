@@ -7,9 +7,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.stream.IntStream;
 
+import org.jcp.xml.dsig.internal.dom.DOMKeyInfoFactory;
+import org.w3c.dom.events.EventException;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.glass.ui.Screen;
 
 import application.MainController;
 import application.tableview.command.ICommand;
@@ -46,17 +50,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.TableViewSelectionModel;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.util.converter.DefaultStringConverter;
 import util.MyLogger;
 import util.UtilIconImage;
@@ -77,11 +79,6 @@ public class SkillTableViewBorderPaneController {
 
   private File iconFile;
   private static ObservableList<String> stypeItems;
-
-  @FXML private Label idLabel;
-  @FXML private TextField nameTextField;
-  @FXML private HBox hBox;
-  @FXML private ComboBox<String> insertComboBox;
 
   @FXML private SplitPane tableViewSplitPane;
   @FXML private TableView<Skill> leftTableView;
@@ -125,6 +122,9 @@ public class SkillTableViewBorderPaneController {
     rightTableView.getFocusModel().focusedCellProperty().addListener((obs, oldVal, newVal) -> {
       if (newVal.getTableColumn() != null) {
         updateSelection();
+        if (rightManager.isSelected()) {
+          updateInsertComboBox(rightManager.getSelectedCellColumnIndex());
+        }
       }
     });
 
@@ -168,13 +168,6 @@ public class SkillTableViewBorderPaneController {
 
     leftNameColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     leftIconIndexColumn.setCellFactory(col -> new IconTableCell());
-
-    insertComboBox.itemsProperty().addListener((obs, oldVal, newVal) -> {
-      // insertComboBox.getSelectionModel().select(0);
-    });
-    insertComboBox.setOnAction(e -> {
-      insertText(insertComboBox.getValue());
-    });
 
     leftTableView.setItems(rightTableView.getItems());
 
@@ -239,6 +232,56 @@ public class SkillTableViewBorderPaneController {
     }
   }
 
+  private double mouseY = 0;
+  private double diff = 0;
+  private String cellValue;
+  private String firstCellValue;
+  private static final String NUMBER_REGEX = "^[-]?[0-9]+";
+
+  @FXML
+  private void rightTableViewOnMousePressed(MouseEvent event) {
+    if (rightManager.isSelected()) {
+      mouseY = event.getScreenY();
+      cellValue = rightManager.getSelectedCellValue();
+      firstCellValue = rightManager.getSelectedCellValue();
+      System.out.println(cellValue);
+    }
+  }
+
+  @FXML
+  private void rightTableViewOnMouseReleased(MouseEvent event) {
+    if (rightManager.isSelected()) {
+      diff = 0;
+      cellValue = rightManager.getSelectedCellValue();
+      if (!firstCellValue.equals(cellValue)) {
+        System.out.println(cellValue);
+        insertText(rightManager.getSelectedCellValue());
+      }
+    }
+  }
+
+  @FXML
+  private void rightTableViewOnMouseDragged(MouseEvent event) {
+    if (rightManager.isSelected()) {
+      if (cellValue.matches(NUMBER_REGEX)) {
+        diff = mouseY - event.getScreenY();
+        if (diff % 7 == 0) {
+          int numValue = Integer.parseInt(cellValue);
+
+          if (0 < diff) {
+            ++numValue;
+            invokeNonStack(rightTableView, "" + numValue);
+          } else {
+            --numValue;
+            invokeNonStack(rightTableView, "" + numValue);
+          }
+          mouseY = event.getScreenY();
+          cellValue = rightManager.getSelectedCellValue();
+        }
+      }
+    }
+  }
+
   void updateSelection() {
     leftTableView.getSelectionModel().clearSelection();
     leftTableView.getSelectionModel().select(rightTableView.getSelectionModel().getSelectedIndex());
@@ -278,6 +321,19 @@ public class SkillTableViewBorderPaneController {
     }
 
     mainController.pushUndoCount(rowIndices.size());
+  }
+
+  private void invokeNonStack(TableView<Skill> table, String newText) {
+    ObservableList<Integer> rowIndices = table.getSelectionModel().getSelectedIndices();
+    for (int rowIndex : rowIndices) {
+      ColumnStrategy strategy = getStrategy(rowIndex);
+      if (!strategy.isInvokable(newText)) {
+        return;
+      }
+      ICommand command = new TableCellUpdateCommand(rightTableView, rowIndex, 0,
+          newText, strategy);
+      mainController.invokeNonStack(command);
+    }
   }
 
   /**
@@ -367,12 +423,8 @@ public class SkillTableViewBorderPaneController {
     mainController.updateAxisLabels(columnIndex, rowIndex);
   }
 
-  void updateHeader(String id, String name) {
-    idLabel.setText(id);
-    nameTextField.setText(name);
-  }
-
   void updateInsertComboBox(int columnIndex) {
+    ComboBox<String> insertComboBox = mainController.getInsertComboBox();
     insertComboBox.setDisable(false);
     if (rightManager.isSelected()) {
       columnIndex += 3;
@@ -397,7 +449,6 @@ public class SkillTableViewBorderPaneController {
       } else {
         insertComboBox.setDisable(true);
       }
-
     }
   }
 

@@ -4,6 +4,7 @@
 <?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.input.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
@@ -11,80 +12,163 @@
 <BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.MainController">
   <!-- TODO Add Nodes -->
   <center>
-    <SplitPane fx:id="rootSplitPane" dividerPositions="0.7503912363067292" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0">
-      <items>
-        <BorderPane fx:id="tableViewBorderPane" prefHeight="200.0" prefWidth="200.0">
-          <bottom>
-            <ToolBar minWidth="-Infinity">
-              <items>
-                <Label prefWidth="20.0" text="" />
-                <Label text="X:" />
-                <Label fx:id="xLabel" prefWidth="30.0" text="" />
-                <Label text="Y:" />
-                <Label fx:id="yLabel" prefWidth="30.0" text="" />
-                <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="20.0" />
-                <TextField fx:id="insertTextField" prefWidth="200.0" promptText="一括挿入するテキスト" />
-                <Button fx:id="applyButton" mnemonicParsing="false" onAction="#insertText" text="挿入">
-                  <contextMenu>
-                    <ContextMenu>
-                      <items>
-                        <MenuItem mnemonicParsing="false" text="挿入" fx:id="toolBarInsertMenuItem" />
-                        <MenuItem mnemonicParsing="false" text="先頭に挿入" fx:id="toolBarHeadInsertMenuItem" />
-                        <MenuItem mnemonicParsing="false" text="末尾に挿入" fx:id="toolBarFootInsertMenuItem" />
-                      </items>
-                    </ContextMenu>
-                  </contextMenu>
-                </Button>
-                <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="20.0" />
-                <TextField id="insertTextField" prefWidth="200.0" promptText="検索するテキスト" />
-                <Button id="applyButton" mnemonicParsing="false" onAction="#insertText" text="検索">
-                  <contextMenu>
-                    <ContextMenu>
-                      <items>
-                        <MenuItem mnemonicParsing="false" text="挿入" />
-                        <MenuItem mnemonicParsing="false" text="先頭に挿入" />
-                        <MenuItem mnemonicParsing="false" text="末尾に挿入" />
-                      </items>
-                    </ContextMenu>
-                  </contextMenu>
-                </Button>
-                <ComboBox>
-                  <items>
-                    <FXCollections fx:factory="observableArrayList">
-                      <String fx:value="アイテム1" />
-                      <String fx:value="アイテム2" />
-                      <String fx:value="アイテム3" />
-                    </FXCollections>
-                  </items>
-                </ComboBox>
-                <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="20.0" />
-              </items>
-            </ToolBar>
-          </bottom>
-        </BorderPane>
-        <SplitPane fx:id="previewSplitPane" dividerPositions="0.5502873563218391" focusTraversable="true" minWidth="300.0" orientation="VERTICAL" prefHeight="-1.0" prefWidth="-1.0">
+    <BorderPane prefHeight="200.0" prefWidth="200.0">
+      <center>
+        <SplitPane fx:id="rootSplitPane" dividerPositions="0.6940532081377152" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0">
           <items>
-            <AnchorPane minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0">
-              <children>
-                <TitledPane fx:id="effectsTitledPane" animated="false" collapsible="false" content="$null" minHeight="200.0" text="使用効果" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-              </children>
-            </AnchorPane>
-            <AnchorPane minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0">
-              <children>
-                <TitledPane animated="false" collapsible="false" minHeight="200.0" text="メモ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                  <content>
-                    <TextArea fx:id="noteTextArea" disable="true" onKeyReleased="#noteTextAreaOnKeyReleased" prefWidth="200.0" wrapText="true" />
-                  </content>
-                </TitledPane>
-              </children>
-            </AnchorPane>
+            <BorderPane fx:id="tableViewBorderPane" prefHeight="200.0" prefWidth="200.0">
+              <bottom>
+                <ToolBar minWidth="-Infinity">
+                  <items>
+                    <Label prefWidth="20.0" text="" />
+                    <Label text="X:" />
+                    <Label fx:id="xLabel" prefWidth="30.0" text="" />
+                    <Label text="Y:" />
+                    <Label fx:id="yLabel" prefWidth="30.0" text="" />
+                    <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="20.0" />
+                    <TextField fx:id="insertTextField" prefWidth="200.0" promptText="一括挿入するテキスト" />
+                    <Button fx:id="applyButton" mnemonicParsing="false" onAction="#insertText" text="挿入">
+                      <contextMenu>
+                        <ContextMenu>
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="挿入" fx:id="toolBarInsertMenuItem" />
+                            <MenuItem mnemonicParsing="false" text="先頭に挿入" fx:id="toolBarHeadInsertMenuItem" />
+                            <MenuItem mnemonicParsing="false" text="末尾に挿入" fx:id="toolBarFootInsertMenuItem" />
+                          </items>
+                        </ContextMenu>
+                      </contextMenu>
+                    </Button>
+                    <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="20.0" />
+                    <TextField id="insertTextField" prefWidth="200.0" promptText="検索するテキスト" />
+                    <Button id="applyButton" mnemonicParsing="false" onAction="#insertText" text="検索">
+                      <contextMenu>
+                        <ContextMenu>
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="挿入" />
+                            <MenuItem mnemonicParsing="false" text="先頭に挿入" />
+                            <MenuItem mnemonicParsing="false" text="末尾に挿入" />
+                          </items>
+                        </ContextMenu>
+                      </contextMenu>
+                    </Button>
+                    <ComboBox>
+                      <items>
+                        <FXCollections fx:factory="observableArrayList">
+                          <String fx:value="アイテム1" />
+                          <String fx:value="アイテム2" />
+                          <String fx:value="アイテム3" />
+                        </FXCollections>
+                      </items>
+                    </ComboBox>
+                    <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="20.0" />
+                  </items>
+                </ToolBar>
+              </bottom>
+            </BorderPane>
+            <SplitPane fx:id="previewSplitPane" dividerPositions="0.5491679273827534" focusTraversable="true" minWidth="300.0" orientation="VERTICAL" prefHeight="-1.0" prefWidth="-1.0">
+              <items>
+                <AnchorPane minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0">
+                  <children>
+                    <TitledPane fx:id="effectsTitledPane" animated="false" collapsible="false" content="$null" minHeight="200.0" text="使用効果" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  </children>
+                </AnchorPane>
+                <AnchorPane minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0">
+                  <children>
+                    <TitledPane animated="false" collapsible="false" minHeight="200.0" text="メモ" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <content>
+                        <TextArea fx:id="noteTextArea" disable="true" onKeyReleased="#noteTextAreaOnKeyReleased" prefWidth="200.0" wrapText="true" />
+                      </content>
+                    </TitledPane>
+                  </children>
+                </AnchorPane>
+              </items>
+            </SplitPane>
           </items>
+          <BorderPane.margin>
+            <Insets />
+          </BorderPane.margin>
         </SplitPane>
-      </items>
-      <BorderPane.margin>
-        <Insets />
-      </BorderPane.margin>
-    </SplitPane>
+      </center>
+      <top>
+        <ToolBar>
+          <items>
+            <Button focusTraversable="true" minHeight="-1.0" minWidth="-1.0" mnemonicParsing="false" text="" visible="true">
+              <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@resources/home.png" />
+                  </image>
+                </ImageView>
+              </graphic>
+            </Button>
+            <Button mnemonicParsing="false" text="">
+              <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@resources/folder.png" />
+                  </image>
+                </ImageView>
+              </graphic>
+            </Button>
+            <Button mnemonicParsing="false" text="">
+              <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@resources/back.png" />
+                  </image>
+                </ImageView>
+              </graphic>
+            </Button>
+            <Button mnemonicParsing="false" text="">
+              <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@resources/forward.png" />
+                  </image>
+                </ImageView>
+              </graphic>
+            </Button>
+            <Button mnemonicParsing="false" text="">
+              <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@resources/undo.png" />
+                  </image>
+                </ImageView>
+              </graphic>
+            </Button>
+            <Button mnemonicParsing="false" text="">
+              <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@resources/settings.png" />
+                  </image>
+                </ImageView>
+              </graphic>
+            </Button>
+            <Button mnemonicParsing="false" text="">
+              <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@resources/quit.png" />
+                  </image>
+                </ImageView>
+              </graphic>
+            </Button>
+            <Separator orientation="VERTICAL" prefHeight="-1.0" />
+            <ComboBox fx:id="insertComboBox" onAction="#insertComboBoxOnAction">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="アイテム1" />
+                  <String fx:value="アイテム2" />
+                  <String fx:value="アイテム3" />
+                </FXCollections>
+              </items>
+            </ComboBox>
+          </items>
+        </ToolBar>
+      </top>
+    </BorderPane>
   </center>
   <top>
     <MenuBar>

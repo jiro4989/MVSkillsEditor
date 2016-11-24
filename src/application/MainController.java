@@ -18,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
@@ -56,6 +57,11 @@ public class MainController {
 
   @FXML private MenuItem previousMenuItem;
   @FXML private MenuItem nextMenuItem;
+
+  // **************************************************
+  // ツールバー
+  // **************************************************
+  @FXML private ComboBox<String> insertComboBox;
 
   // **************************************************
   // Root
@@ -266,6 +272,11 @@ public class MainController {
   }
 
   @FXML
+  private void insertComboBoxOnAction() {
+    skillTableViewController.insertText(insertComboBox.getValue());
+  }
+
+  @FXML
   private void insertText() {
     skillTableViewController.insertText(insertTextField.getText());
   }
@@ -282,6 +293,10 @@ public class MainController {
    */
   public void invoke(ICommand command) {
     undoRedoManager.invoke(command);
+  }
+
+  public void invokeNonStack(ICommand command) {
+    undoRedoManager.invokeNonStack(command);
   }
 
   /**
@@ -324,12 +339,16 @@ public class MainController {
     dividerPositionProp.write();
   }
 
-  public void setNoteText(String text) {
-    noteTextArea.setText(text);
-  }
-
   public String getSelectedEffects() {
     return skillTableViewController.getSelectedEffects();
+  }
+
+  public ComboBox<String> getInsertComboBox() {
+    return insertComboBox;
+  }
+
+  public void setNoteText(String text) {
+    noteTextArea.setText(text);
   }
 
   /**

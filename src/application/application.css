@@ -25,10 +25,34 @@
 	-fx-font-size: 9.0pt;
 }
 
-/* テーブルビュー */
+/**
+ * テーブルビューの水平スクロールバーを非表示にする。
+ */
 #leftSkillTableView .scroll-bar:horizontal .increment-arrow,
 #leftSkillTableView .scroll-bar:horizontal .decrement-arrow,
 #leftSkillTableView .scroll-bar:horizontal .increment-button,
 #leftSkillTableView .scroll-bar:horizontal .decrement-button {
-    -fx-padding:0;
+    -fx-padding:0.0;
+}
+
+/**
+ * ツールバーのボタンの背景色を透明にする。
+ */
+.tool-bar .button {
+	-fx-background-color:transparent;
+}
+
+/**
+ * ツールバーのボタンをロールオーバー中に背景色を変更し、影を落とす。
+ */
+.tool-bar .button:hover {
+    -fx-background-color:#dae7f3;
+    -fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.4) , 5.0, 0.0 , 0.0 , 1.0 );
+}
+
+/**
+ * ツールバーのボタンをクリック時に内側に影を落とす。
+ */
+.tool-bar .button:pressed {
+    -fx-effect: innershadow( three-pass-box , dimgrey, 5.0, 0.0 , 0.0 , 1.0 );
 }

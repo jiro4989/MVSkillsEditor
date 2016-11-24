@@ -6,6 +6,10 @@ public class UndoRedoManager {
   private Stack<ICommand> undoStack = new Stack<>();
   private Stack<ICommand> redoStack = new Stack<>();
 
+  public void invokeNonStack(ICommand command) {
+    command.invoke();
+  }
+
   public void invoke(ICommand command) {
     command.invoke();
     redoStack.clear();

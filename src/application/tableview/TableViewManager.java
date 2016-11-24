@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 import javafx.collections.ObservableList;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import jiro.lib.java.util.PropertiesHundler;
 
@@ -34,11 +35,6 @@ public class TableViewManager {
           controller.updateEffectsPane();
           controller.updateNotePane();
           controller.changeDisablePreviews(false);
-          if (newValue != null) {
-            String id = newValue.idProperty().get();
-            String name = newValue.nameProperty().get();
-            controller.updateHeader(id, name);
-          }
         });
 
     tableView.getFocusModel().focusedCellProperty().addListener((obs, oldVal, newVal) -> {
@@ -46,7 +42,6 @@ public class TableViewManager {
         int columnIndex = newVal.getColumn();
         int rowIndex = tableView.getSelectionModel().getSelectedIndex();
         controller.updateAxisLabels(columnIndex, rowIndex);
-        controller.updateInsertComboBox(columnIndex);
       }
     });
 
@@ -173,5 +168,13 @@ public class TableViewManager {
           columnWidthProp.setValue(columns.get(i).getId(), "" + columns.get(i).getWidth());
         });
     columnWidthProp.write();
+  }
+
+  String getSelectedCellValue() {
+    @SuppressWarnings("unchecked")
+    TablePosition<Skill, String> pos = tableView.getSelectionModel().getSelectedCells().get(0);
+    int rowIndex = pos.getRow();
+    TableColumn<Skill, String> column = pos.getTableColumn();
+    return column.getCellData(rowIndex);
   }
 }
