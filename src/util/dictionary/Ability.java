@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 /**
  * CodeId31から34で使用するパラメータテキスト
  * @author jiro
@@ -33,5 +36,9 @@ public enum Ability implements SkillTableData {
     return Arrays.stream(Ability.values())
         .map(a -> a.text)
         .collect(Collectors.toList());
+  }
+
+  public static ObservableList<String> getObservableList() {
+    return FXCollections.observableArrayList(getNameList());
   }
 }

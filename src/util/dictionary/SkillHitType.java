@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public enum SkillHitType implements SkillTableData {
     SURE_HIT("必中"),
     PHYSICAL("物理"),
@@ -19,6 +22,10 @@ public enum SkillHitType implements SkillTableData {
     return Arrays.stream(SkillHitType.values())
         .map(s -> s.text)
         .collect(Collectors.toList());
+  }
+
+  public static ObservableList<String> getObservableList() {
+    return FXCollections.observableArrayList(getNameList());
   }
 
   /**

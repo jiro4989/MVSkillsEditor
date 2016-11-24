@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public enum SkillOccasion implements SkillTableData {
     ALWAYS("常時"),
     BATTLE("バトル画面"),
@@ -20,6 +23,10 @@ public enum SkillOccasion implements SkillTableData {
     return Arrays.stream(SkillOccasion.values())
         .map(s -> s.text)
         .collect(Collectors.toList());
+  }
+
+  public static ObservableList<String> getObservableList() {
+    return FXCollections.observableArrayList(getNameList());
   }
 
   /**

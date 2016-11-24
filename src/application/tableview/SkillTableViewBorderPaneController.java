@@ -62,6 +62,11 @@ import util.MyLogger;
 import util.UtilIconImage;
 import util.UtilJson;
 import util.UtilTableView;
+import util.dictionary.SkillCritical;
+import util.dictionary.SkillDamageType;
+import util.dictionary.SkillHitType;
+import util.dictionary.SkillMessage;
+import util.dictionary.SkillOccasion;
 import util.dictionary.SkillScope;
 
 public class SkillTableViewBorderPaneController {
@@ -71,9 +76,8 @@ public class SkillTableViewBorderPaneController {
   private MainController mainController;
 
   private File iconFile;
-  private List<String> skillTypeList;
-  private static ObservableList<String> scopeItems = FXCollections
-      .observableArrayList(SkillScope.getNameList());
+  private static ObservableList<String> stypeItems;
+
   @FXML private Label idLabel;
   @FXML private TextField nameTextField;
   @FXML private HBox hBox;
@@ -154,7 +158,7 @@ public class SkillTableViewBorderPaneController {
 
     // 各種テーブルカラムのカスタマイズ
     descriptionColumn.setCellFactory(TextAreaTableCell.forTableColumn());
-    scopeColumn.setCellFactory(col -> new ComboBoxTableCell<>(scopeItems));
+    scopeColumn.setCellFactory(col -> new ComboBoxTableCell<>(SkillScope.getObservableList()));
 
     leftNameColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     leftIconIndexColumn.setCellFactory(col -> new IconTableCell());
@@ -218,20 +222,11 @@ public class SkillTableViewBorderPaneController {
 
     if (!rightTableView.getSelectionModel().isEmpty()) {
       if (event.getClickCount() == 2) {
-        int columnIndex = rightTableView.getSelectionModel().getSelectedCells().get(0).getColumn();
+        int columnIndex = rightManager.getSelectedCellColumnIndex();
+        columnIndex += 3;
         ObservableList<TableColumn<Skill, ?>> columns = rightTableView.getColumns();
 
-        if (columnIndex == columns.indexOf(leftIconIndexColumn)) {
-          String indexStr = rightTableView.getSelectionModel().getSelectedItem().iconIndexProperty()
-              .get();
-          int iconIndex = Integer.parseInt(indexStr);
-          IconIndexChooser chooser = new IconIndexChooser(iconFile, iconIndex);
-          chooser.showAndWait();
-
-          int newIconIndex = chooser.getController().getIconIndex();
-          if (iconIndex != newIconIndex) {
-            insertText("" + newIconIndex);
-          }
+        if (columnIndex == columns.indexOf(criticalColumn)) {
         } else if (columnIndex == columns.indexOf(scopeColumn)) {
         }
       }
@@ -244,10 +239,12 @@ public class SkillTableViewBorderPaneController {
    *          新しく挿入するテキスト
    */
   public void insertText(String newText) {
-    if (leftManager.isSelected()) {
-      invoke(leftTableView, newText);
-    } else if (rightManager.isSelected()) {
-      invoke(rightTableView, newText);
+    if (newText != null) {
+      if (leftManager.isSelected()) {
+        invoke(leftTableView, newText);
+      } else if (rightManager.isSelected()) {
+        invoke(rightTableView, newText);
+      }
     }
   }
 
@@ -359,12 +356,27 @@ public class SkillTableViewBorderPaneController {
   }
 
   void updateInsertComboBox(int columnIndex) {
+    insertComboBox.setDisable(false);
     if (rightManager.isSelected()) {
-      insertComboBox.setDisable(false);
       columnIndex += 3;
-      if (columnIndex == rightTableView.getColumns().indexOf(scopeColumn)) {
-        insertComboBox.setItems(scopeItems);
+      if (columnIndex == rightTableView.getColumns().indexOf(stypeIdColumn)) {
+        insertComboBox.setItems(stypeItems);
+      } else if (columnIndex == rightTableView.getColumns().indexOf(scopeColumn)) {
+        insertComboBox.setItems(SkillScope.getObservableList());
       } else if (columnIndex == rightTableView.getColumns().indexOf(occasionColumn)) {
+        insertComboBox.setItems(SkillOccasion.getObservableList());
+      } else if (columnIndex == rightTableView.getColumns().indexOf(hitTypeColumn)) {
+        insertComboBox.setItems(SkillHitType.getObservableList());
+      } else if (columnIndex == rightTableView.getColumns().indexOf(animationIdColumn)) {
+        // insertComboBox.setItems(hitTypeItems);
+      } else if (columnIndex == rightTableView.getColumns().indexOf(message1Column)) {
+        insertComboBox.setItems(SkillMessage.getObservableList());
+      } else if (columnIndex == rightTableView.getColumns().indexOf(message2Column)) {
+        insertComboBox.setItems(SkillMessage.getObservableList());
+      } else if (columnIndex == rightTableView.getColumns().indexOf(damageTypeColumn)) {
+        insertComboBox.setItems(SkillDamageType.getObservableList());
+      } else if (columnIndex == rightTableView.getColumns().indexOf(criticalColumn)) {
+        insertComboBox.setItems(SkillCritical.getObservableList());
       } else {
         insertComboBox.setDisable(true);
       }
@@ -486,7 +498,8 @@ public class SkillTableViewBorderPaneController {
     rightTableView.getItems().clear();
 
     ObjectMapper mapper = new ObjectMapper();
-    skillTypeList = UtilJson.makeDataList(systemFile, "skillTypes", "なし");
+    List<String> skillTypeList = UtilJson.makeDataList(systemFile, "skillTypes", "なし");
+    stypeItems = FXCollections.observableArrayList(skillTypeList);
     try {
       JsonNode skillsRoot = mapper.readTree(skillsFile);
       IntStream.range(1, skillsRoot.size())

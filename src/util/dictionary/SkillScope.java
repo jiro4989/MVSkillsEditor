@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 /**
  * 範囲の辞書クラス。
  * @author jiro
@@ -32,6 +35,10 @@ public enum SkillScope implements SkillTableData {
     return Arrays.stream(SkillScope.values())
         .map(s -> s.text)
         .collect(Collectors.toList());
+  }
+
+  public static ObservableList<String> getObservableList() {
+    return FXCollections.observableArrayList(getNameList());
   }
 
   /**

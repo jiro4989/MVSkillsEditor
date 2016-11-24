@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public enum SkillMessage implements SkillTableData {
     CHANT("は%1を唱えた！"),
     SEND("は%1を放った！"),
@@ -19,6 +22,10 @@ public enum SkillMessage implements SkillTableData {
     return Arrays.stream(SkillMessage.values())
         .map(s -> s.text)
         .collect(Collectors.toList());
+  }
+
+  public static ObservableList<String> getObservableList() {
+    return FXCollections.observableArrayList(getNameList());
   }
 
   /**

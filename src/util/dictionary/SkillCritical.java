@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public enum SkillCritical implements SkillTableData {
     BOOL_TRUE("あり"),
     BOOL_FALSE("なし");
@@ -18,6 +21,10 @@ public enum SkillCritical implements SkillTableData {
     return Arrays.stream(SkillCritical.values())
         .map(s -> s.text)
         .collect(Collectors.toList());
+  }
+
+  public static ObservableList<String> getObservableList() {
+    return FXCollections.observableArrayList(getNameList());
   }
 
   /**

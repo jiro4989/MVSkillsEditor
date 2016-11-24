@@ -30,7 +30,7 @@ public class TableViewManager {
     settingTableView(tableView);
 
     tableView.getSelectionModel().selectedItemProperty()
-        .addListener((observable, oldValue, newValue) -> {
+        .addListener((obs, oldValue, newValue) -> {
           controller.updateEffectsPane();
           controller.updateNotePane();
           controller.changeDisablePreviews(false);
