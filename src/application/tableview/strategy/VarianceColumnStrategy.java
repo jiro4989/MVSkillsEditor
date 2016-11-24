@@ -18,7 +18,7 @@ public class VarianceColumnStrategy extends ColumnStrategy {
   @Override
   public void setValue(Object value) {
     if (this.isInvokable(value)) {
-      tableView.getItems().get(rowIndex).varianceProperty().set((String)value);
+      tableView.getItems().get(rowIndex).varianceProperty().set((String) value);
     }
   }
 

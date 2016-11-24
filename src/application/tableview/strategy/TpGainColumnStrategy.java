@@ -18,7 +18,7 @@ public class TpGainColumnStrategy extends ColumnStrategy {
   @Override
   public void setValue(Object value) {
     if (this.isInvokable(value)) {
-      tableView.getItems().get(rowIndex).tpGainProperty().set((String)value);
+      tableView.getItems().get(rowIndex).tpGainProperty().set((String) value);
     }
   }
 

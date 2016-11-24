@@ -36,7 +36,8 @@ public class UtilIconImage {
           PixelReader pix = image.getPixelReader();
           double x = iconIndex % COLUMN_COUNT * ICON_WIDTH;
           double y = iconIndex / COLUMN_COUNT * ICON_WIDTH;
-          WritableImage iconImage = new WritableImage(pix, (int) x, (int) y, ICON_WIDTH, ICON_WIDTH);
+          WritableImage iconImage = new WritableImage(pix, (int) x, (int) y, ICON_WIDTH,
+              ICON_WIDTH);
           imageList.add(iconImage);
         });
     return imageList;

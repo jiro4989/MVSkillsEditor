@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum SkillHitType implements SkillTableData {
-  SURE_HIT("必中"),
-  PHYSICAL("物理"),
-  MAGICAL("魔法");
+    SURE_HIT("必中"),
+    PHYSICAL("物理"),
+    MAGICAL("魔法");
 
   private final String text;
 

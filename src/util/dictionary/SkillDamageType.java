@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum SkillDamageType implements SkillTableData {
-  NON("なし"),
-  HP_DAMAGE("HPダメージ"),
-  MP_DAMAGE("MPダメージ"),
-  HP_HEAL("HP回復"),
-  MP_HEAL("MP回復"),
-  HP_ABSORB("HP吸収"),
-  MP_ABSORB("MP吸収");
+    NON("なし"),
+    HP_DAMAGE("HPダメージ"),
+    MP_DAMAGE("MPダメージ"),
+    HP_HEAL("HP回復"),
+    MP_HEAL("MP回復"),
+    HP_ABSORB("HP吸収"),
+    MP_ABSORB("MP吸収");
 
   private final String text;
 

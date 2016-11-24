@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum SkillCritical implements SkillTableData {
-  BOOL_TRUE("あり"),
-  BOOL_FALSE("なし");
+    BOOL_TRUE("あり"),
+    BOOL_FALSE("なし");
 
   private final String text;
 

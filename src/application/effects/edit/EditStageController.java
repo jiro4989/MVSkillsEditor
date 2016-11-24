@@ -60,18 +60,22 @@ public class EditStageController {
   private static final int TEXT_FIELD_WIDTH = 1000;
 
   @FXML private RadioButton upRadioButton;
-  private CustomedComboBox upComboBox = new CustomedComboBox(COMBO_BOX_WIDTH, Ability.getNameList());
+  private CustomedComboBox upComboBox = new CustomedComboBox(COMBO_BOX_WIDTH,
+      Ability.getNameList());
   private NumericTextField upTextField = new NumericTextField("1", 1, TEXT_FIELD_WIDTH, 1);
 
   @FXML private RadioButton downRadioButton;
-  private CustomedComboBox downComboBox = new CustomedComboBox(COMBO_BOX_WIDTH, Ability.getNameList());
+  private CustomedComboBox downComboBox = new CustomedComboBox(COMBO_BOX_WIDTH,
+      Ability.getNameList());
   private NumericTextField downTextField = new NumericTextField("1", 1, TEXT_FIELD_WIDTH, 1);
 
   @FXML private RadioButton upReleaseRadioButton;
-  private CustomedComboBox upReleaseComboBox = new CustomedComboBox(COMBO_BOX_WIDTH, Ability.getNameList());
+  private CustomedComboBox upReleaseComboBox = new CustomedComboBox(COMBO_BOX_WIDTH,
+      Ability.getNameList());
 
   @FXML private RadioButton downReleaseRadioButton;
-  private CustomedComboBox downReleaseComboBox = new CustomedComboBox(COMBO_BOX_WIDTH, Ability.getNameList());
+  private CustomedComboBox downReleaseComboBox = new CustomedComboBox(COMBO_BOX_WIDTH,
+      Ability.getNameList());
 
   // **************************************************
   // その他タブ

@@ -18,7 +18,7 @@ public class TpCostColumnStrategy extends ColumnStrategy {
   @Override
   public void setValue(Object value) {
     if (this.isInvokable(value)) {
-      tableView.getItems().get(rowIndex).tpCostProperty().set((String)value);
+      tableView.getItems().get(rowIndex).tpCostProperty().set((String) value);
     }
   }
 

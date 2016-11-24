@@ -57,7 +57,6 @@ public class MainController {
   @FXML private MenuItem previousMenuItem;
   @FXML private MenuItem nextMenuItem;
 
-
   // **************************************************
   // Root
   // **************************************************
@@ -111,17 +110,18 @@ public class MainController {
 
   private void settingDividerPosition() {
     if (dividerPositionProp.exists()) {
-    dividerPositionProp.load();
+      dividerPositionProp.load();
 
-    double rootValue = Double.parseDouble(dividerPositionProp.getValue(rootSplitPane.getId()));
-    rootSplitPane.setDividerPosition(0, rootValue);
+      double rootValue = Double.parseDouble(dividerPositionProp.getValue(rootSplitPane.getId()));
+      rootSplitPane.setDividerPosition(0, rootValue);
 
-    double previewValue = Double.parseDouble(dividerPositionProp.getValue(previewSplitPane.getId()));
-    previewSplitPane.setDividerPosition(0, previewValue);
+      double previewValue = Double
+          .parseDouble(dividerPositionProp.getValue(previewSplitPane.getId()));
+      previewSplitPane.setDividerPosition(0, previewValue);
 
-    SplitPane tableSplit = skillTableViewController.getSplitPane();
-    double tableValue = Double.parseDouble(dividerPositionProp.getValue(tableSplit.getId()));
-    tableSplit.setDividerPosition(0, tableValue);
+      SplitPane tableSplit = skillTableViewController.getSplitPane();
+      double tableValue = Double.parseDouble(dividerPositionProp.getValue(tableSplit.getId()));
+      tableSplit.setDividerPosition(0, tableValue);
     }
   }
 
@@ -315,10 +315,12 @@ public class MainController {
   }
 
   private void outputSplitBarPosition() {
-    dividerPositionProp.setValue(rootSplitPane.getId(), ""+rootSplitPane.getDividerPositions()[0]);
-    dividerPositionProp.setValue(previewSplitPane.getId(), ""+previewSplitPane.getDividerPositions()[0]);
+    dividerPositionProp.setValue(rootSplitPane.getId(),
+        "" + rootSplitPane.getDividerPositions()[0]);
+    dividerPositionProp.setValue(previewSplitPane.getId(),
+        "" + previewSplitPane.getDividerPositions()[0]);
     SplitPane tableSplit = skillTableViewController.getSplitPane();
-    dividerPositionProp.setValue(tableSplit.getId(), ""+tableSplit.getDividerPositions()[0]);
+    dividerPositionProp.setValue(tableSplit.getId(), "" + tableSplit.getDividerPositions()[0]);
     dividerPositionProp.write();
   }
 

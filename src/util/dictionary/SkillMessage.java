@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum SkillMessage implements SkillTableData {
-  CHANT("は%1を唱えた！"),
-  SEND("は%1を放った！"),
-  USE("は%1を使った！");
+    CHANT("は%1を唱えた！"),
+    SEND("は%1を放った！"),
+    USE("は%1を使った！");
 
   private final String text;
 

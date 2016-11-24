@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum SkillOccasion implements SkillTableData {
-  ALWAYS("常時"),
-  BATTLE("バトル画面"),
-  MENU("メニュー画面"),
-  DISABLED("使用不可");
+    ALWAYS("常時"),
+    BATTLE("バトル画面"),
+    MENU("メニュー画面"),
+    DISABLED("使用不可");
 
   private final String text;
 
