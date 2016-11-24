@@ -295,10 +295,6 @@ public class MainController {
     undoRedoManager.invoke(command);
   }
 
-  public void invokeNonStack(ICommand command) {
-    undoRedoManager.invokeNonStack(command);
-  }
-
   /**
    * コマンドの繰り返し回数をプッシュする。
    * @param invokeCount

@@ -9,6 +9,8 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import jiro.lib.java.util.PropertiesHundler;
 
 public class TableViewManager {
@@ -147,6 +149,14 @@ public class TableViewManager {
     return tableView.getSelectionModel().getSelectedIndex();
   }
 
+  String getSelectedCellValue() {
+    @SuppressWarnings("unchecked")
+    TablePosition<Skill, String> pos = tableView.getSelectionModel().getSelectedCells().get(0);
+    int rowIndex = pos.getRow();
+    TableColumn<Skill, String> column = pos.getTableColumn();
+    return column.getCellData(rowIndex);
+  }
+
   void outputPropertiesFile() {
     outputColumnIndex();
     outputColumnWidth();
@@ -170,11 +180,57 @@ public class TableViewManager {
     columnWidthProp.write();
   }
 
-  String getSelectedCellValue() {
-    @SuppressWarnings("unchecked")
-    TablePosition<Skill, String> pos = tableView.getSelectionModel().getSelectedCells().get(0);
-    int rowIndex = pos.getRow();
-    TableColumn<Skill, String> column = pos.getTableColumn();
-    return column.getCellData(rowIndex);
+  private double mouseY = 0;
+  private double diff = 0;
+  private String cellValue;
+  private String firstCellValue;
+  private static final String NUMBER_REGEX = "^[-]?[0-9]+";
+  private Tooltip toolTip = new Tooltip();
+
+  void onMousePressed(MouseEvent event) {
+    if (this.isSelected()) {
+      tableView.setTooltip(toolTip);
+      mouseY = event.getScreenY();
+      cellValue = getSelectedCellValue();
+      firstCellValue = getSelectedCellValue();
+      toolTip.setText(cellValue);
+    }
+  }
+
+  void onMouseReleased(MouseEvent event) {
+    if (this.isSelected()) {
+      diff = 0;
+      cellValue = getSelectedCellValue();
+      if (!firstCellValue.equals(toolTip.getText())) {
+        controller.insertText(toolTip.getText());
+        toolTip.setText("");
+        if (toolTip.isShowing()) {
+          toolTip.hide();
+          tableView.setTooltip(null);
+        }
+      }
+    }
+  }
+
+  void onMouseDragged(MouseEvent event) {
+    if (this.isSelected()) {
+      if (cellValue.matches(NUMBER_REGEX)) {
+        diff = mouseY - event.getScreenY();
+        if (diff % 7 == 0) {
+          int numValue = Integer.parseInt(cellValue);
+
+          numValue = 0 < diff ? numValue + 1 : numValue - 1;
+          toolTip.setText("" + numValue);
+
+          if (!toolTip.isShowing()) {
+            toolTip.setX(event.getScreenX());
+            toolTip.setY(event.getScreenY());
+            toolTip.show(tableView.getScene().getWindow());
+          }
+          mouseY = event.getScreenY();
+          cellValue = "" + numValue;
+        }
+      }
+    }
   }
 }
