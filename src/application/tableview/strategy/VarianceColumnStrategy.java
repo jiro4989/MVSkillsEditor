@@ -27,8 +27,13 @@ public class VarianceColumnStrategy extends ColumnStrategy {
     String strValue = (String) value;
     if (strValue.matches(NUMBER_REGEX)) {
       int number = Integer.parseInt(strValue);
-      return (0 < number && number < 100);
+      return (0 <= number && number <= 100);
     }
     return false;
+  }
+
+  @Override
+  public String defaultValue(String value) {
+    return numberFixer(value, 0, 100);
   }
 }

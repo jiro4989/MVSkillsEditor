@@ -28,4 +28,9 @@ public class AnimationIdColumnStrategy extends ColumnStrategy {
     String strValue = (String) value;
     return strValue.matches(NUMBER_REGEX);
   }
+
+  @Override
+  public String defaultValue(String value) {
+    return null;
+  }
 }

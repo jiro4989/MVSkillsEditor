@@ -23,4 +23,9 @@ public class IdColumnStrategy extends ColumnStrategy {
   public boolean isInvokable(Object value) {
     return false;
   }
+
+  @Override
+  public String defaultValue(String value) {
+    return null;
+  }
 }

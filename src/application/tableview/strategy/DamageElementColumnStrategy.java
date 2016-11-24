@@ -28,4 +28,9 @@ public class DamageElementColumnStrategy extends ColumnStrategy {
     // TODO 自動生成されたメソッド・スタブ
     return false;
   }
+
+  @Override
+  public String defaultValue(String value) {
+    return null;
+  }
 }

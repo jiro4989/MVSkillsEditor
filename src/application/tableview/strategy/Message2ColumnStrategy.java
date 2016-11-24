@@ -24,4 +24,9 @@ public class Message2ColumnStrategy extends ColumnStrategy {
   public boolean isInvokable(Object value) {
     return true;
   }
+
+  @Override
+  public String defaultValue(String value) {
+    return null;
+  }
 }

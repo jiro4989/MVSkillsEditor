@@ -31,4 +31,9 @@ public class SpeedColumnStrategy extends ColumnStrategy {
     }
     return false;
   }
+
+  @Override
+  public String defaultValue(String value) {
+    return numberFixer(value, -2000, 2000);
+  }
 }

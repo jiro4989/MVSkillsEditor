@@ -29,4 +29,9 @@ public class ScopeColumnStrategy extends ColumnStrategy {
     return SkillScope.getNameList().parallelStream()
         .anyMatch(n -> n.equals(strValue));
   }
+
+  @Override
+  public String defaultValue(String value) {
+    return null;
+  }
 }

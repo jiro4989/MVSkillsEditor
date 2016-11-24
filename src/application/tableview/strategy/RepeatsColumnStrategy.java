@@ -18,7 +18,7 @@ public class RepeatsColumnStrategy extends ColumnStrategy {
   @Override
   public void setValue(Object value) {
     if (this.isInvokable(value)) {
-      tableView.getItems().get(rowIndex).varianceProperty().set((String) value);
+      tableView.getItems().get(rowIndex).repeatsProperty().set((String) value);
     }
   }
 
@@ -30,5 +30,10 @@ public class RepeatsColumnStrategy extends ColumnStrategy {
       return (1 <= number && number <= 9);
     }
     return false;
+  }
+
+  @Override
+  public String defaultValue(String value) {
+    return numberFixer(value, 1, 9);
   }
 }

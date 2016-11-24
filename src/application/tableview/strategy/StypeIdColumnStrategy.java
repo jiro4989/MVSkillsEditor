@@ -33,4 +33,9 @@ public class StypeIdColumnStrategy extends ColumnStrategy {
     return items.parallelStream()
         .anyMatch(n -> n.equals(strValue));
   }
+
+  @Override
+  public String defaultValue(String value) {
+    return null;
+  }
 }

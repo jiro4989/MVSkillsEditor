@@ -163,7 +163,8 @@ public class SkillTableViewBorderPaneController {
     scopeColumn.setCellFactory(col -> new ComboBoxTableCell<>(SkillScope.getObservableList()));
     mpCostColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     tpCostColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
-    occasionColumn.setCellFactory(col -> new ComboBoxTableCell<>(SkillOccasion.getObservableList()));
+    occasionColumn
+        .setCellFactory(col -> new ComboBoxTableCell<>(SkillOccasion.getObservableList()));
     speedColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     successRateColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     repeatsColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
@@ -171,10 +172,12 @@ public class SkillTableViewBorderPaneController {
     hitTypeColumn.setCellFactory(col -> new ComboBoxTableCell<>(SkillHitType.getObservableList()));
     message1Column.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     message2Column.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
-    damageTypeColumn.setCellFactory(col -> new ComboBoxTableCell<>(SkillDamageType.getObservableList()));
+    damageTypeColumn
+        .setCellFactory(col -> new ComboBoxTableCell<>(SkillDamageType.getObservableList()));
     formulaColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     varianceColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
-    criticalColumn.setCellFactory(col -> new ComboBoxTableCell<>(SkillCritical.getObservableList()));
+    criticalColumn
+        .setCellFactory(col -> new ComboBoxTableCell<>(SkillCritical.getObservableList()));
 
     leftNameColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     leftIconIndexColumn.setCellFactory(col -> new IconTableCell());
@@ -288,7 +291,10 @@ public class SkillTableViewBorderPaneController {
     for (int rowIndex : rowIndices) {
       ColumnStrategy strategy = getStrategy(rowIndex);
       if (!strategy.isInvokable(newText)) {
-        return;
+        newText = strategy.defaultValue(newText);
+        if (newText == null) {
+          return;
+        }
       }
       ICommand command = new TableCellUpdateCommand(rightTableView, rowIndex, 0,
           newText, strategy);

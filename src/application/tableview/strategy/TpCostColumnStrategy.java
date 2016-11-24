@@ -31,4 +31,9 @@ public class TpCostColumnStrategy extends ColumnStrategy {
     }
     return false;
   }
+
+  @Override
+  public String defaultValue(String value) {
+    return numberFixer(value, 0, 100);
+  }
 }

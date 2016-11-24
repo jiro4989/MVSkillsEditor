@@ -29,4 +29,9 @@ public class DamageTypeColumnStrategy extends ColumnStrategy {
     return SkillDamageType.getNameList().parallelStream()
         .anyMatch(n -> n.equals(strValue));
   }
+
+  @Override
+  public String defaultValue(String value) {
+    return null;
+  }
 }
