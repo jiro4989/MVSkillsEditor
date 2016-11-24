@@ -156,7 +156,7 @@
               </graphic>
             </Button>
             <Separator orientation="VERTICAL" prefHeight="-1.0" />
-            <ComboBox fx:id="insertComboBox" onAction="#insertComboBoxOnAction">
+            <ComboBox fx:id="insertComboBox" onAction="#insertComboBoxOnAction" visibleRowCount="20">
               <items>
                 <FXCollections fx:factory="observableArrayList">
                   <String fx:value="アイテム1" />
