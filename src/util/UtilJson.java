@@ -22,12 +22,12 @@ public class UtilJson {
       ObjectMapper mapper = new ObjectMapper();
       JsonNode root = mapper.readTree(jsonFile);
       JsonNode child = root.get(key);
-      int skillTypeSize = child.size();
+      int size = child.size();
 
-      List<String> list = new ArrayList<>(skillTypeSize);
+      List<String> list = new ArrayList<>(size);
       list.add(firstText);
 
-      IntStream.range(1, skillTypeSize)
+      IntStream.range(1, size)
           .forEach(i -> {
             list.add(child.get(i).asText());
           });
@@ -61,7 +61,7 @@ public class UtilJson {
   }
 
   public static Skill makeSkillRecord(JsonNode node, List<String> skillTypeList,
-      List<String> animationList, List<String> weaponList) {
+      List<String> animationList, List<String> weaponList, List<String> elementList) {
     int tmpId = node.get("id").asInt();
     String id = String.format("%1$04d", tmpId);
     String name = node.get("name").asText();
@@ -103,7 +103,9 @@ public class UtilJson {
     int tmpType = node.get(DMG).get("type").asInt();
     String type = SkillDamageType.convertToText(tmpType);
 
-    String elementId = node.get(DMG).get("elementId").asText();
+    int tmpElementId = node.get(DMG).get("elementId").asInt();
+    String elementId = elementList.get(++tmpElementId);
+
     String formula = node.get(DMG).get("formula").asText();
     String variance = node.get(DMG).get("variance").asText();
 

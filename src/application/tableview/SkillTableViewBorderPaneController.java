@@ -77,6 +77,7 @@ public class SkillTableViewBorderPaneController {
   private static ObservableList<String> stypeItems;
   private static ObservableList<String> weaponItems;
   private static ObservableList<String> animationItems;
+  private static ObservableList<String> elementItems;
 
   @FXML private SplitPane tableViewSplitPane;
   @FXML private TableView<Skill> leftTableView;
@@ -419,6 +420,8 @@ public class SkillTableViewBorderPaneController {
         setItems(insertComboBox, weaponItems);
       } else if (columnIndex == rightTableView.getColumns().indexOf(requiredWtypeId2Column)) {
         setItems(insertComboBox, weaponItems);
+      } else if (columnIndex == rightTableView.getColumns().indexOf(damageElementColumn)) {
+        setItems(insertComboBox, elementItems);
       } else {
         insertComboBox.setDisable(true);
       }
@@ -509,7 +512,7 @@ public class SkillTableViewBorderPaneController {
       } else if (columnIndex == rightTableView.getColumns().indexOf(damageTypeColumn)) {
         return new DamageTypeColumnStrategy(rightTableView, rowIndex);
       } else if (columnIndex == rightTableView.getColumns().indexOf(damageElementColumn)) {
-        return new DamageElementColumnStrategy(rightTableView, rowIndex);
+        return new DamageElementColumnStrategy(rightTableView, rowIndex, elementItems);
       } else if (columnIndex == rightTableView.getColumns().indexOf(formulaColumn)) {
         return new FormulaColumnStrategy(rightTableView, rowIndex);
       } else if (columnIndex == rightTableView.getColumns().indexOf(varianceColumn)) {
@@ -553,6 +556,13 @@ public class SkillTableViewBorderPaneController {
     requiredWtypeId1Column.setCellFactory(col -> new ComboBoxTableCell<>(weaponItems));
     requiredWtypeId2Column.setCellFactory(col -> new ComboBoxTableCell<>(weaponItems));
 
+    List<String> tmpElementList = UtilJson.makeDataList(systemFile, "elements", "なし");
+    List<String> elementList = new ArrayList<>(tmpElementList.size() + 1);
+    elementList.add("通常攻撃");
+    elementList.addAll(tmpElementList);
+    elementItems = FXCollections.observableArrayList(elementList);
+    damageElementColumn.setCellFactory(col -> new ComboBoxTableCell<>(elementItems));
+
     List<String> animationList = UtilJson.makeAnimationList(animationFile);
     animationItems = FXCollections.observableArrayList(animationList);
     animationIdColumn.setCellFactory(col -> new ComboBoxTableCell<>(animationItems));
@@ -564,7 +574,8 @@ public class SkillTableViewBorderPaneController {
           .forEach(index -> {
             JsonNode children = skillsRoot.get(index);
             rightTableView.getItems()
-                .add(UtilJson.makeSkillRecord(children, skillTypeList, animationList, weaponList));
+                .add(UtilJson.makeSkillRecord(children, skillTypeList, animationList, weaponList,
+                    elementList));
           });
       updateEffectsPane();
       updateNotePane();
