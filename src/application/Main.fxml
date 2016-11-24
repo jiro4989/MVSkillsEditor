@@ -90,9 +90,9 @@
         </SplitPane>
       </center>
       <top>
-        <ToolBar>
+        <ToolBar fx:id="topToolBar">
           <items>
-            <Button focusTraversable="true" minHeight="-1.0" minWidth="-1.0" mnemonicParsing="false" text="" visible="true">
+            <Button fx:id="projectButton" focusTraversable="true" minHeight="-1.0" minWidth="-1.0" mnemonicParsing="false" onAction="#importProject" text="" visible="true">
               <graphic>
                 <ImageView fitHeight="20.0" fitWidth="20.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -101,7 +101,7 @@
                 </ImageView>
               </graphic>
             </Button>
-            <Button mnemonicParsing="false" text="">
+            <Button fx:id="folderButton" mnemonicParsing="false" onAction="#importFolder" text="">
               <graphic>
                 <ImageView fitHeight="20.0" fitWidth="20.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -110,7 +110,7 @@
                 </ImageView>
               </graphic>
             </Button>
-            <Button mnemonicParsing="false" text="">
+            <Button fx:id="undoButton" disable="true" mnemonicParsing="false" onAction="#undo" text="">
               <graphic>
                 <ImageView fitHeight="20.0" fitWidth="20.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -119,7 +119,7 @@
                 </ImageView>
               </graphic>
             </Button>
-            <Button mnemonicParsing="false" text="">
+            <Button fx:id="redoButton" disable="true" mnemonicParsing="false" onAction="#redo" text="">
               <graphic>
                 <ImageView fitHeight="20.0" fitWidth="20.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                   <image>

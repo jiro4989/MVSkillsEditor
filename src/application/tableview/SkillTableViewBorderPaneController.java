@@ -300,7 +300,6 @@ public class SkillTableViewBorderPaneController {
           newText, strategy);
       mainController.invoke(command);
     }
-
     mainController.pushUndoCount(rowIndices.size());
   }
 

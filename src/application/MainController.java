@@ -25,6 +25,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import jiro.lib.java.util.PropertiesHundler;
@@ -61,6 +62,11 @@ public class MainController {
   // **************************************************
   // ツールバー
   // **************************************************
+  @FXML private ToolBar topToolBar;
+  @FXML private Button projectButton;
+  @FXML private Button folderButton;
+  @FXML private Button undoButton;
+  @FXML private Button redoButton;
   @FXML private ComboBox<String> insertComboBox;
 
   // **************************************************
@@ -247,6 +253,7 @@ public class MainController {
         undoRedoManager.undo();
       });
       redoCountStack.push(invokeCount);
+      changeDisableUndoRedoButton();
     }
   }
 
@@ -258,6 +265,7 @@ public class MainController {
         undoRedoManager.redo();
       });
       undoCountStack.push(invokeCount);
+      changeDisableUndoRedoButton();
     }
   }
 
@@ -301,7 +309,16 @@ public class MainController {
    *          繰り返し回数
    */
   public void pushUndoCount(int invokeCount) {
+    redoCountStack.clear();
     undoCountStack.push(invokeCount);
+    changeDisableUndoRedoButton();
+  }
+
+  private void changeDisableUndoRedoButton() {
+    boolean disable = undoCountStack.isEmpty();
+    undoButton.setDisable(disable);
+    disable = redoCountStack.isEmpty();
+    redoButton.setDisable(disable);
   }
 
   /**
