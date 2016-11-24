@@ -141,22 +141,6 @@ public class TableViewManager {
     return !tableView.getSelectionModel().isEmpty();
   }
 
-  int getSelectedCellColumnIndex() {
-    return tableView.getSelectionModel().getSelectedCells().get(0).getColumn();
-  }
-
-  int getSelectedCellRowIndex() {
-    return tableView.getSelectionModel().getSelectedIndex();
-  }
-
-  String getSelectedCellValue() {
-    @SuppressWarnings("unchecked")
-    TablePosition<Skill, String> pos = tableView.getSelectionModel().getSelectedCells().get(0);
-    int rowIndex = pos.getRow();
-    TableColumn<Skill, String> column = pos.getTableColumn();
-    return column.getCellData(rowIndex);
-  }
-
   void outputPropertiesFile() {
     outputColumnIndex();
     outputColumnWidth();
@@ -180,6 +164,22 @@ public class TableViewManager {
     columnWidthProp.write();
   }
 
+  int getSelectedCellColumnIndex() {
+    return tableView.getSelectionModel().getSelectedCells().get(0).getColumn();
+  }
+
+  int getSelectedCellRowIndex() {
+    return tableView.getSelectionModel().getSelectedIndex();
+  }
+
+  String getSelectedCellValue() {
+    @SuppressWarnings("unchecked")
+    TablePosition<Skill, String> pos = tableView.getSelectionModel().getSelectedCells().get(0);
+    int rowIndex = pos.getRow();
+    TableColumn<Skill, String> column = pos.getTableColumn();
+    return column.getCellData(rowIndex);
+  }
+
   private double mouseY = 0;
   private double diff = 0;
   private String cellValue;
@@ -189,7 +189,6 @@ public class TableViewManager {
 
   void onMousePressed(MouseEvent event) {
     if (this.isSelected()) {
-      tableView.setTooltip(toolTip);
       mouseY = event.getScreenY();
       cellValue = getSelectedCellValue();
       firstCellValue = getSelectedCellValue();
@@ -222,6 +221,7 @@ public class TableViewManager {
           numValue = 0 < diff ? numValue + 1 : numValue - 1;
           toolTip.setText("" + numValue);
 
+          tableView.setTooltip(toolTip);
           if (!toolTip.isShowing()) {
             toolTip.setX(event.getScreenX());
             toolTip.setY(event.getScreenY());
