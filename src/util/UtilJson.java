@@ -22,15 +22,15 @@ public class UtilJson {
     try {
       ObjectMapper mapper = new ObjectMapper();
       JsonNode root = mapper.readTree(jsonFile);
-      JsonNode skillTypeChild = root.get(key);
-      int skillTypeSize = skillTypeChild.size();
+      JsonNode child = root.get(key);
+      int skillTypeSize = child.size();
 
       List<String> list = new ArrayList<>(skillTypeSize);
       list.add(firstText);
 
       IntStream.range(1, skillTypeSize)
           .forEach(i -> {
-            list.add(skillTypeChild.get(i).asText());
+            list.add(child.get(i).asText());
           });
       return list;
     } catch (IOException e) {
@@ -39,7 +39,29 @@ public class UtilJson {
     return null;
   }
 
-  public static Skill makeSkillRecord(JsonNode node, List<String> skillTypeList) {
+  public static List<String> makeAnimationList(File animationFile) {
+    try {
+      ObjectMapper mapper = new ObjectMapper();
+      JsonNode root = mapper.readTree(animationFile);
+      int size = root.size();
+
+      List<String> list = new ArrayList<>(size + 1);
+      list.add("通常攻撃");
+      list.add("なし");
+      IntStream.range(1, size)
+          .forEach(index -> {
+            JsonNode children = root.get(index);
+            String name = children.get("name").asText();
+            list.add(name);
+          });
+      return list;
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public static Skill makeSkillRecord(JsonNode node, List<String> skillTypeList, List<String> animationList) {
     int tmpId = node.get("id").asInt();
     String id = String.format("%1$04d", tmpId);
     String name = node.get("name").asText();
@@ -66,7 +88,8 @@ public class UtilJson {
     int tmpHitType = node.get("hitType").asInt();
     String hitType = SkillHitType.convertToText(tmpHitType);
 
-    String animationId = node.get("animationId").asText();
+    int tmpAnimationId = node.get("animationId").asInt();
+    String animationId = animationList.get(++tmpAnimationId);
 
     int tmpMsg1 = node.get("message1").asInt();
     String message1 = SkillMessage.convertToText(tmpMsg1);

@@ -205,7 +205,7 @@ public class MainController {
         && systemFile.exists()
         && (iconSetImage1.exists() || iconSetImage2.exists())) {
 
-      skillTableViewController.setSkillDatas(skillFile, systemFile);
+      skillTableViewController.setSkillDatas(skillFile, systemFile, animationFile);
       File iconFile = iconSetImage1.exists() ? iconSetImage1 : iconSetImage2;
       skillTableViewController.setIconFile(iconFile);
       effectsTableViewController.setStateList(stateFile,

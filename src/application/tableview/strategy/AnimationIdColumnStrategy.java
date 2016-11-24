@@ -1,13 +1,17 @@
 package application.tableview.strategy;
 
 import application.tableview.Skill;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 
 public class AnimationIdColumnStrategy extends ColumnStrategy {
-  public AnimationIdColumnStrategy(TableView<Skill> tableView, int rowIndex) {
+  private ObservableList<String> items;
+
+  public AnimationIdColumnStrategy(TableView<Skill> tableView, int rowIndex, ObservableList<String> list) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;
+    this.items = list;
   }
 
   @Override
@@ -17,16 +21,16 @@ public class AnimationIdColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    String strValue = (String) value;
-    if (strValue.matches(NUMBER_REGEX)) {
-      tableView.getItems().get(rowIndex).animationIdProperty().set(strValue);
+    if (this.isInvokable(value)) {
+      tableView.getItems().get(rowIndex).animationIdProperty().set((String) value);
     }
   }
 
   @Override
   public boolean isInvokable(Object value) {
     String strValue = (String) value;
-    return strValue.matches(NUMBER_REGEX);
+    return items.parallelStream()
+        .anyMatch(n -> n.equals(strValue));
   }
 
   @Override

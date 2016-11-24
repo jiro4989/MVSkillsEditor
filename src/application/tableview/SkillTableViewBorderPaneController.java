@@ -75,6 +75,7 @@ public class SkillTableViewBorderPaneController {
 
   private File iconFile;
   private static ObservableList<String> stypeItems;
+  private static ObservableList<String> animationItems;
 
   @FXML private SplitPane tableViewSplitPane;
   @FXML private TableView<Skill> leftTableView;
@@ -404,7 +405,7 @@ public class SkillTableViewBorderPaneController {
       } else if (columnIndex == rightTableView.getColumns().indexOf(hitTypeColumn)) {
         setItems(insertComboBox, SkillHitType.getObservableList());
       } else if (columnIndex == rightTableView.getColumns().indexOf(animationIdColumn)) {
-        // insertComboBox.setItems(hitTypeItems);
+        insertComboBox.setItems(animationItems);
       } else if (columnIndex == rightTableView.getColumns().indexOf(message1Column)) {
         setItems(insertComboBox, SkillMessage.getObservableList());
       } else if (columnIndex == rightTableView.getColumns().indexOf(message2Column)) {
@@ -491,7 +492,7 @@ public class SkillTableViewBorderPaneController {
       } else if (columnIndex == rightTableView.getColumns().indexOf(hitTypeColumn)) {
         return new HitTypeColumnStrategy(rightTableView, rowIndex);
       } else if (columnIndex == rightTableView.getColumns().indexOf(animationIdColumn)) {
-        return new AnimationIdColumnStrategy(rightTableView, rowIndex);
+        return new AnimationIdColumnStrategy(rightTableView, rowIndex, animationItems);
       } else if (columnIndex == rightTableView.getColumns().indexOf(message1Column)) {
         return new Message1ColumnStrategy(rightTableView, rowIndex);
       } else if (columnIndex == rightTableView.getColumns().indexOf(message2Column)) {
@@ -535,20 +536,25 @@ public class SkillTableViewBorderPaneController {
    * @param file
    *          jsonファイル
    */
-  public void setSkillDatas(File skillsFile, File systemFile) {
+  public void setSkillDatas(File skillsFile, File systemFile, File animationFile) {
     rightTableView.getItems().clear();
 
-    ObjectMapper mapper = new ObjectMapper();
     List<String> skillTypeList = UtilJson.makeDataList(systemFile, "skillTypes", "なし");
     stypeItems = FXCollections.observableArrayList(skillTypeList);
     stypeIdColumn.setCellFactory(col -> new ComboBoxTableCell<>(stypeItems));
 
+    List<String> animationList = UtilJson.makeAnimationList(animationFile);
+    animationItems = FXCollections.observableArrayList(animationList);
+    animationIdColumn.setCellFactory(col -> new ComboBoxTableCell<>(animationItems));
+
     try {
+      ObjectMapper mapper = new ObjectMapper();
       JsonNode skillsRoot = mapper.readTree(skillsFile);
       IntStream.range(1, skillsRoot.size())
           .forEach(index -> {
             JsonNode children = skillsRoot.get(index);
-            rightTableView.getItems().add(UtilJson.makeSkillRecord(children, skillTypeList));
+            rightTableView.getItems()
+                .add(UtilJson.makeSkillRecord(children, skillTypeList, animationList));
           });
       updateEffectsPane();
       updateNotePane();
