@@ -38,14 +38,14 @@
 /**
  * ツールバーのボタンの背景色を透明にする。
  */
-.tool-bar .button {
+#topToolBar .button {
 	-fx-background-color:transparent;
 }
 
 /**
  * ツールバーのボタンをロールオーバー中に背景色を変更し、影を落とす。
  */
-.tool-bar .button:hover {
+#topToolBar .button:hover {
     -fx-background-color:#dae7f3;
     -fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.4) , 5.0, 0.0 , 0.0 , 1.0 );
 }
@@ -53,6 +53,6 @@
 /**
  * ツールバーのボタンをクリック時に内側に影を落とす。
  */
-.tool-bar .button:pressed {
+#topToolBar .button:pressed {
     -fx-effect: innershadow( three-pass-box , dimgrey, 5.0, 0.0 , 0.0 , 1.0 );
 }
