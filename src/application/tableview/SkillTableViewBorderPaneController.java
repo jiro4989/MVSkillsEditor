@@ -57,7 +57,6 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.util.converter.DefaultStringConverter;
-import jiro.lib.java.util.PropertiesHundler;
 import util.MyLogger;
 import util.UtilIconImage;
 import util.UtilJson;
@@ -69,25 +68,11 @@ public class SkillTableViewBorderPaneController {
   private TableViewManager rightManager;
 
   private MainController mainController;
-  private PropertiesHundler prop = new PropertiesHundler("column-indices");
-  private static final String[] INDICES_KEYS = {
-      "id-index", "name-index", "iconIndex-index", "description-index", "stypeId-index",
-      "scope-index", "mpCost-index", "tpCost-index", "occasion-index", "speed-index",
-      "successRate-index", "repeats-index", "tpGain-index", "hitType-index", "animationId-index",
-      "message1-index", "message2-index", "requiredWtypeId1-index", "requiredWtypeId2-index",
-      "damageType-index", "damageElementId-index", "formula-index", "variance-index",
-      "critical-index", "effects-index", "note-index",
-  };
 
   private File iconFile;
   private List<String> skillTypeList;
-  private ObservableList<String> scopeItems = FXCollections
+  private static ObservableList<String> scopeItems = FXCollections
       .observableArrayList(SkillScope.getNameList());
-  /**
-   * 各カラムのインデックス配列
-   */
-  private int[] columnIndices = new int[INDICES_KEYS.length];
-
   @FXML private Label idLabel;
   @FXML private TextField nameTextField;
   @FXML private HBox hBox;
@@ -128,8 +113,8 @@ public class SkillTableViewBorderPaneController {
 
   @FXML
   private void initialize() {
-    leftManager = new TableViewManager(leftTableView, this);
-    rightManager = new TableViewManager(rightTableView, this);
+    leftManager = new TableViewManager(leftTableView, this, "left-table");
+    rightManager = new TableViewManager(rightTableView, this, "right-table");
 
     idColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("id"));
     nameColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("name"));
@@ -172,8 +157,6 @@ public class SkillTableViewBorderPaneController {
     leftNameColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     leftIconIndexColumn.setCellFactory(col -> new IconTableCell());
 
-    initializeColumnPosition();
-
     insertComboBox.itemsProperty().addListener((obs, oldVal, newVal) -> {
       insertComboBox.getSelectionModel().select(0);
     });
@@ -189,78 +172,8 @@ public class SkillTableViewBorderPaneController {
 
   }
 
-  /**
-   * プロパティファイルからカラムインデックスを読み取り、カラム位置を設定する。
-   */
-  private void initializeColumnPosition() {
-    if (prop.exists()) {
-      prop.load();
-      rightTableView.getColumns().clear();
-
-      IntStream.range(0, columnIndices.length).forEach(i -> {
-        columnIndices[i] = Integer.parseInt(prop.getValue(INDICES_KEYS[i]));
-      });
-
-      for (int i = 0; i < INDICES_KEYS.length; i++) {
-        if (i == columnIndices[0]) {
-          rightTableView.getColumns().add(i, idColumn);
-        } else if (i == columnIndices[1]) {
-          rightTableView.getColumns().add(i, nameColumn);
-        } else if (i == columnIndices[2]) {
-          rightTableView.getColumns().add(i, iconIndexColumn);
-        } else if (i == columnIndices[3]) {
-          rightTableView.getColumns().add(i, descriptionColumn);
-        } else if (i == columnIndices[4]) {
-          rightTableView.getColumns().add(i, stypeIdColumn);
-        } else if (i == columnIndices[5]) {
-          rightTableView.getColumns().add(i, scopeColumn);
-        } else if (i == columnIndices[6]) {
-          rightTableView.getColumns().add(i, mpCostColumn);
-        } else if (i == columnIndices[7]) {
-          rightTableView.getColumns().add(i, tpCostColumn);
-        } else if (i == columnIndices[8]) {
-          rightTableView.getColumns().add(i, occasionColumn);
-        } else if (i == columnIndices[9]) {
-          rightTableView.getColumns().add(i, speedColumn);
-        } else if (i == columnIndices[10]) {
-          rightTableView.getColumns().add(i, successRateColumn);
-        } else if (i == columnIndices[11]) {
-          rightTableView.getColumns().add(i, repeatsColumn);
-        } else if (i == columnIndices[12]) {
-          rightTableView.getColumns().add(i, tpGainColumn);
-        } else if (i == columnIndices[13]) {
-          rightTableView.getColumns().add(i, hitTypeColumn);
-        } else if (i == columnIndices[14]) {
-          rightTableView.getColumns().add(i, animationIdColumn);
-        } else if (i == columnIndices[15]) {
-          rightTableView.getColumns().add(i, message1Column);
-        } else if (i == columnIndices[16]) {
-          rightTableView.getColumns().add(i, message2Column);
-        } else if (i == columnIndices[17]) {
-          rightTableView.getColumns().add(i, requiredWtypeId1Column);
-        } else if (i == columnIndices[18]) {
-          rightTableView.getColumns().add(i, requiredWtypeId2Column);
-        } else if (i == columnIndices[19]) {
-          rightTableView.getColumns().add(i, damageTypeColumn);
-        } else if (i == columnIndices[20]) {
-          rightTableView.getColumns().add(i, damageElementColumn);
-        } else if (i == columnIndices[21]) {
-          rightTableView.getColumns().add(i, formulaColumn);
-        } else if (i == columnIndices[22]) {
-          rightTableView.getColumns().add(i, varianceColumn);
-        } else if (i == columnIndices[23]) {
-          rightTableView.getColumns().add(i, criticalColumn);
-        } else if (i == columnIndices[24]) {
-          rightTableView.getColumns().add(i, effectsColumn);
-        } else if (i == columnIndices[25]) {
-          rightTableView.getColumns().add(i, noteColumn);
-        }
-      }
-    }
-  }
-
   @FXML
-  private void leftSkillTableViewOnMouseClicked(MouseEvent event) {
+  private void leftTableViewOnMouseClicked(MouseEvent event) {
     rightTableView.getSelectionModel().clearSelection();
 
     if (!leftTableView.getSelectionModel().isEmpty()) {
@@ -287,7 +200,7 @@ public class SkillTableViewBorderPaneController {
       ObservableList<Integer> rowIndices = model.getSelectedIndices();
       rowIndices.stream()
           .forEach(rowIndex -> {
-            ColumnStrategy strategy = getStrategy(rowIndex);
+            ColumnStrategy strategy = new IconIndexColumnStrategy(rightTableView, rowIndex);
             ICommand command = new TableCellUpdateCommand(rightTableView, rowIndex, 0,
                 "" + newIconIndex, strategy);
             mainController.invoke(command);
@@ -298,7 +211,7 @@ public class SkillTableViewBorderPaneController {
   }
 
   @FXML
-  private void skillTableViewOnMouseClicked(MouseEvent event) {
+  private void rightTableViewOnMouseClicked(MouseEvent event) {
     leftTableView.getSelectionModel().clearSelection();
 
     if (!rightTableView.getSelectionModel().isEmpty()) {
@@ -355,35 +268,8 @@ public class SkillTableViewBorderPaneController {
    * カラムインデックスを記述したプロパティファイルを出力する。
    */
   public void outputPropertiesFile() {
-    prop.setValue(INDICES_KEYS[0], "" + rightTableView.getColumns().indexOf(idColumn));
-    prop.setValue(INDICES_KEYS[1], "" + rightTableView.getColumns().indexOf(nameColumn));
-    prop.setValue(INDICES_KEYS[2], "" + rightTableView.getColumns().indexOf(iconIndexColumn));
-    prop.setValue(INDICES_KEYS[3], "" + rightTableView.getColumns().indexOf(descriptionColumn));
-    prop.setValue(INDICES_KEYS[4], "" + rightTableView.getColumns().indexOf(stypeIdColumn));
-    prop.setValue(INDICES_KEYS[5], "" + rightTableView.getColumns().indexOf(scopeColumn));
-    prop.setValue(INDICES_KEYS[6], "" + rightTableView.getColumns().indexOf(mpCostColumn));
-    prop.setValue(INDICES_KEYS[7], "" + rightTableView.getColumns().indexOf(tpCostColumn));
-    prop.setValue(INDICES_KEYS[8], "" + rightTableView.getColumns().indexOf(occasionColumn));
-    prop.setValue(INDICES_KEYS[9], "" + rightTableView.getColumns().indexOf(speedColumn));
-    prop.setValue(INDICES_KEYS[10], "" + rightTableView.getColumns().indexOf(successRateColumn));
-    prop.setValue(INDICES_KEYS[11], "" + rightTableView.getColumns().indexOf(repeatsColumn));
-    prop.setValue(INDICES_KEYS[12], "" + rightTableView.getColumns().indexOf(tpGainColumn));
-    prop.setValue(INDICES_KEYS[13], "" + rightTableView.getColumns().indexOf(hitTypeColumn));
-    prop.setValue(INDICES_KEYS[14], "" + rightTableView.getColumns().indexOf(animationIdColumn));
-    prop.setValue(INDICES_KEYS[15], "" + rightTableView.getColumns().indexOf(message1Column));
-    prop.setValue(INDICES_KEYS[16], "" + rightTableView.getColumns().indexOf(message2Column));
-    prop.setValue(INDICES_KEYS[17],
-        "" + rightTableView.getColumns().indexOf(requiredWtypeId1Column));
-    prop.setValue(INDICES_KEYS[18],
-        "" + rightTableView.getColumns().indexOf(requiredWtypeId2Column));
-    prop.setValue(INDICES_KEYS[19], "" + rightTableView.getColumns().indexOf(damageTypeColumn));
-    prop.setValue(INDICES_KEYS[20], "" + rightTableView.getColumns().indexOf(damageElementColumn));
-    prop.setValue(INDICES_KEYS[21], "" + rightTableView.getColumns().indexOf(formulaColumn));
-    prop.setValue(INDICES_KEYS[22], "" + rightTableView.getColumns().indexOf(varianceColumn));
-    prop.setValue(INDICES_KEYS[23], "" + rightTableView.getColumns().indexOf(criticalColumn));
-    prop.setValue(INDICES_KEYS[24], "" + rightTableView.getColumns().indexOf(effectsColumn));
-    prop.setValue(INDICES_KEYS[25], "" + rightTableView.getColumns().indexOf(noteColumn));
-    prop.write();
+    leftManager.outputPropertiesFile();
+    rightManager.outputPropertiesFile();
   }
 
   /**
@@ -473,6 +359,7 @@ public class SkillTableViewBorderPaneController {
   void updateInsertComboBox(int columnIndex) {
     if (rightManager.isSelected()) {
       insertComboBox.setDisable(false);
+      columnIndex += 3;
       if (columnIndex == rightTableView.getColumns().indexOf(scopeColumn)) {
         insertComboBox.setItems(scopeItems);
       } else if (columnIndex == rightTableView.getColumns().indexOf(occasionColumn)) {
