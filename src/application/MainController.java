@@ -20,16 +20,19 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import jiro.lib.java.util.PropertiesHundler;
 import jiro.lib.javafx.stage.DirectoryChooserManager;
 
 public class MainController {
   private DirectoryChooserManager projectDcm;
   private DirectoryChooserManager folderDcm;
+  private PropertiesHundler dividerPositionProp;
 
   private UndoRedoManager undoRedoManager = new UndoRedoManager();
   private Stack<Integer> undoCountStack = new Stack<>();
@@ -54,6 +57,12 @@ public class MainController {
   @FXML private MenuItem previousMenuItem;
   @FXML private MenuItem nextMenuItem;
 
+
+  // **************************************************
+  // Root
+  // **************************************************
+  @FXML private SplitPane rootSplitPane;
+
   // **************************************************
   // テーブルビュー
   // **************************************************
@@ -76,6 +85,7 @@ public class MainController {
   // **************************************************
   // プレビュー
   // **************************************************
+  @FXML private SplitPane previewSplitPane;
   @FXML private TitledPane effectsTitledPane;
   private EffectsTableViewBorderPane effectsTableView;
   private EffectsTableViewBorderPaneController effectsTableViewController;
@@ -94,6 +104,25 @@ public class MainController {
 
     projectDcm = new DirectoryChooserManager();
     folderDcm = new DirectoryChooserManager();
+
+    dividerPositionProp = new PropertiesHundler("divider-position");
+    settingDividerPosition();
+  }
+
+  private void settingDividerPosition() {
+    if (dividerPositionProp.exists()) {
+    dividerPositionProp.load();
+
+    double rootValue = Double.parseDouble(dividerPositionProp.getValue(rootSplitPane.getId()));
+    rootSplitPane.setDividerPosition(0, rootValue);
+
+    double previewValue = Double.parseDouble(dividerPositionProp.getValue(previewSplitPane.getId()));
+    previewSplitPane.setDividerPosition(0, previewValue);
+
+    SplitPane tableSplit = skillTableViewController.getSplitPane();
+    double tableValue = Double.parseDouble(dividerPositionProp.getValue(tableSplit.getId()));
+    tableSplit.setDividerPosition(0, tableValue);
+    }
   }
 
   /**
@@ -282,6 +311,15 @@ public class MainController {
 
   public void closeAction() {
     skillTableViewController.outputPropertiesFile();
+    outputSplitBarPosition();
+  }
+
+  private void outputSplitBarPosition() {
+    dividerPositionProp.setValue(rootSplitPane.getId(), ""+rootSplitPane.getDividerPositions()[0]);
+    dividerPositionProp.setValue(previewSplitPane.getId(), ""+previewSplitPane.getDividerPositions()[0]);
+    SplitPane tableSplit = skillTableViewController.getSplitPane();
+    dividerPositionProp.setValue(tableSplit.getId(), ""+tableSplit.getDividerPositions()[0]);
+    dividerPositionProp.write();
   }
 
   public void setNoteText(String text) {

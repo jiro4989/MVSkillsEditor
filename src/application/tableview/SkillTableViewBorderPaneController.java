@@ -47,6 +47,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.TableViewSelectionModel;
@@ -78,6 +79,7 @@ public class SkillTableViewBorderPaneController {
   @FXML private HBox hBox;
   @FXML private ComboBox<String> insertComboBox;
 
+  @FXML private SplitPane tableViewSplitPane;
   @FXML private TableView<Skill> leftTableView;
   @FXML private TableColumn<Skill, String> leftIdColumn = new TableColumn<>("ID");
   @FXML private TableColumn<Skill, String> leftNameColumn = new TableColumn<>("名前");
@@ -400,6 +402,10 @@ public class SkillTableViewBorderPaneController {
 
   public String getSelectedEffects() {
     return rightTableView.getSelectionModel().getSelectedItem().effectsProperty().get();
+  }
+
+  public SplitPane getSplitPane() {
+    return tableViewSplitPane;
   }
 
   /**
