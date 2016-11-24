@@ -14,7 +14,7 @@ import util.dictionary.SkillCritical;
 import util.dictionary.SkillDamageType;
 import util.dictionary.SkillHitType;
 import util.dictionary.SkillMessage;
-import util.dictionary.SkillOccassion;
+import util.dictionary.SkillOccasion;
 import util.dictionary.SkillScope;
 
 public class UtilJson {
@@ -56,7 +56,7 @@ public class UtilJson {
     String tpCost = node.get("tpCost").asText();
 
     int tmpOccassion = node.get("occasion").asInt();
-    String occasion = SkillOccassion.convertToText(tmpOccassion);
+    String occasion = SkillOccasion.convertToText(tmpOccassion);
 
     String speed = node.get("speed").asText();
     String successRate = node.get("successRate").asText();

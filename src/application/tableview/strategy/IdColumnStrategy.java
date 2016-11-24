@@ -21,7 +21,6 @@ public class IdColumnStrategy extends ColumnStrategy {
 
   @Override
   public boolean isInvokable(Object value) {
-    // TODO 自動生成されたメソッド・スタブ
     return false;
   }
 }

@@ -2,6 +2,7 @@ package application.tableview.strategy;
 
 import application.tableview.Skill;
 import javafx.scene.control.TableView;
+import util.dictionary.SkillHitType;
 
 public class HitTypeColumnStrategy extends ColumnStrategy {
   public HitTypeColumnStrategy(TableView<Skill> tableView, int rowIndex) {
@@ -17,12 +18,15 @@ public class HitTypeColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).hitTypeProperty().set((String) value);
+    if (this.isInvokable(value)) {
+      tableView.getItems().get(rowIndex).hitTypeProperty().set((String) value);
+    }
   }
 
   @Override
   public boolean isInvokable(Object value) {
-    // TODO 自動生成されたメソッド・スタブ
-    return false;
+    String strValue = (String) value;
+    return SkillHitType.getNameList().parallelStream()
+        .anyMatch(n -> n.equals(strValue));
   }
 }

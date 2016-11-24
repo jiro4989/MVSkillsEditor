@@ -18,7 +18,7 @@ public class RequiredWtypeId1ColumnStrategy extends ColumnStrategy {
   @Override
   public void setValue(Object value) {
     String strValue = (String) value;
-    if (strValue.matches(REGEX)) {
+    if (strValue.matches(NUMBER_REGEX)) {
       tableView.getItems().get(rowIndex).requiredWtypeId1Property().set(strValue);
     }
   }

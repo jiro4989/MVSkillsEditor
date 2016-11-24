@@ -17,15 +17,18 @@ public class SpeedColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    String strValue = (String) value;
-    if (strValue.matches(REGEX)) {
-      tableView.getItems().get(rowIndex).speedProperty().set(strValue);
+    if (this.isInvokable(value)) {
+      tableView.getItems().get(rowIndex).speedProperty().set((String)value);
     }
   }
 
   @Override
   public boolean isInvokable(Object value) {
-    // TODO 自動生成されたメソッド・スタブ
+    String strValue = (String) value;
+    if (strValue.matches(NUMBER_REGEX)) {
+      int number = Integer.parseInt(strValue);
+      return (-2000 <= number && number <= 2000);
+    }
     return false;
   }
 }

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public enum SkillOccassion implements SkillTableData {
+public enum SkillOccasion implements SkillTableData {
   ALWAYS("常時"),
   BATTLE("バトル画面"),
   MENU("メニュー画面"),
@@ -12,12 +12,12 @@ public enum SkillOccassion implements SkillTableData {
 
   private final String text;
 
-  private SkillOccassion(String aText) {
+  private SkillOccasion(String aText) {
     text = aText;
   }
 
   public static List<String> getNameList() {
-    return Arrays.stream(SkillOccassion.values())
+    return Arrays.stream(SkillOccasion.values())
         .map(s -> s.text)
         .collect(Collectors.toList());
   }
@@ -28,7 +28,7 @@ public enum SkillOccassion implements SkillTableData {
    * @return 対応するテキスト
    */
   public static String convertToText(int index) {
-    for (SkillOccassion value : SkillOccassion.values()) {
+    for (SkillOccasion value : SkillOccasion.values()) {
       if (index == value.ordinal()) {
         return value.text;
       }
@@ -42,7 +42,7 @@ public enum SkillOccassion implements SkillTableData {
    * @return 対応するインデックス
    */
   public static int convertToIndex(String aText) {
-    for (SkillOccassion value : SkillOccassion.values()) {
+    for (SkillOccasion value : SkillOccasion.values()) {
       if (value.text.equals(aText)) {
         return value.ordinal();
       }

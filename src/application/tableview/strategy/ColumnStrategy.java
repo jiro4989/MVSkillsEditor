@@ -10,7 +10,7 @@ import javafx.scene.control.TableView;
 public abstract class ColumnStrategy {
   protected TableView<Skill> tableView;
   protected int rowIndex;
-  protected static final String REGEX = "[-]*[0-9]+";
+  protected static final String NUMBER_REGEX = "[-]*[0-9]+";
 
   /**
    * 値をObjectクラスで取得する。

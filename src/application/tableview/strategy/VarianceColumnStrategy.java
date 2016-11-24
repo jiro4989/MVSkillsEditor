@@ -17,15 +17,18 @@ public class VarianceColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    String strValue = (String) value;
-    if (strValue.matches(REGEX)) {
-      tableView.getItems().get(rowIndex).varianceProperty().set(strValue);
+    if (this.isInvokable(value)) {
+      tableView.getItems().get(rowIndex).varianceProperty().set((String)value);
     }
   }
 
   @Override
   public boolean isInvokable(Object value) {
-    // TODO 自動生成されたメソッド・スタブ
+    String strValue = (String) value;
+    if (strValue.matches(NUMBER_REGEX)) {
+      int number = Integer.parseInt(strValue);
+      return (0 < number && number < 100);
+    }
     return false;
   }
 }

@@ -2,6 +2,7 @@ package application.tableview.strategy;
 
 import application.tableview.Skill;
 import javafx.scene.control.TableView;
+import util.dictionary.SkillScope;
 
 public class StypeIdColumnStrategy extends ColumnStrategy {
   public StypeIdColumnStrategy(TableView<Skill> tableView, int rowIndex) {
@@ -17,12 +18,13 @@ public class StypeIdColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).stypeIdProperty().set((String)value);
+    if (this.isInvokable(value)) {
+      tableView.getItems().get(rowIndex).stypeIdProperty().set((String) value);
+    }
   }
 
   @Override
   public boolean isInvokable(Object value) {
-    // TODO 自動生成されたメソッド・スタブ
     return false;
   }
 }

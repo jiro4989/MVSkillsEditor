@@ -18,7 +18,7 @@ public class AnimationIdColumnStrategy extends ColumnStrategy {
   @Override
   public void setValue(Object value) {
     String strValue = (String) value;
-    if (strValue.matches(REGEX)) {
+    if (strValue.matches(NUMBER_REGEX)) {
       tableView.getItems().get(rowIndex).animationIdProperty().set(strValue);
     }
   }
@@ -26,6 +26,6 @@ public class AnimationIdColumnStrategy extends ColumnStrategy {
   @Override
   public boolean isInvokable(Object value) {
     String strValue = (String) value;
-    return strValue.matches(REGEX);
+    return strValue.matches(NUMBER_REGEX);
   }
 }

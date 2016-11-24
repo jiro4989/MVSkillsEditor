@@ -22,7 +22,6 @@ public class Message1ColumnStrategy extends ColumnStrategy {
 
   @Override
   public boolean isInvokable(Object value) {
-    // TODO 自動生成されたメソッド・スタブ
-    return false;
+    return true;
   }
 }
