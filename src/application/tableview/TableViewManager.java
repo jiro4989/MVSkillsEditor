@@ -148,6 +148,10 @@ public class TableViewManager {
     return tableView.getSelectionModel().getSelectedCells().get(0).getColumn();
   }
 
+  int getSelectedCellRowIndex() {
+    return tableView.getSelectionModel().getSelectedIndex();
+  }
+
   void outputPropertiesFile() {
     outputColumnIndex();
     outputColumnWidth();

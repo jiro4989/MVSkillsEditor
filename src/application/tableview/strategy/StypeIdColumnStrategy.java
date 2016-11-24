@@ -1,14 +1,18 @@
 package application.tableview.strategy;
 
 import application.tableview.Skill;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
-import util.dictionary.SkillScope;
 
 public class StypeIdColumnStrategy extends ColumnStrategy {
-  public StypeIdColumnStrategy(TableView<Skill> tableView, int rowIndex) {
+  private ObservableList<String> items;
+
+  public StypeIdColumnStrategy(TableView<Skill> tableView, int rowIndex,
+      ObservableList<String> stypeItems) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;
+    this.items = stypeItems;
   }
 
   @Override
@@ -25,6 +29,8 @@ public class StypeIdColumnStrategy extends ColumnStrategy {
 
   @Override
   public boolean isInvokable(Object value) {
-    return false;
+    String strValue = (String) value;
+    return items.parallelStream()
+        .anyMatch(n -> n.equals(strValue));
   }
 }

@@ -122,6 +122,12 @@ public class SkillTableViewBorderPaneController {
     leftManager = new TableViewManager(leftTableView, this, "left-table");
     rightManager = new TableViewManager(rightTableView, this, "right-table");
 
+    rightTableView.getFocusModel().focusedCellProperty().addListener((obs, oldVal, newVal) -> {
+      if (newVal.getTableColumn() != null) {
+        updateSelection();
+      }
+    });
+
     idColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("id"));
     nameColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("name"));
     iconIndexColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("iconIndex"));
@@ -164,7 +170,7 @@ public class SkillTableViewBorderPaneController {
     leftIconIndexColumn.setCellFactory(col -> new IconTableCell());
 
     insertComboBox.itemsProperty().addListener((obs, oldVal, newVal) -> {
-      insertComboBox.getSelectionModel().select(0);
+      // insertComboBox.getSelectionModel().select(0);
     });
     insertComboBox.setOnAction(e -> {
       insertText(insertComboBox.getValue());
@@ -218,7 +224,7 @@ public class SkillTableViewBorderPaneController {
 
   @FXML
   private void rightTableViewOnMouseClicked(MouseEvent event) {
-    leftTableView.getSelectionModel().clearSelection();
+    updateSelection();
 
     if (!rightTableView.getSelectionModel().isEmpty()) {
       if (event.getClickCount() == 2) {
@@ -233,6 +239,17 @@ public class SkillTableViewBorderPaneController {
     }
   }
 
+  void updateSelection() {
+    leftTableView.getSelectionModel().clearSelection();
+    leftTableView.getSelectionModel().select(rightTableView.getSelectionModel().getSelectedIndex());
+    if (rightManager.isSelected()) {
+      int columnIndex = rightManager.getSelectedCellColumnIndex();
+      columnIndex += 3;
+      int rowIndex = rightManager.getSelectedCellRowIndex();
+      updateAxisLabels(columnIndex, rowIndex);
+    }
+  }
+
   /**
    * 選択中のセルにテキストを挿入する。
    * @param newText
@@ -240,10 +257,10 @@ public class SkillTableViewBorderPaneController {
    */
   public void insertText(String newText) {
     if (newText != null) {
-      if (leftManager.isSelected()) {
-        invoke(leftTableView, newText);
-      } else if (rightManager.isSelected()) {
+      if (rightManager.isSelected()) {
         invoke(rightTableView, newText);
+      } else if (leftManager.isSelected()) {
+        invoke(leftTableView, newText);
       }
     }
   }
@@ -275,10 +292,10 @@ public class SkillTableViewBorderPaneController {
    * 前のセルに選択を移す.
    */
   public void movePrevious() {
-    if (leftManager.isSelected()) {
-      leftManager.movePrevious();
-    } else if (rightManager.isSelected()) {
+    if (rightManager.isSelected()) {
       rightManager.movePrevious();
+    } else if (leftManager.isSelected()) {
+      leftManager.movePrevious();
     }
   }
 
@@ -286,10 +303,10 @@ public class SkillTableViewBorderPaneController {
    * 次のセルに選択を移す.
    */
   public void moveNext() {
-    if (leftManager.isSelected()) {
-      leftManager.moveNext();
-    } else if (rightManager.isSelected()) {
+    if (rightManager.isSelected()) {
       rightManager.moveNext();
+    } else if (leftManager.isSelected()) {
+      leftManager.moveNext();
     }
   }
 
@@ -424,24 +441,13 @@ public class SkillTableViewBorderPaneController {
    * 選択中のセル位置によってカラム戦略クラスを変更する。
    */
   private ColumnStrategy getStrategy(int rowIndex) {
-    if (leftManager.isSelected()) {
-      int columnIndex = leftManager.getSelectedCellColumnIndex();
-      if ("leftIdColumn".equals(leftTableView.getColumns().get(columnIndex).getId())) {
-        return new IdColumnStrategy(rightTableView, rowIndex);
-      } else if ("leftNameColumn"
-          .equals(leftTableView.getColumns().get(columnIndex).getId())) {
-        return new NameColumnStrategy(rightTableView, rowIndex);
-      } else if ("leftIconIndexColumn"
-          .equals(leftTableView.getColumns().get(columnIndex).getId())) {
-        return new IconIndexColumnStrategy(rightTableView, rowIndex);
-      }
-    } else if (rightManager.isSelected()) {
+    if (rightManager.isSelected()) {
       int columnIndex = rightManager.getSelectedCellColumnIndex();
       columnIndex += 3;
       if (columnIndex == rightTableView.getColumns().indexOf(descriptionColumn)) {
         return new DescriptionColumnStrategy(rightTableView, rowIndex);
       } else if (columnIndex == rightTableView.getColumns().indexOf(stypeIdColumn)) {
-        return new StypeIdColumnStrategy(rightTableView, rowIndex);
+        return new StypeIdColumnStrategy(rightTableView, rowIndex, stypeItems);
       } else if (columnIndex == rightTableView.getColumns().indexOf(scopeColumn)) {
         return new ScopeColumnStrategy(rightTableView, rowIndex);
       } else if (columnIndex == rightTableView.getColumns().indexOf(mpCostColumn)) {
@@ -484,6 +490,17 @@ public class SkillTableViewBorderPaneController {
         return new EffectsColumnStrategy(rightTableView, rowIndex, this);
       } else if (columnIndex == rightTableView.getColumns().indexOf(noteColumn)) {
         return new NoteColumnStrategy(rightTableView, rowIndex);
+      }
+    } else if (leftManager.isSelected()) {
+      int columnIndex = leftManager.getSelectedCellColumnIndex();
+      if ("leftIdColumn".equals(leftTableView.getColumns().get(columnIndex).getId())) {
+        return new IdColumnStrategy(rightTableView, rowIndex);
+      } else if ("leftNameColumn"
+          .equals(leftTableView.getColumns().get(columnIndex).getId())) {
+        return new NameColumnStrategy(rightTableView, rowIndex);
+      } else if ("leftIconIndexColumn"
+          .equals(leftTableView.getColumns().get(columnIndex).getId())) {
+        return new IconIndexColumnStrategy(rightTableView, rowIndex);
       }
     }
     return null;
