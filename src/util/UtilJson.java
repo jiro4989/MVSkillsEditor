@@ -13,7 +13,6 @@ import application.tableview.Skill;
 import util.dictionary.SkillCritical;
 import util.dictionary.SkillDamageType;
 import util.dictionary.SkillHitType;
-import util.dictionary.SkillMessage;
 import util.dictionary.SkillOccasion;
 import util.dictionary.SkillScope;
 
@@ -61,7 +60,8 @@ public class UtilJson {
     return null;
   }
 
-  public static Skill makeSkillRecord(JsonNode node, List<String> skillTypeList, List<String> animationList) {
+  public static Skill makeSkillRecord(JsonNode node, List<String> skillTypeList,
+      List<String> animationList, List<String> weaponList) {
     int tmpId = node.get("id").asInt();
     String id = String.format("%1$04d", tmpId);
     String name = node.get("name").asText();
@@ -91,14 +91,13 @@ public class UtilJson {
     int tmpAnimationId = node.get("animationId").asInt();
     String animationId = animationList.get(++tmpAnimationId);
 
-    int tmpMsg1 = node.get("message1").asInt();
-    String message1 = SkillMessage.convertToText(tmpMsg1);
+    String message1 = node.get("message1").asText();
+    String message2 = node.get("message2").asText();
 
-    int tmpMsg2 = node.get("message2").asInt();
-    String message2 = SkillMessage.convertToText(tmpMsg2);
-
-    String req1 = node.get("requiredWtypeId1").asText();
-    String req2 = node.get("requiredWtypeId2").asText();
+    int tmpReq1 = node.get("requiredWtypeId1").asInt();
+    String req1 = weaponList.get(tmpReq1);
+    int tmpReq2 = node.get("requiredWtypeId2").asInt();
+    String req2 = weaponList.get(tmpReq2);
 
     final String DMG = "damage";
     int tmpType = node.get(DMG).get("type").asInt();

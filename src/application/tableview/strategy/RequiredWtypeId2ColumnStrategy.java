@@ -1,13 +1,18 @@
 package application.tableview.strategy;
 
 import application.tableview.Skill;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 
 public class RequiredWtypeId2ColumnStrategy extends ColumnStrategy {
-  public RequiredWtypeId2ColumnStrategy(TableView<Skill> tableView, int rowIndex) {
+  private ObservableList<String> items;
+
+  public RequiredWtypeId2ColumnStrategy(TableView<Skill> tableView, int rowIndex,
+      ObservableList<String> items) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;
+    this.items = items;
   }
 
   @Override
@@ -17,16 +22,16 @@ public class RequiredWtypeId2ColumnStrategy extends ColumnStrategy {
 
   @Override
   public void setValue(Object value) {
-    String strValue = (String) value;
-    if (strValue.matches(NUMBER_REGEX)) {
-      tableView.getItems().get(rowIndex).requiredWtypeId2Property().set(strValue);
+    if (this.isInvokable(value)) {
+      tableView.getItems().get(rowIndex).requiredWtypeId2Property().set((String) value);
     }
   }
 
   @Override
   public boolean isInvokable(Object value) {
-    // TODO 自動生成されたメソッド・スタブ
-    return false;
+    String strValue = (String) value;
+    return items.parallelStream()
+        .anyMatch(n -> n.equals(strValue));
   }
 
   @Override
