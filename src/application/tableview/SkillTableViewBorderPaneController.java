@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.stream.IntStream;
 
@@ -157,9 +158,23 @@ public class SkillTableViewBorderPaneController {
     leftNameColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("name"));
     leftIconIndexColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("iconIndex"));
 
-    // 各種テーブルカラムのカスタマイズ
+    // カラムをクリックしたときにコンボボックスを呼び出す
     descriptionColumn.setCellFactory(TextAreaTableCell.forTableColumn());
     scopeColumn.setCellFactory(col -> new ComboBoxTableCell<>(SkillScope.getObservableList()));
+    mpCostColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
+    tpCostColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
+    occasionColumn.setCellFactory(col -> new ComboBoxTableCell<>(SkillOccasion.getObservableList()));
+    speedColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
+    successRateColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
+    repeatsColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
+    tpGainColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
+    hitTypeColumn.setCellFactory(col -> new ComboBoxTableCell<>(SkillHitType.getObservableList()));
+    message1Column.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
+    message2Column.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
+    damageTypeColumn.setCellFactory(col -> new ComboBoxTableCell<>(SkillDamageType.getObservableList()));
+    formulaColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
+    varianceColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
+    criticalColumn.setCellFactory(col -> new ComboBoxTableCell<>(SkillCritical.getObservableList()));
 
     leftNameColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     leftIconIndexColumn.setCellFactory(col -> new IconTableCell());
@@ -378,24 +393,30 @@ public class SkillTableViewBorderPaneController {
       if (columnIndex == rightTableView.getColumns().indexOf(stypeIdColumn)) {
         insertComboBox.setItems(stypeItems);
       } else if (columnIndex == rightTableView.getColumns().indexOf(scopeColumn)) {
-        insertComboBox.setItems(SkillScope.getObservableList());
+        setItems(insertComboBox, SkillScope.getObservableList());
       } else if (columnIndex == rightTableView.getColumns().indexOf(occasionColumn)) {
-        insertComboBox.setItems(SkillOccasion.getObservableList());
+        setItems(insertComboBox, SkillOccasion.getObservableList());
       } else if (columnIndex == rightTableView.getColumns().indexOf(hitTypeColumn)) {
-        insertComboBox.setItems(SkillHitType.getObservableList());
+        setItems(insertComboBox, SkillHitType.getObservableList());
       } else if (columnIndex == rightTableView.getColumns().indexOf(animationIdColumn)) {
         // insertComboBox.setItems(hitTypeItems);
       } else if (columnIndex == rightTableView.getColumns().indexOf(message1Column)) {
-        insertComboBox.setItems(SkillMessage.getObservableList());
+        setItems(insertComboBox, SkillMessage.getObservableList());
       } else if (columnIndex == rightTableView.getColumns().indexOf(message2Column)) {
-        insertComboBox.setItems(SkillMessage.getObservableList());
+        setItems(insertComboBox, SkillMessage.getObservableList());
       } else if (columnIndex == rightTableView.getColumns().indexOf(damageTypeColumn)) {
-        insertComboBox.setItems(SkillDamageType.getObservableList());
+        setItems(insertComboBox, SkillDamageType.getObservableList());
       } else if (columnIndex == rightTableView.getColumns().indexOf(criticalColumn)) {
-        insertComboBox.setItems(SkillCritical.getObservableList());
+        setItems(insertComboBox, SkillCritical.getObservableList());
       } else {
         insertComboBox.setDisable(true);
       }
+    }
+  }
+
+  private void setItems(ComboBox<String> comboBox, ObservableList<String> items) {
+    if (!Objects.equals(comboBox.getItems(), items)) {
+      comboBox.setItems(items);
     }
   }
 
@@ -515,6 +536,8 @@ public class SkillTableViewBorderPaneController {
     ObjectMapper mapper = new ObjectMapper();
     List<String> skillTypeList = UtilJson.makeDataList(systemFile, "skillTypes", "なし");
     stypeItems = FXCollections.observableArrayList(skillTypeList);
+    stypeIdColumn.setCellFactory(col -> new ComboBoxTableCell<>(stypeItems));
+
     try {
       JsonNode skillsRoot = mapper.readTree(skillsFile);
       IntStream.range(1, skillsRoot.size())
