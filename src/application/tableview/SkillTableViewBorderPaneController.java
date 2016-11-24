@@ -415,6 +415,10 @@ public class SkillTableViewBorderPaneController {
         setItems(insertComboBox, SkillDamageType.getObservableList());
       } else if (columnIndex == rightTableView.getColumns().indexOf(criticalColumn)) {
         setItems(insertComboBox, SkillCritical.getObservableList());
+      } else if (columnIndex == rightTableView.getColumns().indexOf(requiredWtypeId1Column)) {
+        setItems(insertComboBox, weaponItems);
+      } else if (columnIndex == rightTableView.getColumns().indexOf(requiredWtypeId2Column)) {
+        setItems(insertComboBox, weaponItems);
       } else {
         insertComboBox.setDisable(true);
       }
