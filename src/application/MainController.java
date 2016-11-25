@@ -280,7 +280,7 @@ public class MainController {
   }
 
   @FXML
-  private void insertComboBoxOnAction() {
+  private void insertComboBoxOnHidden() {
     skillTableViewController.insertText(insertComboBox.getValue());
   }
 

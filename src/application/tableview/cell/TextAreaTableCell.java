@@ -1,4 +1,4 @@
-package application.tableview;
+package application.tableview.cell;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;

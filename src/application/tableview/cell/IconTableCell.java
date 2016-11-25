@@ -1,7 +1,8 @@
-package application.tableview;
+package application.tableview.cell;
 
 import java.util.List;
 
+import application.tableview.Skill;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.image.Image;
@@ -36,7 +37,7 @@ public class IconTableCell extends TableCell<Skill, String> {
     }
   }
 
-  static void setIconImageList(List<Image> anIconImageList) {
+  public static void setIconImageList(List<Image> anIconImageList) {
     iconImageList = anIconImageList;
   }
 }

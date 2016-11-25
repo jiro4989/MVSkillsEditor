@@ -56,12 +56,15 @@
                   </rowConstraints>
                 </GridPane>
               </children>
+              <padding>
+                <Insets left="10.0" right="10.0" fx:id="x3" />
+              </padding>
             </AnchorPane>
           </content>
         </Tab>
         <Tab text="ステート">
           <content>
-            <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <BorderPane padding="$x3" prefHeight="200.0" prefWidth="200.0">
               <center>
                 <BorderPane prefHeight="-1.0" prefWidth="-1.0">
                   <bottom>
@@ -109,7 +112,7 @@
         </Tab>
         <Tab text="能力値">
           <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" padding="$x3" prefHeight="180.0" prefWidth="200.0">
               <children>
                 <GridPane fx:id="abilityGridPane" hgap="5.0" prefWidth="452.0" vgap="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                   <children>
@@ -143,7 +146,7 @@
         </Tab>
         <Tab text="その他">
           <content>
-            <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <BorderPane padding="$x3" prefHeight="200.0" prefWidth="200.0">
               <center>
                 <SplitPane dividerPositions="0.5" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0">
                   <items>
@@ -220,6 +223,9 @@
           </content>
         </Tab>
       </tabs>
+      <BorderPane.margin>
+        <Insets fx:id="x1" />
+      </BorderPane.margin>
     </TabPane>
   </center>
 </BorderPane>

@@ -1,11 +1,17 @@
 package application.effects.edit;
 
+import java.awt.ItemSelectable;
+import java.awt.event.ItemEvent;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import application.effects.EffectsTableViewBorderPaneController;
 import application.effects.edit.strategy.EditStrategyManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -23,6 +29,8 @@ public class EditStageController {
   private EffectsTableViewBorderPaneController controller;
   private ToggleGroup toggleGroup;
   private EditStrategyManager manager = new EditStrategyManager();
+  private ObservableList<String> learningItems;
+  private FilteredList<String> filteredList;
 
   @FXML private TabPane tabPane;
 
@@ -86,9 +94,11 @@ public class EditStageController {
   @FXML private RadioButton growthRadioButton;
   private CustomedComboBox growthComboBox = new CustomedComboBox(200, Ability.getNameList());
   private NumericTextField growthTextField = new NumericTextField("1", 1, TEXT_FIELD_WIDTH, 1);
+
   @FXML private RadioButton learningRadioButton;
   @FXML private ListView<String> learningListView;
   @FXML private TextField learningFilterTextField;
+
   @FXML private RadioButton commonEventRadioButton;
   @FXML private ListView<String> commonEventListView;
   @FXML private TextField commonEventFilterTextField;
@@ -142,6 +152,16 @@ public class EditStageController {
     growthRadioButton.setToggleGroup(toggleGroup);
     learningRadioButton.setToggleGroup(toggleGroup);
     commonEventRadioButton.setToggleGroup(toggleGroup);
+
+    learningFilterTextField.textProperty().addListener(obs -> {
+      String filter = learningFilterTextField.getText();
+      if (filter == null || filter.length() == 0) {
+        filteredList.setPredicate(s -> true);
+      } else {
+        filteredList.setPredicate(s -> s.contains(filter));
+      }
+      learningListView.getSelectionModel().select(0);
+    });
   }
 
   @FXML
@@ -192,8 +212,17 @@ public class EditStageController {
    */
   public void setInitialValues(int codeId, int dataId, double value1, double value2,
       List<String> skillList, List<String> stateList, List<String> commonEventList) {
-    learningListView.setItems(FXCollections.observableArrayList(skillList));
     stateListView.setItems(FXCollections.observableArrayList(stateList));
+
+    AtomicInteger i = new AtomicInteger();
+    skillList = skillList.stream()
+        .map(s -> String.format("%04d: ", i.getAndIncrement()) + s)
+        .collect(Collectors.toList());
+    skillList.remove(0);
+    learningItems = FXCollections.observableArrayList(skillList);
+    filteredList = new FilteredList<>(learningItems, s -> true);
+    learningListView.setItems(filteredList);
+
     commonEventListView.setItems(FXCollections.observableArrayList(commonEventList));
 
     if (codeId == -1 &&

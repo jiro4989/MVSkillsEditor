@@ -28,9 +28,11 @@ class LearningStrategy extends EditStrategy {
 
   @Override
   double[] getValues() {
+    String text = listView.getSelectionModel().getSelectedItem();
+    text = text.split(":")[0];
     double[] values = {
         43.0,
-        listView.getSelectionModel().getSelectedIndex(),
+        Double.parseDouble(text),
         0.0,
         0.0,
     };

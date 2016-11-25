@@ -13,6 +13,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import application.MainController;
+import application.tableview.cell.BooleanTableCell;
+import application.tableview.cell.IconTableCell;
+import application.tableview.cell.TextAreaTableCell;
 import application.tableview.command.ICommand;
 import application.tableview.command.TableCellUpdateCommand;
 import application.tableview.icon.IconIndexChooser;
@@ -179,8 +182,7 @@ public class SkillTableViewBorderPaneController {
         .setCellFactory(col -> new ComboBoxTableCell<>(SkillDamageType.getObservableList()));
     formulaColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     varianceColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
-    criticalColumn
-        .setCellFactory(col -> new ComboBoxTableCell<>(SkillCritical.getObservableList()));
+    criticalColumn.setCellFactory(col -> new BooleanTableCell());
 
     leftNameColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     leftIconIndexColumn.setCellFactory(col -> new IconTableCell());
@@ -242,7 +244,9 @@ public class SkillTableViewBorderPaneController {
         ObservableList<TableColumn<Skill, ?>> columns = rightTableView.getColumns();
 
         if (columnIndex == columns.indexOf(criticalColumn)) {
-        } else if (columnIndex == columns.indexOf(scopeColumn)) {
+          String text = rightManager.getSelectedCellValue();
+          text = "あり".equals(text) ? "なし" : "あり";
+          insertText(text);
         }
       }
     }
