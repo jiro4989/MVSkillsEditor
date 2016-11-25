@@ -57,14 +57,14 @@
                 </GridPane>
               </children>
               <padding>
-                <Insets left="10.0" right="10.0" fx:id="x3" />
+                <Insets left="10.0" right="10.0" fx:id="x1" />
               </padding>
             </AnchorPane>
           </content>
         </Tab>
         <Tab text="ステート">
           <content>
-            <BorderPane padding="$x3" prefHeight="200.0" prefWidth="200.0">
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
               <center>
                 <BorderPane prefHeight="-1.0" prefWidth="-1.0">
                   <bottom>
@@ -77,7 +77,7 @@
                   <center>
                     <ListView fx:id="stateListView" prefHeight="-1.0" prefWidth="-1.0">
                       <BorderPane.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x2" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x3" />
                       </BorderPane.margin>
                     </ListView>
                   </center>
@@ -88,8 +88,8 @@
                   <children>
                     <GridPane fx:id="stateGridPane" hgap="5.0" prefWidth="181.0" vgap="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                       <children>
-                        <RadioButton fx:id="addStateRadioButton" mnemonicParsing="false" onAction="#changeDisable" prefHeight="30.0" prefWidth="261.0" text="ステート付加" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <RadioButton fx:id="releaseStateRadioButton" mnemonicParsing="false" onAction="#changeDisable" prefHeight="30.0" prefWidth="261.0" text="ステート解除" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <RadioButton fx:id="addStateRadioButton" mnemonicParsing="false" onAction="#addStateRadioButtonOnAction" prefHeight="30.0" prefWidth="261.0" text="ステート付加" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <RadioButton fx:id="releaseStateRadioButton" mnemonicParsing="false" onAction="#releaseStateRadioButtonOnAction" prefHeight="30.0" prefWidth="261.0" text="ステート解除" GridPane.columnIndex="0" GridPane.rowIndex="2" />
                         <Label alignment="CENTER_LEFT" contentDisplay="LEFT" prefHeight="30.0" prefWidth="156.0" text="％" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label alignment="CENTER_LEFT" contentDisplay="LEFT" prefHeight="30.0" prefWidth="156.0" text="％" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                       </children>
@@ -107,12 +107,15 @@
                   </children>
                 </AnchorPane>
               </left>
+              <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x3" />
+              </padding>
             </BorderPane>
           </content>
         </Tab>
         <Tab text="能力値">
           <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" padding="$x3" prefHeight="180.0" prefWidth="200.0">
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
                 <GridPane fx:id="abilityGridPane" hgap="5.0" prefWidth="452.0" vgap="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                   <children>
@@ -122,7 +125,7 @@
                     <RadioButton fx:id="downReleaseRadioButton" mnemonicParsing="false" onAction="#changeDisable" prefHeight="30.0" prefWidth="261.0" text="弱体の解除" GridPane.columnIndex="0" GridPane.rowIndex="3" />
                     <Label prefHeight="30.0" prefWidth="236.0" text="ターン" GridPane.columnIndex="3" GridPane.rowIndex="0">
                       <GridPane.margin>
-                        <Insets fx:id="x1" />
+                        <Insets fx:id="x4" />
                       </GridPane.margin>
                     </Label>
                     <Label prefHeight="30.0" prefWidth="236.0" text="ターン" GridPane.columnIndex="3" GridPane.margin="$x1" GridPane.rowIndex="1" />
@@ -141,12 +144,15 @@
                   </rowConstraints>
                 </GridPane>
               </children>
+              <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x3" />
+              </padding>
             </AnchorPane>
           </content>
         </Tab>
         <Tab text="その他">
           <content>
-            <BorderPane padding="$x3" prefHeight="200.0" prefWidth="200.0">
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
               <center>
                 <SplitPane dividerPositions="0.5" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0">
                   <items>
@@ -157,14 +163,14 @@
                       <center>
                         <ListView fx:id="learningListView" prefHeight="200.0" prefWidth="200.0">
                           <BorderPane.margin>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x2" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x5" />
                           </BorderPane.margin>
                         </ListView>
                       </center>
                       <top>
                         <RadioButton id="learningListView" fx:id="learningRadioButton" mnemonicParsing="false" onAction="#changeDisable" text="スキル習得">
                           <BorderPane.margin>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x2" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x6" />
                           </BorderPane.margin>
                         </RadioButton>
                       </top>
@@ -173,21 +179,21 @@
                       <bottom>
                         <TextField fx:id="commonEventFilterTextField" prefWidth="-1.0" promptText="検索">
                           <BorderPane.margin>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x2" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x7" />
                           </BorderPane.margin>
                         </TextField>
                       </bottom>
                       <center>
                         <ListView fx:id="commonEventListView" prefHeight="200.0" prefWidth="200.0">
                           <BorderPane.margin>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x2" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x8" />
                           </BorderPane.margin>
                         </ListView>
                       </center>
                       <top>
                         <RadioButton fx:id="commonEventRadioButton" mnemonicParsing="false" onAction="#changeDisable" text="コモンイベント">
                           <BorderPane.margin>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x2" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x9" />
                           </BorderPane.margin>
                         </RadioButton>
                       </top>
@@ -198,6 +204,9 @@
                   </BorderPane.margin>
                 </SplitPane>
               </center>
+              <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x3" />
+              </padding>
               <top>
                 <AnchorPane prefHeight="-1.0" prefWidth="-1.0">
                   <children>
@@ -224,7 +233,7 @@
         </Tab>
       </tabs>
       <BorderPane.margin>
-        <Insets fx:id="x1" />
+        <Insets fx:id="x10" />
       </BorderPane.margin>
     </TabPane>
   </center>

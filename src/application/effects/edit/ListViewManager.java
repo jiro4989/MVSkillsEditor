@@ -17,9 +17,14 @@ public class ListViewManager {
 
   public ListViewManager(ListView<String> aListView, TextField aFilteredTextField,
       List<String> list) {
+    this(aListView, aFilteredTextField, list, 0);
+  }
+
+  public ListViewManager(ListView<String> aListView, TextField aFilteredTextField,
+      List<String> list, int index) {
     listView = aListView;
     filterTextField = aFilteredTextField;
-    filteredList = makeFilteredList(list);
+    filteredList = makeFilteredList(list, index);
     listView.setItems(filteredList);
 
     filterTextField.textProperty().addListener(obs -> {
@@ -33,8 +38,8 @@ public class ListViewManager {
     });
   }
 
-  private FilteredList<String> makeFilteredList(List<String> list) {
-    AtomicInteger index = new AtomicInteger();
+  private FilteredList<String> makeFilteredList(List<String> list, int i) {
+    AtomicInteger index = new AtomicInteger(i);
     list = list.stream()
         .map(s -> String.format("%04d: ", index.getAndIncrement()) + s)
         .collect(Collectors.toList());
@@ -42,6 +47,10 @@ public class ListViewManager {
 
     ObservableList<String> obsList = FXCollections.observableArrayList(list);
     return new FilteredList<>(obsList, s -> true);
+  }
+
+  public FilteredList<String> getFilteredList() {
+    return filteredList;
   }
 
   public ListView<String> getListView() {

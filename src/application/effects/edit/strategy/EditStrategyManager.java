@@ -4,7 +4,6 @@ import java.util.List;
 
 import application.effects.edit.ListViewManager;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 /**
@@ -133,7 +132,8 @@ public class EditStrategyManager {
       TextField hptf1, TextField hptf2,
       TextField mptf1, TextField mptf2,
       TextField tptf,
-      ListView<String> slv, TextField stf, TextField stf2,
+      ListViewManager addStateManager, TextField stf,
+      ListViewManager releaseStateManager, TextField stf2,
       ComboBox<String> upcb, TextField uptf,
       ComboBox<String> downcb, TextField downtf,
       ComboBox<String> upcb2,
@@ -153,10 +153,10 @@ public class EditStrategyManager {
       strategy = new TPHealStrategy(tptf);
       break;
     case 3:
-      strategy = new AddStateStrategy(slv, stf);
+      strategy = new AddStateStrategy(addStateManager, stf);
       break;
     case 4:
-      strategy = new ReleaseStateStrategy(slv, stf2);
+      strategy = new ReleaseStateStrategy(releaseStateManager, stf2);
       break;
     case 5:
       strategy = new UpStrategy(upcb, uptf);

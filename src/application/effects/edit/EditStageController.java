@@ -1,10 +1,10 @@
 package application.effects.edit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import application.effects.EffectsTableViewBorderPaneController;
 import application.effects.edit.strategy.EditStrategyManager;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,6 +23,10 @@ public class EditStageController {
   private EffectsTableViewBorderPaneController controller;
   private ToggleGroup toggleGroup;
   private EditStrategyManager editStrategyManager = new EditStrategyManager();
+
+  private ListViewManager addStateListViewManager;
+  private ListViewManager releaseStateListViewManager;
+
   private ListViewManager learningListViewManager;
   private ListViewManager commonEventListViewManager;
 
@@ -51,6 +55,7 @@ public class EditStageController {
   private NumericTextField addStateTextField = new NumericTextField("0", 0, 100, 0);
   @FXML private RadioButton releaseStateRadioButton;
   private NumericTextField releaseStateTextField = new NumericTextField("0", 0, 100, 0);
+
   @FXML private ListView<String> stateListView;
   @FXML private TextField stateFilterTextField;
 
@@ -196,10 +201,18 @@ public class EditStageController {
    */
   public void setInitialValues(int codeId, int dataId, double value1, double value2,
       List<String> skillList, List<String> stateList, List<String> commonEventList) {
-    stateListView.setItems(FXCollections.observableArrayList(stateList));
 
-    learningListViewManager = new ListViewManager(learningListView, learningFilterTextField, skillList);
-    commonEventListViewManager = new ListViewManager(commonEventListView, commonEventFilterTextField, commonEventList);
+    List<String> newAddStateList = new ArrayList<>(stateList);
+    newAddStateList.add(0, null);
+    List<String> newReleaseStateList = new ArrayList<>(stateList);
+
+    addStateListViewManager = new ListViewManager(stateListView, stateFilterTextField, newAddStateList, -1);
+    releaseStateListViewManager = new ListViewManager(stateListView, stateFilterTextField,
+        newReleaseStateList);
+    learningListViewManager = new ListViewManager(learningListView, learningFilterTextField,
+        skillList);
+    commonEventListViewManager = new ListViewManager(commonEventListView,
+        commonEventFilterTextField, commonEventList);
 
     if (codeId == -1 &&
         dataId == -1 &&
@@ -257,7 +270,8 @@ public class EditStageController {
         hpPercentageTextField, hpPlusTextField,
         mpPercentageTextField, mpPlusTextField,
         tpTextField,
-        stateListView, addStateTextField, releaseStateTextField,
+        addStateListViewManager, addStateTextField,
+        releaseStateListViewManager, releaseStateTextField,
         upComboBox, upTextField,
         downComboBox, downTextField,
         upReleaseComboBox, downReleaseComboBox,
@@ -269,5 +283,17 @@ public class EditStageController {
 
   public void setController(EffectsTableViewBorderPaneController aController) {
     controller = aController;
+  }
+
+  @FXML
+  private void addStateRadioButtonOnAction() {
+    stateListView.setItems(addStateListViewManager.getFilteredList());
+    changeDisable();
+  }
+
+  @FXML
+  private void releaseStateRadioButtonOnAction() {
+    stateListView.setItems(releaseStateListViewManager.getFilteredList());
+    changeDisable();
   }
 }

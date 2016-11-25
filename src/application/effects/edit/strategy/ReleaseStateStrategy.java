@@ -2,21 +2,22 @@ package application.effects.edit.strategy;
 
 import java.util.List;
 
+import application.effects.edit.ListViewManager;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 class ReleaseStateStrategy extends EditStrategy {
   private List<String> stateList;
-  private ListView<String> stateListView;
-  private TextField releaseStateTextField;
+  private TextField textField;
+  private ListViewManager manager;
 
   public ReleaseStateStrategy(List<String> aStateList) {
     stateList = aStateList;
   }
 
-  public ReleaseStateStrategy(ListView<String> aListView, TextField aTextField) {
-    stateListView = aListView;
-    releaseStateTextField = aTextField;
+  public ReleaseStateStrategy(ListViewManager aManager, TextField aTextField) {
+    manager = aManager;
+    textField = aTextField;
   }
 
   @Override
@@ -27,27 +28,24 @@ class ReleaseStateStrategy extends EditStrategy {
 
   @Override
   void setValue(int dataId, double value1, double value2) {
-    stateListView.getSelectionModel().select(dataId);
-    releaseStateTextField.setText("" + (int) (value1 * 100));
+    manager.getListView().getSelectionModel().select(dataId);
+    textField.setText("" + (int) (value1 * 100));
   }
 
   @Override
   double[] getValues() {
-    double[] values = {
-        22.0,
-        stateListView.getSelectionModel().getSelectedIndex(),
-        Double.parseDouble(releaseStateTextField.getText()) / 100,
-        0.0,
-    };
+    double[] values = manager.getValue(22.0);
+    values[2] = Double.parseDouble(textField.getText()) / 100;
     return values;
   }
 
   @Override
   void changeDisable() {
-    int currentIndex = stateListView.getSelectionModel().isEmpty()
-        ? 0 : stateListView.getSelectionModel().getSelectedIndex();
-    stateListView.getSelectionModel().select(currentIndex);
-    stateListView.setDisable(false);
-    releaseStateTextField.setDisable(false);
+    ListView<String> listView = manager.getListView();
+    int currentIndex = listView.getSelectionModel().isEmpty()
+        ? 0 : listView.getSelectionModel().getSelectedIndex();
+    listView.getSelectionModel().select(currentIndex);
+    manager.setDisable(false);
+    textField.setDisable(false);
   }
 }
