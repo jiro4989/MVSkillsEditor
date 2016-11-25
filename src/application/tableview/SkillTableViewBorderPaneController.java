@@ -462,6 +462,16 @@ public class SkillTableViewBorderPaneController {
     return null;
   }
 
+  public String getselectedCellValue() {
+    if (rightManager.isSelected()) {
+      return rightManager.getSelectedCellValue();
+    }
+    if (leftManager.isSelected()) {
+      return leftManager.getSelectedCellValue();
+    }
+    return "";
+  }
+
   public String getNormalAttackText() {
     return rightTableView.getItems().get(0).nameProperty().get();
   }

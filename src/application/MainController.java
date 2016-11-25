@@ -2,9 +2,12 @@ package application;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
 import java.util.stream.IntStream;
+
+import com.sun.javafx.geom.AreaOp.AddOp;
 
 import application.config.Config;
 import application.config.ConfigStage;
@@ -14,6 +17,7 @@ import application.tableview.SkillTableViewBorderPane;
 import application.tableview.SkillTableViewBorderPaneController;
 import application.tableview.command.ICommand;
 import application.tableview.command.UndoRedoManager;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -26,6 +30,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToolBar;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import jiro.lib.java.util.PropertiesHundler;
@@ -90,9 +96,7 @@ public class MainController {
 
   @FXML private TextField insertTextField;
   @FXML private Button applyButton;
-  @FXML private MenuItem toolBarInsertMenuItem;
-  @FXML private MenuItem toolBarHeadInsertMenuItem;
-  @FXML private MenuItem toolBarFootInsertMenuItem;
+  @FXML private ComboBox<String> applyComboBox;
 
   // **************************************************
   // プレビュー
@@ -119,6 +123,16 @@ public class MainController {
 
     dividerPositionProp = new PropertiesHundler("divider-position");
     settingDividerPosition();
+
+    List<String> items = new ArrayList<String>() {
+      {
+        add("挿入");
+        add("先頭に挿入");
+        add("末尾に挿入");
+      }
+    };
+    applyComboBox.setItems(FXCollections.observableArrayList(items));
+    applyComboBox.getSelectionModel().select(0);
   }
 
   private void settingDividerPosition() {
@@ -286,8 +300,49 @@ public class MainController {
   }
 
   @FXML
+  private void applyButtonOnAction() {
+    insertSwitch();
+  }
+
+  @FXML
+  private void applyComboBoxOnHidden() {
+    insertSwitch();
+  }
+
+  @FXML
+  private void applyComboBoxOnKeyReleased(KeyEvent event) {
+    if (event.getCode() == KeyCode.SPACE) {
+      insertSwitch();
+    }
+  }
+
+  private void insertSwitch() {
+    // 意図した挙動ではない
+    int selectedIndex = applyComboBox.getSelectionModel().getSelectedIndex();
+    if (selectedIndex == 0) {
+      insertText();
+    } else if (selectedIndex == 1) {
+      StringBuilder sb = new StringBuilder();
+      String value = skillTableViewController.getselectedCellValue();
+      sb.append(insertTextField.getText());
+      sb.append(value);
+      insertText(sb.toString());
+    } else if (selectedIndex == 2) {
+      StringBuilder sb = new StringBuilder();
+      String value = skillTableViewController.getselectedCellValue();
+      sb.append(value);
+      sb.append(insertTextField.getText());
+      insertText(sb.toString());
+    }
+  }
+
+  @FXML
   private void insertText() {
     skillTableViewController.insertText(insertTextField.getText());
+  }
+
+  private void insertText(String text) {
+    skillTableViewController.insertText(text);
   }
 
   @FXML
