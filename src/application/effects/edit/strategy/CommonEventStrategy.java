@@ -2,18 +2,19 @@ package application.effects.edit.strategy;
 
 import java.util.List;
 
+import application.effects.edit.ListViewManager;
 import javafx.scene.control.ListView;
 
 class CommonEventStrategy extends EditStrategy {
   private List<String> commonEventList;
-  private ListView<String> listView;
+  private ListViewManager manager;
 
   public CommonEventStrategy(List<String> commonEventList) {
     this.commonEventList = commonEventList;
   }
 
-  public CommonEventStrategy(ListView<String> aListView) {
-    listView = aListView;
+  public CommonEventStrategy(ListViewManager aManager) {
+    manager = aManager;
   }
 
   @Override
@@ -23,25 +24,20 @@ class CommonEventStrategy extends EditStrategy {
 
   @Override
   void setValue(int dataId, double value1, double value2) {
-    listView.getSelectionModel().select(dataId);
+    manager.getListView().getSelectionModel().select(dataId);
   }
 
   @Override
   double[] getValues() {
-    double[] values = {
-        44.0,
-        listView.getSelectionModel().getSelectedIndex(),
-        0.0,
-        0.0,
-    };
-    return values;
+    return manager.getValue(44.0);
   }
 
   @Override
   void changeDisable() {
+    ListView<String> listView = manager.getListView();
     int currentIndex = listView.getSelectionModel().isEmpty()
         ? 0 : listView.getSelectionModel().getSelectedIndex();
     listView.getSelectionModel().select(currentIndex);
-    listView.setDisable(false);
+    manager.setDisable(false);
   }
 }

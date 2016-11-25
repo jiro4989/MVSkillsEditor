@@ -22,11 +22,15 @@
 
 /* コンフィグ画面 */
 .tree-view .tree-cell {
-	-fx-font-size: 9.0pt;
+	-fx-font-size: 10.0pt;
+}
+
+.list-view .text{
+	-fx-font-size: 10.0pt;
 }
 
 /**
- * テーブルビューの水平スクロールバーを非表示にする。
+ * 左側テーブルビューの水平スクロールバーを非表示にする。
  */
 #leftSkillTableView .scroll-bar:horizontal .increment-arrow,
 #leftSkillTableView .scroll-bar:horizontal .decrement-arrow,

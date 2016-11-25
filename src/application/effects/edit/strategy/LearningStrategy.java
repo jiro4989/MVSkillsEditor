@@ -2,18 +2,19 @@ package application.effects.edit.strategy;
 
 import java.util.List;
 
+import application.effects.edit.ListViewManager;
 import javafx.scene.control.ListView;
 
 class LearningStrategy extends EditStrategy {
   private List<String> skillList;
-  private ListView<String> listView;
+  private ListViewManager manager;
 
   public LearningStrategy(List<String> skillList) {
     this.skillList = skillList;
   }
 
-  public LearningStrategy(ListView<String> aListView) {
-    listView = aListView;
+  public LearningStrategy(ListViewManager aManager) {
+    manager = aManager;
   }
 
   @Override
@@ -23,27 +24,20 @@ class LearningStrategy extends EditStrategy {
 
   @Override
   void setValue(int dataId, double value1, double value2) {
-    listView.getSelectionModel().select(dataId);
+    manager.getListView().getSelectionModel().select(dataId);
   }
 
   @Override
   double[] getValues() {
-    String text = listView.getSelectionModel().getSelectedItem();
-    text = text.split(":")[0];
-    double[] values = {
-        43.0,
-        Double.parseDouble(text),
-        0.0,
-        0.0,
-    };
-    return values;
+    return manager.getValue(43.0);
   }
 
   @Override
   void changeDisable() {
+    ListView<String> listView = manager.getListView();
     int currentIndex = listView.getSelectionModel().isEmpty()
         ? 0 : listView.getSelectionModel().getSelectedIndex();
     listView.getSelectionModel().select(currentIndex);
-    listView.setDisable(false);
+    manager.setDisable(false);
   }
 }

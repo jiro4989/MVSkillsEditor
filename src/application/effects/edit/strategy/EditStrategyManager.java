@@ -2,6 +2,7 @@ package application.effects.edit.strategy;
 
 import java.util.List;
 
+import application.effects.edit.ListViewManager;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -139,8 +140,8 @@ public class EditStrategyManager {
       ComboBox<String> downcb2,
       ComboBox<String> specialcb,
       ComboBox<String> growthcb, TextField growthtf,
-      ListView<String> llv,
-      ListView<String> celv) {
+      ListViewManager learningManager,
+      ListViewManager commonEventManager) {
     switch (strategyIndex) {
     case 0:
       strategy = new HPHealStrategy(hptf1, hptf2);
@@ -176,10 +177,10 @@ public class EditStrategyManager {
       strategy = new GrowthStrategy(growthcb, growthtf);
       break;
     case 11:
-      strategy = new LearningStrategy(llv);
+      strategy = new LearningStrategy(learningManager);
       break;
     case 12:
-      strategy = new CommonEventStrategy(celv);
+      strategy = new CommonEventStrategy(commonEventManager);
       break;
     default:
       break;

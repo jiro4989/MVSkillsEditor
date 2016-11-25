@@ -1,17 +1,11 @@
 package application.effects.edit;
 
-import java.awt.ItemSelectable;
-import java.awt.event.ItemEvent;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 import application.effects.EffectsTableViewBorderPaneController;
 import application.effects.edit.strategy.EditStrategyManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -28,9 +22,9 @@ import util.dictionary.Ability;
 public class EditStageController {
   private EffectsTableViewBorderPaneController controller;
   private ToggleGroup toggleGroup;
-  private EditStrategyManager manager = new EditStrategyManager();
-  private ObservableList<String> learningItems;
-  private FilteredList<String> filteredList;
+  private EditStrategyManager editStrategyManager = new EditStrategyManager();
+  private ListViewManager learningListViewManager;
+  private ListViewManager commonEventListViewManager;
 
   @FXML private TabPane tabPane;
 
@@ -152,16 +146,6 @@ public class EditStageController {
     growthRadioButton.setToggleGroup(toggleGroup);
     learningRadioButton.setToggleGroup(toggleGroup);
     commonEventRadioButton.setToggleGroup(toggleGroup);
-
-    learningFilterTextField.textProperty().addListener(obs -> {
-      String filter = learningFilterTextField.getText();
-      if (filter == null || filter.length() == 0) {
-        filteredList.setPredicate(s -> true);
-      } else {
-        filteredList.setPredicate(s -> s.contains(filter));
-      }
-      learningListView.getSelectionModel().select(0);
-    });
   }
 
   @FXML
@@ -178,7 +162,7 @@ public class EditStageController {
   private double[] getValues() {
     int strategyIndex = getSelectedRadioButtonIndex();
     changeStrategy(strategyIndex);
-    return manager.getValues();
+    return editStrategyManager.getValues();
   }
 
   @FXML
@@ -214,16 +198,8 @@ public class EditStageController {
       List<String> skillList, List<String> stateList, List<String> commonEventList) {
     stateListView.setItems(FXCollections.observableArrayList(stateList));
 
-    AtomicInteger i = new AtomicInteger();
-    skillList = skillList.stream()
-        .map(s -> String.format("%04d: ", i.getAndIncrement()) + s)
-        .collect(Collectors.toList());
-    skillList.remove(0);
-    learningItems = FXCollections.observableArrayList(skillList);
-    filteredList = new FilteredList<>(learningItems, s -> true);
-    learningListView.setItems(filteredList);
-
-    commonEventListView.setItems(FXCollections.observableArrayList(commonEventList));
+    learningListViewManager = new ListViewManager(learningListView, learningFilterTextField, skillList);
+    commonEventListViewManager = new ListViewManager(commonEventListView, commonEventFilterTextField, commonEventList);
 
     if (codeId == -1 &&
         dataId == -1 &&
@@ -236,10 +212,10 @@ public class EditStageController {
       int tabIndex = codeId / 10 - 1;
       tabPane.getSelectionModel().select(tabIndex);
 
-      int radioIndex = manager.calculateStrategyIndex(codeId);
+      int radioIndex = editStrategyManager.calculateStrategyIndex(codeId);
       toggleGroup.getToggles().get(radioIndex).setSelected(true);
       changeDisable();
-      manager.setValues(dataId, value1, value2);
+      editStrategyManager.setValues(dataId, value1, value2);
     }
   }
 
@@ -248,7 +224,7 @@ public class EditStageController {
     setDisableAll();
     int strategyIndex = getSelectedRadioButtonIndex();
     changeStrategy(strategyIndex);
-    manager.changeDisable();
+    editStrategyManager.changeDisable();
   }
 
   private void setDisableAll() {
@@ -272,12 +248,12 @@ public class EditStageController {
     specialEffectComboBox.setDisable(true);
     growthComboBox.setDisable(true);
     growthTextField.setDisable(true);
-    learningListView.setDisable(true);
-    commonEventListView.setDisable(true);
+    learningListViewManager.setDisable(true);
+    commonEventListViewManager.setDisable(true);
   }
 
   private void changeStrategy(int strategyIndex) {
-    manager.changeStrategy(strategyIndex,
+    editStrategyManager.changeStrategy(strategyIndex,
         hpPercentageTextField, hpPlusTextField,
         mpPercentageTextField, mpPlusTextField,
         tpTextField,
@@ -287,8 +263,8 @@ public class EditStageController {
         upReleaseComboBox, downReleaseComboBox,
         specialEffectComboBox,
         growthComboBox, growthTextField,
-        learningListView,
-        commonEventListView);
+        learningListViewManager,
+        commonEventListViewManager);
   }
 
   public void setController(EffectsTableViewBorderPaneController aController) {
