@@ -100,6 +100,9 @@
                   </image>
                 </ImageView>
               </graphic>
+              <tooltip>
+                <Tooltip text="プロジェクトからインポート" />
+              </tooltip>
             </Button>
             <Button fx:id="folderButton" mnemonicParsing="false" onAction="#importFolder" text="">
               <graphic>
@@ -109,6 +112,9 @@
                   </image>
                 </ImageView>
               </graphic>
+              <tooltip>
+                <Tooltip text="フォルダからインポート" />
+              </tooltip>
             </Button>
             <Button fx:id="undoButton" disable="true" mnemonicParsing="false" onAction="#undo" text="">
               <graphic>
@@ -118,6 +124,9 @@
                   </image>
                 </ImageView>
               </graphic>
+              <tooltip>
+                <Tooltip text="元に戻す" />
+              </tooltip>
             </Button>
             <Button fx:id="redoButton" disable="true" mnemonicParsing="false" onAction="#redo" text="">
               <graphic>
@@ -127,6 +136,9 @@
                   </image>
                 </ImageView>
               </graphic>
+              <tooltip>
+                <Tooltip text="やり直す" />
+              </tooltip>
             </Button>
             <Button mnemonicParsing="false" text="">
               <graphic>
@@ -136,6 +148,9 @@
                   </image>
                 </ImageView>
               </graphic>
+              <tooltip>
+                <Tooltip text="ファイルの再読み込み" />
+              </tooltip>
             </Button>
             <Button mnemonicParsing="false" text="">
               <graphic>
@@ -145,15 +160,9 @@
                   </image>
                 </ImageView>
               </graphic>
-            </Button>
-            <Button mnemonicParsing="false" text="">
-              <graphic>
-                <ImageView fitHeight="20.0" fitWidth="20.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                    <Image url="@resources/quit.png" />
-                  </image>
-                </ImageView>
-              </graphic>
+              <tooltip>
+                <Tooltip text="設定画面を開く" />
+              </tooltip>
             </Button>
             <Separator orientation="VERTICAL" prefHeight="-1.0" />
             <ComboBox fx:id="insertComboBox" onHidden="#insertComboBoxOnHidden" promptText="セルに挿入するテキスト" visibleRowCount="20">

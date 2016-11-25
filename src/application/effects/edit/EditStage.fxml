@@ -19,7 +19,7 @@
             <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonOnClicked" prefWidth="100.0" text="キャンセル" />
           </children>
           <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x1" />
           </padding>
         </HBox>
       </children>
@@ -30,9 +30,9 @@
       <tabs>
         <Tab text="回復">
           <content>
-            <AnchorPane id="AnchorPane" prefHeight="330.0">
+            <VBox id="VBox" alignment="TOP_LEFT" spacing="10.0">
               <children>
-                <GridPane fx:id="healGridPane" hgap="5.0" prefWidth="452.0" vgap="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                <GridPane fx:id="healGridPane" hgap="5.0" prefWidth="452.0" vgap="5.0">
                   <children>
                     <RadioButton fx:id="hpRadioButton" mnemonicParsing="false" onAction="#changeDisable" prefHeight="30.0" prefWidth="261.0" text="HP回復" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                     <RadioButton fx:id="mpRadioButton" mnemonicParsing="false" onAction="#changeDisable" prefHeight="30.0" prefWidth="261.0" text="MP回復" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -57,36 +57,39 @@
                 </GridPane>
               </children>
               <padding>
-                <Insets left="10.0" right="10.0" fx:id="x1" />
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x1" />
               </padding>
-            </AnchorPane>
+            </VBox>
           </content>
         </Tab>
         <Tab text="ステート">
           <content>
-            <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <BorderPane padding="$x10" prefHeight="200.0" prefWidth="200.0">
               <center>
                 <BorderPane prefHeight="-1.0" prefWidth="-1.0">
                   <bottom>
                     <TextField fx:id="stateFilterTextField" prefWidth="-1.0" promptText="検索">
                       <BorderPane.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x2" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                       </BorderPane.margin>
                     </TextField>
                   </bottom>
                   <center>
                     <ListView fx:id="stateListView" prefHeight="-1.0" prefWidth="-1.0">
                       <BorderPane.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x3" />
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
                       </BorderPane.margin>
                     </ListView>
                   </center>
+                  <padding>
+                    <Insets fx:id="x10" />
+                  </padding>
                 </BorderPane>
               </center>
               <left>
-                <AnchorPane prefHeight="-1.0" prefWidth="-1.0">
+                <VBox id="VBox" alignment="TOP_LEFT" padding="$x1" spacing="10.0">
                   <children>
-                    <GridPane fx:id="stateGridPane" hgap="5.0" prefWidth="181.0" vgap="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                    <GridPane fx:id="stateGridPane" hgap="5.0" prefWidth="181.0" vgap="5.0">
                       <children>
                         <RadioButton fx:id="addStateRadioButton" mnemonicParsing="false" onAction="#addStateRadioButtonOnAction" prefHeight="30.0" prefWidth="261.0" text="ステート付加" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                         <RadioButton fx:id="releaseStateRadioButton" mnemonicParsing="false" onAction="#releaseStateRadioButtonOnAction" prefHeight="30.0" prefWidth="261.0" text="ステート解除" GridPane.columnIndex="0" GridPane.rowIndex="2" />
@@ -105,19 +108,16 @@
                       </rowConstraints>
                     </GridPane>
                   </children>
-                </AnchorPane>
+                </VBox>
               </left>
-              <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x3" />
-              </padding>
             </BorderPane>
           </content>
         </Tab>
         <Tab text="能力値">
           <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <VBox id="VBox" alignment="TOP_LEFT" padding="$x1" spacing="10.0">
               <children>
-                <GridPane fx:id="abilityGridPane" hgap="5.0" prefWidth="452.0" vgap="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                <GridPane fx:id="abilityGridPane" hgap="5.0" prefWidth="452.0" vgap="5.0">
                   <children>
                     <RadioButton fx:id="upRadioButton" mnemonicParsing="false" onAction="#changeDisable" prefHeight="30.0" prefWidth="261.0" text="強化" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                     <RadioButton fx:id="downRadioButton" mnemonicParsing="false" onAction="#changeDisable" prefHeight="30.0" prefWidth="261.0" text="弱体" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -128,7 +128,7 @@
                         <Insets fx:id="x4" />
                       </GridPane.margin>
                     </Label>
-                    <Label prefHeight="30.0" prefWidth="236.0" text="ターン" GridPane.columnIndex="3" GridPane.margin="$x1" GridPane.rowIndex="1" />
+                    <Label prefHeight="30.0" prefWidth="210.0" text="ターン" GridPane.columnIndex="3" GridPane.margin="$x10" GridPane.rowIndex="1" />
                   </children>
                   <columnConstraints>
                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="149.0" minWidth="10.0" prefWidth="113.0" />
@@ -144,10 +144,7 @@
                   </rowConstraints>
                 </GridPane>
               </children>
-              <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x3" />
-              </padding>
-            </AnchorPane>
+            </VBox>
           </content>
         </Tab>
         <Tab text="その他">
@@ -158,7 +155,11 @@
                   <items>
                     <BorderPane prefHeight="200.0" prefWidth="200.0">
                       <bottom>
-                        <TextField fx:id="learningFilterTextField" prefWidth="-1.0" promptText="検索" BorderPane.margin="$x2" />
+                        <TextField fx:id="learningFilterTextField" prefWidth="-1.0" promptText="検索">
+                          <BorderPane.margin>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x2" />
+                          </BorderPane.margin>
+                        </TextField>
                       </bottom>
                       <center>
                         <ListView fx:id="learningListView" prefHeight="200.0" prefWidth="200.0">
@@ -208,9 +209,9 @@
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x3" />
               </padding>
               <top>
-                <AnchorPane prefHeight="-1.0" prefWidth="-1.0">
+                <VBox id="VBox" alignment="CENTER" spacing="5.0">
                   <children>
-                    <GridPane fx:id="othersGridPane" hgap="5.0" prefWidth="452.0" vgap="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                    <GridPane fx:id="othersGridPane" hgap="5.0" prefWidth="452.0" vgap="5.0">
                       <children>
                         <RadioButton fx:id="specialEffectRadioButton" mnemonicParsing="false" onAction="#changeDisable" prefHeight="30.0" prefWidth="261.0" text="特殊効果" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                         <RadioButton fx:id="growthRadioButton" mnemonicParsing="false" onAction="#changeDisable" prefHeight="30.0" prefWidth="261.0" text="成長" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -226,7 +227,10 @@
                       </rowConstraints>
                     </GridPane>
                   </children>
-                </AnchorPane>
+                  <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x3" />
+                  </padding>
+                </VBox>
               </top>
             </BorderPane>
           </content>
