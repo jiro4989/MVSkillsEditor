@@ -67,6 +67,7 @@ public class MainController {
   @FXML private Button folderButton;
   @FXML private Button undoButton;
   @FXML private Button redoButton;
+  @FXML private Button configButton;
   @FXML private ComboBox<String> insertComboBox;
 
   // **************************************************
