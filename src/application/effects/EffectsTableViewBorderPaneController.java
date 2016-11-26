@@ -2,16 +2,12 @@ package application.effects;
 
 import java.io.File;
 import java.io.IOException;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.org.apache.regexp.internal.recompile;
 
 import application.MainController;
 import application.effects.edit.EditStage;
@@ -107,10 +103,11 @@ public class EffectsTableViewBorderPaneController {
         ObjectMapper mapper = new ObjectMapper();
         try {
           JsonNode root = mapper.readTree(mainController.getSelectedEffects());
-          double[] doubles = getValues(root, index);
-          copyValues.add(UtilDouble.convertDoublePrimitiveToWrapper(doubles));
+          if (index < effectsTableView.getItems().size()-1) {
+            double[] doubles = getValues(root, index);
+            copyValues.add(UtilDouble.convertDoublePrimitiveToWrapper(doubles));
+          }
         } catch (IOException e) {
-          // TODO 自動生成された catch ブロック
           e.printStackTrace();
         }
       }
@@ -121,10 +118,15 @@ public class EffectsTableViewBorderPaneController {
   private void pasteMenuItemOnAction() {
     if (!effectsTableView.getSelectionModel().isEmpty() && copyValues != null) {
       int size = copyValues.size();
+      currentSelectedIndex = effectsTableView.getSelectionModel().getSelectedIndex();
+
       IntStream.range(0, size).forEach(i -> {
         Double[] values = copyValues.get(i);
-        updateEffects(UtilDouble.convertDoubleWrapperToPrimitive(values), size);
+        mainController.updateEffectsCellNonPushUndo(currentSelectedIndex,
+            UtilDouble.convertDoubleWrapperToPrimitive(values));
+        currentSelectedIndex++;
       });
+      mainController.pushUndoCount(size);
     }
   }
 
@@ -233,17 +235,6 @@ public class EffectsTableViewBorderPaneController {
     if (!effectsTableView.getSelectionModel().isEmpty()) {
       currentSelectedIndex = effectsTableView.getSelectionModel().getSelectedIndex();
       mainController.updateEffectsCell(currentSelectedIndex, values);
-    }
-  }
-
-  /**
-   * 選択中のセルからsize回数テキストを更新する。
-   * @param values
-   */
-  public void updateEffects(double[] values, int size) {
-    if (!effectsTableView.getSelectionModel().isEmpty()) {
-//      currentSelectedIndex = effectsTableView.getSelectionModel().getSelectedIndex();
-//      mainController.updateEffectsCell(currentSelectedIndex, values);
     }
   }
 

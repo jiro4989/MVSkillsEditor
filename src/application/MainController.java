@@ -1,12 +1,15 @@
 package application;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
 import java.util.stream.IntStream;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import application.config.Config;
 import application.config.ConfigStage;
@@ -325,17 +328,19 @@ public class MainController {
       // ==================================================
       // 実装途中
       // ==================================================
-//      StringBuilder sb = new StringBuilder();
-//      String value = skillTableViewController.getselectedCellValue();
-//      sb.append(insertTextField.getText());
-//      sb.append(value);
-//      insertText(sb.toString());
+      // StringBuilder sb = new StringBuilder();
+      // String value =
+      // skillTableViewController.getselectedCellValue();
+      // sb.append(insertTextField.getText());
+      // sb.append(value);
+      // insertText(sb.toString());
     } else if (selectedIndex == 2) {
-//      StringBuilder sb = new StringBuilder();
-//      String value = skillTableViewController.getselectedCellValue();
-//      sb.append(value);
-//      sb.append(insertTextField.getText());
-//      insertText(sb.toString());
+      // StringBuilder sb = new StringBuilder();
+      // String value =
+      // skillTableViewController.getselectedCellValue();
+      // sb.append(value);
+      // sb.append(insertTextField.getText());
+      // insertText(sb.toString());
     }
   }
 
@@ -431,4 +436,9 @@ public class MainController {
   public void updateEffectsCell(int selectedIndex, double[] values) {
     skillTableViewController.updateEffectsCell(selectedIndex, values);
   }
+
+  public void updateEffectsCellNonPushUndo(int selectedIndex, double[] values) {
+    skillTableViewController.updateEffectsCellNonPushUndo(selectedIndex, values);
+  }
+
 }

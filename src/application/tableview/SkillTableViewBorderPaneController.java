@@ -392,12 +392,16 @@ public class SkillTableViewBorderPaneController {
   }
 
   public void updateEffectsCell(int selectedIndex, double[] values) {
+    updateEffectsCellNonPushUndo(selectedIndex, values);
+    mainController.pushUndoCount(1);
+  }
+
+  public void updateEffectsCellNonPushUndo(int selectedIndex, double[] values) {
     String effectsText = rightTableView.getSelectionModel().getSelectedItem().effectsProperty()
         .get();
     ObjectMapper mapper = new ObjectMapper();
-    JsonNode root;
     try {
-      root = mapper.readTree(effectsText);
+      JsonNode root = mapper.readTree(effectsText);
       int size = root.size();
       List<String> textList = new ArrayList<>(size);
 
@@ -418,9 +422,10 @@ public class SkillTableViewBorderPaneController {
       ICommand command = new TableCellUpdateCommand(rightTableView, rowIndex, columnIndex,
           result, strategy);
       mainController.invoke(command);
-      mainController.pushUndoCount(1);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
     } catch (IOException e) {
-      new MyLogger(this.getClass().getName()).getLogger().log(Level.SEVERE, "JsonReadTreeError", e);
+      e.printStackTrace();
     }
   }
 
