@@ -1,14 +1,11 @@
 package application.tableview;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
@@ -16,8 +13,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
 import jiro.lib.java.util.PropertiesHundler;
 
@@ -30,8 +25,6 @@ public class TableViewManager {
 
   private final MenuItem copyItem;
   private final MenuItem pasteItem;
-
-  private static final String ROW_SEPARATOR = "/";
 
   @SuppressWarnings("unchecked")
   public TableViewManager(
@@ -229,41 +222,6 @@ public class TableViewManager {
           });
       controller.pushUndoCount(size);
     }
-  }
-
-  /**
-   * クリップボードのテキストからセパレータによって区切ったリストを生成する。
-   * @param clipboard
-   * @return
-   */
-  private LinkedList<String> makeSeparatedList(Clipboard clipboard) {
-    String text = clipboard.getString();
-    String[] texts = text.split(ROW_SEPARATOR);
-
-    LinkedList<String> linkedList = new LinkedList<>();
-    Arrays.stream(texts).forEach(s -> linkedList.offer(s));
-    return linkedList;
-  }
-
-  /**
-   * セパレータでバラバラになった文字列を結合し、正常なリストの形で返す。
-   * @param oldList
-   * @return
-   */
-  private LinkedList<String> makeRestoredList(LinkedList<String> oldList) {
-    LinkedList<String> newList = new LinkedList<>();
-    StringBuilder sb = new StringBuilder();
-    while (!oldList.isEmpty()) {
-      String string = oldList.poll();
-      sb.append(string);
-      if (string.matches(".*\\\\$")) {
-        sb.append(ROW_SEPARATOR);
-        continue;
-      }
-      newList.offer(sb.toString());
-      sb.setLength(0);
-    }
-    return newList;
   }
 
   int getSelectedCellColumnIndex() {

@@ -2,21 +2,30 @@ package application.effects;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.org.apache.regexp.internal.recompile;
 
 import application.MainController;
 import application.effects.edit.EditStage;
 import application.effects.edit.strategy.EditStrategyManager;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import util.UtilDouble;
 
 public class EffectsTableViewBorderPaneController {
   private MainController mainController;
@@ -29,36 +38,93 @@ public class EffectsTableViewBorderPaneController {
   @FXML private TableColumn<Effects, String> typeColumn = new TableColumn<>("type");
   @FXML private TableColumn<Effects, String> contentColumn = new TableColumn<>("content");
 
+  @FXML private ContextMenu contextMenu;
+  @FXML private MenuItem copyMenuItem;
+  @FXML private MenuItem pasteMenuItem;
+
   @FXML
   private void initialize() {
     typeColumn.setCellValueFactory(new PropertyValueFactory<Effects, String>("type"));
     contentColumn.setCellValueFactory(new PropertyValueFactory<Effects, String>("content"));
 
     effectsTableView.getItems().add(new Effects("", ""));
+
+    effectsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 
   @FXML
   private void effectsTableViewOnMouseClicked(MouseEvent click) {
     if (!effectsTableView.getSelectionModel().isEmpty()
         && click.getClickCount() == 2) {
-      int selectedIndex = effectsTableView.getSelectionModel().getSelectedIndex();
-      ObjectMapper mapper = new ObjectMapper();
-      try {
-        JsonNode root = mapper.readTree(mainController.getSelectedEffects());
-        int rootSize = root.size();
-        if (selectedIndex < rootSize) {
-          JsonNode node = root.get(selectedIndex);
-          int codeId = node.get("code").asInt();
-          int dataId = node.get("dataId").asInt();
-          double value1 = node.get("value1").asDouble();
-          double value2 = node.get("value2").asDouble();
-          openEditStage(codeId, dataId, value1, value2);
-          return;
-        }
-        openEditStage(-1, -1, -1, -1);
-      } catch (IOException e) {
-        e.printStackTrace();
+      openEditStage(getSelectedValues());
+    }
+  }
+
+  /**
+   * 選択しているレコードのデータを取得する。
+   * @return レコード
+   */
+  private double[] getSelectedValues() {
+    int selectedIndex = effectsTableView.getSelectionModel().getSelectedIndex();
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      JsonNode root = mapper.readTree(mainController.getSelectedEffects());
+      int rootSize = root.size();
+      if (selectedIndex < rootSize) {
+        return getValues(root, selectedIndex);
       }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return new double[] {
+        -1, -1, -1, -1
+    };
+  }
+
+  private double[] getValues(JsonNode root, int index) {
+    JsonNode node = root.get(index);
+    double[] values = new double[4];
+    values[0] = node.get("code").asInt();
+    values[1] = node.get("dataId").asInt();
+    values[2] = node.get("value1").asDouble();
+    values[3] = node.get("value2").asDouble();
+    return values;
+  }
+
+  private List<Double[]> copyValues;
+
+  @FXML
+  private void contextMenuOnShown() {
+    pasteMenuItem.setDisable(copyValues == null);
+  }
+
+  @FXML
+  private void copyMenuItemOnAction() {
+    if (!effectsTableView.getSelectionModel().isEmpty()) {
+      ObservableList<Integer> indicies = effectsTableView.getSelectionModel().getSelectedIndices();
+      copyValues = new ArrayList<>(indicies.size());
+      for (int index : indicies) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+          JsonNode root = mapper.readTree(mainController.getSelectedEffects());
+          double[] doubles = getValues(root, index);
+          copyValues.add(UtilDouble.convertDoublePrimitiveToWrapper(doubles));
+        } catch (IOException e) {
+          // TODO 自動生成された catch ブロック
+          e.printStackTrace();
+        }
+      }
+    }
+  }
+
+  @FXML
+  private void pasteMenuItemOnAction() {
+    if (!effectsTableView.getSelectionModel().isEmpty() && copyValues != null) {
+      int size = copyValues.size();
+      IntStream.range(0, size).forEach(i -> {
+        Double[] values = copyValues.get(i);
+        updateEffects(UtilDouble.convertDoubleWrapperToPrimitive(values), size);
+      });
     }
   }
 
@@ -106,8 +172,9 @@ public class EffectsTableViewBorderPaneController {
    * @param dataId
    * @param codeId
    */
-  private void openEditStage(int codeId, int dataId, double value1, double value2) {
-    EditStage editStage = new EditStage(this, codeId, dataId, value1, value2, skillList, stateList,
+  private void openEditStage(double[] values) {
+    EditStage editStage = new EditStage(this, (int) values[0], (int) values[1], values[2],
+        values[3], skillList, stateList,
         commonEventList);
     editStage.showAndWait();
   }
@@ -166,6 +233,17 @@ public class EffectsTableViewBorderPaneController {
     if (!effectsTableView.getSelectionModel().isEmpty()) {
       currentSelectedIndex = effectsTableView.getSelectionModel().getSelectedIndex();
       mainController.updateEffectsCell(currentSelectedIndex, values);
+    }
+  }
+
+  /**
+   * 選択中のセルからsize回数テキストを更新する。
+   * @param values
+   */
+  public void updateEffects(double[] values, int size) {
+    if (!effectsTableView.getSelectionModel().isEmpty()) {
+//      currentSelectedIndex = effectsTableView.getSelectionModel().getSelectedIndex();
+//      mainController.updateEffectsCell(currentSelectedIndex, values);
     }
   }
 

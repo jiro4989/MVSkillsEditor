@@ -13,6 +13,14 @@
         <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="115.0" sortable="false" text="タイプ" fx:id="typeColumn" />
         <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="162.0" sortable="false" text="内容" fx:id="contentColumn" />
       </columns>
+      <contextMenu>
+        <ContextMenu onShown="#contextMenuOnShown" fx:id="contextMenu">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#copyMenuItemOnAction" text="コピー" fx:id="copyMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#pasteMenuItemOnAction" text="貼り付け" fx:id="pasteMenuItem" />
+          </items>
+        </ContextMenu>
+      </contextMenu>
     </TableView>
   </center>
 </BorderPane>
