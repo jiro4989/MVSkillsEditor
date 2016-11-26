@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 import javafx.collections.ObservableList;
@@ -181,26 +182,22 @@ public class TableViewManager {
     columnWidthProp.write();
   }
 
+  private static List<String> copyValues;
+
   /**
    * 選択中のセルの値をクリップボードにコピーする。
    * この時、コピーされる値は最初にクリックしたセルと同じカラムのもののみを対象とする。
    */
   void copyValueOfSelectedCells() {
     ObservableList<Integer> indicies = tableView.getSelectionModel().getSelectedIndices();
-    List<String> textList = new ArrayList<>(indicies.size());
+    copyValues = new ArrayList<>(indicies.size());
     for (int index : indicies) {
       @SuppressWarnings("unchecked")
       TablePosition<Skill, String> pos = tableView.getSelectionModel().getSelectedCells().get(0);
       TableColumn<Skill, String> column = pos.getTableColumn();
       String text = column.getCellData(index);
-      text = text.replaceAll(ROW_SEPARATOR, "\\\\" + ROW_SEPARATOR);
-      textList.add(text);
+      copyValues.add(text);
     }
-
-    Clipboard clipboard = Clipboard.getSystemClipboard();
-    ClipboardContent content = new ClipboardContent();
-    content.putString(String.join(ROW_SEPARATOR, textList));
-    clipboard.setContent(content);
   }
 
   /**
@@ -208,19 +205,19 @@ public class TableViewManager {
    * 書式に即していないテキストの場合はペーストは実行されない。
    */
   void pasteValue() {
-    Clipboard clipboard = Clipboard.getSystemClipboard();
-    LinkedList<String> oldList = makeSeparatedList(clipboard);
-    LinkedList<String> newList = makeRestoredList(oldList);
+    if (copyValues != null) {
+      int size = copyValues.size();
+      int start = getSelectedCellRowIndex();
+      int end = start + size - 1;
 
-    int size = newList.size();
-    int start = getSelectedCellRowIndex();
-    int end = start + size - 1;
-    IntStream.rangeClosed(start, end)
-        .forEach(rowIndex -> {
-          String newText = newList.poll();
-          controller.invoke(tableView, newText, rowIndex);
-        });
-    controller.pushUndoCount(size);
+      AtomicInteger index = new AtomicInteger(0);
+      IntStream.rangeClosed(start, end)
+          .forEach(rowIndex -> {
+            String newText = copyValues.get(index.getAndIncrement());
+            controller.invoke(tableView, newText, rowIndex);
+          });
+      controller.pushUndoCount(size);
+    }
   }
 
   /**
