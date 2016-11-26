@@ -282,10 +282,16 @@ public class TableViewManager {
     if (this.isSelected()) {
       if (cellValue.matches(NUMBER_REGEX)) {
         diff = mouseY - event.getScreenY();
-        if (diff % 7 == 0) {
+        if (diff % 10 == 0) {
           int numValue = Integer.parseInt(cellValue);
 
-          numValue = 0 < diff ? numValue + 1 : numValue - 1;
+          // @formatter:off
+          numValue =
+              event.isControlDown() ? 0 < diff ? numValue + 5 : numValue - 5
+              : event.isShiftDown() ? 0 < diff ? numValue + 10 : numValue - 10
+                                    : 0 < diff ? numValue + 1 : numValue - 1;
+          // @formatter:on
+
           toolTip.setText("" + numValue);
 
           tableView.setTooltip(toolTip);
