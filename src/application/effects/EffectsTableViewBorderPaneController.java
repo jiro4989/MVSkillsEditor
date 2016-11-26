@@ -152,9 +152,7 @@ public class EffectsTableViewBorderPaneController {
 
   @FXML
   private void selectAllMenuItemOnAction() {
-    // ==================================================
-    // 未実装
-    // ==================================================
+    effectsTableView.getSelectionModel().selectAll();
   }
 
   @FXML
