@@ -322,17 +322,18 @@ public class MainController {
     if (selectedIndex == 0) {
       insertText();
     } else if (selectedIndex == 1) {
-      StringBuilder sb = new StringBuilder();
-      String value = skillTableViewController.getselectedCellValue();
-      sb.append(insertTextField.getText());
-      sb.append(value);
-      insertText(sb.toString());
+      skillTableViewController.copyValueOfSelectedCells();
+//      StringBuilder sb = new StringBuilder();
+//      String value = skillTableViewController.getselectedCellValue();
+//      sb.append(insertTextField.getText());
+//      sb.append(value);
+//      insertText(sb.toString());
     } else if (selectedIndex == 2) {
-      StringBuilder sb = new StringBuilder();
-      String value = skillTableViewController.getselectedCellValue();
-      sb.append(value);
-      sb.append(insertTextField.getText());
-      insertText(sb.toString());
+//      StringBuilder sb = new StringBuilder();
+//      String value = skillTableViewController.getselectedCellValue();
+//      sb.append(value);
+//      sb.append(insertTextField.getText());
+//      insertText(sb.toString());
     }
   }
 

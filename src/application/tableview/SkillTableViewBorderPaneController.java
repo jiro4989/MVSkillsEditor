@@ -11,6 +11,8 @@ import java.util.stream.IntStream;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.org.apache.bcel.internal.generic.IADD;
+import com.sun.org.apache.bcel.internal.generic.IfInstruction;
 
 import application.MainController;
 import application.tableview.cell.BooleanTableCell;
@@ -293,19 +295,28 @@ public class SkillTableViewBorderPaneController {
     }
   }
 
+  private void invoke(TableView<Skill> table, String newText, int rowIndex) {
+    ColumnStrategy strategy = getStrategy(rowIndex);
+    if (!strategy.isInvokable(newText)) {
+      newText = strategy.defaultValue(newText);
+      if (newText == null) {
+        return;
+      }
+    }
+    ICommand command = new TableCellUpdateCommand(rightTableView, rowIndex, 0,
+        newText, strategy);
+    mainController.invoke(command);
+  }
+
+  /**
+   * 選択中のセルを対象にinvoke
+   * @param table
+   * @param newText
+   */
   private void invoke(TableView<Skill> table, String newText) {
     ObservableList<Integer> rowIndices = table.getSelectionModel().getSelectedIndices();
     for (int rowIndex : rowIndices) {
-      ColumnStrategy strategy = getStrategy(rowIndex);
-      if (!strategy.isInvokable(newText)) {
-        newText = strategy.defaultValue(newText);
-        if (newText == null) {
-          return;
-        }
-      }
-      ICommand command = new TableCellUpdateCommand(rightTableView, rowIndex, 0,
-          newText, strategy);
-      mainController.invoke(command);
+      invoke(table, newText, rowIndex);
     }
     mainController.pushUndoCount(rowIndices.size());
   }
@@ -460,6 +471,14 @@ public class SkillTableViewBorderPaneController {
       e.printStackTrace();
     }
     return null;
+  }
+
+  public void copyValueOfSelectedCells() {
+    if (rightManager.isSelected()) {
+      rightManager.copyValueOfSelectedCells();
+    } else if (leftManager.isSelected()) {
+      leftManager.copyValueOfSelectedCells();
+    }
   }
 
   public String getselectedCellValue() {
