@@ -3,7 +3,11 @@ package application.effects;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -37,8 +41,12 @@ public class EffectsTableViewBorderPaneController {
   @FXML private TableColumn<Effects, String> contentColumn = new TableColumn<>("content");
 
   @FXML private ContextMenu contextMenu;
+  @FXML private MenuItem editMenuItem;
+  @FXML private MenuItem cutMenuItem;
   @FXML private MenuItem copyMenuItem;
   @FXML private MenuItem pasteMenuItem;
+  @FXML private MenuItem deleteMenuItem;
+  @FXML private MenuItem selectAllMenuItem;
 
   @FXML
   private void initialize() {
@@ -52,8 +60,8 @@ public class EffectsTableViewBorderPaneController {
 
   @FXML
   private void effectsTableViewOnKeyPressed(KeyEvent event) {
-    if (event.getCode() == KeyCode.ENTER && !effectsTableView.getSelectionModel().isEmpty()) {
-      openEditStage(getSelectedValues());
+    if (event.getCode() == KeyCode.ENTER) {
+      editMenuItemOnAction();
     }
   }
 
@@ -101,6 +109,52 @@ public class EffectsTableViewBorderPaneController {
   @FXML
   private void contextMenuOnShown() {
     pasteMenuItem.setDisable(copyValues == null);
+  }
+
+  @FXML
+  private void editMenuItemOnAction() {
+    if (!effectsTableView.getSelectionModel().isEmpty()) {
+      openEditStage(getSelectedValues());
+    }
+  }
+
+  @FXML
+  private void cutMenuItemOnAction() {
+    // ==================================================
+    // 未実装
+    // ==================================================
+  }
+
+  @FXML
+  private void deleteMenuItemOnAction() {
+    if (!effectsTableView.getSelectionModel().isEmpty()) {
+      ObservableList<Integer> indicies = effectsTableView.getSelectionModel().getSelectedIndices();
+      int size = indicies.size();
+      String text = mainController.getSelectedEffects();
+      Pattern p = Pattern.compile("[^\\[].*[^\\]]");
+      Matcher m = p.matcher(text);
+      if (m.find()) {
+        text = m.group();
+      }
+
+      String[] array = text.split("(?<=\\}),");
+      List<String> list = new LinkedList<>(Arrays.asList(array));
+      int count = 0;
+      for (int index: indicies) {
+        index -= count;
+        list.remove(index);
+        count++;
+      }
+      String newText = "[" + String.join(",", list) + "]";
+      mainController.updateEffectsCell(newText);
+    }
+  }
+
+  @FXML
+  private void selectAllMenuItemOnAction() {
+    // ==================================================
+    // 未実装
+    // ==================================================
   }
 
   @FXML

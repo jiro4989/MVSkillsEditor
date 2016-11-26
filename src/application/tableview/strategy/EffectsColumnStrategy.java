@@ -1,5 +1,10 @@
 package application.tableview.strategy;
 
+import java.io.IOException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import application.tableview.Skill;
 import application.tableview.SkillTableViewBorderPaneController;
 import javafx.scene.control.TableView;
@@ -28,8 +33,16 @@ public class EffectsColumnStrategy extends ColumnStrategy {
 
   @Override
   public boolean isInvokable(Object value) {
-    // TODO 自動生成されたメソッド・スタブ
-    return false;
+    String text = (String) value;
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      mapper.readTree(text);
+      return true;
+    } catch (JsonProcessingException e) {
+      return false;
+    } catch (IOException e) {
+      return false;
+    }
   }
 
   @Override

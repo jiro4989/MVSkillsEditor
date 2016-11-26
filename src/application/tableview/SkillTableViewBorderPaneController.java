@@ -391,11 +391,37 @@ public class SkillTableViewBorderPaneController {
     }
   }
 
+  /**
+   * テキストをそのままセルに上書きする。
+   * @param newText
+   */
+  public void updateEffectsCell(String newText) {
+    int rowIndex = rightTableView.getSelectionModel().getSelectedIndex();
+    int columnIndex = rightTableView.getColumns().indexOf(effectsColumn);
+    ColumnStrategy strategy = new EffectsColumnStrategy(rightTableView, rowIndex, this);
+
+    ICommand command = new TableCellUpdateCommand(rightTableView, rowIndex, columnIndex,
+        newText, strategy);
+    mainController.invoke(command);
+    mainController.pushUndoCount(1);
+  }
+
+  /**
+   * indexの位置に存在する要素をvaluesで上書きする。
+   * この処理は１レコードを対象とする場合にのみ使用する。
+   * @param selectedIndex
+   * @param values
+   */
   public void updateEffectsCell(int selectedIndex, double[] values) {
     updateEffectsCellNonPushUndo(selectedIndex, values);
     mainController.pushUndoCount(1);
   }
 
+  /**
+   * indexの位置に存在する要素をvaluesで上書きする。
+   * @param selectedIndex
+   * @param values
+   */
   public void updateEffectsCellNonPushUndo(int selectedIndex, double[] values) {
     String effectsText = rightTableView.getSelectionModel().getSelectedItem().effectsProperty()
         .get();

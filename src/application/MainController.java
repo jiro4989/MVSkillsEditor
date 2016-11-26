@@ -441,4 +441,8 @@ public class MainController {
     skillTableViewController.updateEffectsCellNonPushUndo(selectedIndex, values);
   }
 
+  public void updateEffectsCell(String newText) {
+    skillTableViewController.updateEffectsCell(newText);
+  }
+
 }

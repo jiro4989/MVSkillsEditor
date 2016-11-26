@@ -16,8 +16,13 @@
       <contextMenu>
         <ContextMenu onShown="#contextMenuOnShown" fx:id="contextMenu">
           <items>
+            <MenuItem mnemonicParsing="false" onAction="#editMenuItemOnAction" text="編集" fx:id="editMenuItem" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#cutMenuItemOnAction" text="切り取り" fx:id="cutMenuItem" />
             <MenuItem mnemonicParsing="false" onAction="#copyMenuItemOnAction" text="コピー" fx:id="copyMenuItem" />
             <MenuItem mnemonicParsing="false" onAction="#pasteMenuItemOnAction" text="貼り付け" fx:id="pasteMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#deleteMenuItemOnAction" text="削除" fx:id="deleteMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#selectAllMenuItemOnAction" text="全選択" fx:id="selectAllMenuItem" />
           </items>
         </ContextMenu>
       </contextMenu>
