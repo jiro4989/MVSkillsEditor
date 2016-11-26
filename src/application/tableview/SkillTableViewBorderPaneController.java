@@ -288,14 +288,35 @@ public class SkillTableViewBorderPaneController {
   public void insertText(String newText) {
     if (newText != null) {
       if (rightManager.isSelected()) {
-        invoke(rightTableView, newText);
+        invokeSelectedCell(rightTableView, newText);
       } else if (leftManager.isSelected()) {
-        invoke(leftTableView, newText);
+        invokeSelectedCell(leftTableView, newText);
       }
     }
   }
 
-  private void invoke(TableView<Skill> table, String newText, int rowIndex) {
+  /**
+   * 選択中のセルを対象にinvoke
+   * @param table
+   * @param newText
+   */
+  private void invokeSelectedCell(TableView<Skill> table, String newText) {
+    ObservableList<Integer> rowIndices = table.getSelectionModel().getSelectedIndices();
+    for (int rowIndex : rowIndices) {
+      invoke(table, newText, rowIndex);
+    }
+    mainController.pushUndoCount(rowIndices.size());
+  }
+
+  /**
+   * 対象行番号を指定してinvoke。<br>
+   * このメソッド単体ではundoCountを更新しない。<br>
+   * undoCountの更新が必要な場合はpushUndoCountメソッドを呼び出す必要がある。
+   * @param table
+   * @param newText
+   * @param rowIndex
+   */
+  void invoke(TableView<Skill> table, String newText, int rowIndex) {
     ColumnStrategy strategy = getStrategy(rowIndex);
     if (!strategy.isInvokable(newText)) {
       newText = strategy.defaultValue(newText);
@@ -309,16 +330,12 @@ public class SkillTableViewBorderPaneController {
   }
 
   /**
-   * 選択中のセルを対象にinvoke
-   * @param table
-   * @param newText
+   * アンドゥ回数のスタックにプッシュする。
+   * このメソッドはTableViewManagerから呼び出されるために存在する。
+   * @param count undo回数
    */
-  private void invoke(TableView<Skill> table, String newText) {
-    ObservableList<Integer> rowIndices = table.getSelectionModel().getSelectedIndices();
-    for (int rowIndex : rowIndices) {
-      invoke(table, newText, rowIndex);
-    }
-    mainController.pushUndoCount(rowIndices.size());
+  void pushUndoCount(int count) {
+    mainController.pushUndoCount(count);
   }
 
   /**

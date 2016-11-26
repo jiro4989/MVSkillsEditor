@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
-
-import com.sun.xml.internal.fastinfoset.util.StringArray;
+import com.sun.org.apache.bcel.internal.generic.ArithmeticInstruction;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.ContextMenu;
@@ -24,6 +21,7 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
 import jiro.lib.java.util.PropertiesHundler;
+import sun.awt.image.ImageWatched.Link;
 
 public class TableViewManager {
   private PropertiesHundler columnIndexProp;
@@ -32,7 +30,6 @@ public class TableViewManager {
   private TableView<Skill> tableView;
   private SkillTableViewBorderPaneController controller;
 
-  private static final String COLUMN_SEPARATOR = ",";
   private static final String ROW_SEPARATOR = "/";
 
   @SuppressWarnings("unchecked")
@@ -187,6 +184,10 @@ public class TableViewManager {
     columnWidthProp.write();
   }
 
+  /**
+   * 選択中のセルの値をクリップボードにコピーする。
+   * この時、コピーされる値は最初にクリックしたセルと同じカラムのもののみを対象とする。
+   */
   void copyValueOfSelectedCells() {
     ObservableList<Integer> indicies = tableView.getSelectionModel().getSelectedIndices();
     List<String> textList = new ArrayList<>(indicies.size());
@@ -205,30 +206,59 @@ public class TableViewManager {
     clipboard.setContent(content);
   }
 
+  /**
+   * クリップボードにコピーされている値をペーストする。
+   * 書式に即していないテキストの場合はペーストは実行されない。
+   */
   void pasteValue() {
-    // 実装途中
     Clipboard clipboard = Clipboard.getSystemClipboard();
+    LinkedList<String> oldList = makeSeparatedList(clipboard);
+    LinkedList<String> newList = makeRestoredList(oldList);
+
+    int size = newList.size();
+    int start = getSelectedCellRowIndex();
+    int end = start + size - 1;
+    IntStream.rangeClosed(start, end)
+        .forEach(rowIndex -> {
+          String newText = newList.poll();
+          controller.invoke(tableView, newText, rowIndex);
+        });
+    controller.pushUndoCount(size);
+  }
+
+  /**
+   * クリップボードのテキストからセパレータによって区切ったリストを生成する。
+   * @param clipboard
+   * @return
+   */
+  private LinkedList<String> makeSeparatedList(Clipboard clipboard) {
     String text = clipboard.getString();
     String[] texts = text.split(ROW_SEPARATOR);
 
     LinkedList<String> linkedList = new LinkedList<>();
     Arrays.stream(texts).forEach(s -> linkedList.offer(s));
-    linkedList.stream().forEach(System.out::println);
+    return linkedList;
+  }
 
-    List<String> newList = new ArrayList<>();
+  /**
+   * セパレータでバラバラになった文字列を結合し、正常なリストの形で返す。
+   * @param oldList
+   * @return
+   */
+  private LinkedList<String> makeRestoredList(LinkedList<String> oldList) {
+    LinkedList<String> newList = new LinkedList<>();
     StringBuilder sb = new StringBuilder();
-    while (!linkedList.isEmpty()) {
-      String string = linkedList.poll();
+    while (!oldList.isEmpty()) {
+      String string = oldList.poll();
       sb.append(string);
       if (string.matches(".*\\\\$")) {
         sb.append(ROW_SEPARATOR);
         continue;
       }
-      newList.add(sb.toString());
+      newList.offer(sb.toString());
       sb.setLength(0);
     }
-
-    newList.stream().forEach(System.out::println);
+    return newList;
   }
 
   int getSelectedCellColumnIndex() {
