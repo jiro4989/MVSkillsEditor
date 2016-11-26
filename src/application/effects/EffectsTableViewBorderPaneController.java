@@ -24,6 +24,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableSelectionModel;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -59,6 +60,11 @@ public class EffectsTableViewBorderPaneController {
     effectsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 
+  /**
+   * エディタ画面を開く。
+   * コンテキストメニューのショートカットでは起動しなかったので実装。
+   * @param event
+   */
   @FXML
   private void effectsTableViewOnKeyPressed(KeyEvent event) {
     if (event.getCode() == KeyCode.ENTER) {
@@ -141,8 +147,9 @@ public class EffectsTableViewBorderPaneController {
    */
   @FXML
   private void deleteMenuItemOnAction() {
-    if (!effectsTableView.getSelectionModel().isEmpty()) {
-      ObservableList<Integer> indicies = effectsTableView.getSelectionModel().getSelectedIndices();
+    TableViewSelectionModel<Effects> model = effectsTableView.getSelectionModel();
+    if (!model.isEmpty() && model.getSelectedIndex() != effectsTableView.getItems().size() - 1) {
+      ObservableList<Integer> indicies = model.getSelectedIndices();
       String text = mainController.getSelectedEffects();
       Pattern p = Pattern.compile("[^\\[].*[^\\]]");
       Matcher m = p.matcher(text);

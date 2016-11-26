@@ -2,6 +2,7 @@
 
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
@@ -16,13 +17,37 @@
       <contextMenu>
         <ContextMenu onShown="#contextMenuOnShown" fx:id="contextMenu">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#editMenuItemOnAction" text="編集" fx:id="editMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#editMenuItemOnAction" text="編集" fx:id="editMenuItem">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="ENTER" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#cutMenuItemOnAction" text="切り取り" fx:id="cutMenuItem" />
-            <MenuItem mnemonicParsing="false" onAction="#copyMenuItemOnAction" text="コピー" fx:id="copyMenuItem" />
-            <MenuItem mnemonicParsing="false" onAction="#pasteMenuItemOnAction" text="貼り付け" fx:id="pasteMenuItem" />
-            <MenuItem mnemonicParsing="false" onAction="#deleteMenuItemOnAction" text="削除" fx:id="deleteMenuItem" />
-            <MenuItem mnemonicParsing="false" onAction="#selectAllMenuItemOnAction" text="全選択" fx:id="selectAllMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#cutMenuItemOnAction" text="切り取り" fx:id="cutMenuItem">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#copyMenuItemOnAction" text="コピー" fx:id="copyMenuItem">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#pasteMenuItemOnAction" text="貼り付け" fx:id="pasteMenuItem">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="V" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#deleteMenuItemOnAction" text="削除" fx:id="deleteMenuItem">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#selectAllMenuItemOnAction" text="全選択" fx:id="selectAllMenuItem">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
           </items>
         </ContextMenu>
       </contextMenu>
