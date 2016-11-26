@@ -22,6 +22,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableSelectionModel;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -67,8 +68,13 @@ public class EffectsTableViewBorderPaneController {
 
   @FXML
   private void effectsTableViewOnMouseClicked(MouseEvent click) {
-    if (!effectsTableView.getSelectionModel().isEmpty()
-        && click.getClickCount() == 2) {
+    TableSelectionModel<Effects> model = effectsTableView.getSelectionModel();
+    if (model.isEmpty()) {
+      int index = effectsTableView.getItems().size();
+      model.select(index - 1);
+    }
+
+    if (click.getClickCount() == 2) {
       openEditStage(getSelectedValues());
     }
   }
@@ -120,16 +126,23 @@ public class EffectsTableViewBorderPaneController {
 
   @FXML
   private void cutMenuItemOnAction() {
-    // ==================================================
-    // 未実装
-    // ==================================================
+    if (!effectsTableView.getSelectionModel().isEmpty()) {
+      copyMenuItemOnAction();
+      deleteMenuItemOnAction();
+    }
   }
 
+  /**
+   * 選択レコードを削除する。
+   * 挙動としては削除だが、実際は正規表現でマッチしたリストから
+   * インデックスの要素を削除したテキストでセルを上書きしている。
+   * UndoCountPushメソッドを実行していないのは、
+   * 呼び出し先でpush(1)を行っているからである。
+   */
   @FXML
   private void deleteMenuItemOnAction() {
     if (!effectsTableView.getSelectionModel().isEmpty()) {
       ObservableList<Integer> indicies = effectsTableView.getSelectionModel().getSelectedIndices();
-      int size = indicies.size();
       String text = mainController.getSelectedEffects();
       Pattern p = Pattern.compile("[^\\[].*[^\\]]");
       Matcher m = p.matcher(text);
@@ -140,10 +153,12 @@ public class EffectsTableViewBorderPaneController {
       String[] array = text.split("(?<=\\}),");
       List<String> list = new LinkedList<>(Arrays.asList(array));
       int count = 0;
-      for (int index: indicies) {
+      for (int index : indicies) {
         index -= count;
-        list.remove(index);
-        count++;
+        if (!list.isEmpty()) {
+          list.remove(index);
+          count++;
+        }
       }
       String newText = "[" + String.join(",", list) + "]";
       mainController.updateEffectsCell(newText);
