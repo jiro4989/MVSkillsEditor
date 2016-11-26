@@ -206,7 +206,8 @@ public class EditStageController {
     newAddStateList.add(0, null);
     List<String> newReleaseStateList = new ArrayList<>(stateList);
 
-    addStateListViewManager = new ListViewManager(stateListView, stateFilterTextField, newAddStateList, -1);
+    addStateListViewManager = new ListViewManager(stateListView, stateFilterTextField,
+        newAddStateList, -1);
     releaseStateListViewManager = new ListViewManager(stateListView, stateFilterTextField,
         newReleaseStateList);
     learningListViewManager = new ListViewManager(learningListView, learningFilterTextField,
@@ -229,6 +230,17 @@ public class EditStageController {
       toggleGroup.getToggles().get(radioIndex).setSelected(true);
       changeDisable();
       editStrategyManager.setValues(dataId, value1, value2);
+      if (addStateRadioButton.isSelected()) {
+        addStateRadioButtonOnAction();
+        editStrategyManager.setValues(dataId, value1, value2);
+      } else if (releaseStateRadioButton.isSelected()) {
+        releaseStateRadioButtonOnAction();
+        editStrategyManager.setValues(dataId-1, value1, value2);
+      } else if (learningRadioButton.isSelected()) {
+        editStrategyManager.setValues(dataId-1, value1, value2);
+      } else if (commonEventRadioButton.isSelected()) {
+        editStrategyManager.setValues(dataId-1, value1, value2);
+      }
     }
   }
 
