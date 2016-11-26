@@ -40,4 +40,8 @@ public class IconTableCell extends TableCell<Skill, String> {
   public static void setIconImageList(List<Image> anIconImageList) {
     iconImageList = anIconImageList;
   }
+
+  public static int getIconImageMaxIndex() {
+    return iconImageList.size();
+  }
 }

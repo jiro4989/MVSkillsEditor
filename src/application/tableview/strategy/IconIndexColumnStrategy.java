@@ -1,6 +1,7 @@
 package application.tableview.strategy;
 
 import application.tableview.Skill;
+import application.tableview.cell.IconTableCell;
 import javafx.scene.control.TableView;
 
 public class IconIndexColumnStrategy extends ColumnStrategy {
@@ -25,14 +26,17 @@ public class IconIndexColumnStrategy extends ColumnStrategy {
 
   @Override
   public boolean isInvokable(Object value) {
-    // TODO 自動生成されたメソッド・スタブ
+    String strValue = (String) value;
+    if (strValue.matches(NUMBER_REGEX)) {
+      int number = Integer.parseInt(strValue);
+      return (0 <= number && number <= IconTableCell.getIconImageMaxIndex());
+    }
     return false;
   }
 
   @Override
   public String defaultValue(String value) {
-    // TODO 自動生成されたメソッド・スタブ
-    return null;
+    return numberFixer(value, 0, IconTableCell.getIconImageMaxIndex());
   }
 
 }
