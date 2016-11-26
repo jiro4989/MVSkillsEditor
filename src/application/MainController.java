@@ -2,12 +2,11 @@ package application;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
 import java.util.stream.IntStream;
-
-import com.sun.javafx.geom.AreaOp.AddOp;
 
 import application.config.Config;
 import application.config.ConfigStage;
@@ -43,8 +42,8 @@ public class MainController {
   private PropertiesHundler dividerPositionProp;
 
   private UndoRedoManager undoRedoManager = new UndoRedoManager();
-  private Stack<Integer> undoCountStack = new Stack<>();
-  private Stack<Integer> redoCountStack = new Stack<>();
+  private LinkedList<Integer> undoCountStack = new LinkedList<>();
+  private LinkedList<Integer> redoCountStack = new LinkedList<>();
 
   private Config config = new Config();
 

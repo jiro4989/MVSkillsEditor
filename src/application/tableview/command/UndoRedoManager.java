@@ -1,10 +1,10 @@
 package application.tableview.command;
 
-import java.util.Stack;
+import java.util.LinkedList;
 
 public class UndoRedoManager {
-  private Stack<ICommand> undoStack = new Stack<>();
-  private Stack<ICommand> redoStack = new Stack<>();
+  private LinkedList<ICommand> undoStack = new LinkedList<>();
+  private LinkedList<ICommand> redoStack = new LinkedList<>();
 
   public void invoke(ICommand command) {
     command.invoke();
