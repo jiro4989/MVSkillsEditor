@@ -158,7 +158,7 @@ public class EditStageController {
   }
 
   @FXML
-  private void rootOnKeyReleased(KeyEvent event) {
+  private void rootOnKeyPressed(KeyEvent event) {
     if (event.getCode() == KeyCode.ESCAPE) {
       cancelButtonOnClicked();
     }

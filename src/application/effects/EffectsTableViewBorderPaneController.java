@@ -20,6 +20,8 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import util.UtilDouble;
 
@@ -46,6 +48,13 @@ public class EffectsTableViewBorderPaneController {
     effectsTableView.getItems().add(new Effects("", ""));
 
     effectsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+  }
+
+  @FXML
+  private void effectsTableViewOnKeyPressed(KeyEvent event) {
+    if (event.getCode() == KeyCode.ENTER && !effectsTableView.getSelectionModel().isEmpty()) {
+      openEditStage(getSelectedValues());
+    }
   }
 
   @FXML
@@ -103,7 +112,7 @@ public class EffectsTableViewBorderPaneController {
         ObjectMapper mapper = new ObjectMapper();
         try {
           JsonNode root = mapper.readTree(mainController.getSelectedEffects());
-          if (index < effectsTableView.getItems().size()-1) {
+          if (index < effectsTableView.getItems().size() - 1) {
             double[] doubles = getValues(root, index);
             copyValues.add(UtilDouble.convertDoublePrimitiveToWrapper(doubles));
           }
