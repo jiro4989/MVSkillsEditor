@@ -11,6 +11,7 @@ import java.util.stream.IntStream;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.org.apache.bcel.internal.util.SecuritySupport;
 
 import application.MainController;
 import application.tableview.cell.BooleanTableCell;
@@ -192,6 +193,10 @@ public class SkillTableViewBorderPaneController {
     leftIdColumn = idColumn;
     leftNameColumn = nameColumn;
     leftIconIndexColumn = iconIndexColumn;
+
+    rightTableView.getColumns().remove(idColumn);
+    rightTableView.getColumns().remove(nameColumn);
+    rightTableView.getColumns().remove(iconIndexColumn);
   }
 
   @FXML
@@ -239,7 +244,6 @@ public class SkillTableViewBorderPaneController {
     if (!rightTableView.getSelectionModel().isEmpty()) {
       if (event.getClickCount() == 2) {
         int columnIndex = rightManager.getSelectedCellColumnIndex();
-        columnIndex += 3;
         ObservableList<TableColumn<Skill, ?>> columns = rightTableView.getColumns();
 
         if (columnIndex == columns.indexOf(criticalColumn)) {
@@ -340,6 +344,9 @@ public class SkillTableViewBorderPaneController {
    */
   public void outputPropertiesFile() {
     leftManager.outputPropertiesFile();
+    rightTableView.getColumns().add(idColumn);
+    rightTableView.getColumns().add(nameColumn);
+    rightTableView.getColumns().add(iconIndexColumn);
     rightManager.outputPropertiesFile();
   }
 
@@ -426,7 +433,6 @@ public class SkillTableViewBorderPaneController {
     ComboBox<String> insertComboBox = mainController.getInsertComboBox();
     insertComboBox.setDisable(false);
     if (rightManager.isSelected()) {
-      columnIndex += 3;
       if (columnIndex == rightTableView.getColumns().indexOf(stypeIdColumn)) {
         insertComboBox.setItems(stypeItems);
       } else if (columnIndex == rightTableView.getColumns().indexOf(scopeColumn)) {
@@ -523,7 +529,6 @@ public class SkillTableViewBorderPaneController {
   private ColumnStrategy getStrategy(int rowIndex) {
     if (rightManager.isSelected()) {
       int columnIndex = rightManager.getSelectedCellColumnIndex();
-      columnIndex += 3;
       if (columnIndex == rightTableView.getColumns().indexOf(descriptionColumn)) {
         return new DescriptionColumnStrategy(rightTableView, rowIndex);
       } else if (columnIndex == rightTableView.getColumns().indexOf(stypeIdColumn)) {

@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
-
-import com.sun.org.apache.bcel.internal.generic.ArithmeticInstruction;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.ContextMenu;
@@ -21,7 +18,6 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
 import jiro.lib.java.util.PropertiesHundler;
-import sun.awt.image.ImageWatched.Link;
 
 public class TableViewManager {
   private PropertiesHundler columnIndexProp;
@@ -133,6 +129,7 @@ public class TableViewManager {
   }
 
   private void settingTableColumn(TableColumn<Skill, String> tableColumn) {
+    tableColumn.setSortable(false);
     tableColumn.setOnEditCommit(e -> {
       tableView.requestFocus();
       controller.insertText(e.getNewValue());
