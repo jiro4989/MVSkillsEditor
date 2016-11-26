@@ -215,12 +215,17 @@ public class TableViewManager {
       int end = start + size - 1;
 
       AtomicInteger index = new AtomicInteger(0);
+      AtomicInteger overCount = new AtomicInteger(0);
       IntStream.rangeClosed(start, end)
           .forEach(rowIndex -> {
+            if (tableView.getItems().size()-1 < rowIndex) {
+              overCount.getAndIncrement();
+              return;
+            }
             String newText = copyValues.get(index.getAndIncrement());
             controller.invoke(tableView, newText, rowIndex);
           });
-      controller.pushUndoCount(size);
+      controller.pushUndoCount(size - overCount.get());
     }
   }
 
