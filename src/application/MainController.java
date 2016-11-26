@@ -322,6 +322,9 @@ public class MainController {
       insertText();
     } else if (selectedIndex == 1) {
       skillTableViewController.copyValueOfSelectedCells();
+      // ==================================================
+      // 実装途中
+      // ==================================================
 //      StringBuilder sb = new StringBuilder();
 //      String value = skillTableViewController.getselectedCellValue();
 //      sb.append(insertTextField.getText());

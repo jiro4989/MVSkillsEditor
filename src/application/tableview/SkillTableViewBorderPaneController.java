@@ -11,8 +11,6 @@ import java.util.stream.IntStream;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.org.apache.bcel.internal.generic.IADD;
-import com.sun.org.apache.bcel.internal.generic.IfInstruction;
 
 import application.MainController;
 import application.tableview.cell.BooleanTableCell;
@@ -194,7 +192,6 @@ public class SkillTableViewBorderPaneController {
     leftIdColumn = idColumn;
     leftNameColumn = nameColumn;
     leftIconIndexColumn = iconIndexColumn;
-
   }
 
   @FXML
