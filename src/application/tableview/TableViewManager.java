@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
@@ -26,6 +27,9 @@ public class TableViewManager {
 
   private TableView<Skill> tableView;
   private SkillTableViewBorderPaneController controller;
+
+  private final MenuItem copyItem;
+  private final MenuItem pasteItem;
 
   private static final String ROW_SEPARATOR = "/";
 
@@ -58,12 +62,13 @@ public class TableViewManager {
 
     tableView.getColumns().forEach(c -> settingTableColumn((TableColumn<Skill, String>) c));
 
-    MenuItem copyItem = new MenuItem("選択中のセルをコピー");
+    copyItem = new MenuItem("選択中のセルをコピー");
     copyItem.setOnAction(e -> copyValueOfSelectedCells());
-    MenuItem pasteItem = new MenuItem("選択中のセルから貼り付け");
+    pasteItem = new MenuItem("選択中のセルから貼り付け");
     pasteItem.setOnAction(e -> pasteValue());
 
     ContextMenu menu = new ContextMenu(copyItem, pasteItem);
+    menu.setOnShown(e -> contextMenuOnShown());
     tableView.setContextMenu(menu);
   }
 
@@ -184,19 +189,25 @@ public class TableViewManager {
 
   private static List<String> copyValues;
 
+  private void contextMenuOnShown() {
+    pasteItem.setDisable(copyValues == null);
+  }
+
   /**
    * 選択中のセルの値をクリップボードにコピーする。
    * この時、コピーされる値は最初にクリックしたセルと同じカラムのもののみを対象とする。
    */
   void copyValueOfSelectedCells() {
-    ObservableList<Integer> indicies = tableView.getSelectionModel().getSelectedIndices();
-    copyValues = new ArrayList<>(indicies.size());
-    for (int index : indicies) {
-      @SuppressWarnings("unchecked")
-      TablePosition<Skill, String> pos = tableView.getSelectionModel().getSelectedCells().get(0);
-      TableColumn<Skill, String> column = pos.getTableColumn();
-      String text = column.getCellData(index);
-      copyValues.add(text);
+    if (this.isSelected()) {
+      ObservableList<Integer> indicies = tableView.getSelectionModel().getSelectedIndices();
+      copyValues = new ArrayList<>(indicies.size());
+      for (int index : indicies) {
+        @SuppressWarnings("unchecked")
+        TablePosition<Skill, String> pos = tableView.getSelectionModel().getSelectedCells().get(0);
+        TableColumn<Skill, String> column = pos.getTableColumn();
+        String text = column.getCellData(index);
+        copyValues.add(text);
+      }
     }
   }
 
@@ -205,7 +216,7 @@ public class TableViewManager {
    * 書式に即していないテキストの場合はペーストは実行されない。
    */
   void pasteValue() {
-    if (copyValues != null) {
+    if (this.isSelected() && copyValues != null) {
       int size = copyValues.size();
       int start = getSelectedCellRowIndex();
       int end = start + size - 1;
