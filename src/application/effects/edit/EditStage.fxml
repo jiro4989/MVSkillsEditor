@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane minWidth="-1.0" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.effects.edit.EditStageController">
+<BorderPane fx:id="root" minWidth="-1.0" onKeyReleased="#rootOnKeyReleased" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.effects.edit.EditStageController">
   <!-- TODO Add Nodes -->
   <bottom>
     <VBox prefHeight="-1.0" prefWidth="-1.0">

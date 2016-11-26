@@ -14,6 +14,9 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import jiro.lib.javafx.scene.control.CustomedComboBox;
 import jiro.lib.javafx.scene.control.NumericTextField;
@@ -30,6 +33,7 @@ public class EditStageController {
   private ListViewManager learningListViewManager;
   private ListViewManager commonEventListViewManager;
 
+  @FXML private BorderPane root;
   @FXML private TabPane tabPane;
 
   // **************************************************
@@ -151,6 +155,13 @@ public class EditStageController {
     growthRadioButton.setToggleGroup(toggleGroup);
     learningRadioButton.setToggleGroup(toggleGroup);
     commonEventRadioButton.setToggleGroup(toggleGroup);
+  }
+
+  @FXML
+  private void rootOnKeyReleased(KeyEvent event) {
+    if (event.getCode() == KeyCode.ESCAPE) {
+      cancelButtonOnClicked();
+    }
   }
 
   @FXML
