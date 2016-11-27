@@ -11,6 +11,7 @@ import application.tableview.strategy.record.InsertNewRecordStrategy;
 import application.tableview.strategy.record.RecordStrategy;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SeparatorMenuItem;
@@ -69,6 +70,14 @@ public class TableViewManager {
 
     tableView.getColumns().forEach(c -> settingTableColumn((TableColumn<Skill, String>) c));
 
+    MenuItem insertMenuItem = new MenuItem("上書き挿入");
+    insertMenuItem.setOnAction(e -> controller.normalInsert());
+    MenuItem startInsertMenuItem = new MenuItem("先頭に挿入");
+    startInsertMenuItem.setOnAction(e -> controller.topInsert());
+    MenuItem endInsertMenuItem = new MenuItem("末尾に挿入");
+    endInsertMenuItem.setOnAction(e -> controller.endInsert());
+    Menu insertMenu = new Menu("テキスト挿入", null, insertMenuItem, startInsertMenuItem, endInsertMenuItem);
+
     copyItem = new MenuItem("選択中のセルをコピー");
     copyItem.setOnAction(e -> copyValueOfSelectedCells());
     copyItem.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN));
@@ -77,7 +86,7 @@ public class TableViewManager {
     pasteItem.setOnAction(e -> pasteValue());
     pasteItem.setAccelerator(new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN));
 
-    insertNewRecordItem = new MenuItem("新しい行データを挿入");
+    insertNewRecordItem = new MenuItem("新しい行を挿入");
     insertNewRecordItem.setOnAction(e -> insertNewRecord());
     insertNewRecordItem.setAccelerator(
         new KeyCodeCombination(KeyCode.W, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
@@ -92,7 +101,7 @@ public class TableViewManager {
     copyRecordItem.setAccelerator(
         new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
 
-    pasteRecordItem = new MenuItem("行データを貼り付け");
+    pasteRecordItem = new MenuItem("行コピーを貼り付け");
     pasteRecordItem.setOnAction(e -> pasteRecord());
     pasteRecordItem.setAccelerator(
         new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
@@ -103,6 +112,7 @@ public class TableViewManager {
         new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
 
     ContextMenu menu = new ContextMenu(
+        insertMenu,
         copyItem,
         pasteItem,
         new SeparatorMenuItem(),
@@ -283,7 +293,10 @@ public class TableViewManager {
   private static List<Skill> copyRecordValues;
 
   private void cutRecord() {
-
+    if (isSelected()) {
+      copyRecord();
+      deleteRecord();
+    }
   }
 
   private void copyRecord() {

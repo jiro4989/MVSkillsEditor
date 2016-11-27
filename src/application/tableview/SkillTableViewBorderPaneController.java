@@ -526,6 +526,24 @@ public class SkillTableViewBorderPaneController {
     }
   }
 
+  void normalInsert() {
+    if (rightManager.isSelected() || leftManager.isSelected()) {
+      mainController.normalInsert();
+    }
+  }
+
+  void topInsert() {
+    if (rightManager.isSelected() || leftManager.isSelected()) {
+      mainController.topInsert();
+    }
+  }
+
+  void endInsert() {
+    if (rightManager.isSelected() || leftManager.isSelected()) {
+      mainController.endInsert();
+    }
+  }
+
   private void setItems(ComboBox<String> comboBox, ObservableList<String> items) {
     if (!Objects.equals(comboBox.getItems(), items)) {
       comboBox.setItems(items);
@@ -545,6 +563,10 @@ public class SkillTableViewBorderPaneController {
       e.printStackTrace();
     }
     return null;
+  }
+
+  public boolean isSelected() {
+    return (rightManager.isSelected() || leftManager.isSelected());
   }
 
   public String getselectedCellValue() {

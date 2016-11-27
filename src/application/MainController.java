@@ -65,7 +65,7 @@ public class MainController {
   @FXML private MenuItem nextMenuItem;
 
   // **************************************************
-  // ツールバー
+  // ツールバー(上)
   // **************************************************
   @FXML private ToolBar topToolBar;
   @FXML private Button projectButton;
@@ -88,7 +88,7 @@ public class MainController {
   private SkillTableViewBorderPaneController skillTableViewController;
 
   // **************************************************
-  // ツールバー
+  // ツールバー(下)
   // **************************************************
   @FXML private Label xLabel;
   @FXML private Label yLabel;
@@ -96,6 +96,9 @@ public class MainController {
   @FXML private TextField insertTextField;
   @FXML private Button applyButton;
   @FXML private ComboBox<String> applyComboBox;
+
+  @FXML private ComboBox<String> favoriteComboBox;
+  @FXML private Button clearButton;
 
   // **************************************************
   // プレビュー
@@ -126,13 +129,15 @@ public class MainController {
     List<String> items = new ArrayList<String>() {
       private static final long serialVersionUID = 1L;
       {
-        add("挿入");
+        add("上書き挿入");
         add("先頭に挿入");
         add("末尾に挿入");
       }
     };
     applyComboBox.setItems(FXCollections.observableArrayList(items));
     applyComboBox.getSelectionModel().select(0);
+
+    favoriteComboBox.setItems(FXCollections.observableArrayList());
   }
 
   private void settingDividerPosition() {
@@ -294,6 +299,16 @@ public class MainController {
     skillTableViewController.moveNext();
   }
 
+  // **************************************************
+  // ツールバー(下)のイベント
+  // **************************************************
+  @FXML
+  private void insertTextFieldOnKeyReleased(KeyEvent event) {
+    if (event.getCode() == KeyCode.ENTER && event.isControlDown()) {
+      insertSwitch();
+    }
+  }
+
   @FXML
   private void insertComboBoxOnHidden() {
     skillTableViewController.insertText(insertComboBox.getValue());
@@ -316,31 +331,73 @@ public class MainController {
     }
   }
 
+  @FXML
+  private void favoriteComboBoxOnKeyReleased(KeyEvent event) {
+    if (event.getCode() == KeyCode.ENTER && event.isControlDown()) {
+      String text = favoriteComboBox.getValue();
+      if (!text.equals("お気に入り") && !text.equals("")) {
+        favoriteComboBox.getItems().add(text);
+        favoriteComboBox.setValue("");
+      }
+    }
+  }
+
+  @FXML
+  private void favoriteComboBoxOnHidden() {
+    String text = favoriteComboBox.getValue();
+    insertTextField.setText(text);
+    favoriteComboBox.setValue("");
+  }
+
+  @FXML
+  private void clearButtonOnAction() {
+    favoriteComboBox.setItems(FXCollections.observableArrayList());
+  }
+
   private void insertSwitch() {
-    // 意図した挙動ではない
-    int selectedIndex = applyComboBox.getSelectionModel().getSelectedIndex();
-    if (selectedIndex == 0) {
-      insertText();
-    } else if (selectedIndex == 1) {
+    if (skillTableViewController.isSelected()) {
+      int selectedIndex = applyComboBox.getSelectionModel().getSelectedIndex();
+      if (selectedIndex == 0) {
+        normalInsert();
+      } else if (selectedIndex == 1) {
+        topInsert();
+      } else if (selectedIndex == 2) {
+        endInsert();
+      }
+    }
+  }
+
+  public void normalInsert() {
+    insertText();
+  }
+
+  public void topInsert() {
+    String text = insertTextField.getText();
+    if (text != null) {
       List<String> values = skillTableViewController.getselectedCellValues();
       List<Integer> rowIndices = skillTableViewController.getSelectedRowIndices();
       AtomicInteger index = new AtomicInteger(0);
       StringBuilder sb = new StringBuilder();
       rowIndices.stream().forEach(rowIndex -> {
-        sb.append(insertTextField.getText());
+        sb.append(text);
         sb.append(values.get(index.getAndIncrement()));
         skillTableViewController.invoke(sb.toString(), rowIndex);
         sb.setLength(0);
       });
       pushUndoCount(rowIndices.size());
-    } else if (selectedIndex == 2) {
+    }
+  }
+
+  public void endInsert() {
+    String text = insertTextField.getText();
+    if (text != null) {
       List<String> values = skillTableViewController.getselectedCellValues();
       List<Integer> rowIndices = skillTableViewController.getSelectedRowIndices();
       AtomicInteger index = new AtomicInteger(0);
       StringBuilder sb = new StringBuilder();
       rowIndices.stream().forEach(rowIndex -> {
         sb.append(values.get(index.getAndIncrement()));
-        sb.append(insertTextField.getText());
+        sb.append(text);
         skillTableViewController.invoke(sb.toString(), rowIndex);
         sb.setLength(0);
       });
@@ -350,7 +407,10 @@ public class MainController {
 
   @FXML
   private void insertText() {
-    skillTableViewController.insertText(insertTextField.getText());
+    String text = insertTextField.getText();
+    if (text != null) {
+      skillTableViewController.insertText(insertTextField.getText());
+    }
   }
 
   @FXML
@@ -381,8 +441,10 @@ public class MainController {
   private void changeDisableUndoRedoButton() {
     boolean disable = undoCountStack.isEmpty();
     undoButton.setDisable(disable);
+    undoMenuItem.setDisable(disable);
     disable = redoCountStack.isEmpty();
     redoButton.setDisable(disable);
+    redoMenuItem.setDisable(disable);
   }
 
   /**

@@ -26,7 +26,7 @@
                     <Label text="Y:" />
                     <Label fx:id="yLabel" prefWidth="30.0" text="" />
                     <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="0.0" />
-                    <TextField fx:id="insertTextField" prefWidth="200.0" promptText="一括挿入するテキスト" />
+                    <TextField fx:id="insertTextField" onKeyReleased="#insertTextFieldOnKeyReleased" prefWidth="200.0" promptText="一括挿入するテキスト" />
                     <Button fx:id="applyButton" mnemonicParsing="false" onAction="#applyButtonOnAction" text="適用" />
                     <ComboBox fx:id="applyComboBox" onHidden="#applyComboBoxOnHidden" onKeyReleased="#applyComboBoxOnKeyReleased">
                       <items>
@@ -37,8 +37,8 @@
                         </FXCollections>
                       </items>
                     </ComboBox>
-                    <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="-1.0" />
-                    <ComboBox editable="true" promptText="お気に入り" visibleRowCount="20">
+                    <Separator orientation="VERTICAL" prefHeight="0.0" />
+                    <ComboBox fx:id="favoriteComboBox" editable="true" onHidden="#favoriteComboBoxOnHidden" onKeyReleased="#favoriteComboBoxOnKeyReleased" promptText="お気に入り" visibleRowCount="20">
                       <items>
                         <FXCollections fx:factory="observableArrayList">
                           <String fx:value="アイテム1" />
@@ -47,7 +47,7 @@
                         </FXCollections>
                       </items>
                     </ComboBox>
-                    <Button mnemonicParsing="false" text="登録" />
+                    <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearButtonOnAction" text="クリア" />
                   </items>
                 </ToolBar>
               </bottom>
@@ -186,12 +186,12 @@
         </Menu>
         <Menu mnemonicParsing="false" text="編集">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#undo" text="元に戻す" fx:id="undoMenuItem">
+            <MenuItem disable="true" mnemonicParsing="false" onAction="#undo" text="元に戻す" fx:id="undoMenuItem">
               <accelerator>
                 <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
               </accelerator>
             </MenuItem>
-            <MenuItem mnemonicParsing="false" onAction="#redo" text="やり直す" fx:id="redoMenuItem">
+            <MenuItem disable="true" mnemonicParsing="false" onAction="#redo" text="やり直す" fx:id="redoMenuItem">
               <accelerator>
                 <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
               </accelerator>
