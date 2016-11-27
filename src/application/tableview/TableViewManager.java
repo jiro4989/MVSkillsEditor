@@ -18,6 +18,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import jiro.lib.java.util.PropertiesHundler;
 import util.UtilInteger;
@@ -68,19 +71,36 @@ public class TableViewManager {
 
     copyItem = new MenuItem("選択中のセルをコピー");
     copyItem.setOnAction(e -> copyValueOfSelectedCells());
+    copyItem.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN));
+
     pasteItem = new MenuItem("選択中のセルから貼り付け");
     pasteItem.setOnAction(e -> pasteValue());
+    pasteItem.setAccelerator(new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN));
 
     insertNewRecordItem = new MenuItem("新しい行データを挿入");
     insertNewRecordItem.setOnAction(e -> insertNewRecord());
+    insertNewRecordItem.setAccelerator(
+        new KeyCodeCombination(KeyCode.W, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
+
     cutRecordItem = new MenuItem("選択行を切り取り");
     cutRecordItem.setOnAction(e -> cutRecord());
+    cutRecordItem.setAccelerator(
+        new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
+
     copyRecordItem = new MenuItem("選択行をコピー");
     copyRecordItem.setOnAction(e -> copyRecord());
+    copyRecordItem.setAccelerator(
+        new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
+
     pasteRecordItem = new MenuItem("行データを貼り付け");
     pasteRecordItem.setOnAction(e -> pasteRecord());
+    pasteRecordItem.setAccelerator(
+        new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
+
     deleteRecordItem = new MenuItem("選択行を削除");
     deleteRecordItem.setOnAction(e -> deleteRecord());
+    deleteRecordItem.setAccelerator(
+        new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
 
     ContextMenu menu = new ContextMenu(
         copyItem,
@@ -218,7 +238,7 @@ public class TableViewManager {
   }
 
   /**
-   * 選択中のセルの値をクリップボードにコピーする。
+   * 選択中のセルの値をリストにコピーする。
    * この時、コピーされる値は最初にクリックしたセルと同じカラムのもののみを対象とする。
    */
   void copyValueOfSelectedCells() {
@@ -236,7 +256,7 @@ public class TableViewManager {
   }
 
   /**
-   * クリップボードにコピーされている値をペーストする。
+   * リストにコピーされている値をペーストする。
    * 書式に即していないテキストの場合はペーストは実行されない。
    */
   void pasteValue() {
@@ -254,7 +274,7 @@ public class TableViewManager {
               return;
             }
             String newText = copyCellValues.get(index.getAndIncrement());
-            controller.invoke(tableView, newText, rowIndex);
+            controller.invoke(newText, rowIndex);
           });
       controller.pushUndoCount(size - overCount.get());
     }
@@ -320,6 +340,9 @@ public class TableViewManager {
         controller.invokeRecord(row, prevStrategy, newStrategy);
       });
       controller.pushUndoCount(newIndicies.length);
+
+      tableView.getSelectionModel().clearSelection();
+      tableView.getSelectionModel().select(newIndicies[0]);
     }
   }
 
@@ -331,12 +354,30 @@ public class TableViewManager {
     return tableView.getSelectionModel().getSelectedIndex();
   }
 
+  List<Integer> getSelectedCellRowIndicies() {
+    return tableView.getSelectionModel().getSelectedIndices();
+  }
+
   String getSelectedCellValue() {
     @SuppressWarnings("unchecked")
     TablePosition<Skill, String> pos = tableView.getSelectionModel().getSelectedCells().get(0);
     int rowIndex = pos.getRow();
     TableColumn<Skill, String> column = pos.getTableColumn();
     return column.getCellData(rowIndex);
+  }
+
+  List<String> getSelectedCellValues() {
+    @SuppressWarnings("unchecked")
+    TablePosition<Skill, String> pos = tableView.getSelectionModel().getSelectedCells().get(0);
+    ObservableList<Integer> indicies = tableView.getSelectionModel().getSelectedIndices();
+    List<String> cellValues = new ArrayList<>(indicies.size());
+    indicies.stream()
+        .forEach(index -> {
+          TableColumn<Skill, String> column = pos.getTableColumn();
+          String value = column.getCellData(index);
+          cellValues.add(value);
+        });
+    return cellValues;
   }
 
   private double mouseY = 0;

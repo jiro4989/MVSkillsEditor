@@ -304,7 +304,7 @@ public class SkillTableViewBorderPaneController {
   private void invokeSelectedCell(TableView<Skill> table, String newText) {
     ObservableList<Integer> rowIndices = table.getSelectionModel().getSelectedIndices();
     for (int rowIndex : rowIndices) {
-      invoke(table, newText, rowIndex);
+      invoke(newText, rowIndex);
     }
     mainController.pushUndoCount(rowIndices.size());
   }
@@ -317,7 +317,7 @@ public class SkillTableViewBorderPaneController {
    * @param newText
    * @param rowIndex
    */
-  void invoke(TableView<Skill> table, String newText, int rowIndex) {
+  public void invoke(String newText, int rowIndex) {
     ColumnStrategy strategy = getStrategy(rowIndex);
     if (!strategy.isInvokable(newText)) {
       newText = strategy.defaultValue(newText);
@@ -547,14 +547,6 @@ public class SkillTableViewBorderPaneController {
     return null;
   }
 
-  public void copyValueOfSelectedCells() {
-    if (rightManager.isSelected()) {
-      rightManager.copyValueOfSelectedCells();
-    } else if (leftManager.isSelected()) {
-      leftManager.copyValueOfSelectedCells();
-    }
-  }
-
   public String getselectedCellValue() {
     if (rightManager.isSelected()) {
       return rightManager.getSelectedCellValue();
@@ -563,6 +555,26 @@ public class SkillTableViewBorderPaneController {
       return leftManager.getSelectedCellValue();
     }
     return "";
+  }
+
+  public List<String> getselectedCellValues() {
+    if (rightManager.isSelected()) {
+      return rightManager.getSelectedCellValues();
+    }
+    if (leftManager.isSelected()) {
+      return leftManager.getSelectedCellValues();
+    }
+    return null;
+  }
+
+  public List<Integer> getSelectedRowIndices() {
+    if (rightManager.isSelected()) {
+      return rightManager.getSelectedCellRowIndicies();
+    }
+    if (leftManager.isSelected()) {
+      return leftManager.getSelectedCellRowIndicies();
+    }
+    return null;
   }
 
   public String getNormalAttackText() {

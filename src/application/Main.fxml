@@ -25,7 +25,7 @@
                     <Label fx:id="xLabel" prefWidth="30.0" text="" />
                     <Label text="Y:" />
                     <Label fx:id="yLabel" prefWidth="30.0" text="" />
-                    <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="20.0" />
+                    <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="0.0" />
                     <TextField fx:id="insertTextField" prefWidth="200.0" promptText="一括挿入するテキスト" />
                     <Button fx:id="applyButton" mnemonicParsing="false" onAction="#applyButtonOnAction" text="適用" />
                     <ComboBox fx:id="applyComboBox" onHidden="#applyComboBoxOnHidden" onKeyReleased="#applyComboBoxOnKeyReleased">
@@ -37,20 +37,8 @@
                         </FXCollections>
                       </items>
                     </ComboBox>
-                    <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="20.0" />
-                    <TextField id="insertTextField" prefWidth="200.0" promptText="検索するテキスト" />
-                    <Button id="applyButton" mnemonicParsing="false" onAction="#insertText" text="検索">
-                      <contextMenu>
-                        <ContextMenu>
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="挿入" />
-                            <MenuItem mnemonicParsing="false" text="先頭に挿入" />
-                            <MenuItem mnemonicParsing="false" text="末尾に挿入" />
-                          </items>
-                        </ContextMenu>
-                      </contextMenu>
-                    </Button>
-                    <ComboBox>
+                    <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="-1.0" />
+                    <ComboBox editable="true" promptText="お気に入り" visibleRowCount="20">
                       <items>
                         <FXCollections fx:factory="observableArrayList">
                           <String fx:value="アイテム1" />
@@ -59,7 +47,7 @@
                         </FXCollections>
                       </items>
                     </ComboBox>
-                    <Separator orientation="VERTICAL" prefHeight="-1.0" prefWidth="20.0" />
+                    <Button mnemonicParsing="false" text="登録" />
                   </items>
                 </ToolBar>
               </bottom>

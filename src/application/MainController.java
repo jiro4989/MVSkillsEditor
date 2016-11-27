@@ -1,15 +1,12 @@
 package application;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Stack;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import application.config.Config;
 import application.config.ConfigStage;
@@ -127,6 +124,7 @@ public class MainController {
     settingDividerPosition();
 
     List<String> items = new ArrayList<String>() {
+      private static final long serialVersionUID = 1L;
       {
         add("挿入");
         add("先頭に挿入");
@@ -324,33 +322,35 @@ public class MainController {
     if (selectedIndex == 0) {
       insertText();
     } else if (selectedIndex == 1) {
-      skillTableViewController.copyValueOfSelectedCells();
-      // ==================================================
-      // 実装途中
-      // ==================================================
-      // StringBuilder sb = new StringBuilder();
-      // String value =
-      // skillTableViewController.getselectedCellValue();
-      // sb.append(insertTextField.getText());
-      // sb.append(value);
-      // insertText(sb.toString());
+      List<String> values = skillTableViewController.getselectedCellValues();
+      List<Integer> rowIndices = skillTableViewController.getSelectedRowIndices();
+      AtomicInteger index = new AtomicInteger(0);
+      StringBuilder sb = new StringBuilder();
+      rowIndices.stream().forEach(rowIndex -> {
+        sb.append(insertTextField.getText());
+        sb.append(values.get(index.getAndIncrement()));
+        skillTableViewController.invoke(sb.toString(), rowIndex);
+        sb.setLength(0);
+      });
+      pushUndoCount(rowIndices.size());
     } else if (selectedIndex == 2) {
-      // StringBuilder sb = new StringBuilder();
-      // String value =
-      // skillTableViewController.getselectedCellValue();
-      // sb.append(value);
-      // sb.append(insertTextField.getText());
-      // insertText(sb.toString());
+      List<String> values = skillTableViewController.getselectedCellValues();
+      List<Integer> rowIndices = skillTableViewController.getSelectedRowIndices();
+      AtomicInteger index = new AtomicInteger(0);
+      StringBuilder sb = new StringBuilder();
+      rowIndices.stream().forEach(rowIndex -> {
+        sb.append(values.get(index.getAndIncrement()));
+        sb.append(insertTextField.getText());
+        skillTableViewController.invoke(sb.toString(), rowIndex);
+        sb.setLength(0);
+      });
+      pushUndoCount(rowIndices.size());
     }
   }
 
   @FXML
   private void insertText() {
     skillTableViewController.insertText(insertTextField.getText());
-  }
-
-  private void insertText(String text) {
-    skillTableViewController.insertText(text);
   }
 
   @FXML
