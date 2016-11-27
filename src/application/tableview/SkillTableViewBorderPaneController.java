@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,35 +16,37 @@ import application.tableview.cell.BooleanTableCell;
 import application.tableview.cell.IconTableCell;
 import application.tableview.cell.TextAreaTableCell;
 import application.tableview.command.ICommand;
-import application.tableview.command.TableCellUpdateCommand;
 import application.tableview.icon.IconIndexChooser;
-import application.tableview.strategy.AnimationIdColumnStrategy;
-import application.tableview.strategy.ColumnStrategy;
-import application.tableview.strategy.CriticalColumnStrategy;
-import application.tableview.strategy.DamageElementColumnStrategy;
-import application.tableview.strategy.DamageTypeColumnStrategy;
-import application.tableview.strategy.DescriptionColumnStrategy;
-import application.tableview.strategy.EffectsColumnStrategy;
-import application.tableview.strategy.FormulaColumnStrategy;
-import application.tableview.strategy.HitTypeColumnStrategy;
-import application.tableview.strategy.IconIndexColumnStrategy;
-import application.tableview.strategy.IdColumnStrategy;
-import application.tableview.strategy.Message1ColumnStrategy;
-import application.tableview.strategy.Message2ColumnStrategy;
-import application.tableview.strategy.MpCostColumnStrategy;
-import application.tableview.strategy.NameColumnStrategy;
-import application.tableview.strategy.NoteColumnStrategy;
-import application.tableview.strategy.OccasionColumnStrategy;
-import application.tableview.strategy.RepeatsColumnStrategy;
-import application.tableview.strategy.RequiredWtypeId1ColumnStrategy;
-import application.tableview.strategy.RequiredWtypeId2ColumnStrategy;
-import application.tableview.strategy.ScopeColumnStrategy;
-import application.tableview.strategy.SpeedColumnStrategy;
-import application.tableview.strategy.StypeIdColumnStrategy;
-import application.tableview.strategy.SuccessRateColumnStrategy;
-import application.tableview.strategy.TpCostColumnStrategy;
-import application.tableview.strategy.TpGainColumnStrategy;
-import application.tableview.strategy.VarianceColumnStrategy;
+import application.tableview.strategy.cell.AnimationIdColumnStrategy;
+import application.tableview.strategy.cell.ColumnStrategy;
+import application.tableview.strategy.cell.CriticalColumnStrategy;
+import application.tableview.strategy.cell.DamageElementColumnStrategy;
+import application.tableview.strategy.cell.DamageTypeColumnStrategy;
+import application.tableview.strategy.cell.DescriptionColumnStrategy;
+import application.tableview.strategy.cell.EffectsColumnStrategy;
+import application.tableview.strategy.cell.FormulaColumnStrategy;
+import application.tableview.strategy.cell.HitTypeColumnStrategy;
+import application.tableview.strategy.cell.IconIndexColumnStrategy;
+import application.tableview.strategy.cell.IdColumnStrategy;
+import application.tableview.strategy.cell.Message1ColumnStrategy;
+import application.tableview.strategy.cell.Message2ColumnStrategy;
+import application.tableview.strategy.cell.MpCostColumnStrategy;
+import application.tableview.strategy.cell.NameColumnStrategy;
+import application.tableview.strategy.cell.NoteColumnStrategy;
+import application.tableview.strategy.cell.OccasionColumnStrategy;
+import application.tableview.strategy.cell.RepeatsColumnStrategy;
+import application.tableview.strategy.cell.RequiredWtypeId1ColumnStrategy;
+import application.tableview.strategy.cell.RequiredWtypeId2ColumnStrategy;
+import application.tableview.strategy.cell.ScopeColumnStrategy;
+import application.tableview.strategy.cell.SpeedColumnStrategy;
+import application.tableview.strategy.cell.StypeIdColumnStrategy;
+import application.tableview.strategy.cell.SuccessRateColumnStrategy;
+import application.tableview.strategy.cell.TableCellUpdateCommand;
+import application.tableview.strategy.cell.TpCostColumnStrategy;
+import application.tableview.strategy.cell.TpGainColumnStrategy;
+import application.tableview.strategy.cell.VarianceColumnStrategy;
+import application.tableview.strategy.record.RecordStrategy;
+import application.tableview.strategy.record.TableRecordUpdateCommand;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -59,7 +60,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.converter.DefaultStringConverter;
-import util.MyLogger;
 import util.UtilIconImage;
 import util.UtilTableView;
 import util.dictionary.SkillCritical;
@@ -331,6 +331,18 @@ public class SkillTableViewBorderPaneController {
   }
 
   /**
+   * レコードを対象に実行する操作。<br>
+   * このメソッド単体ではundoCountを更新しない。<br>
+   * @param rowIndex
+   * @param prevStrategy
+   * @param newStrategy
+   */
+  void invokeRecord(int rowIndex, RecordStrategy prevStrategy, RecordStrategy newStrategy) {
+    ICommand command = new TableRecordUpdateCommand(rightTableView, rowIndex, prevStrategy, newStrategy);
+    mainController.invoke(command);
+  }
+
+  /**
    * アンドゥ回数のスタックにプッシュする。
    * このメソッドはTableViewManagerから呼び出されるために存在する。
    * @param count undo回数
@@ -372,15 +384,24 @@ public class SkillTableViewBorderPaneController {
     }
   }
 
+  public void updateId() {
+    int size = rightTableView.getItems().size();
+    IntStream.range(0, size)
+    .forEach(index -> {
+      String id = String.format("%04d", index+1);
+      rightTableView.getItems().get(index).idProperty().set(id);
+    });
+  }
+
   /**
    * 選択行の使用効果タブのセルのテキストを読み取り、
    * 使用効果プレビューを更新する。
    */
   public void updateEffectsPane() {
-    if (!rightTableView.getSelectionModel().isEmpty()
-        && rightTableView.getSelectionModel().getSelectedItem() != null) {
-      String effectsText = rightTableView.getSelectionModel().getSelectedItem().effectsProperty()
-          .get();
+    if (rightManager.isSelected() || leftManager.isSelected()) {
+      int rowIndex = rightManager.isSelected() ?
+          rightManager.getSelectedCellRowIndex() : leftManager.getSelectedCellRowIndex();
+      String effectsText = rightTableView.getItems().get(rowIndex).effectsProperty().get();
       int size = rightTableView.getItems().size();
       ArrayList<String> skillsList = new ArrayList<>(size);
       skillsList.add(null);
@@ -494,6 +515,16 @@ public class SkillTableViewBorderPaneController {
     }
   }
 
+  void updateNotePane() {
+    if (rightManager.isSelected() || leftManager.isSelected()) {
+      int selectedIndex = rightManager.isSelected() ?
+          rightManager.getSelectedCellRowIndex() : leftManager.getSelectedCellRowIndex();
+
+      String note = rightTableView.getItems().get(selectedIndex).noteProperty().get();
+      mainController.setNoteText(note);
+    }
+  }
+
   private void setItems(ComboBox<String> comboBox, ObservableList<String> items) {
     if (!Objects.equals(comboBox.getItems(), items)) {
       comboBox.setItems(items);
@@ -502,15 +533,6 @@ public class SkillTableViewBorderPaneController {
 
   void changeDisablePreviews(boolean b) {
     mainController.changeDisablePreviews(b);
-  }
-
-  void updateNotePane() {
-    if (!rightTableView.getSelectionModel().isEmpty()
-        && rightTableView.getSelectionModel().getSelectedItem() != null) {
-      int selectedIndex = rightTableView.getSelectionModel().getSelectedIndex();
-      String note = rightTableView.getItems().get(selectedIndex).noteProperty().get();
-      mainController.setNoteText(note);
-    }
   }
 
   private String convertJsonText(double[] values) {
@@ -686,5 +708,9 @@ public class SkillTableViewBorderPaneController {
   public void setIconFile(File iconFile) {
     this.iconFile = iconFile;
     IconTableCell.setIconImageList(UtilIconImage.makeIconImageList(iconFile));
+  }
+
+  Skill getRecord(int rowIndex) {
+    return UtilTableView.getSkillRecord(rightTableView, rowIndex);
   }
 }

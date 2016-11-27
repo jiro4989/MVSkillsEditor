@@ -1,7 +1,7 @@
-package application.tableview.command;
+package application.tableview.strategy.cell;
 
 import application.tableview.Skill;
-import application.tableview.strategy.ColumnStrategy;
+import application.tableview.command.ICommand;
 import javafx.scene.control.TableView;
 
 /**

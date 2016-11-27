@@ -1,29 +1,29 @@
-package application.tableview.strategy;
+package application.tableview.strategy.cell;
 
 import application.tableview.Skill;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 
-public class StypeIdColumnStrategy extends ColumnStrategy {
+public class RequiredWtypeId2ColumnStrategy extends ColumnStrategy {
   private ObservableList<String> items;
 
-  public StypeIdColumnStrategy(TableView<Skill> tableView, int rowIndex,
-      ObservableList<String> stypeItems) {
+  public RequiredWtypeId2ColumnStrategy(TableView<Skill> tableView, int rowIndex,
+      ObservableList<String> items) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;
-    this.items = stypeItems;
+    this.items = items;
   }
 
   @Override
   public Object getValue() {
-    return tableView.getItems().get(rowIndex).stypeIdProperty().get();
+    return tableView.getItems().get(rowIndex).requiredWtypeId2Property().get();
   }
 
   @Override
   public void setValue(Object value) {
     if (this.isInvokable(value)) {
-      tableView.getItems().get(rowIndex).stypeIdProperty().set((String) value);
+      tableView.getItems().get(rowIndex).requiredWtypeId2Property().set((String) value);
     }
   }
 

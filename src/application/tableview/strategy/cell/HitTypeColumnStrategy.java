@@ -1,11 +1,11 @@
-package application.tableview.strategy;
+package application.tableview.strategy.cell;
 
 import application.tableview.Skill;
 import javafx.scene.control.TableView;
-import util.dictionary.SkillCritical;
+import util.dictionary.SkillHitType;
 
-public class CriticalColumnStrategy extends ColumnStrategy {
-  public CriticalColumnStrategy(TableView<Skill> tableView, int rowIndex) {
+public class HitTypeColumnStrategy extends ColumnStrategy {
+  public HitTypeColumnStrategy(TableView<Skill> tableView, int rowIndex) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;
@@ -13,20 +13,20 @@ public class CriticalColumnStrategy extends ColumnStrategy {
 
   @Override
   public Object getValue() {
-    return tableView.getItems().get(rowIndex).criticalProperty().get();
+    return tableView.getItems().get(rowIndex).hitTypeProperty().get();
   }
 
   @Override
   public void setValue(Object value) {
     if (this.isInvokable(value)) {
-      tableView.getItems().get(rowIndex).criticalProperty().set((String) value);
+      tableView.getItems().get(rowIndex).hitTypeProperty().set((String) value);
     }
   }
 
   @Override
   public boolean isInvokable(Object value) {
     String strValue = (String) value;
-    return SkillCritical.getNameList().parallelStream()
+    return SkillHitType.getNameList().parallelStream()
         .anyMatch(n -> n.equals(strValue));
   }
 

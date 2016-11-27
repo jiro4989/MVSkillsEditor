@@ -1,10 +1,10 @@
-package application.tableview.strategy;
+package application.tableview.strategy.cell;
 
 import application.tableview.Skill;
 import javafx.scene.control.TableView;
 
-public class TpCostColumnStrategy extends ColumnStrategy {
-  public TpCostColumnStrategy(TableView<Skill> tableView, int rowIndex) {
+public class SpeedColumnStrategy extends ColumnStrategy {
+  public SpeedColumnStrategy(TableView<Skill> tableView, int rowIndex) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;
@@ -12,13 +12,13 @@ public class TpCostColumnStrategy extends ColumnStrategy {
 
   @Override
   public Object getValue() {
-    return tableView.getItems().get(rowIndex).tpCostProperty().get();
+    return tableView.getItems().get(rowIndex).speedProperty().get();
   }
 
   @Override
   public void setValue(Object value) {
     if (this.isInvokable(value)) {
-      tableView.getItems().get(rowIndex).tpCostProperty().set((String) value);
+      tableView.getItems().get(rowIndex).speedProperty().set((String) value);
     }
   }
 
@@ -27,13 +27,13 @@ public class TpCostColumnStrategy extends ColumnStrategy {
     String strValue = (String) value;
     if (strValue.matches(NUMBER_REGEX)) {
       int number = Integer.parseInt(strValue);
-      return (0 <= number && number <= 100);
+      return (-2000 <= number && number <= 2000);
     }
     return false;
   }
 
   @Override
   public String defaultValue(String value) {
-    return numberFixer(value, 0, 100);
+    return numberFixer(value, -2000, 2000);
   }
 }

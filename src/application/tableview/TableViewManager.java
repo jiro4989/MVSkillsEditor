@@ -1,20 +1,26 @@
 package application.tableview;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
+import application.tableview.strategy.record.DeleteRecordStrategy;
+import application.tableview.strategy.record.InsertNewRecordStrategy;
+import application.tableview.strategy.record.RecordStrategy;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import jiro.lib.java.util.PropertiesHundler;
+import util.UtilInteger;
 
 public class TableViewManager {
   private PropertiesHundler columnIndexProp;
@@ -25,6 +31,12 @@ public class TableViewManager {
 
   private final MenuItem copyItem;
   private final MenuItem pasteItem;
+  private final MenuItem insertNewRecordItem;
+  private final MenuItem cutRecordItem;
+  private final MenuItem copyRecordItem;
+  private final MenuItem pasteRecorditem;
+  private final MenuItem deleteRecordItem;
+  private final MenuItem selectAllItem;
 
   @SuppressWarnings("unchecked")
   public TableViewManager(
@@ -60,7 +72,18 @@ public class TableViewManager {
     pasteItem = new MenuItem("選択中のセルから貼り付け");
     pasteItem.setOnAction(e -> pasteValue());
 
-    ContextMenu menu = new ContextMenu(copyItem, pasteItem);
+    insertNewRecordItem = new MenuItem("新しい行データを挿入");
+    insertNewRecordItem.setOnAction(e -> insertNewRecord());
+    cutRecordItem = new MenuItem("選択行を切り取り");
+    copyRecordItem = new MenuItem("選択行をコピー");
+    pasteRecorditem = new MenuItem("行データを貼り付け");
+    deleteRecordItem = new MenuItem("選択行を削除");
+    deleteRecordItem.setOnAction(e -> deleteRecord());
+    selectAllItem = new MenuItem("全選択");
+
+    ContextMenu menu = new ContextMenu(copyItem, pasteItem, new SeparatorMenuItem(),
+        cutRecordItem, copyRecordItem, pasteRecorditem, insertNewRecordItem, deleteRecordItem,
+        new SeparatorMenuItem(), selectAllItem);
     menu.setOnShown(e -> contextMenuOnShown());
     tableView.setContextMenu(menu);
   }
@@ -218,7 +241,7 @@ public class TableViewManager {
       AtomicInteger overCount = new AtomicInteger(0);
       IntStream.rangeClosed(start, end)
           .forEach(rowIndex -> {
-            if (tableView.getItems().size()-1 < rowIndex) {
+            if (tableView.getItems().size() - 1 < rowIndex) {
               overCount.getAndIncrement();
               return;
             }
@@ -227,6 +250,31 @@ public class TableViewManager {
           });
       controller.pushUndoCount(size - overCount.get());
     }
+  }
+
+  private void insertNewRecord() {
+    int rowIndex = getSelectedCellRowIndex();
+    RecordStrategy prevStrategy = new DeleteRecordStrategy(tableView, rowIndex, controller);
+    RecordStrategy newStrategy = new InsertNewRecordStrategy(tableView, rowIndex, controller, null);
+    controller.invokeRecord(rowIndex, prevStrategy, newStrategy);
+    controller.pushUndoCount(1);
+    tableView.getSelectionModel().clearSelection();
+    tableView.getSelectionModel().select(rowIndex);
+  }
+
+  private void deleteRecord() {
+    ObservableList<Integer> indicies = tableView.getSelectionModel().getSelectedIndices();
+    int[] newIndicies = UtilInteger.convertDoubleWrapperToPrimitive(indicies);
+
+    AtomicInteger count = new AtomicInteger(0);
+    Arrays.stream(newIndicies).forEach(rowIndex -> {
+      int row = rowIndex - count.getAndIncrement();
+      RecordStrategy prevStrategy = new InsertNewRecordStrategy(tableView, row, controller,
+          controller.getRecord(row));
+      RecordStrategy newStrategy = new DeleteRecordStrategy(tableView, row, controller);
+      controller.invokeRecord(row, prevStrategy, newStrategy);
+    });
+    controller.pushUndoCount(newIndicies.length);
   }
 
   int getSelectedCellColumnIndex() {

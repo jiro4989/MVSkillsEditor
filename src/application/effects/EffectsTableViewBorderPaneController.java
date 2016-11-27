@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -125,14 +124,16 @@ public class EffectsTableViewBorderPaneController {
 
   @FXML
   private void editMenuItemOnAction() {
-    if (!effectsTableView.getSelectionModel().isEmpty()) {
+    if (!effectsTableView.getSelectionModel().isEmpty()
+        && effectsTableView.isFocused()) {
       openEditStage(getSelectedValues());
     }
   }
 
   @FXML
   private void cutMenuItemOnAction() {
-    if (!effectsTableView.getSelectionModel().isEmpty()) {
+    if (!effectsTableView.getSelectionModel().isEmpty()
+        && effectsTableView.isFocused()) {
       copyMenuItemOnAction();
       deleteMenuItemOnAction();
     }
@@ -148,7 +149,8 @@ public class EffectsTableViewBorderPaneController {
   @FXML
   private void deleteMenuItemOnAction() {
     TableViewSelectionModel<Effects> model = effectsTableView.getSelectionModel();
-    if (!model.isEmpty() && model.getSelectedIndex() != effectsTableView.getItems().size() - 1) {
+    if (!model.isEmpty() && effectsTableView.isFocused()
+        && model.getSelectedIndex() != effectsTableView.getItems().size() - 1) {
       ObservableList<Integer> indicies = model.getSelectedIndices();
       String text = mainController.getSelectedEffects();
       List<String> list = UtilJson.getEffectsRecordList(text);
@@ -167,12 +169,16 @@ public class EffectsTableViewBorderPaneController {
 
   @FXML
   private void selectAllMenuItemOnAction() {
-    effectsTableView.getSelectionModel().selectAll();
+    if (!effectsTableView.getSelectionModel().isEmpty()
+        && effectsTableView.isFocused()) {
+      effectsTableView.getSelectionModel().selectAll();
+    }
   }
 
   @FXML
   private void copyMenuItemOnAction() {
-    if (!effectsTableView.getSelectionModel().isEmpty()) {
+    if (!effectsTableView.getSelectionModel().isEmpty()
+        && effectsTableView.isFocused()) {
       ObservableList<Integer> indicies = effectsTableView.getSelectionModel().getSelectedIndices();
 
       copyValues = new ArrayList<>(indicies.size());
@@ -193,7 +199,8 @@ public class EffectsTableViewBorderPaneController {
 
   @FXML
   private void pasteMenuItemOnAction() {
-    if (!effectsTableView.getSelectionModel().isEmpty() && copyValues != null) {
+    if (!effectsTableView.getSelectionModel().isEmpty()
+        && effectsTableView.isFocused() && copyValues != null) {
       currentSelectedIndex = effectsTableView.getSelectionModel().getSelectedIndex();
       int size = copyValues.size();
 
@@ -206,7 +213,7 @@ public class EffectsTableViewBorderPaneController {
             JsonEffects effect = new JsonEffects(copyValues.get(index));
             try {
               String textValue = mapper.writeValueAsString(effect);
-              list.add(currentSelectedIndex+index, textValue);
+              list.add(currentSelectedIndex + index, textValue);
             } catch (JsonProcessingException e) {
               e.printStackTrace();
               return;

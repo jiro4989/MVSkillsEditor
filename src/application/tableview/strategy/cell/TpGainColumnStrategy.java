@@ -1,10 +1,10 @@
-package application.tableview.strategy;
+package application.tableview.strategy.cell;
 
 import application.tableview.Skill;
 import javafx.scene.control.TableView;
 
-public class SuccessRateColumnStrategy extends ColumnStrategy {
-  public SuccessRateColumnStrategy(TableView<Skill> tableView, int rowIndex) {
+public class TpGainColumnStrategy extends ColumnStrategy {
+  public TpGainColumnStrategy(TableView<Skill> tableView, int rowIndex) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;
@@ -12,13 +12,13 @@ public class SuccessRateColumnStrategy extends ColumnStrategy {
 
   @Override
   public Object getValue() {
-    return tableView.getItems().get(rowIndex).successRateProperty().get();
+    return tableView.getItems().get(rowIndex).tpGainProperty().get();
   }
 
   @Override
   public void setValue(Object value) {
     if (this.isInvokable(value)) {
-      tableView.getItems().get(rowIndex).successRateProperty().set((String) value);
+      tableView.getItems().get(rowIndex).tpGainProperty().set((String) value);
     }
   }
 

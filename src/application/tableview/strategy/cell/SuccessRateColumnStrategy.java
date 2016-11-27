@@ -1,10 +1,10 @@
-package application.tableview.strategy;
+package application.tableview.strategy.cell;
 
 import application.tableview.Skill;
 import javafx.scene.control.TableView;
 
-public class VarianceColumnStrategy extends ColumnStrategy {
-  public VarianceColumnStrategy(TableView<Skill> tableView, int rowIndex) {
+public class SuccessRateColumnStrategy extends ColumnStrategy {
+  public SuccessRateColumnStrategy(TableView<Skill> tableView, int rowIndex) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;
@@ -12,13 +12,13 @@ public class VarianceColumnStrategy extends ColumnStrategy {
 
   @Override
   public Object getValue() {
-    return tableView.getItems().get(rowIndex).varianceProperty().get();
+    return tableView.getItems().get(rowIndex).successRateProperty().get();
   }
 
   @Override
   public void setValue(Object value) {
     if (this.isInvokable(value)) {
-      tableView.getItems().get(rowIndex).varianceProperty().set((String) value);
+      tableView.getItems().get(rowIndex).successRateProperty().set((String) value);
     }
   }
 

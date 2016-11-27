@@ -1,32 +1,36 @@
-package application.tableview.strategy;
+package application.tableview.strategy.cell;
 
 import application.tableview.Skill;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
-import util.dictionary.SkillHitType;
 
-public class HitTypeColumnStrategy extends ColumnStrategy {
-  public HitTypeColumnStrategy(TableView<Skill> tableView, int rowIndex) {
+public class StypeIdColumnStrategy extends ColumnStrategy {
+  private ObservableList<String> items;
+
+  public StypeIdColumnStrategy(TableView<Skill> tableView, int rowIndex,
+      ObservableList<String> stypeItems) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;
+    this.items = stypeItems;
   }
 
   @Override
   public Object getValue() {
-    return tableView.getItems().get(rowIndex).hitTypeProperty().get();
+    return tableView.getItems().get(rowIndex).stypeIdProperty().get();
   }
 
   @Override
   public void setValue(Object value) {
     if (this.isInvokable(value)) {
-      tableView.getItems().get(rowIndex).hitTypeProperty().set((String) value);
+      tableView.getItems().get(rowIndex).stypeIdProperty().set((String) value);
     }
   }
 
   @Override
   public boolean isInvokable(Object value) {
     String strValue = (String) value;
-    return SkillHitType.getNameList().parallelStream()
+    return items.parallelStream()
         .anyMatch(n -> n.equals(strValue));
   }
 

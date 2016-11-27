@@ -1,32 +1,36 @@
-package application.tableview.strategy;
+package application.tableview.strategy.cell;
 
 import application.tableview.Skill;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
-import util.dictionary.SkillOccasion;
 
-public class OccasionColumnStrategy extends ColumnStrategy {
-  public OccasionColumnStrategy(TableView<Skill> tableView, int rowIndex) {
+public class DamageElementColumnStrategy extends ColumnStrategy {
+  private ObservableList<String> items;
+
+  public DamageElementColumnStrategy(TableView<Skill> tableView, int rowIndex,
+      ObservableList<String> items) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;
+    this.items = items;
   }
 
   @Override
   public Object getValue() {
-    return tableView.getItems().get(rowIndex).occasionProperty().get();
+    return tableView.getItems().get(rowIndex).damageElementProperty().get();
   }
 
   @Override
   public void setValue(Object value) {
     if (this.isInvokable(value)) {
-      tableView.getItems().get(rowIndex).occasionProperty().set((String) value);
+      tableView.getItems().get(rowIndex).damageElementProperty().set((String) value);
     }
   }
 
   @Override
   public boolean isInvokable(Object value) {
     String strValue = (String) value;
-    return SkillOccasion.getNameList().parallelStream()
+    return items.parallelStream()
         .anyMatch(n -> n.equals(strValue));
   }
 

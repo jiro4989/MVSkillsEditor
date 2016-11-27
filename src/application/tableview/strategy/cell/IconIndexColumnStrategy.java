@@ -1,4 +1,4 @@
-package application.tableview.strategy;
+package application.tableview.strategy.cell;
 
 import application.tableview.Skill;
 import application.tableview.cell.IconTableCell;

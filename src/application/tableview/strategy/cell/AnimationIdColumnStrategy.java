@@ -1,29 +1,28 @@
-package application.tableview.strategy;
+package application.tableview.strategy.cell;
 
 import application.tableview.Skill;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 
-public class DamageElementColumnStrategy extends ColumnStrategy {
+public class AnimationIdColumnStrategy extends ColumnStrategy {
   private ObservableList<String> items;
 
-  public DamageElementColumnStrategy(TableView<Skill> tableView, int rowIndex,
-      ObservableList<String> items) {
+  public AnimationIdColumnStrategy(TableView<Skill> tableView, int rowIndex, ObservableList<String> list) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;
-    this.items = items;
+    this.items = list;
   }
 
   @Override
   public Object getValue() {
-    return tableView.getItems().get(rowIndex).damageElementProperty().get();
+    return tableView.getItems().get(rowIndex).animationIdProperty().get();
   }
 
   @Override
   public void setValue(Object value) {
     if (this.isInvokable(value)) {
-      tableView.getItems().get(rowIndex).damageElementProperty().set((String) value);
+      tableView.getItems().get(rowIndex).animationIdProperty().set((String) value);
     }
   }
 

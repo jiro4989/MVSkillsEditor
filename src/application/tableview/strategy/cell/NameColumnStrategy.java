@@ -1,10 +1,10 @@
-package application.tableview.strategy;
+package application.tableview.strategy.cell;
 
 import application.tableview.Skill;
 import javafx.scene.control.TableView;
 
-public class IdColumnStrategy extends ColumnStrategy {
-  public IdColumnStrategy(TableView<Skill> tableView, int rowIndex) {
+public class NameColumnStrategy extends ColumnStrategy {
+  public NameColumnStrategy(TableView<Skill> tableView, int rowIndex) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;
@@ -12,16 +12,17 @@ public class IdColumnStrategy extends ColumnStrategy {
 
   @Override
   public Object getValue() {
-    return tableView.getItems().get(rowIndex).idProperty().get();
+    return tableView.getItems().get(rowIndex).nameProperty().get();
   }
 
   @Override
   public void setValue(Object value) {
+    tableView.getItems().get(rowIndex).nameProperty().set((String) value);
   }
 
   @Override
   public boolean isInvokable(Object value) {
-    return false;
+    return true;
   }
 
   @Override

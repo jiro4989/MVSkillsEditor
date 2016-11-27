@@ -1,10 +1,10 @@
-package application.tableview.strategy;
+package application.tableview.strategy.cell;
 
 import application.tableview.Skill;
 import javafx.scene.control.TableView;
 
-public class Message2ColumnStrategy extends ColumnStrategy {
-  public Message2ColumnStrategy(TableView<Skill> tableView, int rowIndex) {
+public class DescriptionColumnStrategy extends ColumnStrategy {
+  public DescriptionColumnStrategy(TableView<Skill> tableView, int rowIndex) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;
@@ -12,12 +12,12 @@ public class Message2ColumnStrategy extends ColumnStrategy {
 
   @Override
   public Object getValue() {
-    return tableView.getItems().get(rowIndex).message2Property().get();
+    return tableView.getItems().get(rowIndex).descriptionProperty().get();
   }
 
   @Override
   public void setValue(Object value) {
-    tableView.getItems().get(rowIndex).message2Property().set((String) value);
+    tableView.getItems().get(rowIndex).descriptionProperty().set((String) value);
   }
 
   @Override

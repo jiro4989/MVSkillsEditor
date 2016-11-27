@@ -1,10 +1,10 @@
-package application.tableview.strategy;
+package application.tableview.strategy.cell;
 
 import application.tableview.Skill;
 import javafx.scene.control.TableView;
 
-public class SpeedColumnStrategy extends ColumnStrategy {
-  public SpeedColumnStrategy(TableView<Skill> tableView, int rowIndex) {
+public class VarianceColumnStrategy extends ColumnStrategy {
+  public VarianceColumnStrategy(TableView<Skill> tableView, int rowIndex) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;
@@ -12,13 +12,13 @@ public class SpeedColumnStrategy extends ColumnStrategy {
 
   @Override
   public Object getValue() {
-    return tableView.getItems().get(rowIndex).speedProperty().get();
+    return tableView.getItems().get(rowIndex).varianceProperty().get();
   }
 
   @Override
   public void setValue(Object value) {
     if (this.isInvokable(value)) {
-      tableView.getItems().get(rowIndex).speedProperty().set((String) value);
+      tableView.getItems().get(rowIndex).varianceProperty().set((String) value);
     }
   }
 
@@ -27,13 +27,13 @@ public class SpeedColumnStrategy extends ColumnStrategy {
     String strValue = (String) value;
     if (strValue.matches(NUMBER_REGEX)) {
       int number = Integer.parseInt(strValue);
-      return (-2000 <= number && number <= 2000);
+      return (0 <= number && number <= 100);
     }
     return false;
   }
 
   @Override
   public String defaultValue(String value) {
-    return numberFixer(value, -2000, 2000);
+    return numberFixer(value, 0, 100);
   }
 }
