@@ -51,10 +51,12 @@ import application.tableview.strategy.record.TableRecordUpdateCommand;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -755,10 +757,16 @@ public class SkillTableViewBorderPaneController {
     NumberInputStage inputStage = new NumberInputStage(recordsCount);
     inputStage.showAndWait();
     int newRecordsCount = inputStage.getValue();
-
+    if (0 < newRecordsCount && newRecordsCount <= 2000) {
+      System.out.println(newRecordsCount);
+      return;
+    }
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setHeaderText("数値が不正です。");
+    alert.setContentText("数値は1以上2,000以下の範囲で入力してください。");
+    alert.showAndWait();
     // ==================================================
     // 作成途中
     // ==================================================
-    System.out.println(newRecordsCount);
   }
 }
