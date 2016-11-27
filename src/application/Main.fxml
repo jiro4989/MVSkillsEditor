@@ -196,6 +196,8 @@
                 <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
               </accelerator>
             </MenuItem>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#changeMaxRecords" text="最大数の変更" fx:id="changeMaxRecordsMenuItem" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="表示">

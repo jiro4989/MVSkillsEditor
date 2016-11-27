@@ -113,6 +113,7 @@ public class TableViewManager {
 
     ContextMenu menu = new ContextMenu(
         insertMenu,
+        new SeparatorMenuItem(),
         copyItem,
         pasteItem,
         new SeparatorMenuItem(),

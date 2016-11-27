@@ -17,6 +17,7 @@ import application.tableview.cell.IconTableCell;
 import application.tableview.cell.TextAreaTableCell;
 import application.tableview.command.ICommand;
 import application.tableview.icon.IconIndexChooser;
+import application.tableview.input.NumberInputStage;
 import application.tableview.strategy.cell.AnimationIdColumnStrategy;
 import application.tableview.strategy.cell.ColumnStrategy;
 import application.tableview.strategy.cell.CriticalColumnStrategy;
@@ -747,5 +748,17 @@ public class SkillTableViewBorderPaneController {
 
   Skill getRecord(int rowIndex) {
     return UtilTableView.getSkillRecord(rightTableView, rowIndex);
+  }
+
+  public void changeMaxRecords() {
+    int recordsCount = rightTableView.getItems().size();
+    NumberInputStage inputStage = new NumberInputStage(recordsCount);
+    inputStage.showAndWait();
+    int newRecordsCount = inputStage.getValue();
+
+    // ==================================================
+    // 作成途中
+    // ==================================================
+    System.out.println(newRecordsCount);
   }
 }

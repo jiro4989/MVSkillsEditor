@@ -60,6 +60,7 @@ public class MainController {
 
   @FXML private MenuItem undoMenuItem;
   @FXML private MenuItem redoMenuItem;
+  @FXML private MenuItem changeMaxRecordsMenuItem;
 
   @FXML private MenuItem previousMenuItem;
   @FXML private MenuItem nextMenuItem;
@@ -287,6 +288,11 @@ public class MainController {
       undoCountStack.push(invokeCount);
       changeDisableUndoRedoButton();
     }
+  }
+
+  @FXML
+  private void changeMaxRecords() {
+    skillTableViewController.changeMaxRecords();
   }
 
   @FXML
