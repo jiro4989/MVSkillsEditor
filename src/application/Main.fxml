@@ -208,11 +208,6 @@
                 <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
               </accelerator>
             </MenuItem>
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="切り取り" />
-            <MenuItem mnemonicParsing="false" text="コピー" />
-            <MenuItem mnemonicParsing="false" text="貼り付け" />
-            <MenuItem mnemonicParsing="false" text="削除" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="表示">
