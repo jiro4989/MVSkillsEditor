@@ -3,13 +3,11 @@ package application.effects;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,6 +28,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import util.UtilDouble;
+import util.json.JsonEffects;
+import util.json.UtilJson;
 
 public class EffectsTableViewBorderPaneController {
   private MainController mainController;
@@ -151,14 +151,7 @@ public class EffectsTableViewBorderPaneController {
     if (!model.isEmpty() && model.getSelectedIndex() != effectsTableView.getItems().size() - 1) {
       ObservableList<Integer> indicies = model.getSelectedIndices();
       String text = mainController.getSelectedEffects();
-      Pattern p = Pattern.compile("[^\\[].*[^\\]]");
-      Matcher m = p.matcher(text);
-      if (m.find()) {
-        text = m.group();
-      }
-
-      String[] array = text.split("(?<=\\}),");
-      List<String> list = new LinkedList<>(Arrays.asList(array));
+      List<String> list = UtilJson.getEffectsRecordList(text);
       int count = 0;
       for (int index : indicies) {
         index -= count;
@@ -181,6 +174,7 @@ public class EffectsTableViewBorderPaneController {
   private void copyMenuItemOnAction() {
     if (!effectsTableView.getSelectionModel().isEmpty()) {
       ObservableList<Integer> indicies = effectsTableView.getSelectionModel().getSelectedIndices();
+
       copyValues = new ArrayList<>(indicies.size());
       for (int index : indicies) {
         ObjectMapper mapper = new ObjectMapper();
@@ -200,16 +194,26 @@ public class EffectsTableViewBorderPaneController {
   @FXML
   private void pasteMenuItemOnAction() {
     if (!effectsTableView.getSelectionModel().isEmpty() && copyValues != null) {
-      int size = copyValues.size();
       currentSelectedIndex = effectsTableView.getSelectionModel().getSelectedIndex();
+      int size = copyValues.size();
 
-      IntStream.range(0, size).forEach(i -> {
-        Double[] values = copyValues.get(i);
-        mainController.updateEffectsCellNonPushUndo(currentSelectedIndex,
-            UtilDouble.convertDoubleWrapperToPrimitive(values));
-        currentSelectedIndex++;
-      });
-      mainController.pushUndoCount(size);
+      String text = mainController.getSelectedEffects();
+      List<String> list = UtilJson.getEffectsRecordList(text);
+      ObjectMapper mapper = new ObjectMapper();
+
+      IntStream.range(0, size)
+          .forEach(index -> {
+            JsonEffects effect = new JsonEffects(copyValues.get(index));
+            try {
+              String textValue = mapper.writeValueAsString(effect);
+              list.add(currentSelectedIndex+index, textValue);
+            } catch (JsonProcessingException e) {
+              e.printStackTrace();
+              return;
+            }
+          });
+      String newText = "[" + String.join(",", list) + "]";
+      mainController.updateEffectsCell(newText);
     }
   }
 

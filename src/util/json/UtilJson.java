@@ -1,9 +1,13 @@
-package util;
+package util.json;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -120,5 +124,23 @@ public class UtilJson {
         message2, req1, req2, type, elementId, formula, variance, critical, effects,
         note);
 
+  }
+
+  private static final Pattern p = Pattern.compile("[^\\[].*[^\\]]");
+
+  /**
+   * 使用効果のレコードの文字列リストを返す。
+   * @param text
+   * @return
+   */
+  public static List<String> getEffectsRecordList(String text) {
+    Matcher m = p.matcher(text);
+    if (m.find()) {
+      text = m.group();
+    }
+
+    String[] array = text.split("(?<=\\}),");
+    List<String> list = new LinkedList<>(Arrays.asList(array));
+    return list;
   }
 }

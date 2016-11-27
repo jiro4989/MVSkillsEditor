@@ -61,7 +61,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.converter.DefaultStringConverter;
 import util.MyLogger;
 import util.UtilIconImage;
-import util.UtilJson;
 import util.UtilTableView;
 import util.dictionary.SkillCritical;
 import util.dictionary.SkillDamageType;
@@ -69,6 +68,8 @@ import util.dictionary.SkillHitType;
 import util.dictionary.SkillMessage;
 import util.dictionary.SkillOccasion;
 import util.dictionary.SkillScope;
+import util.json.JsonEffects;
+import util.json.UtilJson;
 
 public class SkillTableViewBorderPaneController {
   private TableViewManager leftManager;
@@ -514,7 +515,7 @@ public class SkillTableViewBorderPaneController {
 
   private String convertJsonText(double[] values) {
     ObjectMapper mapper = new ObjectMapper();
-    Effect effect = new Effect(values);
+    JsonEffects effect = new JsonEffects(values);
     try {
       return mapper.writeValueAsString(effect);
     } catch (JsonProcessingException e) {
@@ -685,20 +686,5 @@ public class SkillTableViewBorderPaneController {
   public void setIconFile(File iconFile) {
     this.iconFile = iconFile;
     IconTableCell.setIconImageList(UtilIconImage.makeIconImageList(iconFile));
-  }
-
-  class Effect {
-    public int code;
-    public int dataId;
-    public double value1;
-    public double value2;
-
-    public Effect(double[] values) {
-      this.code = (int) values[0];
-      this.dataId = (int) values[1];
-      this.value1 = values[2];
-      this.value2 = values[3];
-    }
-
   }
 }
