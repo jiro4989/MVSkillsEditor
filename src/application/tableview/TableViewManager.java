@@ -76,7 +76,8 @@ public class TableViewManager {
     startInsertMenuItem.setOnAction(e -> controller.topInsert());
     MenuItem endInsertMenuItem = new MenuItem("末尾に挿入");
     endInsertMenuItem.setOnAction(e -> controller.endInsert());
-    Menu insertMenu = new Menu("テキスト挿入", null, insertMenuItem, startInsertMenuItem, endInsertMenuItem);
+    Menu insertMenu = new Menu("テキスト挿入", null, insertMenuItem, startInsertMenuItem,
+        endInsertMenuItem);
 
     copyItem = new MenuItem("選択中のセルをコピー");
     copyItem.setOnAction(e -> copyValueOfSelectedCells());
@@ -330,14 +331,18 @@ public class TableViewManager {
   private void insertNewRecord() {
     if (isSelected()) {
       int rowIndex = getSelectedCellRowIndex() + 1;
-      RecordStrategy prevStrategy = new DeleteRecordStrategy(tableView, rowIndex, controller);
-      RecordStrategy newStrategy = new InsertNewRecordStrategy(tableView, rowIndex, controller,
-          null);
-      controller.invokeRecord(rowIndex, prevStrategy, newStrategy);
+      insertNewRecord(rowIndex);
       controller.pushUndoCount(1);
       tableView.getSelectionModel().clearSelection();
       tableView.getSelectionModel().select(rowIndex);
     }
+  }
+
+  void insertNewRecord(int rowIndex) {
+      RecordStrategy prevStrategy = new DeleteRecordStrategy(tableView, rowIndex, controller);
+      RecordStrategy newStrategy = new InsertNewRecordStrategy(tableView, rowIndex, controller,
+          null);
+      controller.invokeRecord(rowIndex, prevStrategy, newStrategy);
   }
 
   private void deleteRecord() {
@@ -348,16 +353,24 @@ public class TableViewManager {
       AtomicInteger count = new AtomicInteger(0);
       Arrays.stream(newIndicies).forEach(rowIndex -> {
         int row = rowIndex - count.getAndIncrement();
-        RecordStrategy prevStrategy = new InsertNewRecordStrategy(tableView, row, controller,
-            controller.getRecord(row));
-        RecordStrategy newStrategy = new DeleteRecordStrategy(tableView, row, controller);
-        controller.invokeRecord(row, prevStrategy, newStrategy);
+        deleteRecord(row);
       });
       controller.pushUndoCount(newIndicies.length);
 
       tableView.getSelectionModel().clearSelection();
       tableView.getSelectionModel().select(newIndicies[0]);
     }
+  }
+
+  /**
+   * インデックスの位置のレコードを削除する。
+   * @param rowIndex
+   */
+  void deleteRecord(int rowIndex) {
+    RecordStrategy prevStrategy = new InsertNewRecordStrategy(tableView, rowIndex, controller,
+        controller.getRecord(rowIndex));
+    RecordStrategy newStrategy = new DeleteRecordStrategy(tableView, rowIndex, controller);
+    controller.invokeRecord(rowIndex, prevStrategy, newStrategy);
   }
 
   int getSelectedCellColumnIndex() {

@@ -388,6 +388,35 @@ public class SkillTableViewBorderPaneController {
     }
   }
 
+  public void changeMaxRecords() {
+    int recordsCount = rightTableView.getItems().size();
+    NumberInputStage inputStage = new NumberInputStage(recordsCount);
+    inputStage.showAndWait();
+    int newRecordsCount = inputStage.getValue();
+    if (0 < newRecordsCount && newRecordsCount <= 2000) {
+      if (newRecordsCount < recordsCount) {
+        int diff = recordsCount - newRecordsCount;
+        IntStream.range(0, diff)
+            .forEach(i -> {
+              rightManager.deleteRecord(newRecordsCount);
+            });
+        pushUndoCount(diff);
+        return;
+      }
+      int diff = newRecordsCount - recordsCount;
+      IntStream.range(0, diff)
+          .forEach(i -> {
+            rightManager.insertNewRecord(recordsCount);
+          });
+      pushUndoCount(diff);
+      return;
+    }
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setHeaderText("数値が不正です。");
+    alert.setContentText("数値は1以上2,000以下の範囲で入力してください。");
+    alert.showAndWait();
+  }
+
   public void updateId() {
     int size = rightTableView.getItems().size();
     IntStream.range(0, size)
@@ -547,14 +576,14 @@ public class SkillTableViewBorderPaneController {
     }
   }
 
+  void changeDisablePreviews(boolean b) {
+    mainController.changeDisablePreviews(b);
+  }
+
   private void setItems(ComboBox<String> comboBox, ObservableList<String> items) {
     if (!Objects.equals(comboBox.getItems(), items)) {
       comboBox.setItems(items);
     }
-  }
-
-  void changeDisablePreviews(boolean b) {
-    mainController.changeDisablePreviews(b);
   }
 
   private String convertJsonText(double[] values) {
@@ -750,23 +779,5 @@ public class SkillTableViewBorderPaneController {
 
   Skill getRecord(int rowIndex) {
     return UtilTableView.getSkillRecord(rightTableView, rowIndex);
-  }
-
-  public void changeMaxRecords() {
-    int recordsCount = rightTableView.getItems().size();
-    NumberInputStage inputStage = new NumberInputStage(recordsCount);
-    inputStage.showAndWait();
-    int newRecordsCount = inputStage.getValue();
-    if (0 < newRecordsCount && newRecordsCount <= 2000) {
-      System.out.println(newRecordsCount);
-      return;
-    }
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.setHeaderText("数値が不正です。");
-    alert.setContentText("数値は1以上2,000以下の範囲で入力してください。");
-    alert.showAndWait();
-    // ==================================================
-    // 作成途中
-    // ==================================================
   }
 }
