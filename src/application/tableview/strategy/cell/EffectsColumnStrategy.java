@@ -3,7 +3,9 @@ package application.tableview.strategy.cell;
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
 
 import application.tableview.Skill;
 import application.tableview.SkillTableViewBorderPaneController;
@@ -36,7 +38,24 @@ public class EffectsColumnStrategy extends ColumnStrategy {
     String text = (String) value;
     ObjectMapper mapper = new ObjectMapper();
     try {
-      mapper.readTree(text);
+      JsonNode root = mapper.readTree(text);
+      int size = root.size();
+      if (size == 0) {
+        return true;
+      }
+      for (int i = 0; i < size; i++) {
+        JsonNode children = root.get(i);
+        JsonNode code = children.get("code");
+        JsonNode dataId = children.get("dataId");
+        JsonNode value1 = children.get("value1");
+        JsonNode value2 = children.get("value2");
+        if (code == null
+            || dataId == null
+            || value1 == null
+            || value2 == null) {
+          return false;
+        }
+      }
       return true;
     } catch (JsonProcessingException e) {
       return false;
