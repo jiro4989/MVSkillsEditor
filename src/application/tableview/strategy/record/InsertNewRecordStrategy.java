@@ -21,6 +21,7 @@ public class InsertNewRecordStrategy extends RecordStrategy {
     tableView.getItems().add(rowIndex, prevRecord);
     tableView.getItems().get(rowIndex).idProperty().set(String.format("%04d", rowIndex + 1));
     controller.updateId();
+    controller.updateSelection();
   }
 
   @Override

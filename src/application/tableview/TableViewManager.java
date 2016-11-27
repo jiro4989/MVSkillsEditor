@@ -34,9 +34,8 @@ public class TableViewManager {
   private final MenuItem insertNewRecordItem;
   private final MenuItem cutRecordItem;
   private final MenuItem copyRecordItem;
-  private final MenuItem pasteRecorditem;
+  private final MenuItem pasteRecordItem;
   private final MenuItem deleteRecordItem;
-  private final MenuItem selectAllItem;
 
   @SuppressWarnings("unchecked")
   public TableViewManager(
@@ -75,15 +74,23 @@ public class TableViewManager {
     insertNewRecordItem = new MenuItem("新しい行データを挿入");
     insertNewRecordItem.setOnAction(e -> insertNewRecord());
     cutRecordItem = new MenuItem("選択行を切り取り");
+    cutRecordItem.setOnAction(e -> cutRecord());
     copyRecordItem = new MenuItem("選択行をコピー");
-    pasteRecorditem = new MenuItem("行データを貼り付け");
+    copyRecordItem.setOnAction(e -> copyRecord());
+    pasteRecordItem = new MenuItem("行データを貼り付け");
+    pasteRecordItem.setOnAction(e -> pasteRecord());
     deleteRecordItem = new MenuItem("選択行を削除");
     deleteRecordItem.setOnAction(e -> deleteRecord());
-    selectAllItem = new MenuItem("全選択");
 
-    ContextMenu menu = new ContextMenu(copyItem, pasteItem, new SeparatorMenuItem(),
-        cutRecordItem, copyRecordItem, pasteRecorditem, insertNewRecordItem, deleteRecordItem,
-        new SeparatorMenuItem(), selectAllItem);
+    ContextMenu menu = new ContextMenu(
+        copyItem,
+        pasteItem,
+        new SeparatorMenuItem(),
+        insertNewRecordItem,
+        cutRecordItem,
+        copyRecordItem,
+        pasteRecordItem,
+        deleteRecordItem);
     menu.setOnShown(e -> contextMenuOnShown());
     tableView.setContextMenu(menu);
   }
@@ -162,7 +169,7 @@ public class TableViewManager {
    * 前のセルに選択を移す.
    */
   void movePrevious() {
-    if (this.isSelected()) {
+    if (isSelected()) {
       tableView.getSelectionModel().selectAboveCell();
     }
   }
@@ -171,7 +178,7 @@ public class TableViewManager {
    * 次のセルに選択を移す.
    */
   void moveNext() {
-    if (this.isSelected()) {
+    if (isSelected()) {
       tableView.getSelectionModel().selectBelowCell();
     }
   }
@@ -203,10 +210,11 @@ public class TableViewManager {
     columnWidthProp.write();
   }
 
-  private static List<String> copyValues;
+  private static List<String> copyCellValues;
 
   private void contextMenuOnShown() {
-    pasteItem.setDisable(copyValues == null);
+    pasteItem.setDisable(copyCellValues == null);
+    pasteRecordItem.setDisable(copyRecordValues == null);
   }
 
   /**
@@ -214,15 +222,15 @@ public class TableViewManager {
    * この時、コピーされる値は最初にクリックしたセルと同じカラムのもののみを対象とする。
    */
   void copyValueOfSelectedCells() {
-    if (this.isSelected()) {
+    if (isSelected()) {
       ObservableList<Integer> indicies = tableView.getSelectionModel().getSelectedIndices();
-      copyValues = new ArrayList<>(indicies.size());
+      copyCellValues = new ArrayList<>(indicies.size());
       for (int index : indicies) {
         @SuppressWarnings("unchecked")
         TablePosition<Skill, String> pos = tableView.getSelectionModel().getSelectedCells().get(0);
         TableColumn<Skill, String> column = pos.getTableColumn();
         String text = column.getCellData(index);
-        copyValues.add(text);
+        copyCellValues.add(text);
       }
     }
   }
@@ -232,8 +240,8 @@ public class TableViewManager {
    * 書式に即していないテキストの場合はペーストは実行されない。
    */
   void pasteValue() {
-    if (this.isSelected() && copyValues != null) {
-      int size = copyValues.size();
+    if (isSelected() && copyCellValues != null) {
+      int size = copyCellValues.size();
       int start = getSelectedCellRowIndex();
       int end = start + size - 1;
 
@@ -245,36 +253,74 @@ public class TableViewManager {
               overCount.getAndIncrement();
               return;
             }
-            String newText = copyValues.get(index.getAndIncrement());
+            String newText = copyCellValues.get(index.getAndIncrement());
             controller.invoke(tableView, newText, rowIndex);
           });
       controller.pushUndoCount(size - overCount.get());
     }
   }
 
+  private static List<Skill> copyRecordValues;
+
+  private void cutRecord() {
+
+  }
+
+  private void copyRecord() {
+    if (isSelected()) {
+      ObservableList<Integer> indicies = tableView.getSelectionModel().getSelectedIndices();
+      copyRecordValues = new ArrayList<>(indicies.size());
+      indicies.stream().forEach(index -> {
+        copyRecordValues.add(controller.getRecord(index));
+      });
+    }
+  }
+
+  private void pasteRecord() {
+    if (isSelected() && copyRecordValues != null) {
+      int size = copyRecordValues.size();
+      int selectedIndex = getSelectedCellRowIndex();
+
+      IntStream.range(0, size)
+          .forEach(index -> {
+            int rowIndex = selectedIndex + index + 1;
+            RecordStrategy prevStrategy = new DeleteRecordStrategy(tableView, rowIndex, controller);
+            RecordStrategy newStrategy = new InsertNewRecordStrategy(tableView, rowIndex,
+                controller, copyRecordValues.get(index));
+            controller.invokeRecord(rowIndex, prevStrategy, newStrategy);
+          });
+      controller.pushUndoCount(size);
+    }
+  }
+
   private void insertNewRecord() {
-    int rowIndex = getSelectedCellRowIndex();
-    RecordStrategy prevStrategy = new DeleteRecordStrategy(tableView, rowIndex, controller);
-    RecordStrategy newStrategy = new InsertNewRecordStrategy(tableView, rowIndex, controller, null);
-    controller.invokeRecord(rowIndex, prevStrategy, newStrategy);
-    controller.pushUndoCount(1);
-    tableView.getSelectionModel().clearSelection();
-    tableView.getSelectionModel().select(rowIndex);
+    if (isSelected()) {
+      int rowIndex = getSelectedCellRowIndex() + 1;
+      RecordStrategy prevStrategy = new DeleteRecordStrategy(tableView, rowIndex, controller);
+      RecordStrategy newStrategy = new InsertNewRecordStrategy(tableView, rowIndex, controller,
+          null);
+      controller.invokeRecord(rowIndex, prevStrategy, newStrategy);
+      controller.pushUndoCount(1);
+      tableView.getSelectionModel().clearSelection();
+      tableView.getSelectionModel().select(rowIndex);
+    }
   }
 
   private void deleteRecord() {
-    ObservableList<Integer> indicies = tableView.getSelectionModel().getSelectedIndices();
-    int[] newIndicies = UtilInteger.convertDoubleWrapperToPrimitive(indicies);
+    if (isSelected()) {
+      ObservableList<Integer> indicies = tableView.getSelectionModel().getSelectedIndices();
+      int[] newIndicies = UtilInteger.convertDoubleWrapperToPrimitive(indicies);
 
-    AtomicInteger count = new AtomicInteger(0);
-    Arrays.stream(newIndicies).forEach(rowIndex -> {
-      int row = rowIndex - count.getAndIncrement();
-      RecordStrategy prevStrategy = new InsertNewRecordStrategy(tableView, row, controller,
-          controller.getRecord(row));
-      RecordStrategy newStrategy = new DeleteRecordStrategy(tableView, row, controller);
-      controller.invokeRecord(row, prevStrategy, newStrategy);
-    });
-    controller.pushUndoCount(newIndicies.length);
+      AtomicInteger count = new AtomicInteger(0);
+      Arrays.stream(newIndicies).forEach(rowIndex -> {
+        int row = rowIndex - count.getAndIncrement();
+        RecordStrategy prevStrategy = new InsertNewRecordStrategy(tableView, row, controller,
+            controller.getRecord(row));
+        RecordStrategy newStrategy = new DeleteRecordStrategy(tableView, row, controller);
+        controller.invokeRecord(row, prevStrategy, newStrategy);
+      });
+      controller.pushUndoCount(newIndicies.length);
+    }
   }
 
   int getSelectedCellColumnIndex() {
@@ -301,7 +347,7 @@ public class TableViewManager {
   private Tooltip toolTip = new Tooltip();
 
   void onMousePressed(MouseEvent event) {
-    if (this.isSelected()) {
+    if (isSelected()) {
       mouseY = event.getScreenY();
       cellValue = getSelectedCellValue();
       firstCellValue = getSelectedCellValue();
@@ -310,7 +356,7 @@ public class TableViewManager {
   }
 
   void onMouseReleased(MouseEvent event) {
-    if (this.isSelected()) {
+    if (isSelected()) {
       diff = 0;
       cellValue = getSelectedCellValue();
       if (!firstCellValue.equals(toolTip.getText())) {
@@ -325,7 +371,7 @@ public class TableViewManager {
   }
 
   void onMouseDragged(MouseEvent event) {
-    if (this.isSelected()) {
+    if (isSelected()) {
       if (cellValue.matches(NUMBER_REGEX)) {
         diff = mouseY - event.getScreenY();
         if (diff % 10 == 0) {

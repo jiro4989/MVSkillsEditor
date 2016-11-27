@@ -270,7 +270,7 @@ public class SkillTableViewBorderPaneController {
     rightManager.onMouseDragged(event);
   }
 
-  void updateSelection() {
+  public void updateSelection() {
     leftTableView.getSelectionModel().clearSelection();
     leftTableView.getSelectionModel().select(rightTableView.getSelectionModel().getSelectedIndex());
     if (rightManager.isSelected()) {
@@ -338,7 +338,8 @@ public class SkillTableViewBorderPaneController {
    * @param newStrategy
    */
   void invokeRecord(int rowIndex, RecordStrategy prevStrategy, RecordStrategy newStrategy) {
-    ICommand command = new TableRecordUpdateCommand(rightTableView, rowIndex, prevStrategy, newStrategy);
+    ICommand command = new TableRecordUpdateCommand(rightTableView, rowIndex, prevStrategy,
+        newStrategy);
     mainController.invoke(command);
   }
 
@@ -387,10 +388,10 @@ public class SkillTableViewBorderPaneController {
   public void updateId() {
     int size = rightTableView.getItems().size();
     IntStream.range(0, size)
-    .forEach(index -> {
-      String id = String.format("%04d", index+1);
-      rightTableView.getItems().get(index).idProperty().set(id);
-    });
+        .forEach(index -> {
+          String id = String.format("%04d", index + 1);
+          rightTableView.getItems().get(index).idProperty().set(id);
+        });
   }
 
   /**
@@ -399,8 +400,8 @@ public class SkillTableViewBorderPaneController {
    */
   public void updateEffectsPane() {
     if (rightManager.isSelected() || leftManager.isSelected()) {
-      int rowIndex = rightManager.isSelected() ?
-          rightManager.getSelectedCellRowIndex() : leftManager.getSelectedCellRowIndex();
+      int rowIndex = rightManager.isSelected() ? rightManager.getSelectedCellRowIndex()
+          : leftManager.getSelectedCellRowIndex();
       String effectsText = rightTableView.getItems().get(rowIndex).effectsProperty().get();
       int size = rightTableView.getItems().size();
       ArrayList<String> skillsList = new ArrayList<>(size);
@@ -517,8 +518,8 @@ public class SkillTableViewBorderPaneController {
 
   void updateNotePane() {
     if (rightManager.isSelected() || leftManager.isSelected()) {
-      int selectedIndex = rightManager.isSelected() ?
-          rightManager.getSelectedCellRowIndex() : leftManager.getSelectedCellRowIndex();
+      int selectedIndex = rightManager.isSelected() ? rightManager.getSelectedCellRowIndex()
+          : leftManager.getSelectedCellRowIndex();
 
       String note = rightTableView.getItems().get(selectedIndex).noteProperty().get();
       mainController.setNoteText(note);
