@@ -25,27 +25,27 @@
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#cutMenuItemOnAction" text="切り取り" fx:id="cutMenuItem">
               <accelerator>
-                <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                <KeyCodeCombination alt="UP" code="X" control="UP" meta="UP" shift="DOWN" shortcut="UP" />
               </accelerator>
             </MenuItem>
             <MenuItem mnemonicParsing="false" onAction="#copyMenuItemOnAction" text="コピー" fx:id="copyMenuItem">
               <accelerator>
-                <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                <KeyCodeCombination alt="UP" code="C" control="UP" meta="UP" shift="DOWN" shortcut="UP" />
               </accelerator>
             </MenuItem>
             <MenuItem mnemonicParsing="false" onAction="#pasteMenuItemOnAction" text="貼り付け" fx:id="pasteMenuItem">
               <accelerator>
-                <KeyCodeCombination alt="UP" code="V" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                <KeyCodeCombination alt="UP" code="V" control="UP" meta="UP" shift="DOWN" shortcut="UP" />
               </accelerator>
             </MenuItem>
             <MenuItem mnemonicParsing="false" onAction="#deleteMenuItemOnAction" text="削除" fx:id="deleteMenuItem">
               <accelerator>
-                <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                <KeyCodeCombination alt="UP" code="D" control="UP" meta="UP" shift="DOWN" shortcut="UP" />
               </accelerator>
             </MenuItem>
             <MenuItem mnemonicParsing="false" onAction="#selectAllMenuItemOnAction" text="全選択" fx:id="selectAllMenuItem">
               <accelerator>
-                <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                <KeyCodeCombination alt="UP" code="A" control="UP" meta="UP" shift="DOWN" shortcut="UP" />
               </accelerator>
             </MenuItem>
           </items>
