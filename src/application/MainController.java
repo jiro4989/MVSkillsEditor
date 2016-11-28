@@ -379,6 +379,10 @@ public class MainController {
 
   public void topInsert() {
     String text = insertTextField.getText();
+    topInsert(text);
+  }
+
+  public void topInsert(String text) {
     if (text != null) {
       List<String> values = skillTableViewController.getselectedCellValues();
       List<Integer> rowIndices = skillTableViewController.getSelectedRowIndices();
@@ -396,6 +400,10 @@ public class MainController {
 
   public void endInsert() {
     String text = insertTextField.getText();
+    endInsert(text);
+  }
+
+  public void endInsert(String text) {
     if (text != null) {
       List<String> values = skillTableViewController.getselectedCellValues();
       List<Integer> rowIndices = skillTableViewController.getSelectedRowIndices();
@@ -415,7 +423,13 @@ public class MainController {
   private void insertText() {
     String text = insertTextField.getText();
     if (text != null) {
-      skillTableViewController.insertText(insertTextField.getText());
+      skillTableViewController.insertText(text);
+    }
+  }
+
+  public void insertText(String text) {
+    if (text != null) {
+      skillTableViewController.insertText(text);
     }
   }
 

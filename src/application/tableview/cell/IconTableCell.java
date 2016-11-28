@@ -31,8 +31,10 @@ public class IconTableCell extends TableCell<Skill, String> {
     super.updateItem(item, empty);
     if (item != null) {
       int iconIndex = Integer.parseInt(item);
+      iconIndex = Math.max(iconIndex, 0);
+      iconIndex = Math.min(iconIndex, IconTableCell.getIconImageMaxIndex()-1);
       imageView.setImage(iconImageList.get(iconIndex));
-      label.setText(item);
+      label.setText(""+iconIndex);
       setGraphic(hBox);
     }
   }

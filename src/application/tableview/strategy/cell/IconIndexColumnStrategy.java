@@ -29,7 +29,7 @@ public class IconIndexColumnStrategy extends ColumnStrategy {
     String strValue = (String) value;
     if (strValue.matches(NUMBER_REGEX)) {
       int number = Integer.parseInt(strValue);
-      return (0 <= number && number <= IconTableCell.getIconImageMaxIndex());
+      return (0 <= number && number < IconTableCell.getIconImageMaxIndex());
     }
     return false;
   }

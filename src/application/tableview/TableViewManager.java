@@ -339,10 +339,10 @@ public class TableViewManager {
   }
 
   void insertNewRecord(int rowIndex) {
-      RecordStrategy prevStrategy = new DeleteRecordStrategy(tableView, rowIndex, controller);
-      RecordStrategy newStrategy = new InsertNewRecordStrategy(tableView, rowIndex, controller,
-          null);
-      controller.invokeRecord(rowIndex, prevStrategy, newStrategy);
+    RecordStrategy prevStrategy = new DeleteRecordStrategy(tableView, rowIndex, controller);
+    RecordStrategy newStrategy = new InsertNewRecordStrategy(tableView, rowIndex, controller,
+        null);
+    controller.invokeRecord(rowIndex, prevStrategy, newStrategy);
   }
 
   private void deleteRecord() {

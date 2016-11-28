@@ -31,6 +31,7 @@ public class ConfigStageController {
     TreeItem<String> importFileItem = new TreeItem<>("インポートファイル");
     rootItem.getChildren().add(importFileItem);
     treeView.setRoot(rootItem);
+
     treeView.getSelectionModel().selectedItemProperty()
         .addListener((observable, oldVal, newVal) -> updateConfigScreen(newVal));
 
