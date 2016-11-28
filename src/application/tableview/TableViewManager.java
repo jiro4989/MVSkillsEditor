@@ -316,20 +316,28 @@ public class TableViewManager {
       int size = copyRecordValues.size();
       int selectedIndex = getSelectedCellRowIndex();
 
+      AtomicInteger overCount = new AtomicInteger(0);
       IntStream.range(0, size)
           .forEach(index -> {
+            if (2000 <= tableView.getItems().size()) {
+              overCount.getAndIncrement();
+              return;
+            }
             int rowIndex = selectedIndex + index + 1;
             RecordStrategy prevStrategy = new DeleteRecordStrategy(tableView, rowIndex, controller);
             RecordStrategy newStrategy = new InsertNewRecordStrategy(tableView, rowIndex,
                 controller, copyRecordValues.get(index));
             controller.invokeRecord(rowIndex, prevStrategy, newStrategy);
           });
-      controller.pushUndoCount(size);
+      controller.pushUndoCount(size - overCount.get());
     }
   }
 
   private void insertNewRecord() {
     if (isSelected()) {
+      if (2000 <= tableView.getItems().size()) {
+        return;
+      }
       int rowIndex = getSelectedCellRowIndex() + 1;
       insertNewRecord(rowIndex);
       controller.pushUndoCount(1);
@@ -339,6 +347,9 @@ public class TableViewManager {
   }
 
   void insertNewRecord(int rowIndex) {
+    if (2000 <= tableView.getItems().size()) {
+      return;
+    }
     RecordStrategy prevStrategy = new DeleteRecordStrategy(tableView, rowIndex, controller);
     RecordStrategy newStrategy = new InsertNewRecordStrategy(tableView, rowIndex, controller,
         null);
@@ -351,11 +362,16 @@ public class TableViewManager {
       int[] newIndicies = UtilInteger.convertDoubleWrapperToPrimitive(indicies);
 
       AtomicInteger count = new AtomicInteger(0);
+      AtomicInteger overCount = new AtomicInteger(0);
       Arrays.stream(newIndicies).forEach(rowIndex -> {
+        if (tableView.getItems().size() <= 1) {
+          overCount.getAndIncrement();
+          return;
+        }
         int row = rowIndex - count.getAndIncrement();
         deleteRecord(row);
       });
-      controller.pushUndoCount(newIndicies.length);
+      controller.pushUndoCount(newIndicies.length - overCount.get());
 
       tableView.getSelectionModel().clearSelection();
       tableView.getSelectionModel().select(newIndicies[0]);

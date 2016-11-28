@@ -453,8 +453,10 @@ public class MainController {
    *          繰り返し回数
    */
   public void pushUndoCount(int invokeCount) {
-    redoCountStack.clear();
-    undoCountStack.push(invokeCount);
+    if (0 < invokeCount) {
+      redoCountStack.clear();
+      undoCountStack.push(invokeCount);
+    }
     changeDisableUndoRedoButton();
   }
 

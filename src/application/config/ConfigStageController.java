@@ -29,7 +29,11 @@ public class ConfigStageController {
     TreeItem<String> rootItem = new TreeItem<>("設定項目");
     rootItem.setExpanded(true);
     TreeItem<String> importFileItem = new TreeItem<>("インポートファイル");
+    TreeItem<String> tableItem = new TreeItem<>("テーブル");
+    TreeItem<String> backupItem = new TreeItem<>("バックアップ");
     rootItem.getChildren().add(importFileItem);
+    rootItem.getChildren().add(tableItem);
+    rootItem.getChildren().add(backupItem);
     treeView.setRoot(rootItem);
 
     treeView.getSelectionModel().selectedItemProperty()
