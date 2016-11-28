@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 
 import application.tableview.strategy.record.DeleteRecordStrategy;
 import application.tableview.strategy.record.InsertNewRecordStrategy;
+import application.tableview.strategy.record.OverPasteRecordStrategy;
 import application.tableview.strategy.record.RecordStrategy;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ContextMenu;
@@ -343,24 +344,24 @@ public class TableViewManager {
 
   private void overPasteRecord() {
     if (isSelected() && copyRecordValues != null) {
-      int size = getSelectedCellRowIndicies().size();
-      int selectedIndex = getSelectedCellRowIndicies().get(0);
+      int size = copyRecordValues.size();
+      int selectedIndex = getSelectedCellRowIndex();
 
-      IntStream.range(0, size)
-          .forEach(index -> {
-            int rowIndex = selectedIndex;
-            deleteRecord(rowIndex);
-          });
-
+      AtomicInteger overCount = new AtomicInteger(0);
       IntStream.range(0, size)
           .forEach(index -> {
             int rowIndex = selectedIndex + index;
-            RecordStrategy prevStrategy = new DeleteRecordStrategy(tableView, rowIndex, controller);
-            RecordStrategy newStrategy = new InsertNewRecordStrategy(tableView, rowIndex,
-                controller, copyRecordValues.get(0));
+            if (tableView.getItems().size() <= rowIndex) {
+              overCount.getAndIncrement();
+              return;
+            }
+            RecordStrategy prevStrategy = new OverPasteRecordStrategy(tableView, rowIndex,
+                controller, controller.getRecord(rowIndex));
+            RecordStrategy newStrategy = new OverPasteRecordStrategy(tableView, rowIndex,
+                controller, copyRecordValues.get(index));
             controller.invokeRecord(rowIndex, prevStrategy, newStrategy);
           });
-      controller.pushUndoCount(size*2);
+      controller.pushUndoCount(size - overCount.get());
     }
   }
 
