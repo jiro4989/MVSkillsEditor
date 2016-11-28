@@ -39,6 +39,7 @@ public class TableViewManager {
   private final MenuItem cutRecordItem;
   private final MenuItem copyRecordItem;
   private final MenuItem pasteRecordItem;
+  private final MenuItem overPasteRecordItem;
   private final MenuItem deleteRecordItem;
 
   @SuppressWarnings("unchecked")
@@ -107,6 +108,11 @@ public class TableViewManager {
     pasteRecordItem.setAccelerator(
         new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
 
+    overPasteRecordItem = new MenuItem("行コピーを上書き貼り付け");
+    overPasteRecordItem.setOnAction(e -> overPasteRecord());
+    overPasteRecordItem.setAccelerator(
+        new KeyCodeCombination(KeyCode.G, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
+
     deleteRecordItem = new MenuItem("選択行を削除");
     deleteRecordItem.setOnAction(e -> deleteRecord());
     deleteRecordItem.setAccelerator(
@@ -122,6 +128,7 @@ public class TableViewManager {
         cutRecordItem,
         copyRecordItem,
         pasteRecordItem,
+        overPasteRecordItem,
         deleteRecordItem);
     menu.setOnShown(e -> contextMenuOnShown());
     tableView.setContextMenu(menu);
@@ -247,6 +254,7 @@ public class TableViewManager {
   private void contextMenuOnShown() {
     pasteItem.setDisable(copyCellValues == null);
     pasteRecordItem.setDisable(copyRecordValues == null);
+    overPasteRecordItem.setDisable(copyRecordValues == null);
   }
 
   /**
@@ -330,6 +338,29 @@ public class TableViewManager {
             controller.invokeRecord(rowIndex, prevStrategy, newStrategy);
           });
       controller.pushUndoCount(size - overCount.get());
+    }
+  }
+
+  private void overPasteRecord() {
+    if (isSelected() && copyRecordValues != null) {
+      int size = getSelectedCellRowIndicies().size();
+      int selectedIndex = getSelectedCellRowIndicies().get(0);
+
+      IntStream.range(0, size)
+          .forEach(index -> {
+            int rowIndex = selectedIndex;
+            deleteRecord(rowIndex);
+          });
+
+      IntStream.range(0, size)
+          .forEach(index -> {
+            int rowIndex = selectedIndex + index;
+            RecordStrategy prevStrategy = new DeleteRecordStrategy(tableView, rowIndex, controller);
+            RecordStrategy newStrategy = new InsertNewRecordStrategy(tableView, rowIndex,
+                controller, copyRecordValues.get(0));
+            controller.invokeRecord(rowIndex, prevStrategy, newStrategy);
+          });
+      controller.pushUndoCount(size*2);
     }
   }
 
