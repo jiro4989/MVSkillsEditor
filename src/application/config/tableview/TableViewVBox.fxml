@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="325.0" prefWidth="662.0" spacing="5.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.config.tableview.TableViewVBoxController">
+  <!-- TODO Add Nodes -->
+  <children>
+    <BorderPane fx:id="fontSizeBorderPane" prefHeight="-1.0" prefWidth="-1.0">
+      <left>
+        <Label alignment="CENTER_LEFT" text="フォントサイズ（px）" />
+      </left>
+      <right>
+        <ComboBox fx:id="fontSizeConboBox" prefWidth="100.0" visibleRowCount="20">
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <Integer fx:value="7" />
+              <Integer fx:value="8" />
+              <Integer fx:value="9" />
+              <Integer fx:value="10" />
+              <Integer fx:value="11" />
+              <Integer fx:value="12" />
+            </FXCollections>
+          </items>
+        </ComboBox>
+      </right>
+    </BorderPane>
+    <BorderPane fx:id="cellSizeBorderPane" prefHeight="-1.0" prefWidth="-1.0">
+      <left>
+        <Label alignment="CENTER_LEFT" text="セルの縦幅（px）" />
+      </left>
+      <right>
+        <ComboBox fx:id="cellSizeConboBox" prefWidth="100.0" visibleRowCount="20">
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <Integer fx:value="40" />
+              <Integer fx:value="41" />
+              <Integer fx:value="42" />
+              <Integer fx:value="43" />
+              <Integer fx:value="44" />
+              <Integer fx:value="45" />
+              <Integer fx:value="46" />
+              <Integer fx:value="47" />
+              <Integer fx:value="48" />
+              <Integer fx:value="49" />
+              <Integer fx:value="50" />
+              <Integer fx:value="51" />
+              <Integer fx:value="52" />
+              <Integer fx:value="53" />
+              <Integer fx:value="54" />
+              <Integer fx:value="55" />
+              <Integer fx:value="56" />
+              <Integer fx:value="57" />
+              <Integer fx:value="58" />
+              <Integer fx:value="59" />
+              <Integer fx:value="60" />
+            </FXCollections>
+          </items>
+        </ComboBox>
+      </right>
+    </BorderPane>
+  </children>
+  <padding>
+    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+  </padding>
+</VBox>

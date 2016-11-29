@@ -14,13 +14,13 @@ public class ConfigStage extends Stage {
       BorderPane root = (BorderPane) loader.load();
       ConfigStageController controller = (ConfigStageController) loader.getController();
       controller.setConfig(config);
+      controller.changeOptions();
       Scene scene = new Scene(root, 930, 500);
       scene.getStylesheets()
           .add(getClass().getResource("/application/application.css").toExternalForm());
       setScene(scene);
       setTitle("設定");
-      setMinWidth(scene.getWidth());
-      setMinHeight(scene.getHeight());
+      setResizable(false);
       initStyle(StageStyle.UTILITY);
       initModality(Modality.APPLICATION_MODAL);
     } catch (Exception e) {

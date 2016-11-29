@@ -52,7 +52,7 @@ public class MainController {
   private LinkedList<Integer> undoCountStack = new LinkedList<>();
   private LinkedList<Integer> redoCountStack = new LinkedList<>();
 
-  private Config config = new Config();
+  private static Config config = new Config();
 
   // **************************************************
   // メニューバー
@@ -146,6 +146,9 @@ public class MainController {
     applyComboBox.getSelectionModel().select(0);
 
     favoriteComboBox.setItems(FXCollections.observableArrayList());
+
+    skillTableViewController.setTableViewFontSize(config.tableViewFontSize);
+    skillTableViewController.setTableCellSize(config.tableCellHeight);
   }
 
   private void settingDividerPosition() {
@@ -194,18 +197,11 @@ public class MainController {
    */
   @FXML
   private void importFolder() {
-    Stage stage = (Stage) effectsTitledPane.getScene().getWindow();
-    Optional<File> dirOpt = folderDcm.openDirectory(stage);
-    dirOpt.ifPresent(inputFolder -> {
-      String inputPath = inputFolder.getAbsolutePath();
-      boolean success = successSetData(inputPath);
+    boolean success = successSetData("./input");
 
-      if (success) {
-        config.inputPath = inputPath;
-      } else {
-        showAlert("ファイルが見つかりません。", "選択したフォルダ内に必要なファイルが存在するか確認してください。");
-      }
-    });
+    if (!success) {
+      showAlert("ファイルが見つかりません。", "選択したフォルダ内に必要なファイルが存在するか確認してください。");
+    }
   }
 
   /**
@@ -271,6 +267,8 @@ public class MainController {
   private void openConfigStage() {
     ConfigStage cs = new ConfigStage(config);
     cs.showAndWait();
+    skillTableViewController.setTableViewFontSize(config.tableViewFontSize);
+    skillTableViewController.setTableCellSize(config.tableCellHeight);
   }
 
   @FXML
@@ -515,11 +513,12 @@ public class MainController {
   }
 
   public void closeAction() {
-    skillTableViewController.outputPropertiesFile();
-    outputSplitBarPosition();
+    skillTableViewController.exportPropertiesFile();
+    exportSplitBarPositionFile();
+    config.write();
   }
 
-  private void outputSplitBarPosition() {
+  private void exportSplitBarPositionFile() {
     dividerPositionProp.setValue(rootSplitPane.getId(),
         "" + rootSplitPane.getDividerPositions()[0]);
     dividerPositionProp.setValue(previewSplitPane.getId(),
@@ -535,6 +534,10 @@ public class MainController {
 
   public ComboBox<String> getInsertComboBox() {
     return insertComboBox;
+  }
+
+  public static Config getConfig() {
+    return config;
   }
 
   public void setNoteText(String text) {

@@ -1,7 +1,6 @@
 package application;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -9,7 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-  private static final String TITLE = "MVSkillsMaker ver1.0";
+  private static final String TITLE = "MVSkillsMaker";
   private MainController controller;
 
   @Override

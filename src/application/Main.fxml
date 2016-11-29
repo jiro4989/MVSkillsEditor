@@ -173,8 +173,8 @@
           <items>
             <MenuItem mnemonicParsing="false" text="新規" fx:id="newMenuItem" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#importProject" text="プロジェクトからインポート" fx:id="importProjectMenuItem" />
-            <MenuItem mnemonicParsing="false" onAction="#importFolder" text="フォルダからインポート" fx:id="importFolderMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#importProject" text="プロジェクトから開く" fx:id="importProjectMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#importFolder" text="インプットフォルダから開く" fx:id="importFolderMenuItem" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#saveMenuItemOnAction" text="上書き保存" fx:id="saveMenuItem" />
             <MenuItem mnemonicParsing="false" onAction="#saveAsMenuItemOnAction" text="別名保存" fx:id="saveAsMenuItem" />
@@ -198,11 +198,6 @@
             </MenuItem>
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#changeMaxRecords" text="最大数の変更" fx:id="changeMaxRecordsMenuItem" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="表示">
-          <items>
-            <MenuItem mnemonicParsing="false" text="フォント" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="選択">

@@ -2,21 +2,35 @@ package application.config;
 
 import java.io.IOException;
 
-import application.config.importfile.ImportFileVBoxController;
+import application.MainController;
+import application.config.io.IOVBoxController;
+import application.config.tableview.TableViewVBoxController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class ConfigStageController {
-  private VBox importFileVBox;
-  private ImportFileVBoxController importFileVBoxController;
   private Config config;
 
+  // **************************************************
+  // 別パッケージで定義したコンポーネント
+  // **************************************************
+  private VBox ioVBox;
+  private IOVBoxController ioVBoxController;
+  private VBox tableViewVBox;
+  private TableViewVBoxController tableViewVBoxController;
+
+  // **************************************************
+  // このクラスのコンポーネント
+  // **************************************************
+  @FXML private BorderPane root;
   @FXML private TreeView<String> treeView;
   @FXML private BorderPane borderPane;
   @FXML private Label headerLabel;
@@ -26,29 +40,43 @@ public class ConfigStageController {
 
   @FXML
   private void initialize() {
+    config = MainController.getConfig();
+
     TreeItem<String> rootItem = new TreeItem<>("設定項目");
     rootItem.setExpanded(true);
-    TreeItem<String> importFileItem = new TreeItem<>("インポートファイル");
+    TreeItem<String> importFileItem = new TreeItem<>("インプット・アウトプット");
     TreeItem<String> tableItem = new TreeItem<>("テーブル");
-    TreeItem<String> backupItem = new TreeItem<>("バックアップ");
     rootItem.getChildren().add(importFileItem);
     rootItem.getChildren().add(tableItem);
-    rootItem.getChildren().add(backupItem);
     treeView.setRoot(rootItem);
 
     treeView.getSelectionModel().selectedItemProperty()
         .addListener((observable, oldVal, newVal) -> updateConfigScreen(newVal));
 
-    FXMLLoader importFileVBoxLoader = new FXMLLoader(
-        getClass().getResource("/application/config/importfile/ImportFileVBox.fxml"));
+    FXMLLoader ioVBoxLoader = new FXMLLoader(
+        getClass().getResource("/application/config/io/IOVBox.fxml"));
+    FXMLLoader tableViewVBoxLoader = new FXMLLoader(
+        getClass().getResource("/application/config/tableview/TableViewVBox.fxml"));
     try {
-      importFileVBox = (VBox) importFileVBoxLoader.load();
-      importFileVBoxController = importFileVBoxLoader.getController();
+      ioVBox = (VBox) ioVBoxLoader.load();
+      ioVBoxController = ioVBoxLoader.getController();
+
+      tableViewVBox = (VBox) tableViewVBoxLoader.load();
+      tableViewVBoxController = tableViewVBoxLoader.getController();
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
+  void changeOptions() {
+    treeView.getSelectionModel().select(1);
+    ioVBoxController.switchClickable();
+    ioVBoxController.disableBackup();
+  }
+
+  // **************************************************
+  // イベント
+  // **************************************************
   /**
    * 設定画面を更新する。
    * 選択したTreeItemの文字列によって表示する画面を切り替える。
@@ -56,20 +84,35 @@ public class ConfigStageController {
    */
   private void updateConfigScreen(TreeItem<String> selectedItem) {
     final String headerText = selectedItem.getValue();
-    if ("インポートファイル".equals(headerText)) {
-      borderPane.setCenter(importFileVBox);
+    if ("インプット・アウトプット".equals(headerText)) {
+      borderPane.setCenter(ioVBox);
       headerLabel.setText(headerText);
-      descriptionLabel.setText(ImportFileVBoxController.DESCRIPTION);
-      importFileVBoxController.setProjectPath(config.projectPath);
-      importFileVBoxController.setInputPath(config.inputPath);
-    } else {
+      descriptionLabel.setText(IOVBoxController.DESCRIPTION);
+
+      ioVBoxController.setProjectPath(config.projectPath);
+    } else if ("テーブル".equals(headerText)) {
+      borderPane.setCenter(tableViewVBox);
+      headerLabel.setText(headerText);
+      descriptionLabel.setText(TableViewVBoxController.DESCRIPTION);
+    }
+  }
+
+  @FXML
+  private void rootOnKeyPressed(KeyEvent event) {
+    if (event.getCode() == KeyCode.ESCAPE) {
+      cancelButtonOnClicked();
     }
   }
 
   @FXML
   private void okButtonOnClicked() {
-    config.projectPath = importFileVBoxController.getProjectPath();
-    config.inputPath = importFileVBoxController.getInputPath();
+    config.autoInput = ioVBoxController.getAutoInput();
+    config.projectIsSelected = ioVBoxController.getSelectedOfProject();
+    config.projectPath = ioVBoxController.getProjectPath();
+    config.inputIsSelected = ioVBoxController.getSelectedOfInput();
+    config.autoBackup = ioVBoxController.getAutoBackup();
+    config.tableViewFontSize = tableViewVBoxController.getFontSize();
+    config.tableCellHeight = tableViewVBoxController.getCellHeight();
     okButton.getScene().getWindow().hide();
   }
 

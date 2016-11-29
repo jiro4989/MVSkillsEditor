@@ -361,7 +361,7 @@ public class SkillTableViewBorderPaneController {
   /**
    * カラムインデックスを記述したプロパティファイルを出力する。
    */
-  public void outputPropertiesFile() {
+  public void exportPropertiesFile() {
     leftManager.outputPropertiesFile();
     rightTableView.getColumns().add(idColumn);
     rightTableView.getColumns().add(nameColumn);
@@ -418,6 +418,33 @@ public class SkillTableViewBorderPaneController {
     alert.setHeaderText("数値が不正です。");
     alert.setContentText("数値は1以上2,000以下の範囲で入力してください。");
     alert.showAndWait();
+  }
+
+  private MyLogger logger = new MyLogger(getClass().getName());
+
+  public List<JsonSkill> makeSkillData() {
+    int size = rightTableView.getItems().size();
+
+    List<JsonSkill> skillList = new ArrayList<>();
+    skillList.add(null);
+    for (int index = 0; index < size; index++) {
+      Skill record = getRecord(index);
+      try {
+        JsonSkill data = new JsonSkill(record, stypeItems, animationItems, weaponItems,
+            elementItems);
+        skillList.add(data);
+      } catch (NumberFormatException e) {
+        logger.log(Level.SEVERE, "ファイル出力: 数値変換エラー", e);
+        return null;
+      } catch (JsonProcessingException e) {
+        logger.log(Level.SEVERE, "ファイル出力: Json変換エラー", e);
+        return null;
+      } catch (IOException e) {
+        logger.log(Level.SEVERE, "ファイル出力: アウトプットエラー", e);
+        return null;
+      }
+    }
+    return skillList;
   }
 
   public void updateId() {
@@ -646,6 +673,10 @@ public class SkillTableViewBorderPaneController {
     return tableViewSplitPane;
   }
 
+  Skill getRecord(int rowIndex) {
+    return UtilTableView.getSkillRecord(rightTableView, rowIndex);
+  }
+
   /**
    * 選択中のセル位置によってカラム戦略クラスを変更する。
    */
@@ -780,34 +811,13 @@ public class SkillTableViewBorderPaneController {
     IconTableCell.setIconImageList(UtilIconImage.makeIconImageList(iconFile));
   }
 
-  Skill getRecord(int rowIndex) {
-    return UtilTableView.getSkillRecord(rightTableView, rowIndex);
+  public void setTableViewFontSize(int tableViewFontSize) {
+    rightTableView.setStyle(String.format("-fx-font-size:%dpt;", tableViewFontSize));
+    leftTableView.setStyle(String.format("-fx-font-size:%dpt;", tableViewFontSize));
   }
 
-  private MyLogger logger = new MyLogger(getClass().getName());
-
-  public List<JsonSkill> makeSkillData() {
-    int size = rightTableView.getItems().size();
-
-    List<JsonSkill> skillList = new ArrayList<>();
-    skillList.add(null);
-    for (int index = 0; index < size; index++) {
-      Skill record = getRecord(index);
-      try {
-        JsonSkill data = new JsonSkill(record, stypeItems, animationItems, weaponItems,
-            elementItems);
-        skillList.add(data);
-      } catch (NumberFormatException e) {
-        logger.log(Level.SEVERE, "ファイル出力: 数値変換エラー", e);
-        return null;
-      } catch (JsonProcessingException e) {
-        logger.log(Level.SEVERE, "ファイル出力: Json変換エラー", e);
-        return null;
-      } catch (IOException e) {
-        logger.log(Level.SEVERE, "ファイル出力: アウトプットエラー", e);
-        return null;
-      }
-    }
-    return skillList;
+  public void setTableCellSize(int tableCellHeight) {
+    rightTableView.setFixedCellSize(tableCellHeight);
+    leftTableView.setFixedCellSize(tableCellHeight);
   }
 }

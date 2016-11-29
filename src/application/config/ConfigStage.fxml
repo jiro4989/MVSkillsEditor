@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="370.0" prefWidth="551.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.config.ConfigStageController">
+<BorderPane fx:id="root" onKeyPressed="#rootOnKeyPressed" prefHeight="370.0" prefWidth="551.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.config.ConfigStageController">
   <!-- TODO Add Nodes -->
   <bottom>
     <VBox prefHeight="-1.0" prefWidth="-1.0">
@@ -32,21 +32,21 @@
             <Separator prefHeight="5.0" prefWidth="-1.0" />
           </bottom>
           <left>
-            <Label fx:id="headerLabel" text="Title">
+            <Label fx:id="headerLabel" style="-fx-font-weight: bold;" text="Title">
               <BorderPane.margin>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
               </BorderPane.margin>
             </Label>
           </left>
           <right>
-            <Label fx:id="descriptionLabel" alignment="CENTER_RIGHT" contentDisplay="LEFT" text="Description" BorderPane.margin="$x1" />
+            <Label fx:id="descriptionLabel" alignment="CENTER_RIGHT" contentDisplay="LEFT" style="-fx-font-weight: bold;" text="Description" BorderPane.margin="$x1" />
           </right>
         </BorderPane>
       </top>
     </BorderPane>
   </center>
   <left>
-    <TreeView fx:id="treeView" minWidth="200.0" prefHeight="-1.0" prefWidth="-1.0">
+    <TreeView fx:id="treeView" minWidth="200.0" onKeyPressed="#rootOnKeyPressed" prefHeight="-1.0" prefWidth="-1.0">
       <BorderPane.margin>
         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
       </BorderPane.margin>

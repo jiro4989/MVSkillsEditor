@@ -6,10 +6,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="361.0" prefWidth="587.0" spacing="5.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.config.importfile.ImportFileVBoxController">
+<VBox prefHeight="361.0" prefWidth="587.0" spacing="5.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="application.config.io.IOVBoxController">
   <!-- TODO Add Nodes -->
   <children>
-    <CheckBox fx:id="autoImportCheckBox" mnemonicParsing="false" onAction="#autoImportCheckBoxOnClicked" text="次回起動時にファイルを自動でインポートする" />
+    <CheckBox fx:id="autoImportCheckBox" mnemonicParsing="false" onAction="#autoImportCheckBoxOnClicked" text="次回起動時にファイルを自動で開く" />
     <VBox prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
       <children>
         <Label fx:id="descriptionLabel" text="自動起動で開くパスの選択" />
@@ -23,10 +23,26 @@
         </BorderPane>
         <BorderPane prefHeight="-1.0" prefWidth="-1.0">
           <center>
-            <TextField fx:id="inputPathTextField" editable="false" prefWidth="-1.0" />
+            <TextField fx:id="inputPathTextField" editable="false" prefWidth="-1.0" text="./input" />
           </center>
           <left>
             <RadioButton fx:id="inputRadioButton" mnemonicParsing="false" onAction="#inputRadioButtonOnClicked" prefWidth="300.0" text="インプットフォルダのパス" />
+          </left>
+        </BorderPane>
+      </children>
+      <VBox.margin>
+        <Insets left="20.0" />
+      </VBox.margin>
+    </VBox>
+    <CheckBox fx:id="backupCheckBox" mnemonicParsing="false" onAction="#disableBackup" selected="true" text="Skills.jsonのバックアップをとる" />
+    <VBox prefHeight="-1.0" prefWidth="-1.0" spacing="5.0">
+      <children>
+        <BorderPane fx:id="backupBorderPane" prefHeight="-1.0" prefWidth="-1.0">
+          <center>
+            <TextField fx:id="backupTextField" editable="false" prefWidth="-1.0" text="./backup" />
+          </center>
+          <left>
+            <Label prefWidth="300.0" text="バックアップ先" />
           </left>
         </BorderPane>
       </children>
