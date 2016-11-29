@@ -435,16 +435,27 @@ public class SkillTableViewBorderPaneController {
         skillList.add(data);
       } catch (NumberFormatException e) {
         logger.log(Level.SEVERE, "ファイル出力: 数値変換エラー", e);
+        showAlert();
         return null;
       } catch (JsonProcessingException e) {
         logger.log(Level.SEVERE, "ファイル出力: Json変換エラー", e);
+        showAlert();
         return null;
       } catch (IOException e) {
         logger.log(Level.SEVERE, "ファイル出力: アウトプットエラー", e);
+        showAlert();
         return null;
       }
     }
     return skillList;
+  }
+
+  private void showAlert() {
+    Alert alert = new Alert(AlertType.WARNING);
+    alert.setHeaderText("ファイル出力エラー");
+    alert.setContentText("正常にファイルを保存できませんでした。" + System.getProperty("line.separator") +
+        "logフォルダのエラーを確認してください。");
+    alert.showAndWait();
   }
 
   public void updateId() {

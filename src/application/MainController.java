@@ -303,7 +303,6 @@ public class MainController {
       insertComboBox.getItems().clear();
       opened = true;
 
-      makeBackupFile();
 
       skillTableViewController.setSkillDatas(skillsFile, systemFile, animationFile);
       File iconFile = iconSetImage1.exists() ? iconSetImage1 : iconSetImage2;
@@ -314,6 +313,8 @@ public class MainController {
 
       Stage stage = (Stage) xLabel.getScene().getWindow();
       stage.setTitle(skillsFile.getPath() + " - " + Main.TITLE);
+
+      makeBackupFile();
       return true;
     }
     return false;
@@ -379,7 +380,9 @@ public class MainController {
     try (FileOutputStream fos = new FileOutputStream(skillsFile)) {
       ObjectMapper mapper = new ObjectMapper();
       List<JsonSkill> skillList = skillTableViewController.makeSkillData();
-      mapper.writeValue(new OutputStreamWriter(fos, "UTF-8"), skillList);
+      if (skillList != null) {
+        mapper.writeValue(new OutputStreamWriter(fos, "UTF-8"), skillList);
+      }
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e1) {
