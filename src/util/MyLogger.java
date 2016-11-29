@@ -11,7 +11,7 @@ import java.util.logging.SimpleFormatter;
 
 public class MyLogger {
   private final Logger logger;
-  private static final String DIR_PATH = "." + File.separator + "errors";
+  private static final String DIR_PATH = "." + File.separator + "log";
   private static final File DIR = new File(DIR_PATH);
   private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyyMMDD");
 

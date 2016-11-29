@@ -103,7 +103,7 @@
                 <Tooltip text="インプットフォルダから開く" />
               </tooltip>
             </Button>
-            <Button id="folderButton" mnemonicParsing="false" onAction="#saveMenuItemOnAction" text="">
+            <Button id="folderButton" fx:id="saveButton" mnemonicParsing="false" onAction="#saveMenuItemOnAction" text="">
               <graphic>
                 <ImageView fitHeight="20.0" fitWidth="20.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -137,18 +137,6 @@
               </graphic>
               <tooltip>
                 <Tooltip text="やり直す" />
-              </tooltip>
-            </Button>
-            <Button mnemonicParsing="false" text="">
-              <graphic>
-                <ImageView fitHeight="20.0" fitWidth="20.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                    <Image url="@resources/undo.png" />
-                  </image>
-                </ImageView>
-              </graphic>
-              <tooltip>
-                <Tooltip text="ファイルの再読み込み" />
               </tooltip>
             </Button>
             <Button fx:id="configButton" mnemonicParsing="false" onAction="#openConfigStage" text="">

@@ -90,6 +90,7 @@ public class MainController {
   @FXML private ToolBar topToolBar;
   @FXML private Button projectButton;
   @FXML private Button folderButton;
+  @FXML private Button saveButton;
   @FXML private Button undoButton;
   @FXML private Button redoButton;
   @FXML private Button configButton;
