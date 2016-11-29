@@ -155,9 +155,7 @@
             <ComboBox fx:id="insertComboBox" onHidden="#insertComboBoxOnHidden" promptText="セルに挿入するテキスト" visibleRowCount="20">
               <items>
                 <FXCollections fx:factory="observableArrayList">
-                  <String fx:value="アイテム1" />
-                  <String fx:value="アイテム2" />
-                  <String fx:value="アイテム3" />
+                  <String fx:value="お気に入り1" />
                 </FXCollections>
               </items>
             </ComboBox>

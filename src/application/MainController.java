@@ -1,14 +1,19 @@
 package application;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
@@ -50,6 +55,7 @@ public class MainController {
   private LinkedList<Integer> redoCountStack = new LinkedList<>();
 
   private static Config config = new Config();
+  private Properties favoriteProp;
 
   // **************************************************
   // メニューバー
@@ -143,8 +149,55 @@ public class MainController {
     // **************************************************
     // プロパティを適用
     // **************************************************
+    favoriteProp = new Properties();
+    importFavoriteItems();
+
     skillTableViewController.setTableViewFontSize(config.tableViewFontSize);
     skillTableViewController.setTableCellSize(config.tableCellHeight);
+  }
+
+  private static final File FAVORITE_FILE = new File("./properties/favoriteItems.xml");
+
+  private void importFavoriteItems() {
+    if (!FAVORITE_FILE.exists()) {
+      return;
+    }
+
+    try {
+      InputStream in = new FileInputStream(FAVORITE_FILE);
+      favoriteProp.loadFromXML(in);
+      for (int i=0; i<20; i++) {
+        String item = favoriteProp.getProperty("item" + i);
+        if (item == null || item.equals("NULL")) {
+          break;
+        }
+        favoriteComboBox.getItems().add(item);
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (InvalidPropertiesFormatException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void exportFavoriteItems() {
+    try (OutputStream out = new FileOutputStream(FAVORITE_FILE)) {
+      int size = favoriteComboBox.getItems().size();
+      for (int i=0; i<20; i++) {
+        if (i < size) {
+          favoriteProp.setProperty("item" + i, favoriteComboBox.getItems().get(i));
+        } else {
+          favoriteProp.setProperty("item" + i, "NULL");
+        }
+      }
+      favoriteProp.storeToXML(out, "お気に入りに追加したアイテム");
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   void setDividers() {
@@ -504,6 +557,7 @@ public class MainController {
 
   public void closeAction() {
     skillTableViewController.exportPropertiesFile();
+    exportFavoriteItems();
 
     config.rootX = xLabel.getScene().getWindow().getX();
     config.rootY = xLabel.getScene().getWindow().getY();
