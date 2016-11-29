@@ -31,9 +31,9 @@
                     <ComboBox fx:id="applyComboBox" onHidden="#applyComboBoxOnHidden" onKeyReleased="#applyComboBoxOnKeyReleased">
                       <items>
                         <FXCollections fx:factory="observableArrayList">
-                          <String fx:value="アイテム1" />
-                          <String fx:value="アイテム2" />
-                          <String fx:value="アイテム3" />
+                          <String fx:value="上書き挿入" />
+                          <String fx:value="先頭に挿入" />
+                          <String fx:value="末尾に挿入" />
                         </FXCollections>
                       </items>
                     </ComboBox>
@@ -169,13 +169,10 @@
       <menus>
         <Menu mnemonicParsing="false" text="ファイル">
           <items>
-            <MenuItem mnemonicParsing="false" text="新規" fx:id="newMenuItem" />
-            <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#importProject" text="プロジェクトから開く" fx:id="importProjectMenuItem" />
             <MenuItem mnemonicParsing="false" onAction="#importFolder" text="インプットフォルダから開く" fx:id="importFolderMenuItem" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#saveMenuItemOnAction" text="上書き保存" fx:id="saveMenuItem" />
-            <MenuItem mnemonicParsing="false" onAction="#saveAsMenuItemOnAction" text="別名保存" fx:id="saveAsMenuItem" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#openConfigStage" text="設定" fx:id="configMenuItem" />
             <SeparatorMenuItem mnemonicParsing="false" />

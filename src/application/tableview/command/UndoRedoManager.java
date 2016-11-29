@@ -41,4 +41,9 @@ public class UndoRedoManager {
     return "UndoRedoManager: " + sep + "undoStack: " + sep + undoSb.toString() + "redoStack: " + sep
         + redoSb.toString();
   }
+
+  public void clear() {
+    undoStack.clear();
+    redoStack.clear();
+  }
 }

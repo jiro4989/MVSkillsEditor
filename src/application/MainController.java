@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.text.NumberFormat.Field;
 import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedList;
@@ -45,6 +46,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import jiro.lib.javafx.stage.DirectoryChooserManager;
+import jiro.lib.javafx.stage.FileChooserManager;
 import util.json.JsonSkill;
 
 public class MainController {
@@ -60,11 +62,9 @@ public class MainController {
   // **************************************************
   // メニューバー
   // **************************************************
-  @FXML private MenuItem newMenuItem;
   @FXML private MenuItem importProjectMenuItem;
   @FXML private MenuItem importFolderMenuItem;
   @FXML private MenuItem saveMenuItem;
-  @FXML private MenuItem saveAsMenuItem;
   @FXML private MenuItem configMenuItem;
   @FXML private MenuItem quitMenuItem;
 
@@ -133,15 +133,6 @@ public class MainController {
 
     projectDcm = new DirectoryChooserManager();
 
-    List<String> items = new ArrayList<String>() {
-      private static final long serialVersionUID = 1L;
-      {
-        add("上書き挿入");
-        add("先頭に挿入");
-        add("末尾に挿入");
-      }
-    };
-    applyComboBox.setItems(FXCollections.observableArrayList(items));
     applyComboBox.getSelectionModel().select(0);
 
     favoriteComboBox.setItems(FXCollections.observableArrayList());
@@ -166,7 +157,7 @@ public class MainController {
     try {
       InputStream in = new FileInputStream(FAVORITE_FILE);
       favoriteProp.loadFromXML(in);
-      for (int i=0; i<20; i++) {
+      for (int i = 0; i < 20; i++) {
         String item = favoriteProp.getProperty("item" + i);
         if (item == null || item.equals("NULL")) {
           break;
@@ -185,7 +176,7 @@ public class MainController {
   private void exportFavoriteItems() {
     try (OutputStream out = new FileOutputStream(FAVORITE_FILE)) {
       int size = favoriteComboBox.getItems().size();
-      for (int i=0; i<20; i++) {
+      for (int i = 0; i < 20; i++) {
         if (i < size) {
           favoriteProp.setProperty("item" + i, favoriteComboBox.getItems().get(i));
         } else {
@@ -222,11 +213,14 @@ public class MainController {
 
   private void importProject(File dir) {
     String rootPath = dir.getAbsolutePath();
-    String dataPath = rootPath + File.separator + "data";
+    final String SEP = File.separator;
+    String dataPath = rootPath + SEP + "data";
     boolean success = successSetData(dataPath);
 
     if (success) {
       config.projectPath = rootPath;
+      config.projectIsSelected = true;
+      config.inputIsSelected = false;
     } else {
       String content = "プロジェクトフォルダを間違えていないか" + System.getProperty("line.separator")
           + "dataフォルダやファイルが存在しているか確認してください。";
@@ -242,7 +236,10 @@ public class MainController {
   private void importFolder() {
     boolean success = successSetData("./input");
 
-    if (!success) {
+    if (success) {
+      config.projectIsSelected = false;
+      config.inputIsSelected = true;
+    } else {
       showAlert("ファイルが見つかりません。", "選択したフォルダ内に必要なファイルが存在するか確認してください。");
     }
   }
@@ -272,12 +269,22 @@ public class MainController {
         && systemFile.exists()
         && (iconSetImage1.exists() || iconSetImage2.exists())) {
 
+      undoRedoManager.clear();
+      undoCountStack.clear();
+      redoCountStack.clear();
+      undoButton.setDisable(true);
+      redoButton.setDisable(true);
+      insertComboBox.getItems().clear();
+
       skillTableViewController.setSkillDatas(skillFile, systemFile, animationFile);
       File iconFile = iconSetImage1.exists() ? iconSetImage1 : iconSetImage2;
       skillTableViewController.setIconFile(iconFile);
       effectsTableViewController.setStateList(stateFile,
           skillTableViewController.getNormalAttackText());
       effectsTableViewController.setCommonEventList(commonEventFile);
+
+      Stage stage = (Stage)xLabel.getScene().getWindow();
+      stage.setTitle(skillFile.getPath() + " - " + Main.TITLE);
       return true;
     }
     return false;
@@ -329,11 +336,6 @@ public class MainController {
     } catch (IOException e1) {
       e1.printStackTrace();
     }
-  }
-
-  @FXML
-  private void saveAsMenuItemOnAction() {
-
   }
 
   @FXML

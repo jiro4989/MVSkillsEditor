@@ -751,7 +751,10 @@ public class SkillTableViewBorderPaneController {
    *          jsonファイル
    */
   public void setSkillDatas(File skillsFile, File systemFile, File animationFile) {
+    rightTableView.getSelectionModel().clearSelection();
+    leftTableView.getSelectionModel().clearSelection();
     rightTableView.getItems().clear();
+    leftTableView.getItems().clear();
 
     List<String> skillTypeList = UtilJson.makeDataList(systemFile, "skillTypes", "なし");
     stypeItems = FXCollections.observableArrayList(skillTypeList);

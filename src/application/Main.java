@@ -8,7 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-  private static final String TITLE = "MVSkillsMaker";
+  public static final String TITLE = "MVSkillsMaker";
   private MainController controller;
 
   @Override
