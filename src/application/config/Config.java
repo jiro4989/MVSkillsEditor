@@ -20,7 +20,7 @@ public class Config {
   // **************************************************
   public boolean autoInput = true;
   public boolean projectIsSelected = false;
-  public String projectPath = "";
+  public String projectPath = ".";
   public boolean inputIsSelected = false;
   public boolean autoBackup = true;
 

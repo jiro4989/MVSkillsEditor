@@ -57,6 +57,7 @@ public class MainController {
 
   private static Config config = new Config();
   private Properties favoriteProp;
+  private File skillsFile;
 
   // **************************************************
   // メニューバー
@@ -130,7 +131,12 @@ public class MainController {
     effectsTableViewController = effectsTableView.getController();
     effectsTitledPane.setContent(effectsTableView);
 
-    projectDcm = new DirectoryChooserManager();
+    File file = new File(config.projectPath);
+    if (file.exists()) {
+      projectDcm = new DirectoryChooserManager(file.getAbsoluteFile().getParent());
+    } else {
+      projectDcm = new DirectoryChooserManager();
+    }
 
     applyComboBox.getSelectionModel().select(0);
 
@@ -252,7 +258,7 @@ public class MainController {
    */
   private boolean successSetData(String path) {
     final String SEP = File.separator;
-    File skillFile = new File(path + SEP + "Skills.json");
+    skillsFile = new File(path + SEP + "Skills.json");
     File animationFile = new File(path + SEP + "Animations.json");
     File stateFile = new File(path + SEP + "States.json");
     File commonEventFile = new File(path + SEP + "CommonEvents.json");
@@ -261,7 +267,7 @@ public class MainController {
     String rootPath = new File(path).getParent();
     File iconSetImage1 = new File(rootPath + SEP + "img" + SEP + "system" + SEP + "IconSet.png");
     File iconSetImage2 = new File(path + SEP + "IconSet.png");
-    if (skillFile.exists()
+    if (skillsFile.exists()
         && animationFile.exists()
         && stateFile.exists()
         && commonEventFile.exists()
@@ -275,7 +281,7 @@ public class MainController {
       redoButton.setDisable(true);
       insertComboBox.getItems().clear();
 
-      skillTableViewController.setSkillDatas(skillFile, systemFile, animationFile);
+      skillTableViewController.setSkillDatas(skillsFile, systemFile, animationFile);
       File iconFile = iconSetImage1.exists() ? iconSetImage1 : iconSetImage2;
       skillTableViewController.setIconFile(iconFile);
       effectsTableViewController.setStateList(stateFile,
@@ -283,7 +289,7 @@ public class MainController {
       effectsTableViewController.setCommonEventList(commonEventFile);
 
       Stage stage = (Stage)xLabel.getScene().getWindow();
-      stage.setTitle(skillFile.getPath() + " - " + Main.TITLE);
+      stage.setTitle(skillsFile.getPath() + " - " + Main.TITLE);
       return true;
     }
     return false;
