@@ -9,7 +9,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import jiro.lib.java.util.PropertiesHundler;
 
 public class IconIndexChooser extends Stage {
   private IconIndexChooserController controller;
