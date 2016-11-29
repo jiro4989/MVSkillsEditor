@@ -145,7 +145,9 @@ public class MainController {
     // **************************************************
     skillTableViewController.setTableViewFontSize(config.tableViewFontSize);
     skillTableViewController.setTableCellSize(config.tableCellHeight);
+  }
 
+  void setDividers() {
     rootSplitPane.setDividerPosition(0, config.rootDivider);
     previewSplitPane.setDividerPosition(0, config.previewDivider);
     SplitPane tableSplit = skillTableViewController.getSplitPane();
@@ -499,6 +501,10 @@ public class MainController {
   public void closeAction() {
     skillTableViewController.exportPropertiesFile();
 
+    config.rootX = xLabel.getScene().getWindow().getX();
+    config.rootY = xLabel.getScene().getWindow().getY();
+    config.rootWidth = xLabel.getScene().getWindow().getWidth();
+    config.rootHeight = xLabel.getScene().getWindow().getHeight();
     config.rootDivider = rootSplitPane.getDividerPositions()[0];
     config.previewDivider = previewSplitPane.getDividerPositions()[0];
     SplitPane tableSplit = skillTableViewController.getSplitPane();

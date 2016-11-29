@@ -27,6 +27,11 @@ public class Config {
   public int tableViewFontSize = 9;
   public int tableCellHeight = 50;
 
+  public double rootX = 200;
+  public double rootY = 100;
+  public double rootWidth = 1280;
+  public double rootHeight = 720;
+
   public double rootDivider = 0.7;
   public double previewDivider = 0.55;
   public double tableViewDivider = 0.3;
@@ -71,6 +76,15 @@ public class Config {
       String height = prop.getProperty("tableCellHeight");
       tableCellHeight = Integer.parseInt(height);
 
+      String rootXStr = prop.getProperty("rootX");
+      rootX = Double.valueOf(rootXStr);
+      String rootYStr = prop.getProperty("rootY");
+      rootY = Double.valueOf(rootYStr);
+      String rootWidthStr = prop.getProperty("rootWidth");
+      rootWidth = Double.valueOf(rootWidthStr);
+      String rootHeightStr = prop.getProperty("rootHeight");
+      rootHeight = Double.valueOf(rootHeightStr);
+
       String rootDividerStr = prop.getProperty("rootDivider");
       rootDivider = Double.valueOf(rootDividerStr);
       String previewDividerStr = prop.getProperty("previewDivider");
@@ -100,6 +114,11 @@ public class Config {
     prop.setProperty("autoBackup", String.valueOf(autoBackup));
     prop.setProperty("tableViewFontSize", "" + tableViewFontSize);
     prop.setProperty("tableCellHeight", "" + tableCellHeight);
+
+    prop.setProperty("rootX", "" + rootX);
+    prop.setProperty("rootY", "" + rootY);
+    prop.setProperty("rootWidth", "" + rootWidth);
+    prop.setProperty("rootHeight", "" + rootHeight);
 
     prop.setProperty("rootDivider", "" + rootDivider);
     prop.setProperty("previewDivider", "" + previewDivider);

@@ -26,7 +26,14 @@ public class Main extends Application {
       primaryStage.setMinWidth(1280);
       primaryStage.setMinHeight(720);
       primaryStage.setOnCloseRequest(e -> controller.closeAction());
+
+      primaryStage.setX(MainController.getConfig().rootX);
+      primaryStage.setY(MainController.getConfig().rootY);
+      primaryStage.setWidth(MainController.getConfig().rootWidth);
+      primaryStage.setHeight(MainController.getConfig().rootHeight);
+
       primaryStage.show();
+      controller.setDividers();
     } catch (Exception e) {
       e.printStackTrace();
     }
