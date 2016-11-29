@@ -15,15 +15,25 @@ import java.util.Properties;
  * @author jiro
  */
 public class Config {
+  // **************************************************
+  // ファイルに保存するプロパティ
+  // **************************************************
   public boolean autoInput = true;
   public boolean projectIsSelected = false;
   public String projectPath = "";
   public boolean inputIsSelected = false;
-
   public boolean autoBackup = true;
 
   public int tableViewFontSize = 9;
   public int tableCellHeight = 50;
+
+  public double rootDivider = 0.7;
+  public double previewDivider = 0.55;
+  public double tableViewDivider = 0.3;
+
+  public double iconIndexChooserX = 400.0;
+  public double iconIndexChooserY = 150.0;
+  // **************************************************
 
   private Properties prop;
   private static final String DIR_PATH = "./properties";
@@ -60,6 +70,19 @@ public class Config {
       tableViewFontSize = Integer.parseInt(fontSize);
       String height = prop.getProperty("tableCellHeight");
       tableCellHeight = Integer.parseInt(height);
+
+      String rootDividerStr = prop.getProperty("rootDivider");
+      rootDivider = Double.valueOf(rootDividerStr);
+      String previewDividerStr = prop.getProperty("previewDivider");
+      previewDivider = Double.valueOf(previewDividerStr);
+      String tableViewDividerStr = prop.getProperty("tableViewDivider");
+      tableViewDivider = Double.valueOf(tableViewDividerStr);
+
+      String x = prop.getProperty("iconIndexChooserX");
+      iconIndexChooserX = Double.valueOf(x);
+      String y = prop.getProperty("iconIndexChooserY");
+      iconIndexChooserY = Double.valueOf(y);
+
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (InvalidPropertiesFormatException e) {
@@ -77,6 +100,13 @@ public class Config {
     prop.setProperty("autoBackup", String.valueOf(autoBackup));
     prop.setProperty("tableViewFontSize", "" + tableViewFontSize);
     prop.setProperty("tableCellHeight", "" + tableCellHeight);
+
+    prop.setProperty("rootDivider", "" + rootDivider);
+    prop.setProperty("previewDivider", "" + previewDivider);
+    prop.setProperty("tableViewDivider", "" + tableViewDivider);
+
+    prop.setProperty("iconIndexChooserX", "" + iconIndexChooserX);
+    prop.setProperty("iconIndexChooserY", "" + iconIndexChooserY);
 
     try (OutputStream os = new FileOutputStream(PROP_FILE)) {
       prop.storeToXML(os, "設定画面で管理するプロパティ");

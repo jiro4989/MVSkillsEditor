@@ -2,6 +2,7 @@ package application.tableview.icon;
 
 import java.io.File;
 
+import application.MainController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -11,7 +12,6 @@ import javafx.stage.StageStyle;
 import jiro.lib.java.util.PropertiesHundler;
 
 public class IconIndexChooser extends Stage {
-  private PropertiesHundler prop = new PropertiesHundler("icon-index-chooser");
   private IconIndexChooserController controller;
 
   public IconIndexChooser(File iconFile, int iconIndex) {
@@ -33,7 +33,8 @@ public class IconIndexChooser extends Stage {
       initStyle(StageStyle.UTILITY);
       initModality(Modality.APPLICATION_MODAL);
       setOnCloseRequest(e -> closeAction());
-      setWindowPosition();
+      setX(MainController.getConfig().iconIndexChooserX);
+      setY(MainController.getConfig().iconIndexChooserY);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -43,20 +44,9 @@ public class IconIndexChooser extends Stage {
     return controller;
   }
 
-  public void setWindowPosition() {
-    if (prop.exists()) {
-      prop.load();
-      double x = Double.parseDouble(prop.getValue("x"));
-      double y = Double.parseDouble(prop.getValue("y"));
-      setX(x);
-      setY(y);
-    }
-  }
-
   void closeAction() {
-    prop.setValue("x", "" + getX());
-    prop.setValue("y", "" + getY());
-    prop.write();
+    MainController.getConfig().iconIndexChooserX = getX();
+    MainController.getConfig().iconIndexChooserY = getY();
   }
 
 }

@@ -1,8 +1,17 @@
 package application.tableview;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.InvalidPropertiesFormatException;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
@@ -24,12 +33,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
-import jiro.lib.java.util.PropertiesHundler;
 import util.UtilInteger;
 
 public class TableViewManager {
-  private PropertiesHundler columnIndexProp;
-  private PropertiesHundler columnWidthProp;
+  private Properties columnIndexProp;
+  private Properties columnWidthProp;
+  private final File COLUMN_INDEX_FILE;
+  private final File COLUMN_WIDTH_FILE;
 
   private TableView<Skill> tableView;
   private SkillTableViewBorderPaneController controller;
@@ -51,8 +61,19 @@ public class TableViewManager {
     tableView = aTableView;
     controller = aController;
 
-    columnIndexProp = new PropertiesHundler(propTitle + "-column-index");
-    columnWidthProp = new PropertiesHundler(propTitle + "-column-width");
+    COLUMN_INDEX_FILE = new File("./properties/" + propTitle + "ColumnIndex.xml");
+    columnIndexProp = new Properties();
+
+    COLUMN_WIDTH_FILE = new File("./properties/" + propTitle + "ColumnWidth.xml");
+    columnWidthProp = new Properties();
+
+    if (COLUMN_INDEX_FILE.exists()) {
+      setColumnIndex();
+    }
+    if (COLUMN_WIDTH_FILE.exists()) {
+      setColumnWidth();
+    }
+
     settingTableView(tableView);
 
     tableView.getSelectionModel().selectedItemProperty()
@@ -72,6 +93,9 @@ public class TableViewManager {
 
     tableView.getColumns().forEach(c -> settingTableColumn((TableColumn<Skill, String>) c));
 
+    // **************************************************
+    // コンテキストメニューの登録
+    // **************************************************
     MenuItem insertMenuItem = new MenuItem("上書き挿入");
     insertMenuItem.setOnAction(e -> controller.normalInsert());
     MenuItem startInsertMenuItem = new MenuItem("先頭に挿入");
@@ -140,61 +164,68 @@ public class TableViewManager {
     model.setSelectionMode(SelectionMode.MULTIPLE);
     model.setCellSelectionEnabled(true);
     tableView.setFixedCellSize(50);
-    setColumnIndex();
-    setColumnWidth();
+  }
+
+  private void load(Properties prop, File file) {
+    try {
+      InputStream is = new FileInputStream(file);
+      prop.loadFromXML(is);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (InvalidPropertiesFormatException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
    * プロパティファイルからカラムインデックスを読み取り、カラム位置を設定する。
    */
   private void setColumnIndex() {
-    if (columnIndexProp.exists()) {
-      columnIndexProp.load();
+    load(columnIndexProp, COLUMN_INDEX_FILE);
 
-      ObservableList<TableColumn<Skill, ?>> columns = tableView.getColumns();
-      int size = columns.size();
+    ObservableList<TableColumn<Skill, ?>> columns = tableView.getColumns();
+    int size = columns.size();
 
-      List<TableColumn<Skill, ?>> columnList = new ArrayList<>(size);
-      List<String> keysList = new ArrayList<>(size);
-      List<Integer> columnIndices = new ArrayList<>(size);
+    List<TableColumn<Skill, ?>> columnList = new ArrayList<>(size);
+    List<String> keysList = new ArrayList<>(size);
+    List<Integer> columnIndices = new ArrayList<>(size);
 
-      IntStream.range(0, size)
-          .forEach(i -> {
-            columnList.add(columns.get(i));
+    IntStream.range(0, size)
+        .forEach(i -> {
+          columnList.add(columns.get(i));
 
-            String id = columns.get(i).getId();
-            keysList.add(id);
+          String id = columns.get(i).getId();
+          keysList.add(id);
 
-            int index = Integer.parseInt(columnIndexProp.getValue(id));
-            columnIndices.add(index);
-          });
-      columns.clear();
+          int index = Integer.parseInt(columnIndexProp.getProperty(id));
+          columnIndices.add(index);
+        });
+    columns.clear();
 
-      IntStream.range(0, size)
-          .forEach(i -> {
-            for (int j = 0; j < size; j++) {
-              if (i == columnIndices.get(j)) {
-                columns.add(i, columnList.get(j));
-                break;
-              }
+    IntStream.range(0, size)
+        .forEach(i -> {
+          for (int j = 0; j < size; j++) {
+            if (i == columnIndices.get(j)) {
+              columns.add(i, columnList.get(j));
+              break;
             }
-          });
-    }
+          }
+        });
   }
 
   private void setColumnWidth() {
-    if (columnWidthProp.exists()) {
-      columnWidthProp.load();
+    load(columnWidthProp, COLUMN_WIDTH_FILE);
 
-      ObservableList<TableColumn<Skill, ?>> columns = tableView.getColumns();
-      int size = columns.size();
-      IntStream.range(0, size)
-          .forEach(i -> {
-            TableColumn<Skill, ?> col = columns.get(i);
-            double value = Double.parseDouble(columnWidthProp.getValue(col.getId()));
-            col.setPrefWidth(value);;
-          });
-    }
+    ObservableList<TableColumn<Skill, ?>> columns = tableView.getColumns();
+    int size = columns.size();
+    IntStream.range(0, size)
+        .forEach(i -> {
+          TableColumn<Skill, ?> col = columns.get(i);
+          double value = Double.parseDouble(columnWidthProp.getProperty(col.getId()));
+          col.setPrefWidth(value);;
+        });
   }
 
   private void settingTableColumn(TableColumn<Skill, String> tableColumn) {
@@ -236,18 +267,30 @@ public class TableViewManager {
     ObservableList<TableColumn<Skill, ?>> columns = tableView.getColumns();
     IntStream.range(0, columns.size())
         .forEach(i -> {
-          columnIndexProp.setValue(columns.get(i).getId(), "" + columns.indexOf(columns.get(i)));
+          columnIndexProp.setProperty(columns.get(i).getId(), "" + columns.indexOf(columns.get(i)));
         });
-    columnIndexProp.write();
+    try (OutputStream os = new FileOutputStream(COLUMN_INDEX_FILE)) {
+      columnIndexProp.storeToXML(os, "カラムインデックスのプロパティ");
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   private void outputColumnWidth() {
     ObservableList<TableColumn<Skill, ?>> columns = tableView.getColumns();
     IntStream.range(0, columns.size())
         .forEach(i -> {
-          columnWidthProp.setValue(columns.get(i).getId(), "" + columns.get(i).getWidth());
+          columnWidthProp.setProperty(columns.get(i).getId(), "" + columns.get(i).getWidth());
         });
-    columnWidthProp.write();
+    try (OutputStream os = new FileOutputStream(COLUMN_WIDTH_FILE)) {
+      columnWidthProp.storeToXML(os, "カラム幅のプロパティ");
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   private static List<String> copyCellValues;

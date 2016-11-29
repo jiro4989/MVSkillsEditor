@@ -125,8 +125,8 @@ public class SkillTableViewBorderPaneController {
 
   @FXML
   private void initialize() {
-    leftManager = new TableViewManager(leftTableView, this, "left-table");
-    rightManager = new TableViewManager(rightTableView, this, "right-table");
+    leftManager = new TableViewManager(leftTableView, this, "leftTable");
+    rightManager = new TableViewManager(rightTableView, this, "rightTable");
 
     rightTableView.getFocusModel().focusedCellProperty().addListener((obs, oldVal, newVal) -> {
       if (newVal.getTableColumn() != null) {
