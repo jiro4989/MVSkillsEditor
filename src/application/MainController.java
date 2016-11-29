@@ -319,18 +319,20 @@ public class MainController {
   }
 
   private void makeBackupFile() {
-    try {
-      Calendar calendar = Calendar.getInstance();
-      SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-      String date = format.format(calendar.getTime());
-      Path path = Files.createDirectories(Paths.get("backup", date));
+    if (config.autoBackup) {
+      try {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String date = format.format(calendar.getTime());
+        Files.createDirectories(Paths.get("backup", date));
 
-      Path srcPath = FileSystems.getDefault().getPath(skillsFile.getCanonicalPath());
-      Path outPath = FileSystems.getDefault()
-          .getPath(path.toFile().getCanonicalPath() + File.separator + "Skills.json");
-      Files.copy(srcPath, outPath, StandardCopyOption.REPLACE_EXISTING);
-    } catch (IOException e1) {
-      e1.printStackTrace();
+        Path srcPath = FileSystems.getDefault().getPath(skillsFile.getCanonicalPath());
+        Path outPath = FileSystems.getDefault()
+            .getPath(Paths.get("backup", date, "Skills.json").toFile().getPath());
+        Files.copy(srcPath, outPath, StandardCopyOption.REPLACE_EXISTING);
+      } catch (IOException e1) {
+        e1.printStackTrace();
+      }
     }
   }
 
