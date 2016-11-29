@@ -3,6 +3,7 @@ package application.effects.edit;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.MainController;
 import application.effects.EffectsTableViewBorderPaneController;
 import application.effects.edit.strategy.EditStrategyManager;
 import javafx.collections.ObservableList;
@@ -18,6 +19,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import jiro.lib.javafx.scene.control.CustomedComboBox;
 import jiro.lib.javafx.scene.control.NumericTextField;
 import util.dictionary.Ability;
@@ -172,7 +174,17 @@ public class EditStageController {
   @FXML
   private void okButtonOnClicked() {
     controller.updateEffects(getValues());
+    closeAction();
     okButton.getScene().getWindow().hide();
+  }
+
+  void closeAction() {
+    Stage stage = (Stage)okButton.getScene().getWindow();
+
+    MainController.getConfig().editX = stage.getX();
+    MainController.getConfig().editY = stage.getY();
+    MainController.getConfig().editWidth = stage.getWidth();
+    MainController.getConfig().editHeight = stage.getHeight();
   }
 
   private double[] getValues() {
@@ -183,6 +195,7 @@ public class EditStageController {
 
   @FXML
   private void cancelButtonOnClicked() {
+    closeAction();
     cancelButton.getScene().getWindow().hide();
   }
 
@@ -246,11 +259,11 @@ public class EditStageController {
         editStrategyManager.setValues(dataId, value1, value2);
       } else if (releaseStateRadioButton.isSelected()) {
         releaseStateRadioButtonOnAction();
-        editStrategyManager.setValues(dataId-1, value1, value2);
+        editStrategyManager.setValues(dataId - 1, value1, value2);
       } else if (learningRadioButton.isSelected()) {
-        editStrategyManager.setValues(dataId-1, value1, value2);
+        editStrategyManager.setValues(dataId - 1, value1, value2);
       } else if (commonEventRadioButton.isSelected()) {
-        editStrategyManager.setValues(dataId-1, value1, value2);
+        editStrategyManager.setValues(dataId - 1, value1, value2);
       }
     }
   }

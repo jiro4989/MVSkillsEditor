@@ -32,6 +32,11 @@ public class Config {
   public double rootWidth = 1280;
   public double rootHeight = 720;
 
+  public double editX = 0;
+  public double editY = 0;
+  public double editWidth = 500.0;
+  public double editHeight = 500.0;
+
   public double rootDivider = 0.7;
   public double previewDivider = 0.55;
   public double tableViewDivider = 0.3;
@@ -85,6 +90,15 @@ public class Config {
       String rootHeightStr = prop.getProperty("rootHeight");
       rootHeight = Double.valueOf(rootHeightStr);
 
+      String editXStr = prop.getProperty("editX");
+      editX = Double.valueOf(editXStr);
+      String editYStr = prop.getProperty("editY");
+      editY = Double.valueOf(editYStr);
+      String editWidthStr = prop.getProperty("editWidth");
+      editWidth = Double.valueOf(editWidthStr);
+      String editHeightStr = prop.getProperty("editHeight");
+      editHeight = Double.valueOf(editHeightStr);
+
       String rootDividerStr = prop.getProperty("rootDivider");
       rootDivider = Double.valueOf(rootDividerStr);
       String previewDividerStr = prop.getProperty("previewDivider");
@@ -119,6 +133,11 @@ public class Config {
     prop.setProperty("rootY", "" + rootY);
     prop.setProperty("rootWidth", "" + rootWidth);
     prop.setProperty("rootHeight", "" + rootHeight);
+
+    prop.setProperty("editX", "" + editX);
+    prop.setProperty("editY", "" + editY);
+    prop.setProperty("editWidth", "" + editWidth);
+    prop.setProperty("editHeight", "" + editHeight);
 
     prop.setProperty("rootDivider", "" + rootDivider);
     prop.setProperty("previewDivider", "" + previewDivider);

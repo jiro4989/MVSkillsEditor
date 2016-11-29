@@ -2,6 +2,7 @@ package application.effects.edit;
 
 import java.util.List;
 
+import application.MainController;
 import application.effects.EffectsTableViewBorderPaneController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -32,6 +33,15 @@ public class EditStage extends Stage {
       setMinHeight(scene.getHeight());
       initStyle(StageStyle.UTILITY);
       initModality(Modality.APPLICATION_MODAL);
+
+      setX(MainController.getConfig().editX);
+      setY(MainController.getConfig().editY);
+      setWidth(MainController.getConfig().editWidth);
+      setHeight(MainController.getConfig().editHeight);
+
+      setOnCloseRequest(e -> {
+        controller.closeAction();
+      });
     } catch (Exception e) {
       e.printStackTrace();
     }
