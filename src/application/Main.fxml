@@ -88,7 +88,7 @@
                 </ImageView>
               </graphic>
               <tooltip>
-                <Tooltip text="プロジェクトからインポート" />
+                <Tooltip text="プロジェクトから開く" />
               </tooltip>
             </Button>
             <Button fx:id="folderButton" mnemonicParsing="false" onAction="#importFolder" text="">
@@ -100,7 +100,19 @@
                 </ImageView>
               </graphic>
               <tooltip>
-                <Tooltip text="フォルダからインポート" />
+                <Tooltip text="インプットフォルダから開く" />
+              </tooltip>
+            </Button>
+            <Button id="folderButton" mnemonicParsing="false" onAction="#saveMenuItemOnAction" text="">
+              <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@resources/paste.png" />
+                  </image>
+                </ImageView>
+              </graphic>
+              <tooltip>
+                <Tooltip text="上書き保存" />
               </tooltip>
             </Button>
             <Button fx:id="undoButton" disable="true" mnemonicParsing="false" onAction="#undo" text="">
@@ -176,7 +188,7 @@
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#openConfigStage" text="設定" fx:id="configMenuItem" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="閉じる" fx:id="quitMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#quitMenuItemOnAction" text="閉じる" fx:id="quitMenuItem" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="編集">

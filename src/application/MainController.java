@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.text.NumberFormat.Field;
 import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedList;
@@ -28,6 +27,7 @@ import application.tableview.SkillTableViewBorderPane;
 import application.tableview.SkillTableViewBorderPaneController;
 import application.tableview.command.ICommand;
 import application.tableview.command.UndoRedoManager;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -46,7 +46,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import jiro.lib.javafx.stage.DirectoryChooserManager;
-import jiro.lib.javafx.stage.FileChooserManager;
 import util.json.JsonSkill;
 
 public class MainController {
@@ -288,6 +287,12 @@ public class MainController {
       return true;
     }
     return false;
+  }
+
+  @FXML
+  private void quitMenuItemOnAction() {
+    closeAction();
+    Platform.exit();
   }
 
   /**
