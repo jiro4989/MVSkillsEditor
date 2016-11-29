@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import application.tableview.Skill;
 import javafx.collections.ObservableList;
+import util.dictionary.SkillCritical;
 import util.dictionary.SkillDamageType;
 import util.dictionary.SkillHitType;
 import util.dictionary.SkillOccasion;
@@ -91,6 +92,8 @@ public class JsonSkill {
 
     String animationId = skill.animationIdProperty().get();
     this.animationId = convertTextToIndex(animationList, animationId);
+    // アニメーションIDは先頭の要素"通常攻撃"が-1インデックスから開始しているため
+    this.animationId--;
 
     this.message1 = skill.message1Property().get();
     this.message2 = skill.message2Property().get();
@@ -106,7 +109,8 @@ public class JsonSkill {
     this.damage.put("type", SkillDamageType.convertToIndex(damageType));
 
     String damageElement = skill.damageElementProperty().get();
-    this.damage.put("elementId", convertTextToIndex(elementsList, damageElement));
+    // 通常攻撃が-1からはじまっているため
+    this.damage.put("elementId", convertTextToIndex(elementsList, damageElement)-1);
 
     String formula = skill.formulaProperty().get();
     this.damage.put("formula", formula);
@@ -115,7 +119,8 @@ public class JsonSkill {
     this.damage.put("variance", Integer.parseInt(variance));
 
     String critical = skill.criticalProperty().get();
-    this.damage.put("critical", Boolean.valueOf(critical));
+    boolean bool = SkillCritical.convertToBoolean(critical);
+    this.damage.put("critical", bool);
 
     this.effects = new ArrayList<>();
     String effects = skill.effectsProperty().get();
