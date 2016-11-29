@@ -162,19 +162,23 @@ public class MainController {
   private void importProject() {
     Stage stage = (Stage) effectsTitledPane.getScene().getWindow();
     Optional<File> dirOpt = projectDcm.openDirectory(stage);
-    dirOpt.ifPresent(rootDirectory -> {
-      String rootPath = rootDirectory.getAbsolutePath();
-      String dataPath = rootPath + File.separator + "data";
-      boolean success = successSetData(dataPath);
-
-      if (success) {
-        config.projectPath = rootPath;
-      } else {
-        String content = "プロジェクトフォルダを間違えていないか" + System.getProperty("line.separator")
-            + "dataフォルダやファイルが存在しているか確認してください。";
-        showAlert("ファイルが見つかりません。", content);
-      }
+    dirOpt.ifPresent(dir -> {
+      importProject(dir);
     });
+  }
+
+  private void importProject(File dir) {
+    String rootPath = dir.getAbsolutePath();
+    String dataPath = rootPath + File.separator + "data";
+    boolean success = successSetData(dataPath);
+
+    if (success) {
+      config.projectPath = rootPath;
+    } else {
+      String content = "プロジェクトフォルダを間違えていないか" + System.getProperty("line.separator")
+          + "dataフォルダやファイルが存在しているか確認してください。";
+      showAlert("ファイルが見つかりません。", content);
+    }
   }
 
   /**
@@ -544,6 +548,21 @@ public class MainController {
 
   public void updateEffectsCell(String newText) {
     skillTableViewController.updateEffectsCell(newText);
+  }
+
+  void openFiles() {
+    if (config.autoInput) {
+      if (config.projectIsSelected) {
+        File dir = new File(config.projectPath);
+        if (dir.exists()) {
+          importProject(dir);
+        }
+        return;
+      }
+      if (config.inputIsSelected) {
+        importFolder();
+      }
+    }
   }
 
 }

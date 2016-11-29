@@ -34,6 +34,7 @@ public class Main extends Application {
 
       primaryStage.show();
       controller.setDividers();
+      controller.openFiles();
     } catch (Exception e) {
       e.printStackTrace();
     }
