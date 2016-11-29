@@ -66,7 +66,7 @@ public enum SkillScope implements SkillTableData {
         return scope.ordinal();
       }
     }
-    return -1;
+    return 0;
   }
 
   @Override

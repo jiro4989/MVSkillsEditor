@@ -54,7 +54,7 @@ public enum SkillOccasion implements SkillTableData {
         return value.ordinal();
       }
     }
-    return -1;
+    return 0;
   }
 
   @Override
