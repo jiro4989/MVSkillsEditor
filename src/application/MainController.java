@@ -1,12 +1,18 @@
 package application;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import application.config.Config;
 import application.config.ConfigStage;
@@ -35,6 +41,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import jiro.lib.java.util.PropertiesHundler;
 import jiro.lib.javafx.stage.DirectoryChooserManager;
+import util.json.JsonSkill;
 
 public class MainController {
   private DirectoryChooserManager projectDcm;
@@ -264,6 +271,28 @@ public class MainController {
   private void openConfigStage() {
     ConfigStage cs = new ConfigStage(config);
     cs.showAndWait();
+  }
+
+  @FXML
+  private void saveMenuItemOnAction() {
+    List<JsonSkill> skillList = skillTableViewController.makeSkillData();
+    File file = new File("Skills.json");
+    try (FileOutputStream fos = new FileOutputStream(file)) {
+      File json = new File("Skills.json");
+      json.createNewFile();
+
+      ObjectMapper mapper = new ObjectMapper();
+      mapper.writeValue(new OutputStreamWriter(fos, "UTF-8"), skillList);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e1) {
+      e1.printStackTrace();
+    }
+  }
+
+  @FXML
+  private void saveAsMenuItemOnAction() {
+
   }
 
   @FXML

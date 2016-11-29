@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
 import java.util.stream.IntStream;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -63,6 +64,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.converter.DefaultStringConverter;
+import util.MyLogger;
 import util.UtilIconImage;
 import util.UtilTableView;
 import util.dictionary.SkillCritical;
@@ -72,6 +74,7 @@ import util.dictionary.SkillMessage;
 import util.dictionary.SkillOccasion;
 import util.dictionary.SkillScope;
 import util.json.JsonEffects;
+import util.json.JsonSkill;
 import util.json.UtilJson;
 
 public class SkillTableViewBorderPaneController {
@@ -779,5 +782,32 @@ public class SkillTableViewBorderPaneController {
 
   Skill getRecord(int rowIndex) {
     return UtilTableView.getSkillRecord(rightTableView, rowIndex);
+  }
+
+  private MyLogger logger = new MyLogger(getClass().getName());
+
+  public List<JsonSkill> makeSkillData() {
+    int size = rightTableView.getItems().size();
+
+    List<JsonSkill> skillList = new ArrayList<>();
+    skillList.add(null);
+    for (int index = 0; index < size; index++) {
+      Skill record = getRecord(index);
+      try {
+        JsonSkill data = new JsonSkill(record, stypeItems, animationItems, weaponItems,
+            elementItems);
+        skillList.add(data);
+      } catch (NumberFormatException e) {
+        logger.log(Level.SEVERE, "ファイル出力: 数値変換エラー", e);
+        return null;
+      } catch (JsonProcessingException e) {
+        logger.log(Level.SEVERE, "ファイル出力: Json変換エラー", e);
+        return null;
+      } catch (IOException e) {
+        logger.log(Level.SEVERE, "ファイル出力: アウトプットエラー", e);
+        return null;
+      }
+    }
+    return skillList;
   }
 }

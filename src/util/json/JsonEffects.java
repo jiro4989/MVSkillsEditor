@@ -18,4 +18,11 @@ public class JsonEffects {
     public JsonEffects(Double[] values) {
       this(UtilDouble.convertDoubleWrapperToPrimitive(values));;
     }
+
+    public JsonEffects(int code, int dataId, double value1, double value2) {
+      this.code = code;
+      this.dataId = dataId;
+      this.value1 = value1;
+      this.value2 = value2;
+    }
 }

@@ -176,8 +176,8 @@
             <MenuItem mnemonicParsing="false" onAction="#importProject" text="プロジェクトからインポート" fx:id="importProjectMenuItem" />
             <MenuItem mnemonicParsing="false" onAction="#importFolder" text="フォルダからインポート" fx:id="importFolderMenuItem" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="上書き保存" fx:id="saveMenuItem" />
-            <MenuItem mnemonicParsing="false" text="別名保存" fx:id="saveAsMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#saveMenuItemOnAction" text="上書き保存" fx:id="saveMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#saveAsMenuItemOnAction" text="別名保存" fx:id="saveAsMenuItem" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#openConfigStage" text="設定" fx:id="configMenuItem" />
             <SeparatorMenuItem mnemonicParsing="false" />
