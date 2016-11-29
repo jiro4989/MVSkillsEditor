@@ -78,8 +78,6 @@ public class TableViewManager {
 
     tableView.getSelectionModel().selectedItemProperty()
         .addListener((obs, oldValue, newValue) -> {
-          controller.updateEffectsPane();
-          controller.updateNotePane();
           controller.changeDisablePreviews(false);
         });
 
@@ -88,6 +86,14 @@ public class TableViewManager {
         int columnIndex = newVal.getColumn();
         int rowIndex = tableView.getSelectionModel().getSelectedIndex();
         controller.updateAxisLabels(columnIndex, rowIndex);
+        controller.updateEffectsPane();
+        controller.updateNotePane();
+      }
+    });
+
+    tableView.setOnKeyReleased(e -> {
+      if (e.getCode() == KeyCode.UP || e.getCode() == KeyCode.DOWN) {
+        controller.updateSelection();
       }
     });
 

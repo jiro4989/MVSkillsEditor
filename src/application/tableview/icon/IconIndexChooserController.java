@@ -10,8 +10,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 /**
  * アイコン選択画面のコントローラ。
@@ -26,6 +29,7 @@ public class IconIndexChooserController {
   private double imageHeight;
   private int initialIconIndex;
 
+  @FXML private VBox root;
   @FXML private GridPane gridPane;
   @FXML private ImageView iconImageView;
   @FXML private GridPane focusGridPane;
@@ -56,6 +60,13 @@ public class IconIndexChooserController {
   private void focusGridPaneOnMouseClicked(MouseEvent event) {
     if (event.getClickCount() == 2) {
       okButtonOnClicked();
+    }
+  }
+
+  @FXML
+  private void rootOnKeyPressed(KeyEvent event) {
+    if (event.getCode() == KeyCode.ESCAPE) {
+      cancelButtonOnClicked();
     }
   }
 

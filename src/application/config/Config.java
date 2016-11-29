@@ -32,8 +32,8 @@ public class Config {
   public double rootWidth = 1280;
   public double rootHeight = 720;
 
-  public double editX = 0;
-  public double editY = 0;
+  public double editX = 700;
+  public double editY = 180;
   public double editWidth = 500.0;
   public double editHeight = 500.0;
 

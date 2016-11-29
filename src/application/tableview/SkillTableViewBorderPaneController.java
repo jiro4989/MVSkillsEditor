@@ -130,7 +130,6 @@ public class SkillTableViewBorderPaneController {
 
     rightTableView.getFocusModel().focusedCellProperty().addListener((obs, oldVal, newVal) -> {
       if (newVal.getTableColumn() != null) {
-        updateSelection();
         if (rightManager.isSelected()) {
           updateInsertComboBox(rightManager.getSelectedCellColumnIndex());
         }
@@ -208,6 +207,7 @@ public class SkillTableViewBorderPaneController {
   @FXML
   private void leftTableViewOnMouseClicked(MouseEvent event) {
     rightTableView.getSelectionModel().clearSelection();
+    updateSelection();
 
     if (!leftTableView.getSelectionModel().isEmpty()) {
       if (event.getClickCount() == 2) {
@@ -277,14 +277,26 @@ public class SkillTableViewBorderPaneController {
   }
 
   public void updateSelection() {
-    leftTableView.getSelectionModel().clearSelection();
-    leftTableView.getSelectionModel().select(rightTableView.getSelectionModel().getSelectedIndex());
-    if (rightManager.isSelected()) {
-      int columnIndex = rightManager.getSelectedCellColumnIndex();
-      columnIndex += 3;
-      int rowIndex = rightManager.getSelectedCellRowIndex();
-      updateAxisLabels(columnIndex, rowIndex);
+    if (rightTableView.isFocused()) {
+      leftTableView.getSelectionModel().clearSelection();
+      leftTableView.getSelectionModel()
+          .select(rightTableView.getFocusModel().getFocusedIndex());
+      if (rightManager.isSelected()) {
+        int columnIndex = rightManager.getSelectedCellColumnIndex();
+        columnIndex += 3;
+        int rowIndex = rightManager.getSelectedCellRowIndex();
+        updateAxisLabels(columnIndex, rowIndex);
+      }
+      return;
     }
+
+//    rightTableView.getSelectionModel().clearSelection();
+//    rightTableView.getSelectionModel()
+//        .select(leftTableView.getFocusModel().getFocusedIndex());
+
+    int columnIndex = leftManager.getSelectedCellColumnIndex();
+    int rowIndex = leftManager.getSelectedCellRowIndex();
+    updateAxisLabels(columnIndex, rowIndex);
   }
 
   /**
@@ -473,8 +485,8 @@ public class SkillTableViewBorderPaneController {
    */
   public void updateEffectsPane() {
     if (rightManager.isSelected() || leftManager.isSelected()) {
-      int rowIndex = rightManager.isSelected() ? rightManager.getSelectedCellRowIndex()
-          : leftManager.getSelectedCellRowIndex();
+      int rowIndex = rightManager.isSelected() ? rightTableView.getFocusModel().getFocusedIndex()
+          : leftTableView.getFocusModel().getFocusedIndex();
       String effectsText = rightTableView.getItems().get(rowIndex).effectsProperty().get();
       int size = rightTableView.getItems().size();
       ArrayList<String> skillsList = new ArrayList<>(size);
@@ -492,7 +504,7 @@ public class SkillTableViewBorderPaneController {
    * @param newText
    */
   public void updateEffectsCell(String newText) {
-    int rowIndex = rightTableView.getSelectionModel().getSelectedIndex();
+    int rowIndex = rightTableView.getFocusModel().getFocusedIndex();
     int columnIndex = rightTableView.getColumns().indexOf(effectsColumn);
     ColumnStrategy strategy = new EffectsColumnStrategy(rightTableView, rowIndex, this);
 
@@ -519,8 +531,7 @@ public class SkillTableViewBorderPaneController {
    * @param values
    */
   public void updateEffectsCellNonPushUndo(int selectedIndex, double[] values) {
-    String effectsText = rightTableView.getSelectionModel().getSelectedItem().effectsProperty()
-        .get();
+    String effectsText = getSelectedEffects();
     ObjectMapper mapper = new ObjectMapper();
     try {
       JsonNode root = mapper.readTree(effectsText);
@@ -537,7 +548,7 @@ public class SkillTableViewBorderPaneController {
       }
       String result = "[" + String.join(",", textList) + "]";
 
-      int rowIndex = rightTableView.getSelectionModel().getSelectedIndex();
+      int rowIndex = leftTableView.getFocusModel().getFocusedIndex();
       int columnIndex = rightTableView.getColumns().indexOf(effectsColumn);
       ColumnStrategy strategy = new EffectsColumnStrategy(rightTableView, rowIndex, this);
 
@@ -591,8 +602,8 @@ public class SkillTableViewBorderPaneController {
 
   void updateNotePane() {
     if (rightManager.isSelected() || leftManager.isSelected()) {
-      int selectedIndex = rightManager.isSelected() ? rightManager.getSelectedCellRowIndex()
-          : leftManager.getSelectedCellRowIndex();
+      int selectedIndex = rightManager.isSelected() ? rightTableView.getFocusModel().getFocusedIndex()
+          : leftTableView.getFocusModel().getFocusedIndex();
 
       String note = rightTableView.getItems().get(selectedIndex).noteProperty().get();
       mainController.setNoteText(note);
@@ -677,7 +688,11 @@ public class SkillTableViewBorderPaneController {
   }
 
   public String getSelectedEffects() {
-    return rightTableView.getSelectionModel().getSelectedItem().effectsProperty().get();
+    if (rightManager.isSelected()) {
+      return rightTableView.getSelectionModel().getSelectedItem().effectsProperty().get();
+    }
+    int select = leftManager.getSelectedCellRowIndex();
+    return leftTableView.getItems().get(select).effectsProperty().get();
   }
 
   public SplitPane getSplitPane() {

@@ -3,7 +3,6 @@ package application.effects;
 import java.io.IOException;
 
 import application.MainController;
-import application.tableview.SkillTableViewBorderPaneController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 
