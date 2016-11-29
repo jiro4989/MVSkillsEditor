@@ -8,7 +8,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +40,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -58,6 +66,7 @@ public class MainController {
   private static Config config = new Config();
   private Properties favoriteProp;
   private File skillsFile;
+  private boolean opened = false;
 
   // **************************************************
   // メニューバー
@@ -239,6 +248,17 @@ public class MainController {
    */
   @FXML
   private void importFolder() {
+    if (opened) {
+      Alert alert = new Alert(AlertType.WARNING, "", ButtonType.YES, ButtonType.NO);
+      alert.setHeaderText("別のファイルを開きます。");
+      alert.setContentText("現在編集中のファイルは保存されません。" + System.getProperty("line.separator") +
+          "本当によろしいですか？");
+      ButtonType buttonType = alert.showAndWait().orElse(ButtonType.NO);
+      if (buttonType.equals(ButtonType.NO)) {
+        return;
+      }
+    }
+
     boolean success = successSetData("./input");
 
     if (success) {
@@ -280,6 +300,9 @@ public class MainController {
       undoButton.setDisable(true);
       redoButton.setDisable(true);
       insertComboBox.getItems().clear();
+      opened = true;
+
+      makeBackupFile();
 
       skillTableViewController.setSkillDatas(skillsFile, systemFile, animationFile);
       File iconFile = iconSetImage1.exists() ? iconSetImage1 : iconSetImage2;
@@ -288,11 +311,27 @@ public class MainController {
           skillTableViewController.getNormalAttackText());
       effectsTableViewController.setCommonEventList(commonEventFile);
 
-      Stage stage = (Stage)xLabel.getScene().getWindow();
+      Stage stage = (Stage) xLabel.getScene().getWindow();
       stage.setTitle(skillsFile.getPath() + " - " + Main.TITLE);
       return true;
     }
     return false;
+  }
+
+  private void makeBackupFile() {
+    try {
+      Calendar calendar = Calendar.getInstance();
+      SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+      String date = format.format(calendar.getTime());
+      Path path = Files.createDirectories(Paths.get("backup", date));
+
+      Path srcPath = FileSystems.getDefault().getPath(skillsFile.getCanonicalPath());
+      Path outPath = FileSystems.getDefault()
+          .getPath(path.toFile().getCanonicalPath() + File.separator + "Skills.json");
+      Files.copy(srcPath, outPath, StandardCopyOption.REPLACE_EXISTING);
+    } catch (IOException e1) {
+      e1.printStackTrace();
+    }
   }
 
   @FXML
@@ -334,13 +373,9 @@ public class MainController {
 
   @FXML
   private void saveMenuItemOnAction() {
-    List<JsonSkill> skillList = skillTableViewController.makeSkillData();
-    File file = new File("Skills.json");
-    try (FileOutputStream fos = new FileOutputStream(file)) {
-      File json = new File("Skills.json");
-      json.createNewFile();
-
+    try (FileOutputStream fos = new FileOutputStream(skillsFile)) {
       ObjectMapper mapper = new ObjectMapper();
+      List<JsonSkill> skillList = skillTableViewController.makeSkillData();
       mapper.writeValue(new OutputStreamWriter(fos, "UTF-8"), skillList);
     } catch (FileNotFoundException e) {
       e.printStackTrace();

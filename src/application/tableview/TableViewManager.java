@@ -136,7 +136,7 @@ public class TableViewManager {
     overPasteRecordItem = new MenuItem("行コピーを上書き貼り付け");
     overPasteRecordItem.setOnAction(e -> overPasteRecord());
     overPasteRecordItem.setAccelerator(
-        new KeyCodeCombination(KeyCode.G, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
+        new KeyCodeCombination(KeyCode.B, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
 
     deleteRecordItem = new MenuItem("選択行を削除");
     deleteRecordItem.setOnAction(e -> deleteRecord());

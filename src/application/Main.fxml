@@ -181,12 +181,25 @@
       <menus>
         <Menu mnemonicParsing="false" text="ファイル">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#importProject" text="プロジェクトから開く" fx:id="importProjectMenuItem" />
-            <MenuItem mnemonicParsing="false" onAction="#importFolder" text="インプットフォルダから開く" fx:id="importFolderMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#importProject" text="プロジェクトから開く" fx:id="importProjectMenuItem">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#importFolder" text="インプットフォルダから開く" fx:id="importFolderMenuItem">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#saveMenuItemOnAction" text="上書き保存" fx:id="saveMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#saveMenuItemOnAction" text="上書き保存" fx:id="saveMenuItem">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#openConfigStage" text="設定" fx:id="configMenuItem" />
+            <MenuItem mnemonicParsing="false" text="必須ファイルをコピー" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#quitMenuItemOnAction" text="閉じる" fx:id="quitMenuItem" />
           </items>
