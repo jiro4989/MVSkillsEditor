@@ -34,6 +34,7 @@ import application.tableview.SkillTableViewBorderPane;
 import application.tableview.SkillTableViewBorderPaneController;
 import application.tableview.command.ICommand;
 import application.tableview.command.UndoRedoManager;
+import application.version.VersionStage;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -84,6 +85,8 @@ public class MainController {
 
   @FXML private MenuItem previousMenuItem;
   @FXML private MenuItem nextMenuItem;
+
+  @FXML private MenuItem versionMenuItem;
 
   // **************************************************
   // ツールバー(上)
@@ -377,6 +380,12 @@ public class MainController {
         e.printStackTrace();
       }
     });
+  }
+
+  @FXML
+  private void versionMenuItemOnAction() {
+    VersionStage stage = new VersionStage();
+    stage.showAndWait();
   }
 
   @FXML

@@ -224,7 +224,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="ヘルプ">
           <items>
-            <MenuItem mnemonicParsing="false" text="バージョン情報" />
+            <MenuItem mnemonicParsing="false" onAction="#versionMenuItemOnAction" text="バージョン情報" fx:id="versionMenuItem" />
           </items>
         </Menu>
       </menus>

@@ -37,7 +37,7 @@ public class Config {
   public double editWidth = 500.0;
   public double editHeight = 500.0;
 
-  public double rootDivider = 0.7;
+  public double rootDivider = 0.8;
   public double previewDivider = 0.55;
   public double tableViewDivider = 0.3;
 

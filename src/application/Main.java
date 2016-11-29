@@ -7,8 +7,15 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * 実行クラス。
+ * @author jiro
+ * @version 1.0
+ *
+ */
 public class Main extends Application {
-  public static final String TITLE = "MVSkillsMaker";
+  public static final String TITLE = "MVSkillsEditor";
+  public static final String VERSION = "ver 1.0";
   private MainController controller;
 
   @Override
