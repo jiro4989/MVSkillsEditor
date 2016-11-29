@@ -19,7 +19,7 @@ public class OverPasteRecordStrategy extends RecordStrategy {
   @Override
   public void execute() {
     tableView.getItems().set(rowIndex, prevRecord);
-    tableView.getSelectionModel().select(rowIndex-1);
+    tableView.getSelectionModel().select(rowIndex - 1);
     controller.updateId();
   }
 

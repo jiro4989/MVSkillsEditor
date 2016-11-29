@@ -7,7 +7,8 @@ import javafx.scene.control.TableView;
 public class AnimationIdColumnStrategy extends ColumnStrategy {
   private ObservableList<String> items;
 
-  public AnimationIdColumnStrategy(TableView<Skill> tableView, int rowIndex, ObservableList<String> list) {
+  public AnimationIdColumnStrategy(TableView<Skill> tableView, int rowIndex,
+      ObservableList<String> list) {
     super();
     this.tableView = tableView;
     this.rowIndex = rowIndex;

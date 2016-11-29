@@ -7,11 +7,13 @@ import javafx.scene.control.TableView;
 public class DeleteRecordStrategy extends RecordStrategy {
   private SkillTableViewBorderPaneController controller;
 
-  public DeleteRecordStrategy(TableView<Skill> tableView, int rowIndex, SkillTableViewBorderPaneController controller) {
+  public DeleteRecordStrategy(TableView<Skill> tableView, int rowIndex,
+      SkillTableViewBorderPaneController controller) {
     this.tableView = tableView;
     this.rowIndex = rowIndex;
     this.controller = controller;
   }
+
   @Override
   public void execute() {
     Skill item = tableView.getItems().get(rowIndex);

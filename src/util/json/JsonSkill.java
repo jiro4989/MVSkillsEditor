@@ -109,7 +109,7 @@ public class JsonSkill {
 
     String damageElement = skill.damageElementProperty().get();
     // 通常攻撃が-1からはじまっているため
-    this.damage.put("elementId", convertTextToIndex(elementsList, damageElement)-1);
+    this.damage.put("elementId", convertTextToIndex(elementsList, damageElement) - 1);
 
     String formula = skill.formulaProperty().get();
     this.damage.put("formula", formula);

@@ -11,7 +11,6 @@ import javafx.stage.Stage;
  * 実行クラス。
  * @author jiro
  * @version 1.0
- *
  */
 public class Main extends Application {
   public static final String TITLE = "MVSkillsEditor";

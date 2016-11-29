@@ -3,7 +3,7 @@ package application.tableview.cell;
 import application.tableview.Skill;
 import javafx.scene.control.TableCell;
 
-public class BooleanTableCell extends TableCell<Skill, String>{
+public class BooleanTableCell extends TableCell<Skill, String> {
   private static final String BOLD = "bold;";
   private static final String NORMAL = "normal;";
 

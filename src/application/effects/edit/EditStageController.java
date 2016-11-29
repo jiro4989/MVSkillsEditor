@@ -179,7 +179,7 @@ public class EditStageController {
   }
 
   void closeAction() {
-    Stage stage = (Stage)okButton.getScene().getWindow();
+    Stage stage = (Stage) okButton.getScene().getWindow();
 
     MainController.getConfig().editX = stage.getX();
     MainController.getConfig().editY = stage.getY();
