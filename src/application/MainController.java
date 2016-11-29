@@ -75,6 +75,7 @@ public class MainController {
   @FXML private MenuItem importFolderMenuItem;
   @FXML private MenuItem saveMenuItem;
   @FXML private MenuItem configMenuItem;
+  @FXML private MenuItem copyNeedFileMenuItem;
   @FXML private MenuItem quitMenuItem;
 
   @FXML private MenuItem undoMenuItem;
@@ -140,6 +141,9 @@ public class MainController {
     effectsTableView = new EffectsTableViewBorderPane(this);
     effectsTableViewController = effectsTableView.getController();
     effectsTitledPane.setContent(effectsTableView);
+
+    File input = new File("input");
+    input.mkdirs();
 
     File file = new File(config.projectPath);
     if (file.exists()) {
@@ -303,7 +307,6 @@ public class MainController {
       insertComboBox.getItems().clear();
       opened = true;
 
-
       skillTableViewController.setSkillDatas(skillsFile, systemFile, animationFile);
       File iconFile = iconSetImage1.exists() ? iconSetImage1 : iconSetImage2;
       skillTableViewController.setIconFile(iconFile);
@@ -336,6 +339,44 @@ public class MainController {
         e1.printStackTrace();
       }
     }
+  }
+
+  @FXML
+  private void copyNeedFileMenuItemOnAction() {
+    DirectoryChooserManager directoryChooserManager = new DirectoryChooserManager();
+    Stage stage = (Stage) xLabel.getScene().getWindow();
+    Optional<File> dirOpt = directoryChooserManager.openDirectory(stage);
+    dirOpt.ifPresent(dir -> {
+      try {
+        String dirPath = dir.getCanonicalPath();
+
+        Path src = Paths.get(dirPath, "data", "Skills.json");
+        Path out = Paths.get("input", "Skills.json");
+        Files.copy(src, out, StandardCopyOption.REPLACE_EXISTING);
+
+        src = Paths.get(dirPath, "data", "Animations.json");
+        out = Paths.get("input", "Animations.json");
+        Files.copy(src, out, StandardCopyOption.REPLACE_EXISTING);
+
+        src = Paths.get(dirPath, "data", "States.json");
+        out = Paths.get("input", "States.json");
+        Files.copy(src, out, StandardCopyOption.REPLACE_EXISTING);
+
+        src = Paths.get(dirPath, "data", "CommonEvents.json");
+        out = Paths.get("input", "CommonEvents.json");
+        Files.copy(src, out, StandardCopyOption.REPLACE_EXISTING);
+
+        src = Paths.get(dirPath, "data", "System.json");
+        out = Paths.get("input", "System.json");
+        Files.copy(src, out, StandardCopyOption.REPLACE_EXISTING);
+
+        src = Paths.get(dirPath, "img", "system", "IconSet.png");
+        out = Paths.get("input", "IconSet.png");
+        Files.copy(src, out, StandardCopyOption.REPLACE_EXISTING);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    });
   }
 
   @FXML

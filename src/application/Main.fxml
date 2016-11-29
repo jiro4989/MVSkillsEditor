@@ -187,7 +187,7 @@
             </MenuItem>
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#openConfigStage" text="設定" fx:id="configMenuItem" />
-            <MenuItem mnemonicParsing="false" text="必須ファイルをコピー" />
+            <MenuItem mnemonicParsing="false" onAction="#copyNeedFileMenuItemOnAction" text="必須ファイルをコピー" fx:id="copyNeedFileMenuItem" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#quitMenuItemOnAction" text="閉じる" fx:id="quitMenuItem" />
           </items>
