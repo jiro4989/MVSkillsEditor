@@ -36,6 +36,16 @@
 }
 
 /**
+ * 右側テーブルビューの水平スクロールバーを非表示にする。
+ */
+#skillTableView .scroll-bar:horizontal .increment-arrow,
+#skillTableView .scroll-bar:horizontal .decrement-arrow,
+#skillTableView .scroll-bar:horizontal .increment-button,
+#skillTableView .scroll-bar:horizontal .decrement-button {
+    -fx-padding:4.0;
+}
+
+/**
  * ツールバーのボタンの背景色を透明にする。
  */
 #topToolBar .button {
