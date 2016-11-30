@@ -65,6 +65,35 @@ public class Skill {
     this.note = new SimpleStringProperty(note);
   }
 
+  public Skill(Skill skill) {
+    this.id = new SimpleStringProperty(skill.idProperty().get());
+    this.name = new SimpleStringProperty(skill.nameProperty().get());
+    this.iconIndex = new SimpleStringProperty(skill.iconIndexProperty().get());
+    this.description = new SimpleStringProperty(skill.descriptionProperty().get());
+    this.stypeId = new SimpleStringProperty(skill.stypeIdProperty().get());
+    this.scope = new SimpleStringProperty(skill.scopeProperty().get());
+    this.mpCost = new SimpleStringProperty(skill.mpCostProperty().get());
+    this.tpCost = new SimpleStringProperty(skill.tpCostProperty().get());
+    this.occasion = new SimpleStringProperty(skill.occasionProperty().get());
+    this.speed = new SimpleStringProperty(skill.speedProperty().get());
+    this.successRate = new SimpleStringProperty(skill.successRateProperty().get());
+    this.repeats = new SimpleStringProperty(skill.repeatsProperty().get());
+    this.tpGain = new SimpleStringProperty(skill.tpGainProperty().get());
+    this.hitType = new SimpleStringProperty(skill.hitTypeProperty().get());
+    this.animationId = new SimpleStringProperty(skill.animationIdProperty().get());
+    this.message1 = new SimpleStringProperty(skill.message1Property().get());
+    this.message2 = new SimpleStringProperty(skill.message2Property().get());
+    this.requiredWtypeId1 = new SimpleStringProperty(skill.requiredWtypeId1Property().get());
+    this.requiredWtypeId2 = new SimpleStringProperty(skill.requiredWtypeId2Property().get());
+    this.damageType = new SimpleStringProperty(skill.damageTypeProperty().get());
+    this.damageElement = new SimpleStringProperty(skill.damageElementProperty().get());
+    this.formula = new SimpleStringProperty(skill.formulaProperty().get());
+    this.variance = new SimpleStringProperty(skill.varianceProperty().get());
+    this.critical = new SimpleStringProperty(skill.criticalProperty().get());
+    this.effects = new SimpleStringProperty(skill.effectsProperty().get());
+    this.note = new SimpleStringProperty(skill.noteProperty().get());
+  }
+
   // **************************************************
   // Getter
   // **************************************************

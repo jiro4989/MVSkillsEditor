@@ -384,7 +384,7 @@ public class TableViewManager {
             int rowIndex = selectedIndex + index + 1;
             RecordStrategy prevStrategy = new DeleteRecordStrategy(tableView, rowIndex, controller);
             RecordStrategy newStrategy = new InsertNewRecordStrategy(tableView, rowIndex,
-                controller, copyRecordValues.get(index));
+                controller, new Skill(copyRecordValues.get(index)));
             controller.invokeRecord(rowIndex, prevStrategy, newStrategy);
           });
       controller.pushUndoCount(size - overCount.get());
