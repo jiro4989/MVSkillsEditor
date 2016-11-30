@@ -62,6 +62,8 @@ import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.converter.DefaultStringConverter;
 import util.MyLogger;
@@ -252,11 +254,7 @@ public class SkillTableViewBorderPaneController {
         int columnIndex = rightManager.getSelectedCellColumnIndex();
         ObservableList<TableColumn<Skill, ?>> columns = rightTableView.getColumns();
 
-        if (columnIndex == columns.indexOf(criticalColumn)) {
-          String text = rightManager.getSelectedCellValue();
-          text = "あり".equals(text) ? "なし" : "あり";
-          insertText(text);
-        }
+        changeCritical(columnIndex, columns);
       }
     }
   }
@@ -276,6 +274,26 @@ public class SkillTableViewBorderPaneController {
     rightManager.onMouseDragged(event);
   }
 
+  @FXML
+  private void rightTableViewOnKeyPressed(KeyEvent event) {
+    if (rightManager.isSelected()) {
+      if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.SPACE) {
+        int columnIndex = rightManager.getSelectedCellColumnIndex();
+        ObservableList<TableColumn<Skill, ?>> columns = rightTableView.getColumns();
+
+        changeCritical(columnIndex, columns);
+      }
+    }
+  }
+
+  private void changeCritical(int columnIndex, ObservableList<TableColumn<Skill, ?>> columns) {
+    if (columnIndex == columns.indexOf(criticalColumn)) {
+      String text = rightManager.getSelectedCellValue();
+      text = "あり".equals(text) ? "なし" : "あり";
+      insertText(text);
+    }
+  }
+
   public void updateSelection() {
     if (rightTableView.isFocused()) {
       leftTableView.getSelectionModel().clearSelection();
@@ -290,9 +308,9 @@ public class SkillTableViewBorderPaneController {
       return;
     }
 
-//    rightTableView.getSelectionModel().clearSelection();
-//    rightTableView.getSelectionModel()
-//        .select(leftTableView.getFocusModel().getFocusedIndex());
+    // rightTableView.getSelectionModel().clearSelection();
+    // rightTableView.getSelectionModel()
+    // .select(leftTableView.getFocusModel().getFocusedIndex());
 
     int columnIndex = leftManager.getSelectedCellColumnIndex();
     int rowIndex = leftManager.getSelectedCellRowIndex();
@@ -602,7 +620,8 @@ public class SkillTableViewBorderPaneController {
 
   void updateNotePane() {
     if (rightManager.isSelected() || leftManager.isSelected()) {
-      int selectedIndex = rightManager.isSelected() ? rightTableView.getFocusModel().getFocusedIndex()
+      int selectedIndex = rightManager.isSelected()
+          ? rightTableView.getFocusModel().getFocusedIndex()
           : leftTableView.getFocusModel().getFocusedIndex();
 
       String note = rightTableView.getItems().get(selectedIndex).noteProperty().get();
