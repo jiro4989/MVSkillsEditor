@@ -36,7 +36,9 @@ public class IconTableCell extends TableCell<Skill, String> {
       imageView.setImage(iconImageList.get(iconIndex));
       label.setText("" + iconIndex);
       setGraphic(hBox);
+      return;
     }
+    setGraphic(null);
   }
 
   public static void setIconImageList(List<Image> anIconImageList) {

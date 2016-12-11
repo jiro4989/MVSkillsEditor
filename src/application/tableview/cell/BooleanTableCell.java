@@ -14,6 +14,8 @@ public class BooleanTableCell extends TableCell<Skill, String> {
       setText(item);
       String weight = item.equals("あり") ? BOLD : NORMAL;
       setStyle("-fx-font-weight:" + weight);
+      return;
     }
+    setText(null);
   }
 }
