@@ -1,5 +1,5 @@
 【ソフトウェア名】
-MVSkillsEditor ver1.1
+MVSkillsEditor ver1.2
 
 【作者】
 次郎 (Jiro)
