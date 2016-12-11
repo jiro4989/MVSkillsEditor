@@ -37,6 +37,21 @@
         <ComboBox fx:id="cellSizeConboBox" prefWidth="100.0" visibleRowCount="20">
           <items>
             <FXCollections fx:factory="observableArrayList">
+              <Integer fx:value="25" />
+              <Integer fx:value="26" />
+              <Integer fx:value="27" />
+              <Integer fx:value="28" />
+              <Integer fx:value="29" />
+              <Integer fx:value="30" />
+              <Integer fx:value="31" />
+              <Integer fx:value="32" />
+              <Integer fx:value="33" />
+              <Integer fx:value="34" />
+              <Integer fx:value="35" />
+              <Integer fx:value="36" />
+              <Integer fx:value="37" />
+              <Integer fx:value="38" />
+              <Integer fx:value="39" />
               <Integer fx:value="40" />
               <Integer fx:value="41" />
               <Integer fx:value="42" />
