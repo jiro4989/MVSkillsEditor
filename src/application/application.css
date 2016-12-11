@@ -13,9 +13,9 @@
 	-fx-font-size: 9.0pt;
 }
 
-.table-cell:hover,
-.list-view .list-cell:hover,
-.tree-view .tree-cell:hover {
+.table-cell:filled:hover,
+.list-view .list-cell:filled:hover,
+.tree-view .tree-cell:filled:hover {
     -fx-background-color: -fx-cell-focus-inner-border, -fx-selection-bar  ;
     -fx-background-insets: 0, 0 0 1 0 ;
     -fx-background: -fx-selection-bar ;
@@ -23,6 +23,10 @@
 
 .text-area {
 	-fx-font-family: "Monospace";
+}
+
+#leftSkillTableView {
+	-fx-padding: 0 0 15 0;
 }
 
 /**

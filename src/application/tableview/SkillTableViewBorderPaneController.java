@@ -208,10 +208,10 @@ public class SkillTableViewBorderPaneController {
 
   @FXML
   private void leftTableViewOnMouseClicked(MouseEvent event) {
-    rightTableView.getSelectionModel().clearSelection();
-    updateSelection();
-
     if (!leftTableView.getSelectionModel().isEmpty()) {
+      rightTableView.getSelectionModel().clearSelection();
+      updateSelection();
+
       if (event.getClickCount() == 2) {
         int columnIndex = leftManager.getSelectedCellColumnIndex();
         ObservableList<TableColumn<Skill, ?>> columns = leftTableView.getColumns();
