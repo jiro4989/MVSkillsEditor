@@ -12,7 +12,7 @@ MVSkillsEditor マニュアル
 - OS             : Windows7 64bit Home Premium, LinuxBean12.04
 - プロセッサ     : 3.50GHz Intel Core i7-4770K
 - メモリ         : 8GB RAM
-- Javaバージョン : 1.8.0_111
+- Javaバージョン : 1.8.0-111
 
 ## 目次 ########################################################################
 
