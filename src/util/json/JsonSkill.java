@@ -144,6 +144,7 @@ public class JsonSkill {
   }
 
   /**
+   * FIXME
    * テキストをリストの中から検索し、見つかったインデックスを返す。
    * @param list
    * @param text
