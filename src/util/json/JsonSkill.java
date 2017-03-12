@@ -89,6 +89,7 @@ public class JsonSkill {
     String hitType = skill.hitTypeProperty().get();
     this.hitType = SkillHitType.convertToIndex(hitType);
 
+    // contertTextToIndex が バグの原因 FIXME
     String animationId = skill.animationIdProperty().get();
     this.animationId = convertTextToIndex(animationList, animationId);
     // アニメーションIDは先頭の要素"通常攻撃"が-1インデックスから開始しているため
@@ -97,9 +98,11 @@ public class JsonSkill {
     this.message1 = skill.message1Property().get();
     this.message2 = skill.message2Property().get();
 
+    // contertTextToIndex が バグの原因 FIXME
     String requiredWtypeId1 = skill.requiredWtypeId1Property().get();
     this.requiredWtypeId1 = convertTextToIndex(weaponsList, requiredWtypeId1);
 
+    // contertTextToIndex が バグの原因 FIXME
     String requiredWtypeId2 = skill.requiredWtypeId2Property().get();
     this.requiredWtypeId2 = convertTextToIndex(weaponsList, requiredWtypeId2);
 
@@ -107,6 +110,7 @@ public class JsonSkill {
     String damageType = skill.damageTypeProperty().get();
     this.damage.put("type", SkillDamageType.convertToIndex(damageType));
 
+    // contertTextToIndex が バグの原因 FIXME
     String damageElement = skill.damageElementProperty().get();
     // 通常攻撃が-1からはじまっているため
     this.damage.put("elementId", convertTextToIndex(elementsList, damageElement) - 1);

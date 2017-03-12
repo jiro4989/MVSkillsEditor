@@ -1,5 +1,7 @@
 package application.tableview;
 
+// import 宣言 {{{
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -79,6 +81,8 @@ import util.json.JsonEffects;
 import util.json.JsonSkill;
 import util.json.UtilJson;
 
+//}}}
+
 public class SkillTableViewBorderPaneController {
   private TableViewManager leftManager;
   private TableViewManager rightManager;
@@ -90,6 +94,8 @@ public class SkillTableViewBorderPaneController {
   private static ObservableList<String> weaponItems;
   private static ObservableList<String> animationItems;
   private static ObservableList<String> elementItems;
+
+  // FXML コンポーネント//{{{
 
   @FXML private SplitPane tableViewSplitPane;
   @FXML private TableView<Skill> leftTableView;
@@ -125,8 +131,9 @@ public class SkillTableViewBorderPaneController {
   @FXML private TableColumn<Skill, String> effectsColumn = new TableColumn<>("使用効果");
   @FXML private TableColumn<Skill, String> noteColumn = new TableColumn<>("メモ");
 
-  @FXML
-  private void initialize() {
+  //}}}
+
+  @FXML private void initialize() {//{{{
     leftManager = new TableViewManager(leftTableView, this, "leftTable");
     rightManager = new TableViewManager(rightTableView, this, "rightTable");
 
@@ -156,12 +163,12 @@ public class SkillTableViewBorderPaneController {
     message1Column.setCellValueFactory(new PropertyValueFactory<Skill, String>("message1"));
     message2Column.setCellValueFactory(new PropertyValueFactory<Skill, String>("message2"));
     requiredWtypeId1Column
-        .setCellValueFactory(new PropertyValueFactory<Skill, String>("requiredWtypeId1"));
+      .setCellValueFactory(new PropertyValueFactory<Skill, String>("requiredWtypeId1"));
     requiredWtypeId2Column
-        .setCellValueFactory(new PropertyValueFactory<Skill, String>("requiredWtypeId2"));
+      .setCellValueFactory(new PropertyValueFactory<Skill, String>("requiredWtypeId2"));
     damageTypeColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("damageType"));
     damageElementColumn
-        .setCellValueFactory(new PropertyValueFactory<Skill, String>("damageElement"));
+      .setCellValueFactory(new PropertyValueFactory<Skill, String>("damageElement"));
     formulaColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("formula"));
     varianceColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("variance"));
     criticalColumn.setCellValueFactory(new PropertyValueFactory<Skill, String>("critical"));
@@ -178,7 +185,7 @@ public class SkillTableViewBorderPaneController {
     mpCostColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     tpCostColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     occasionColumn
-        .setCellFactory(col -> new ComboBoxTableCell<>(SkillOccasion.getObservableList()));
+      .setCellFactory(col -> new ComboBoxTableCell<>(SkillOccasion.getObservableList()));
     speedColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     successRateColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     repeatsColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
@@ -187,7 +194,7 @@ public class SkillTableViewBorderPaneController {
     message1Column.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     message2Column.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     damageTypeColumn
-        .setCellFactory(col -> new ComboBoxTableCell<>(SkillDamageType.getObservableList()));
+      .setCellFactory(col -> new ComboBoxTableCell<>(SkillDamageType.getObservableList()));
     formulaColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     varianceColumn.setCellFactory(col -> new TextFieldTableCell<>(new DefaultStringConverter()));
     criticalColumn.setCellFactory(col -> new BooleanTableCell());
@@ -204,10 +211,9 @@ public class SkillTableViewBorderPaneController {
     rightTableView.getColumns().remove(idColumn);
     rightTableView.getColumns().remove(nameColumn);
     rightTableView.getColumns().remove(iconIndexColumn);
-  }
+  }//}}}
 
-  @FXML
-  private void leftTableViewOnMouseClicked(MouseEvent event) {
+  @FXML private void leftTableViewOnMouseClicked(MouseEvent event) {//{{{
     if (!leftTableView.getSelectionModel().isEmpty()) {
       rightTableView.getSelectionModel().clearSelection();
       updateSelection();
@@ -220,9 +226,9 @@ public class SkillTableViewBorderPaneController {
         }
       }
     }
-  }
+  }//}}}
 
-  private void setIconIndex() {
+  private void setIconIndex() {//{{{
     TableViewSelectionModel<Skill> model = leftTableView.getSelectionModel();
 
     String indexStr = model.getSelectedItem().iconIndexProperty().get();
@@ -234,19 +240,18 @@ public class SkillTableViewBorderPaneController {
     if (iconIndex != newIconIndex) {
       ObservableList<Integer> rowIndices = model.getSelectedIndices();
       rowIndices.stream()
-          .forEach(rowIndex -> {
-            ColumnStrategy strategy = new IconIndexColumnStrategy(rightTableView, rowIndex);
-            ICommand command = new TableCellUpdateCommand(rightTableView, rowIndex, 0,
-                "" + newIconIndex, strategy);
-            mainController.invoke(command);
-          });
+        .forEach(rowIndex -> {
+          ColumnStrategy strategy = new IconIndexColumnStrategy(rightTableView, rowIndex);
+          ICommand command = new TableCellUpdateCommand(rightTableView, rowIndex, 0,
+              "" + newIconIndex, strategy);
+          mainController.invoke(command);
+        });
 
       mainController.pushUndoCount(rowIndices.size());
     }
-  }
+  }//}}}
 
-  @FXML
-  private void rightTableViewOnMouseClicked(MouseEvent event) {
+  @FXML private void rightTableViewOnMouseClicked(MouseEvent event) {//{{{
     updateSelection();
 
     if (!rightTableView.getSelectionModel().isEmpty()) {
@@ -257,25 +262,21 @@ public class SkillTableViewBorderPaneController {
         changeCritical(columnIndex, columns);
       }
     }
-  }
+  }//}}}
 
-  @FXML
-  private void rightTableViewOnMousePressed(MouseEvent event) {
+  @FXML private void rightTableViewOnMousePressed(MouseEvent event) {
     rightManager.onMousePressed(event);
   }
 
-  @FXML
-  private void rightTableViewOnMouseReleased(MouseEvent event) {
+  @FXML private void rightTableViewOnMouseReleased(MouseEvent event) {
     rightManager.onMouseReleased(event);
   }
 
-  @FXML
-  private void rightTableViewOnMouseDragged(MouseEvent event) {
+  @FXML private void rightTableViewOnMouseDragged(MouseEvent event) {
     rightManager.onMouseDragged(event);
   }
 
-  @FXML
-  private void rightTableViewOnKeyPressed(KeyEvent event) {
+  @FXML private void rightTableViewOnKeyPressed(KeyEvent event) {//{{{
     if (rightManager.isSelected()) {
       if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.SPACE) {
         int columnIndex = rightManager.getSelectedCellColumnIndex();
@@ -284,21 +285,21 @@ public class SkillTableViewBorderPaneController {
         changeCritical(columnIndex, columns);
       }
     }
-  }
+  }//}}}
 
-  private void changeCritical(int columnIndex, ObservableList<TableColumn<Skill, ?>> columns) {
+  private void changeCritical(int columnIndex, ObservableList<TableColumn<Skill, ?>> columns) {//{{{
     if (columnIndex == columns.indexOf(criticalColumn)) {
       String text = rightManager.getSelectedCellValue();
       text = "あり".equals(text) ? "なし" : "あり";
       insertText(text);
     }
-  }
+  }//}}}
 
-  public void updateSelection() {
+  public void updateSelection() {//{{{
     if (rightTableView.isFocused()) {
       leftTableView.getSelectionModel().clearSelection();
       leftTableView.getSelectionModel()
-          .select(rightTableView.getFocusModel().getFocusedIndex());
+        .select(rightTableView.getFocusModel().getFocusedIndex());
       if (rightManager.isSelected()) {
         int columnIndex = rightManager.getSelectedCellColumnIndex();
         columnIndex += 3;
@@ -315,14 +316,14 @@ public class SkillTableViewBorderPaneController {
     int columnIndex = leftManager.getSelectedCellColumnIndex();
     int rowIndex = leftManager.getSelectedCellRowIndex();
     updateAxisLabels(columnIndex, rowIndex);
-  }
+  }//}}}
 
   /**
    * 選択中のセルにテキストを挿入する。
    * @param newText
    *          新しく挿入するテキスト
    */
-  public void insertText(String newText) {
+  public void insertText(String newText) {//{{{
     if (newText != null) {
       if (rightManager.isSelected()) {
         invokeSelectedCell(rightTableView, newText);
@@ -330,20 +331,20 @@ public class SkillTableViewBorderPaneController {
         invokeSelectedCell(leftTableView, newText);
       }
     }
-  }
+  }//}}}
 
   /**
    * 選択中のセルを対象にinvoke
    * @param table
    * @param newText
    */
-  private void invokeSelectedCell(TableView<Skill> table, String newText) {
+  private void invokeSelectedCell(TableView<Skill> table, String newText) {//{{{
     ObservableList<Integer> rowIndices = table.getSelectionModel().getSelectedIndices();
     for (int rowIndex : rowIndices) {
       invoke(newText, rowIndex);
     }
     mainController.pushUndoCount(rowIndices.size());
-  }
+  }//}}}
 
   /**
    * 対象行番号を指定してinvoke。<br>
@@ -353,7 +354,7 @@ public class SkillTableViewBorderPaneController {
    * @param newText
    * @param rowIndex
    */
-  public void invoke(String newText, int rowIndex) {
+  public void invoke(String newText, int rowIndex) {//{{{
     ColumnStrategy strategy = getStrategy(rowIndex);
     if (!strategy.isInvokable(newText)) {
       newText = strategy.defaultValue(newText);
@@ -364,7 +365,7 @@ public class SkillTableViewBorderPaneController {
     ICommand command = new TableCellUpdateCommand(rightTableView, rowIndex, 0,
         newText, strategy);
     mainController.invoke(command);
-  }
+  }//}}}
 
   /**
    * レコードを対象に実行する操作。<br>
@@ -373,11 +374,11 @@ public class SkillTableViewBorderPaneController {
    * @param prevStrategy
    * @param newStrategy
    */
-  void invokeRecord(int rowIndex, RecordStrategy prevStrategy, RecordStrategy newStrategy) {
+  void invokeRecord(int rowIndex, RecordStrategy prevStrategy, RecordStrategy newStrategy) {//{{{
     ICommand command = new TableRecordUpdateCommand(rightTableView, rowIndex, prevStrategy,
         newStrategy);
     mainController.invoke(command);
-  }
+  }//}}}
 
   /**
    * アンドゥ回数のスタックにプッシュする。
@@ -391,37 +392,37 @@ public class SkillTableViewBorderPaneController {
   /**
    * カラムインデックスを記述したプロパティファイルを出力する。
    */
-  public void exportPropertiesFile() {
+  public void exportPropertiesFile() {//{{{
     leftManager.outputPropertiesFile();
     rightTableView.getColumns().add(idColumn);
     rightTableView.getColumns().add(nameColumn);
     rightTableView.getColumns().add(iconIndexColumn);
     rightManager.outputPropertiesFile();
-  }
+  }//}}}
 
   /**
    * 前のセルに選択を移す.
    */
-  public void movePrevious() {
+  public void movePrevious() {//{{{
     if (rightManager.isSelected()) {
       rightManager.movePrevious();
     } else if (leftManager.isSelected()) {
       leftManager.movePrevious();
     }
-  }
+  }//}}}
 
   /**
    * 次のセルに選択を移す.
    */
-  public void moveNext() {
+  public void moveNext() {//{{{
     if (rightManager.isSelected()) {
       rightManager.moveNext();
     } else if (leftManager.isSelected()) {
       leftManager.moveNext();
     }
-  }
+  }//}}}
 
-  public void changeMaxRecords() {
+  public void changeMaxRecords() {//{{{
     int recordsCount = rightTableView.getItems().size();
     NumberInputStage inputStage = new NumberInputStage(recordsCount);
     inputStage.showAndWait();
@@ -430,17 +431,17 @@ public class SkillTableViewBorderPaneController {
       if (newRecordsCount < recordsCount) {
         int diff = recordsCount - newRecordsCount;
         IntStream.range(0, diff)
-            .forEach(i -> {
-              rightManager.deleteRecord(newRecordsCount);
-            });
+          .forEach(i -> {
+            rightManager.deleteRecord(newRecordsCount);
+          });
         pushUndoCount(diff);
         return;
       }
       int diff = newRecordsCount - recordsCount;
       IntStream.range(0, diff)
-          .forEach(i -> {
-            rightManager.insertNewRecord(recordsCount);
-          });
+        .forEach(i -> {
+          rightManager.insertNewRecord(recordsCount);
+        });
       pushUndoCount(diff);
       return;
     }
@@ -448,11 +449,11 @@ public class SkillTableViewBorderPaneController {
     alert.setHeaderText("数値が不正です。");
     alert.setContentText("数値は1以上2,000以下の範囲で入力してください。");
     alert.showAndWait();
-  }
+  }//}}}
 
   private MyLogger logger = new MyLogger(getClass().getName());
 
-  public List<JsonSkill> makeSkillData() {
+  public List<JsonSkill> makeSkillData() {//{{{
     int size = rightTableView.getItems().size();
 
     List<JsonSkill> skillList = new ArrayList<>();
@@ -478,50 +479,50 @@ public class SkillTableViewBorderPaneController {
       }
     }
     return skillList;
-  }
+  }//}}}
 
-  private void showAlert() {
+  private void showAlert() {//{{{
     Alert alert = new Alert(AlertType.WARNING);
     alert.setHeaderText("ファイル出力エラー");
     alert.setContentText("正常にファイルを保存できませんでした。" + System.getProperty("line.separator") +
         "logフォルダのエラーを確認してください。");
     alert.showAndWait();
-  }
+  }//}}}
 
-  public void updateId() {
+  public void updateId() {//{{{
     int size = rightTableView.getItems().size();
     IntStream.range(0, size)
-        .forEach(index -> {
-          String id = String.format("%04d", index + 1);
-          rightTableView.getItems().get(index).idProperty().set(id);
-        });
-  }
+      .forEach(index -> {
+        String id = String.format("%04d", index + 1);
+        rightTableView.getItems().get(index).idProperty().set(id);
+      });
+  }//}}}
 
   /**
    * 選択行の使用効果タブのセルのテキストを読み取り、
    * 使用効果プレビューを更新する。
    */
-  public void updateEffectsPane() {
+  public void updateEffectsPane() {//{{{
     if (rightManager.isSelected() || leftManager.isSelected()) {
       int rowIndex = rightManager.isSelected() ? rightTableView.getFocusModel().getFocusedIndex()
-          : leftTableView.getFocusModel().getFocusedIndex();
+        : leftTableView.getFocusModel().getFocusedIndex();
       String effectsText = rightTableView.getItems().get(rowIndex).effectsProperty().get();
       int size = rightTableView.getItems().size();
       ArrayList<String> skillsList = new ArrayList<>(size);
       skillsList.add(null);
       rightTableView.getItems()
-          .forEach(item -> {
-            skillsList.add(item.nameProperty().get());
-          });
+        .forEach(item -> {
+          skillsList.add(item.nameProperty().get());
+        });
       mainController.updateEffectsTableView(effectsText, skillsList);
     }
-  }
+  }//}}}
 
   /**
    * テキストをそのままセルに上書きする。
    * @param newText
    */
-  public void updateEffectsCell(String newText) {
+  public void updateEffectsCell(String newText) {//{{{
     int rowIndex = rightTableView.getFocusModel().getFocusedIndex();
     int columnIndex = rightTableView.getColumns().indexOf(effectsColumn);
     ColumnStrategy strategy = new EffectsColumnStrategy(rightTableView, rowIndex, this);
@@ -530,7 +531,7 @@ public class SkillTableViewBorderPaneController {
         newText, strategy);
     mainController.invoke(command);
     mainController.pushUndoCount(1);
-  }
+  }//}}}
 
   /**
    * indexの位置に存在する要素をvaluesで上書きする。
@@ -548,7 +549,7 @@ public class SkillTableViewBorderPaneController {
    * @param selectedIndex
    * @param values
    */
-  public void updateEffectsCellNonPushUndo(int selectedIndex, double[] values) {
+  public void updateEffectsCellNonPushUndo(int selectedIndex, double[] values) {//{{{
     String effectsText = getSelectedEffects();
     ObjectMapper mapper = new ObjectMapper();
     try {
@@ -557,10 +558,10 @@ public class SkillTableViewBorderPaneController {
       List<String> textList = new ArrayList<>(size);
 
       IntStream.range(0, size)
-          .forEach(i -> {
-            String text = i == selectedIndex ? convertJsonText(values) : root.get(i).toString();
-            textList.add(text);
-          });
+        .forEach(i -> {
+          String text = i == selectedIndex ? convertJsonText(values) : root.get(i).toString();
+          textList.add(text);
+        });
       if (size == selectedIndex) {
         textList.add(convertJsonText(values));
       }
@@ -578,13 +579,13 @@ public class SkillTableViewBorderPaneController {
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
+  }//}}}
 
   void updateAxisLabels(int columnIndex, int rowIndex) {
     mainController.updateAxisLabels(columnIndex, rowIndex);
   }
 
-  void updateInsertComboBox(int columnIndex) {
+  void updateInsertComboBox(int columnIndex) {//{{{
     ComboBox<String> insertComboBox = mainController.getInsertComboBox();
     insertComboBox.setDisable(false);
     if (rightManager.isSelected()) {
@@ -616,18 +617,18 @@ public class SkillTableViewBorderPaneController {
         insertComboBox.setDisable(true);
       }
     }
-  }
+  }//}}}
 
-  void updateNotePane() {
+  void updateNotePane() {//{{{
     if (rightManager.isSelected() || leftManager.isSelected()) {
       int selectedIndex = rightManager.isSelected()
-          ? rightTableView.getFocusModel().getFocusedIndex()
-          : leftTableView.getFocusModel().getFocusedIndex();
+        ? rightTableView.getFocusModel().getFocusedIndex()
+        : leftTableView.getFocusModel().getFocusedIndex();
 
       String note = rightTableView.getItems().get(selectedIndex).noteProperty().get();
       mainController.setNoteText(note);
     }
-  }
+  }//}}}
 
   void normalInsert() {
     if (rightManager.isSelected() || leftManager.isSelected()) {
@@ -651,13 +652,13 @@ public class SkillTableViewBorderPaneController {
     mainController.changeDisablePreviews(b);
   }
 
-  private void setItems(ComboBox<String> comboBox, ObservableList<String> items) {
+  private void setItems(ComboBox<String> comboBox, ObservableList<String> items) {//{{{
     if (!Objects.equals(comboBox.getItems(), items)) {
       comboBox.setItems(items);
     }
-  }
+  }//}}}
 
-  private String convertJsonText(double[] values) {
+  private String convertJsonText(double[] values) {//{{{
     ObjectMapper mapper = new ObjectMapper();
     JsonEffects effect = new JsonEffects(values);
     try {
@@ -666,13 +667,13 @@ public class SkillTableViewBorderPaneController {
       e.printStackTrace();
     }
     return null;
-  }
+  }//}}}
 
   public boolean isSelected() {
     return (rightManager.isSelected() || leftManager.isSelected());
   }
 
-  public String getselectedCellValue() {
+  public String getselectedCellValue() {//{{{
     if (rightManager.isSelected()) {
       return rightManager.getSelectedCellValue();
     }
@@ -680,9 +681,9 @@ public class SkillTableViewBorderPaneController {
       return leftManager.getSelectedCellValue();
     }
     return "";
-  }
+  }//}}}
 
-  public List<String> getselectedCellValues() {
+  public List<String> getselectedCellValues() {//{{{
     if (rightManager.isSelected()) {
       return rightManager.getSelectedCellValues();
     }
@@ -690,9 +691,9 @@ public class SkillTableViewBorderPaneController {
       return leftManager.getSelectedCellValues();
     }
     return null;
-  }
+  }//}}}
 
-  public List<Integer> getSelectedRowIndices() {
+  public List<Integer> getSelectedRowIndices() {//{{{
     if (rightManager.isSelected()) {
       return rightManager.getSelectedCellRowIndicies();
     }
@@ -700,19 +701,19 @@ public class SkillTableViewBorderPaneController {
       return leftManager.getSelectedCellRowIndicies();
     }
     return null;
-  }
+  }//}}}
 
   public String getNormalAttackText() {
     return rightTableView.getItems().get(0).nameProperty().get();
   }
 
-  public String getSelectedEffects() {
+  public String getSelectedEffects() {//{{{
     if (rightManager.isSelected()) {
       return rightTableView.getSelectionModel().getSelectedItem().effectsProperty().get();
     }
     int select = leftManager.getSelectedCellRowIndex();
     return leftTableView.getItems().get(select).effectsProperty().get();
-  }
+  }//}}}
 
   public SplitPane getSplitPane() {
     return tableViewSplitPane;
@@ -725,7 +726,7 @@ public class SkillTableViewBorderPaneController {
   /**
    * 選択中のセル位置によってカラム戦略クラスを変更する。
    */
-  private ColumnStrategy getStrategy(int rowIndex) {
+  private ColumnStrategy getStrategy(int rowIndex) {//{{{
     if (rightManager.isSelected()) {
       int columnIndex = rightManager.getSelectedCellColumnIndex();
       if (columnIndex == rightTableView.getColumns().indexOf(descriptionColumn)) {
@@ -785,17 +786,17 @@ public class SkillTableViewBorderPaneController {
       } else if ("leftIconIndexColumn"
           .equals(leftTableView.getColumns().get(columnIndex).getId())) {
         return new IconIndexColumnStrategy(rightTableView, rowIndex);
-      }
+          }
     }
     return null;
-  }
+  }//}}}
 
   /**
    * ファイルからjsonデータを取り出してテーブルビューに追加する。
    * @param file
    *          jsonファイル
    */
-  public void setSkillDatas(File skillsFile, File systemFile, File animationFile) {
+  public void setSkillDatas(File skillsFile, File systemFile, File animationFile) {//{{{
     rightTableView.getSelectionModel().clearSelection();
     leftTableView.getSelectionModel().clearSelection();
     rightTableView.getItems().clear();
@@ -825,19 +826,19 @@ public class SkillTableViewBorderPaneController {
       ObjectMapper mapper = new ObjectMapper();
       JsonNode skillsRoot = mapper.readTree(skillsFile);
       IntStream.range(1, skillsRoot.size())
-          .forEach(index -> {
-            JsonNode children = skillsRoot.get(index);
-            rightTableView.getItems()
-                .add(UtilJson.makeSkillRecord(children, skillTypeList, animationList, weaponList,
-                    elementList));
-          });
+        .forEach(index -> {
+          JsonNode children = skillsRoot.get(index);
+          rightTableView.getItems()
+            .add(UtilJson.makeSkillRecord(children, skillTypeList, animationList, weaponList,
+                  elementList));
+        });
       updateEffectsPane();
       updateNotePane();
       UtilTableView.bindScrollBar(leftTableView, rightTableView);
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
+  }//}}}
 
   public void setMainController(MainController aMainController) {
     mainController = aMainController;

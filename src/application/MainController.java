@@ -69,9 +69,12 @@ public class MainController {
   private File skillsFile;
   private boolean opened = false;
 
+  // FXML コンポーネント//{{{
+
   // **************************************************
   // メニューバー
   // **************************************************
+
   @FXML private MenuItem importProjectMenuItem;
   @FXML private MenuItem importFolderMenuItem;
   @FXML private MenuItem saveMenuItem;
@@ -134,9 +137,11 @@ public class MainController {
   private EffectsTableViewBorderPaneController effectsTableViewController;
 
   @FXML private TextArea noteTextArea;
+  //}}}
 
-  @FXML
-  private void initialize() {
+  // 初期化処理
+
+  @FXML private void initialize() {//{{{
     skillTableView = new SkillTableViewBorderPane(this);
     skillTableViewController = skillTableView.getController();
     tableViewBorderPane.setCenter(skillTableView);
@@ -167,11 +172,11 @@ public class MainController {
 
     skillTableViewController.setTableViewFontSize(config.tableViewFontSize);
     skillTableViewController.setTableCellSize(config.tableCellHeight);
-  }
+  }//}}}
 
   private static final File FAVORITE_FILE = new File("./properties/favoriteItems.xml");
 
-  private void importFavoriteItems() {
+  private void importFavoriteItems() {//{{{
     if (!FAVORITE_FILE.exists()) {
       return;
     }
@@ -193,9 +198,9 @@ public class MainController {
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
+  }//}}}
 
-  private void exportFavoriteItems() {
+  private void exportFavoriteItems() {//{{{
     try (OutputStream out = new FileOutputStream(FAVORITE_FILE)) {
       int size = favoriteComboBox.getItems().size();
       for (int i = 0; i < 20; i++) {
@@ -211,29 +216,28 @@ public class MainController {
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
+  }//}}}
 
-  void setDividers() {
+  void setDividers() {//{{{
     rootSplitPane.setDividerPosition(0, config.rootDivider);
     previewSplitPane.setDividerPosition(0, config.previewDivider);
     SplitPane tableSplit = skillTableViewController.getSplitPane();
     tableSplit.setDividerPosition(0, config.tableViewDivider);
-  }
+  }//}}}
 
   /**
    * RPGツクールMVのプロジェクトフォルダのルートを選択することで、
    * ルートから辿って必要なファイルを取得する。
    */
-  @FXML
-  private void importProject() {
+  @FXML private void importProject() {//{{{
     Stage stage = (Stage) effectsTitledPane.getScene().getWindow();
     Optional<File> dirOpt = projectDcm.openDirectory(stage);
     dirOpt.ifPresent(dir -> {
       importProject(dir);
     });
-  }
+  }//}}}
 
-  private void importProject(File dir) {
+  private void importProject(File dir) {//{{{
     String rootPath = dir.getAbsolutePath();
     final String SEP = File.separator;
     String dataPath = rootPath + SEP + "data";
@@ -245,17 +249,17 @@ public class MainController {
       config.inputIsSelected = false;
     } else {
       String content = "プロジェクトフォルダを間違えていないか" + System.getProperty("line.separator")
-          + "dataフォルダやファイルが存在しているか確認してください。";
+        + "dataフォルダやファイルが存在しているか確認してください。";
       showAlert("ファイルが見つかりません。", content);
     }
-  }
+  }//}}}
 
   /**
    * 必要なファイルを一つのフォルダにまとめておき、
    * そのフォルダを選択することで必要なファイルを取得する。
    */
   @FXML
-  private void importFolder() {
+  private void importFolder() {//{{{
     if (opened) {
       Alert alert = new Alert(AlertType.WARNING, "", ButtonType.YES, ButtonType.NO);
       alert.setHeaderText("別のファイルを開きます。");
@@ -275,7 +279,7 @@ public class MainController {
     } else {
       showAlert("ファイルが見つかりません。", "選択したフォルダ内に必要なファイルが存在するか確認してください。");
     }
-  }
+  }//}}}
 
   /**
    * 渡したファイルパス文字列からSkillDataファイルを取得し、テーブルに追加する。
@@ -284,7 +288,7 @@ public class MainController {
    * @param path ファイルの場所。
    * @return 成功 or 失敗
    */
-  private boolean successSetData(String path) {
+  private boolean successSetData(String path) {//{{{
     final String SEP = File.separator;
     skillsFile = new File(path + SEP + "Skills.json");
     File animationFile = new File(path + SEP + "Animations.json");
@@ -322,11 +326,11 @@ public class MainController {
 
       makeBackupFile();
       return true;
-    }
+        }
     return false;
-  }
+  }//}}}
 
-  private void makeBackupFile() {
+  private void makeBackupFile() {//{{{
     if (config.autoBackup) {
       try {
         Calendar calendar = Calendar.getInstance();
@@ -336,16 +340,16 @@ public class MainController {
 
         Path srcPath = FileSystems.getDefault().getPath(skillsFile.getCanonicalPath());
         Path outPath = FileSystems.getDefault()
-            .getPath(Paths.get("backup", date, "Skills.json").toFile().getPath());
+          .getPath(Paths.get("backup", date, "Skills.json").toFile().getPath());
         Files.copy(srcPath, outPath, StandardCopyOption.REPLACE_EXISTING);
       } catch (IOException e1) {
         e1.printStackTrace();
       }
     }
-  }
+  }//}}}
 
   @FXML
-  private void copyNeedFileMenuItemOnAction() {
+  private void copyNeedFileMenuItemOnAction() {//{{{
     DirectoryChooserManager directoryChooserManager = new DirectoryChooserManager();
     Stage stage = (Stage) xLabel.getScene().getWindow();
     Optional<File> dirOpt = directoryChooserManager.openDirectory(stage);
@@ -380,53 +384,49 @@ public class MainController {
         e.printStackTrace();
       }
     });
-  }
+  }//}}}
 
-  @FXML
-  private void versionMenuItemOnAction() {
+  @FXML private void versionMenuItemOnAction() {//{{{
     VersionStage stage = new VersionStage();
     stage.showAndWait();
-  }
+  }//}}}
 
-  @FXML
-  private void quitMenuItemOnAction() {
+  @FXML private void quitMenuItemOnAction() {//{{{
     closeAction();
     Platform.exit();
-  }
+  }//}}}
 
   /**
    * プレビュー画面の選択可能状態を変更する。
    * @param disable
    */
-  public void changeDisablePreviews(boolean disable) {
+  public void changeDisablePreviews(boolean disable) {//{{{
     if (noteTextArea.isDisable()) {
       effectsTableViewController.setDisable(disable);
       noteTextArea.setDisable(disable);
     }
-  }
+  }//}}}
 
   /**
    * 警告ウィンドウを表示する。
    * @param header ヘッダーテキスト
    * @param content メインテキスト
    */
-  private void showAlert(String header, String content) {
+  private void showAlert(String header, String content) {//{{{
     Alert alert = new Alert(AlertType.ERROR);
     alert.setHeaderText(header);
     alert.setContentText(content);
     alert.showAndWait();
-  }
+  }//}}}
 
-  @FXML
-  private void openConfigStage() {
+  @FXML private void openConfigStage() {//{{{
     ConfigStage cs = new ConfigStage(config);
     cs.showAndWait();
     skillTableViewController.setTableViewFontSize(config.tableViewFontSize);
     skillTableViewController.setTableCellSize(config.tableCellHeight);
-  }
+  }//}}}
 
-  @FXML
-  private void saveMenuItemOnAction() {
+  @FXML private void saveMenuItemOnAction() {//{{{
     try (FileOutputStream fos = new FileOutputStream(skillsFile)) {
       ObjectMapper mapper = new ObjectMapper();
       List<JsonSkill> skillList = skillTableViewController.makeSkillData();
@@ -438,10 +438,9 @@ public class MainController {
     } catch (IOException e1) {
       e1.printStackTrace();
     }
-  }
+  }//}}}
 
-  @FXML
-  private void undo() {
+  @FXML private void undo() {//{{{
     if (!undoCountStack.isEmpty()) {
       int invokeCount = undoCountStack.pop();
       IntStream.range(0, invokeCount).forEach(i -> {
@@ -450,10 +449,9 @@ public class MainController {
       redoCountStack.push(invokeCount);
       changeDisableUndoRedoButton();
     }
-  }
+  }//}}}
 
-  @FXML
-  private void redo() {
+  @FXML private void redo() {//{{{
     if (!redoCountStack.isEmpty()) {
       int invokeCount = redoCountStack.pop();
       IntStream.range(0, invokeCount).forEach(i -> {
@@ -462,57 +460,48 @@ public class MainController {
       undoCountStack.push(invokeCount);
       changeDisableUndoRedoButton();
     }
-  }
+  }//}}}
 
-  @FXML
-  private void changeMaxRecords() {
+  @FXML private void changeMaxRecords() {
     skillTableViewController.changeMaxRecords();
   }
 
-  @FXML
-  private void previousMenuItemOnClicked() {
+  @FXML private void previousMenuItemOnClicked() {
     skillTableViewController.movePrevious();
   }
 
-  @FXML
-  private void nextMenuItemOnClicked() {
+  @FXML private void nextMenuItemOnClicked() {
     skillTableViewController.moveNext();
   }
 
   // **************************************************
   // ツールバー(下)のイベント
   // **************************************************
-  @FXML
-  private void insertTextFieldOnKeyReleased(KeyEvent event) {
+  @FXML private void insertTextFieldOnKeyReleased(KeyEvent event) {
     if (event.getCode() == KeyCode.ENTER && event.isControlDown()) {
       insertSwitch();
     }
   }
 
-  @FXML
-  private void insertComboBoxOnHidden() {
+  @FXML private void insertComboBoxOnHidden() {
     skillTableViewController.insertText(insertComboBox.getValue());
   }
 
-  @FXML
-  private void applyButtonOnAction() {
+  @FXML private void applyButtonOnAction() {
     insertSwitch();
   }
 
-  @FXML
-  private void applyComboBoxOnHidden() {
+  @FXML private void applyComboBoxOnHidden() {
     insertSwitch();
   }
 
-  @FXML
-  private void applyComboBoxOnKeyReleased(KeyEvent event) {
+  @FXML private void applyComboBoxOnKeyReleased(KeyEvent event) {//{{{
     if (event.getCode() == KeyCode.SPACE) {
       insertSwitch();
     }
-  }
+  }//}}}
 
-  @FXML
-  private void favoriteComboBoxOnKeyReleased(KeyEvent event) {
+  @FXML private void favoriteComboBoxOnKeyReleased(KeyEvent event) {//{{{
     if (event.getCode() == KeyCode.ENTER && event.isControlDown()) {
       String text = favoriteComboBox.getValue();
       if (!text.equals("お気に入り") && !text.equals("")) {
@@ -520,21 +509,19 @@ public class MainController {
         favoriteComboBox.setValue("");
       }
     }
-  }
+  }//}}}
 
-  @FXML
-  private void favoriteComboBoxOnHidden() {
+  @FXML private void favoriteComboBoxOnHidden() {//{{{
     String text = favoriteComboBox.getValue();
     insertTextField.setText(text);
     favoriteComboBox.setValue("");
-  }
+  }//}}}
 
-  @FXML
-  private void clearButtonOnAction() {
+  @FXML private void clearButtonOnAction() {
     favoriteComboBox.setItems(FXCollections.observableArrayList());
   }
 
-  private void insertSwitch() {
+  private void insertSwitch() {//{{{
     if (skillTableViewController.isSelected()) {
       int selectedIndex = applyComboBox.getSelectionModel().getSelectedIndex();
       if (selectedIndex == 0) {
@@ -545,7 +532,7 @@ public class MainController {
         endInsert();
       }
     }
-  }
+  }//}}}
 
   public void normalInsert() {
     insertText();
@@ -556,7 +543,7 @@ public class MainController {
     topInsert(text);
   }
 
-  public void topInsert(String text) {
+  public void topInsert(String text) {//{{{
     if (text != null) {
       List<String> values = skillTableViewController.getselectedCellValues();
       List<Integer> rowIndices = skillTableViewController.getSelectedRowIndices();
@@ -570,14 +557,14 @@ public class MainController {
       });
       pushUndoCount(rowIndices.size());
     }
-  }
+  }//}}}
 
   public void endInsert() {
     String text = insertTextField.getText();
     endInsert(text);
   }
 
-  public void endInsert(String text) {
+  public void endInsert(String text) {//{{{
     if (text != null) {
       List<String> values = skillTableViewController.getselectedCellValues();
       List<Integer> rowIndices = skillTableViewController.getSelectedRowIndices();
@@ -591,7 +578,7 @@ public class MainController {
       });
       pushUndoCount(rowIndices.size());
     }
-  }
+  }//}}}
 
   @FXML
   private void insertText() {
@@ -626,22 +613,22 @@ public class MainController {
    * @param invokeCount
    *          繰り返し回数
    */
-  public void pushUndoCount(int invokeCount) {
+  public void pushUndoCount(int invokeCount) {//{{{
     if (0 < invokeCount) {
       redoCountStack.clear();
       undoCountStack.push(invokeCount);
     }
     changeDisableUndoRedoButton();
-  }
+  }//}}}
 
-  private void changeDisableUndoRedoButton() {
+  private void changeDisableUndoRedoButton() {//{{{
     boolean disable = undoCountStack.isEmpty();
     undoButton.setDisable(disable);
     undoMenuItem.setDisable(disable);
     disable = redoCountStack.isEmpty();
     redoButton.setDisable(disable);
     redoMenuItem.setDisable(disable);
-  }
+  }//}}}
 
   /**
    * 座標ラベルを更新する。
@@ -659,7 +646,7 @@ public class MainController {
     effectsTableViewController.update(effectsText, skillsList);
   }
 
-  public void closeAction() {
+  public void closeAction() {//{{{
     skillTableViewController.exportPropertiesFile();
     exportFavoriteItems();
 
@@ -673,7 +660,7 @@ public class MainController {
     config.tableViewDivider = tableSplit.getDividerPositions()[0];
 
     config.write();
-  }
+  }//}}}
 
   public String getSelectedEffects() {
     return skillTableViewController.getSelectedEffects();
@@ -696,19 +683,19 @@ public class MainController {
    * @param selectedIndex
    * @param values
    */
-  public void updateEffectsCell(int selectedIndex, double[] values) {
-    skillTableViewController.updateEffectsCell(selectedIndex, values);
+  public void updateEffectsCell(int selectedIndex, double[] values) {//{{{
+    skillTableViewController.updateEffectsCell(selectedIndex, values);//}}}
   }
 
-  public void updateEffectsCellNonPushUndo(int selectedIndex, double[] values) {
+  public void updateEffectsCellNonPushUndo(int selectedIndex, double[] values) {//{{{
     skillTableViewController.updateEffectsCellNonPushUndo(selectedIndex, values);
-  }
+  }//}}}
 
-  public void updateEffectsCell(String newText) {
+  public void updateEffectsCell(String newText) {//{{{
     skillTableViewController.updateEffectsCell(newText);
-  }
+  }//}}}
 
-  void openFiles() {
+  void openFiles() {//{{{
     if (config.autoInput) {
       if (config.projectIsSelected) {
         File dir = new File(config.projectPath);
@@ -721,6 +708,6 @@ public class MainController {
         importFolder();
       }
     }
-  }
+  }//}}}
 
 }
