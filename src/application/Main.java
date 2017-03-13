@@ -10,11 +10,11 @@ import javafx.stage.Stage;
 /**
  * 実行クラス。
  * @author jiro
- * @version 1.2
+ * @version 1.2.1
  */
 public class Main extends Application {
   public static final String TITLE = "MVSkillsEditor";
-  public static final String VERSION = "ver 1.2";
+  public static final String VERSION = "ver 1.2.1";
   private MainController controller;
 
   @Override

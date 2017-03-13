@@ -93,7 +93,7 @@ public class JsonSkill {
     String animationId = skill.animationIdProperty().get();
     this.animationId = convertTextToIndex(animationList, animationId);
     // アニメーションIDは先頭の要素"通常攻撃"が-1インデックスから開始しているため
-    this.animationId--;
+    //this.animationId--;
 
     this.message1 = skill.message1Property().get();
     this.message2 = skill.message2Property().get();
@@ -113,7 +113,9 @@ public class JsonSkill {
     // contertTextToIndex が バグの原因 FIXME
     String damageElement = skill.damageElementProperty().get();
     // 通常攻撃が-1からはじまっているため
-    this.damage.put("elementId", convertTextToIndex(elementsList, damageElement) - 1);
+    //this.damage.put("elementId", convertTextToIndex(elementsList, 
+    //damageElement) - 1);
+    this.damage.put("elementId", convertTextToIndex(elementsList, damageElement));
 
     String formula = skill.formulaProperty().get();
     this.damage.put("formula", formula);
@@ -151,13 +153,18 @@ public class JsonSkill {
    * @return インデックス、見つからなかった場合-10000返る
    */
   private int convertTextToIndex(ObservableList<String> list, String text) {
-    int index = 0;
+
+    String numStr = text.split(":")[0];
+    int index = Integer.parseInt(numStr);
+
     for (String s : list) {
-      if (text.equals(s)) {
-        return index;
-      }
-      index++;
+
+      String str = s.split(":")[0];
+      int listIndex = Integer.parseInt(str);
+      if (listIndex == index) return index;
+
     }
+
     return -10000;
   }
 }

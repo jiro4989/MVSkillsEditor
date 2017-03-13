@@ -29,11 +29,14 @@ public class UtilJson {
       int size = child.size();
 
       List<String> list = new ArrayList<>(size);
-      list.add(firstText);
+      String f = "00: " + firstText;
+      list.add(f);
 
       IntStream.range(1, size)
           .forEach(i -> {
-            list.add(child.get(i).asText());
+            String text = child.get(i).asText();
+            text = String.format("%02d: %s", i, text);
+            list.add(text);
           });
       return list;
     } catch (IOException e) {
@@ -49,12 +52,13 @@ public class UtilJson {
       int size = root.size();
 
       List<String> list = new ArrayList<>(size + 1);
-      list.add("通常攻撃");
-      list.add("なし");
+      list.add("-1: 通常攻撃");
+      list.add("0000: なし");
       IntStream.range(1, size)
           .forEach(index -> {
             JsonNode children = root.get(index);
             String name = children.get("name").asText();
+            name = String.format("%04d: %s", index, name);
             list.add(name);
           });
       return list;

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>設定画面で管理するプロパティ</comment>
+<entry key="iconIndexChooserY">150.0</entry>
+<entry key="iconIndexChooserX">400.0</entry>
+<entry key="inputIsSelected">false</entry>
+<entry key="autoBackup">true</entry>
+<entry key="editWidth">500.0</entry>
+<entry key="tableViewFontSize">9</entry>
+<entry key="autoInput">true</entry>
+<entry key="rootHeight">720.0</entry>
+<entry key="previewDivider">0.5503246753246753</entry>
+<entry key="projectIsSelected">true</entry>
+<entry key="rootDivider">0.7606299212598425</entry>
+<entry key="tableViewDivider">0.3</entry>
+<entry key="rootWidth">1280.0</entry>
+<entry key="tableCellHeight">50</entry>
+<entry key="rootY">71.0</entry>
+<entry key="editY">180.0</entry>
+<entry key="rootX">339.0</entry>
+<entry key="editX">700.0</entry>
+<entry key="editHeight">500.0</entry>
+<entry key="projectPath">C:\RPG\Project1</entry>
+</properties>

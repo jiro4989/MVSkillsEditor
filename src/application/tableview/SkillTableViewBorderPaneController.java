@@ -813,7 +813,7 @@ public class SkillTableViewBorderPaneController {
 
     List<String> tmpElementList = UtilJson.makeDataList(systemFile, "elements", "なし");
     List<String> elementList = new ArrayList<>(tmpElementList.size() + 1);
-    elementList.add("通常攻撃");
+    elementList.add("-1: 通常攻撃");
     elementList.addAll(tmpElementList);
     elementItems = FXCollections.observableArrayList(elementList);
     damageElementColumn.setCellFactory(col -> new ComboBoxTableCell<>(elementItems));
