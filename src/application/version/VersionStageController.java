@@ -36,7 +36,7 @@ public class VersionStageController {
   private void copyButtonOnClicked(ActionEvent e) {
     Clipboard clipboard = Clipboard.getSystemClipboard();
     ClipboardContent content = new ClipboardContent();
-    content.putString("http://ashelter.blog.fc2.com/");
+    content.putString("http://jiroron666.hatenablog.com");
     clipboard.setContent(content);
   }
 }

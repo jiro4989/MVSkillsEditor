@@ -26,6 +26,6 @@
 <entry key="damageTypeColumn">75.0</entry>
 <entry key="message2Column">75.0</entry>
 <entry key="requiredWtypeId2Column">75.0</entry>
-<entry key="requiredWtypeId1Column">75.0</entry>
 <entry key="scopeColumn">110.0</entry>
+<entry key="requiredWtypeId1Column">75.0</entry>
 </properties>

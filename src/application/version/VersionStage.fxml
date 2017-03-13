@@ -25,7 +25,7 @@
             <Font size="14.0" fx:id="x1" />
           </font>
         </Label>
-        <Label id="detailsLabel" focusTraversable="false" font="$x1" text="製作者ブログ: http://ashelter.blog.fc2.com/" textAlignment="LEFT" textOverrun="ELLIPSIS" wrapText="true" />
+        <Label id="detailsLabel" focusTraversable="false" font="$x1" text="製作者ブログ: http://jiroron666.hatenablog.com" textAlignment="LEFT" textOverrun="ELLIPSIS" wrapText="true" />
       </children>
     </VBox>
     <HBox maxHeight="-Infinity" maxWidth="+Infinity" minHeight="-Infinity" minWidth="-Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1">

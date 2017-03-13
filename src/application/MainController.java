@@ -432,6 +432,10 @@ public class MainController {
       List<JsonSkill> skillList = skillTableViewController.makeSkillData();
       if (skillList != null) {
         mapper.writeValue(new OutputStreamWriter(fos, "UTF-8"), skillList);
+      } else {
+        String content = "ファイルの保存を中断しました。" + System.getProperty("line.separator")
+          + "お手数ですが、作者ブログまで連絡ください。";
+        showAlert("ファイルの保存に失敗しました。", content);
       }
     } catch (FileNotFoundException e) {
       e.printStackTrace();
