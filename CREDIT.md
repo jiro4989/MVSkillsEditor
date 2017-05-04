@@ -4,4 +4,4 @@
 
 ## jarライブラリ提供 ###########################################################
 - Jackson - Javaオブジェクト←→JSONオブジェクト相互変換  
-  [FasterXML](http://wiki.fasterxml.com/)  
+  [FasterXML](https://github.com/FasterXML/jackson-core/wiki)  
