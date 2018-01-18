@@ -3,6 +3,6 @@
 <properties>
 <comment>カラム幅のプロパティ</comment>
 <entry key="leftNameColumn">140.0</entry>
-<entry key="leftIconIndexColumn">75.0</entry>
 <entry key="leftIdColumn">47.0</entry>
+<entry key="leftIconIndexColumn">75.0</entry>
 </properties>

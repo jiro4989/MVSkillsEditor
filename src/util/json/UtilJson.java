@@ -77,6 +77,7 @@ public class UtilJson {
     String description = node.get("description").asText();
 
     int tmpStypeId = node.get("stypeId").asInt();
+    if (skillTypeList.size() <= tmpStypeId) tmpStypeId = 0;
     String stypeId = skillTypeList.get(tmpStypeId);
 
     int tmpScope = node.get("scope").asInt();
@@ -96,23 +97,28 @@ public class UtilJson {
     int tmpHitType = node.get("hitType").asInt();
     String hitType = SkillHitType.convertToText(tmpHitType);
 
-    int tmpAnimationId = node.get("animationId").asInt();
-    String animationId = animationList.get(++tmpAnimationId);
+    int tmpAnimationId = node.get("animationId").asInt() + 1;
+    if (animationList.size() <= tmpAnimationId) tmpAnimationId = 0;
+    String animationId = animationList.get(tmpAnimationId);
 
     String message1 = node.get("message1").asText();
     String message2 = node.get("message2").asText();
 
     int tmpReq1 = node.get("requiredWtypeId1").asInt();
+    if (weaponList.size() <= tmpReq1) tmpReq1 = 0;
     String req1 = weaponList.get(tmpReq1);
+
     int tmpReq2 = node.get("requiredWtypeId2").asInt();
+    if (weaponList.size() <= tmpReq2) tmpReq2 = 0;
     String req2 = weaponList.get(tmpReq2);
 
     final String DMG = "damage";
     int tmpType = node.get(DMG).get("type").asInt();
     String type = SkillDamageType.convertToText(tmpType);
 
-    int tmpElementId = node.get(DMG).get("elementId").asInt();
-    String elementId = elementList.get(++tmpElementId);
+    int tmpElementId = node.get(DMG).get("elementId").asInt() + 1;
+    if (elementList.size() <= tmpElementId) tmpElementId = 0;
+    String elementId = elementList.get(tmpElementId);
 
     String formula = node.get(DMG).get("formula").asText();
     String variance = node.get(DMG).get("variance").asText();
